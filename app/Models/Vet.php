@@ -10,5 +10,5 @@ use Spatie\Searchable\SearchResult;
 class Vet extends Model
 {
     use HasFactory;
-    protected $fillable = ['name'];
+    protected $guarded  = ['id'];
 }
