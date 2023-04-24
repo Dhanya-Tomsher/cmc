@@ -27,7 +27,7 @@
         {
             return view('admin.vet.create');
         }
-        public function update(UpdateCatRequest $request, Vet $vet)
+        public function update(UpdateVetRequest $request, Vet $vet)
     {
         $vet->update($request->all());
         return back()->with('status', 'Vet Upated!');

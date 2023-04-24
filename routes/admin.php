@@ -63,13 +63,13 @@ Route::get('invoice/search',[InvoiceController::class,'search'])->name('invoice.
 Route::post('invoice/store',[InvoiceController::class,'store'])->name('invoice.store');
 Route::post('invoice/update',[InvoiceController::class,'update'])->name('invoice.update');
 
-Route::get('hote',[HotelAppointmentController::class,'index'])->name('hote.index');
-Route::get('hote/create',[HotelAppointmentController::class,'create'])->name('hote.create');
-Route::get('hote/view',[HotelAppointmentController::class,'view'])->name('hote.view');
-Route::get('hote/edit',[HotelAppointmentController::class,'edit'])->name('hote.edit');
-Route::get('hote/search',[HotelAppointmentController::class,'search'])->name('hote.search');
-Route::post('hote/store',[HotelAppointmentController::class,'store'])->name('hote.store');
-Route::post('hote/update',[HotelAppointmentController::class,'update'])->name('hote.update');
+Route::get('hote',[HotelAppointmentsController::class,'index'])->name('hote.index');
+Route::get('hote/create',[HotelAppointmentsController::class,'create'])->name('hote.create');
+Route::get('hote/view',[HotelAppointmentsController::class,'view'])->name('hote.view');
+Route::get('hote/edit',[HotelAppointmentsController::class,'edit'])->name('hote.edit');
+Route::get('hote/search',[HotelAppointmentsController::class,'search'])->name('hote.search');
+Route::post('hote/store',[HotelAppointmentsController::class,'store'])->name('hote.store');
+Route::post('hote/update',[HotelAppointmentsController::class,'update'])->name('hote.update');
 
 Route::get('hrooms',[HotelroomsController::class,'index'])->name('hrooms.index');
 Route::get('hrooms/create',[HotelroomsController::class,'create'])->name('hrooms.create');
