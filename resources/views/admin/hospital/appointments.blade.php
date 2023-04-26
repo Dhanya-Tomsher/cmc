@@ -922,6 +922,9 @@ $(document).ready(function() {
         $('#cat_id,#cat_name,#date_of_birth, #fur_color,#eye_color,#place_of_origin,#cat_emirate,#cat_origin,#microchip,#catId ').val('');
         $('#pregnant-div,#neutered-with-us-div,#neutered-div,#spayed-div').css('display','none');
         $("#appointment_tab").removeAttr('data-bs-toggle');
+        $('#appointment_time').val("");
+        $('label.error').css('display','none');
+        $('#appointment_time').removeClass('error');
     }
     $("#new_appointment").on("click", function (e) { 
         resetForm();
