@@ -35,6 +35,7 @@ $(document).ready(function(){
     });
 
     $('input[name="showHideTextbox"]').on('click',function(){
+        console.log($(this).val());
         if($(this).val() === 'hide'){
             $('#input3').show();
         }else{
@@ -65,3 +66,41 @@ $(document).ready(function(){
 });
 
 
+// function readURL(input) {
+//     if (input.files && input.files[0]) {
+//         var reader = new FileReader();
+//         reader.onload = function(e) {
+//             $('#imagePreview').css('background-image', 'url('+e.target.result +')');
+//             $('#imagePreview').hide();
+//             $('#imagePreview').fadeIn(650);
+//         }
+//         reader.readAsDataURL(input.files[0]);
+//     }
+// }
+// $("#imageUpload").change(function() {
+//     readURL(this);
+// });
+
+
+
+// $(document).ready(function(){
+//     $('input[name="outer-group[0][customRadioInline11]"]').on('click',function(){
+//         if($(this).val() === 'show'){
+//             $('#input1').show();
+//         }else{
+//             $('#input1').val('').hide();
+//         }
+//     });
+// });
+
+
+
+// $(document).ready(function(){
+//     $('input[name="showHideTextbox"]').on('click',function(){
+//         if($(this).val() === 'show'){
+//             $('#input1').show();
+//         }else{
+//             $('#input1').val('').hide();
+//         }
+//     });
+// });
