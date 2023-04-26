@@ -7,6 +7,7 @@ use App\Models\Caretaker;
 use App\Models\Cat;
 use App\Models\Vet;
 use App\Models\Procedures;
+use App\Models\Country;
 use App\Http\Requests\StoreHospitalAppointmentRequest;
 use App\Http\Requests\StoreHospitalAppointmentsRequest;
 use App\Http\Requests\UpdateHospitalAppointmentRequest;
@@ -128,9 +129,10 @@ class HospitalAppointmentsController extends Controller
 
     public function getCaretakerDetails(Request $request){
         $id = $request->id;
-        $caretakers = Caretaker::select("*")
-                            ->where('status', 'published')
-                            ->where('id', $id)
+        $caretakers = Caretaker::select("caretakers.*","countries.name as country")
+                            ->leftJoin('countries','countries.id', '=', 'caretakers.home_country')
+                            ->where('caretakers.status', 'published')
+                            ->where('caretakers.id', $id)
                             ->get();
         return json_encode($caretakers);
     }
@@ -164,9 +166,10 @@ class HospitalAppointmentsController extends Controller
 
     public function getCatDetails(Request $request){
         $id = $request->id;
-        $cat = Cat::select("*")
-                    ->where('status', 'published')
-                    ->where('id', $id)
+        $cat = Cat::select("cats.*","countries.name as country")
+                    ->leftJoin('countries','countries.id', '=', 'cats.place_of_origin')
+                    ->where('cats.status', 'published')
+                    ->where('cats.id', $id)
                     ->get();
         return json_encode($cat);
     }

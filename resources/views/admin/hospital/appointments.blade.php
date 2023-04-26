@@ -683,7 +683,7 @@ $(document).ready(function() {
                     $('#email').val(returnedData[0].email);
                     $('#phone').val(returnedData[0].phone_number);
                     $('#whatsapp').val(returnedData[0].whatsapp_number);
-                    $('#country').val(returnedData[0].home_country);
+                    $('#country').val(returnedData[0].country);
                     $('#emirate').val(returnedData[0].emirate);
                     $('#work_place').val(returnedData[0].work_place);
                     $('#work_address').val(returnedData[0].work_address);
@@ -738,7 +738,7 @@ $(document).ready(function() {
                     $('#date_of_birth').val(returnedData[0].date_birth);
                     $('#fur_color').val(returnedData[0].fur_color);
                     $('#eye_color').val(returnedData[0].eye_color);
-                    $('#place_of_origin').val(returnedData[0].place_of_origin);
+                    $('#place_of_origin').val(returnedData[0].country);
                     $('#cat_emirate').val(returnedData[0].emirate);
                     $('#cat_origin').val(returnedData[0].origin);
                     $('#microchip').val(returnedData[0].microchip_number);
