@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Vetschedule extends Model
 {
     use HasFactory;
-    protected $fillable = ['title'];
+    protected $guarded  = ['id'];
 }

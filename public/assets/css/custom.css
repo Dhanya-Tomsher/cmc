@@ -187,7 +187,7 @@ h4 span{
 }
 
 .nav.nav-tabs .nav-link.active{
-background-color: #FAF39F;
+background-color: #FAF39F !important;
 }
 
 .breadcrumb-item+.breadcrumb-item::before{
@@ -299,4 +299,36 @@ label.form-check-label {
 .edit_button {
   padding: 20px;
 }
+
+/* Jisha Styles Start */
+.fc-button-primary{
+  background-color: #c6c06f !important;
+  border-color: #c6c06f !important;
+  color: #ffffff !important;
+  padding: 15px !important;
+  text-transform: capitalize !important;
+}
+
+.form-check-input:disabled~.form-check-label, .form-check-input[disabled]~.form-check-label {
+  opacity: 1 !important;
+}
+.fc-event-time,.fc-event-title{
+  color: white !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+.fc-event{
+  background-color: #e52310;
+}
+option:disabled {
+  color: red;
+}
+.date-picker{
+width: 80% !important;
+}
+
+.fc-timegrid-slot { 
+  height: 60px !important; 
+}
+/* Jisha Styles End*/
 

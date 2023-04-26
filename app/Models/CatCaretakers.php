@@ -5,8 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class HospitalAppointments extends Model
+class CatCaretakers extends Model
 {
     use HasFactory;
-    protected $guarded  = ['id'];
+    protected $fillable = [ 
+        'cat_id', 
+        'caretaker_id', 
+        'transfer_status', 
+    ];
 }
