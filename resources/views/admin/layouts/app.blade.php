@@ -67,10 +67,11 @@
     <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/js/pages/dashboard.init.js') }}"></script>
     <script src="{{ asset('assets/js/pages/materialdesign.init.js') }}"></script>
-    <script src="{{ asset('assets/js/app.js') }}"></script>
-    <script src="{{ asset('assets/js/custom.js') }}"></script>
+    <!-- <script src="{{ asset('assets/js/app.js') }}"></script> -->
+    <!-- <script src="{{ asset('assets/js/custom.js') }}"></script> -->
 
     @stack('footer')
+    @stack('scripts')
 </body>
 
 </html>
