@@ -39,7 +39,7 @@
             </li>
 
             <li>
-                <a href="#" class=" waves-effect">
+                <a href="{{ route('hospital-appointments') }}" class=" waves-effect">
                     <i class="uil-window-section"></i>
                     <span>Hospital Appointments </span>
                 </a>

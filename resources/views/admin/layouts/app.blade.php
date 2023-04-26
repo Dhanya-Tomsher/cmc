@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
-
+      @stack('header')
 </head>
 
 <body>
@@ -61,12 +61,13 @@
     <script src="{{ asset('assets/libs/metismenu/metisMenu.min.js') }}"></script>
     <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
     <script src="{{ asset('assets/libs/node-waves/waves.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/waypoints/lib/jquery.waypoints.min.jss') }}"></script>
+    <script src="{{ asset('assets/libs/waypoints/lib/jquery.waypoints.min.js') }}"></script>
     <script src="{{ asset('assets/libs/jquery.counterup/jquery.counterup.min.js') }}"></script>
     <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/js/pages/dashboard.init.js') }}"></script>
     <script src="{{ asset('assets/js/pages/materialdesign.init.js') }}"></script>
-    <script src="{{ asset('assets/js/app.js') }}"></script>
+    <!-- <script src="{{ asset('assets/js/app.js') }}"></script> -->
+    @stack('scripts')
 </body>
 
 </html>
