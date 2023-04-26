@@ -99,5 +99,19 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::post('vetschedule/action', [VetscheduleController::class, 'action'])->name('vetschedule.action');
 
 
+    Route::get('hospital-appointments',[HospitalAppointmentsController::class,'getAppointments'])->name('hospital-appointments');
+    Route::get('caretaker-search',[HospitalAppointmentsController::class,'searchCaretaker'])->name('ajax-autocomplete-caretaker-search');
+    Route::post('caretaker-details',[HospitalAppointmentsController::class,'getCaretakerDetails'])->name('get-caretaker');
+
+    Route::get('cat-search',[HospitalAppointmentsController::class,'searchCat'])->name('ajax-autocomplete-cat-search');
+    Route::post('cat-details',[HospitalAppointmentsController::class,'getCatDetails'])->name('get-cat');
+
+    Route::get('procedure-search',[HospitalAppointmentsController::class,'searchProcedure'])->name('ajax-autocomplete-procedure-search');
+    Route::post('save-appointment-details',[HospitalAppointmentsController::class,'saveAppointmentDetails'])->name('save-appointment');
+
+    Route::get('get-appointments',[HospitalAppointmentsController::class,'getHospitalAppointments'])->name('get-appointments');
+
+    Route::post('get-selected-slots',[HospitalAppointmentsController::class,'getSelectedSlots'])->name('get-selected-slots');
+
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
