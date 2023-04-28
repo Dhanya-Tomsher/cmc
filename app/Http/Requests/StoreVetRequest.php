@@ -26,6 +26,8 @@ class StoreVetRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => 'required|email|unique:vets',
+            'shift_from' => 'required',
+            'shift_to' => 'required',
             'address' => 'nullable',
             'phone_number' => 'nullable',
             'whatsapp_number' => 'nullable',
@@ -48,6 +50,8 @@ class StoreVetRequest extends FormRequest
         return [
             'image.max' => 'The file size should be less than 1MB',
             'name.required' => 'Please enter a name',
+            'shift_from.required' => 'Please select time',
+            'shift_to.required' => 'Please select time',
             'email.required' => 'Please enter an email',
             'email.email' => 'Please enter an valid email',
             'email.unique' => 'Sorry, this email is already in use, please use another email',
