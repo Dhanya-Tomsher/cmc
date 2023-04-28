@@ -20,7 +20,7 @@
                         </div>
                     </div>
                     <div class="d-flex align-items-center justify-content-between mb-3">
-                        <a href="{{ URL::previous() }}" class="btn btn_back waves-effect waves-light"> <i
+                        <a href="{{ route('vet.index') }}" class="btn btn_back waves-effect waves-light"> <i
                                 class="uil-angle-left-b"></i> Back</a>
                         {{-- <div class="btn_group">
                             <a href="dashboard.html" class="btn btn_back waves-effect waves-light me-2"> Register Cat</a>
@@ -36,7 +36,7 @@
                     <div class="card">
                         <div class="card-body py-4">
                             <form name="frm" action="{{ route('vet.update', $vet) }}" enctype="multipart/form-data"
-                                method="POST">
+                                method="POST" id="saveVet">
                                 @csrf
                                 <div class="row mb-3">
                                     <div class="col-6">
@@ -58,8 +58,9 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label for="Name" class="col-form-label">Name</label>
-                                        <input class="form-control" name="name" type="text" placeholder="Enter Name"
+                                        <input class="form-control" name="name" id="name" type="text" placeholder="Enter Name"
                                             value="{{ $vet->name }}" id="Name">
+                                        <span id="name_error" class="error"  style="display:none;"> Name is required </span>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="address" class="col-form-label">Address</label>
@@ -68,8 +69,9 @@
 
                                     <div class="col-md-4">
                                         <label for="email" class="col-form-label">Email ID</label>
-                                        <input class="form-control" name="email" type="email"
+                                        <input class="form-control" name="email" id="email" type="email"
                                             value="{{ $vet->email }}" placeholder="Enter Email ID" id="Email">
+                                        <span id="email_error" class="error"  style="display:none;"> Email is required </span>
                                     </div>
 
                                     <div class="col-md-4">
@@ -154,6 +156,30 @@
                                         <input class="form-control" name="specialization" type="text"
                                             placeholder="Specialization" value="{{ $vet->specialization }}">
                                     </div>
+                                    <div class="col-md-2">
+                                        <label for="work-number" class="col-form-label">Shift Time</label>
+                                        <select class="form-select form-control "  id="shift_from" name="shift_from">
+                                            <option value="">From</option>
+                                            @if($timeSlots)
+                                                @foreach($timeSlots as $key => $slot)
+                                                    <option {{ $vet->shift_from ==  $key ? 'selected' : '' }} value="{{ $key }}"> {{ $slot }} </option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                        <span id="from_error" class="error" style="display:none;"> From time is required </span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="work-number" class="col-form-label opacity-0">.</label>
+                                        <select class="form-select form-control"  id="shift_to" name="shift_to">
+                                            <option value="">To</option>
+                                            @if($timeSlots)
+                                                @foreach($timeSlots as $key => $slot)
+                                                    <option {{ $vet->shift_to ==  $key ? 'selected' : '' }} value="{{ $key }}"> {{ $slot }} </option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                        <span id="to_error" class="error" style="display:none;"> To time is required </span>
+                                    </div>
 
                                     <div class="col-md-4">
                                         <label for="country" class="col-form-label">Status</label>
@@ -168,8 +194,8 @@
 
                                     <div class="col-md-4 align-self-end mt-3">
                                         <div class="">
-                                            <button name="Submit" type="Submit"
-                                                class="btn btn-primary waves-effect waves-light w-xl me-2">Update</button>
+                                            <button name="Submit" type="button"
+                                                class="btn btn-primary waves-effect waves-light w-xl me-2" id="save">Update</button>
                                         </div>
                                     </div>
                                 </div>
@@ -183,4 +209,35 @@
     </div>
 @endsection
 @push('header')
+@endpush
+
+@push('footer')
+<script>
+    
+    $("#save").click(function (e) {
+        $('#from_error,#to_error,#name_error,#email_error').css('display','none');
+        flag = true;
+        if($('#shift_from').val() == ''){
+            flag = false;
+            $('#from_error').css('display','block');
+        }
+        if($('#shift_to').val() == ''){
+            flag = false;
+            $('#to_error').css('display','block');
+        }
+        if($('#name').val() == ''){
+            flag = false;
+            $('#name_error').css('display','block');
+        }
+        if($('#email').val() == ''){
+            flag = false;
+            $('#email_error').css('display','block');
+        }
+        if(flag == false){
+            e.preventDefault();
+        }else{
+            $('#saveVet').submit();
+        }
+    });
+</script>
 @endpush

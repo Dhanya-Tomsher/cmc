@@ -483,6 +483,10 @@
 .select2-selection__arrow {
     height: 54px !important;
 }
+.fc-daygrid-bg-harness:has(.scheduled) {
+  background:  rgb(163 246 163) !important;
+  pointer-events: none !important;
+}
     </style>
 @endpush
 
@@ -501,21 +505,29 @@ $(document).ready(function() {
 
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'timeGridDay',
+        initialView: 'dayGridMonth',
         slotMinTime: '8:00:00',
         slotMaxTime: '22:00:00',
         slotMinWidth:'100',
         selectable: true,
-        selectHelper: true,
-        events: "{{ route('get-appointments')}}",
+        events: "{{ route('get-scheduled-vets')}}",
+        eventContent: function( info ) {
+            return {html: info.event.title};
+        },
+        selectOverlap: function(event) {
+            console.log(event);
+            if(event){
+                return true;
+            }
+        },
         eventColor: '#ff0000',
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            right: ''
         },
         
-        editable: true,
+        editable: false,
         droppable: false, // this allows things to be dropped onto the calendar
         // dayRender: function (date, cell) {
         //     var today = new Date();
@@ -524,33 +536,48 @@ $(document).ready(function() {
         //     }
         // },
         select: function(start, end, jsEvent, view) {   
-            resetForm();
-            console.log(start.startStr);  
-            console.log(formatDate(start.startStr));
-    
-
-           let dt = new Date(start.startStr);
-            
-
-            var from_time = (dt.getHours()<10?'0':'') + dt.getHours() +':' + (dt.getMinutes()<10?'0':'') + dt.getMinutes();
-            let halfHr = dt.setMinutes(dt.getMinutes() + 30);
-            new_dt = new Date(halfHr);
-            var to_time = (new_dt.getHours()<10?'0':'') + new_dt.getHours() +':' + (new_dt.getMinutes()<10?'0':'') + new_dt.getMinutes();
-
-            $('#appointment_time  option:contains("'+from_time +' - '+to_time+'")').attr("selected","selected");
-            $('#appointment_date' ).datepicker( 'setDate', formatDate(start.startStr) ).datepicker('fill');
-            $("#caretaker_tab").addClass('active');
-            $("#cat_tab,#appointment_tab").removeClass('active');
-            $('#navtabs-care-taker').css('display','block');
-            $('#navtabs-cat-details,#navtabs-appointment').css('display','none');
-            $("#createAppointmentModal").modal('show');
-            
+            startDate = start.startStr;
+            endDate = getPreviousDay(start.endStr);
+            betweenDates = getDatesBetween(startDate, endDate);
+        
+            $.each(betweenDates, function(index, value) {
+                 if( $("td[data-date='"+value+"']").hasClass('custom-disabled')){
+                    $("td[data-date='"+value+"']").find('.fc-highlight').removeClass('fc-highlight');
+                }
+            });
         },
-    
+        eventSourceSuccess: function(content, xhr) {
+            var eventDates = [];
+            var view = calendar.view;
+            var start = view.activeStart.toISOString();
+            var end = view.activeEnd.toISOString();
+            var alldates = getDatesBetween(new Date(start),new Date(end));
+            $.each(content, function(index1, value1) {
+                eventDates.push(value1.start);
+            });
+
+            $.each(alldates, function(index, value) {
+                if( $.inArray(value, eventDates) > -1 ) {
+                    console.log('inarray  ' + value);
+                }else{
+                    console.log('not inarray  ' + value);
+                    $("td[data-date='"+value+"']").addClass('custom-disabled');
+                }
+            });
+        }
     
     });
 
     calendar.render();
+
+    function IsDateHasEvent(date) {
+        var allEvents = [];
+        allEvents = $('#calendar').fullCalendar('clientEvents');
+        var event = $.grep(allEvents, function (v) {
+            return +v.start === +date;
+        });
+        return event.length > 0;
+    }
 
     function convertMsToTime(milliseconds) {
         let seconds = Math.floor(milliseconds / 1000);
@@ -817,6 +844,10 @@ $(document).ready(function() {
         getSlots(date);
     });
 
+    $('.custom-disabled').on('click', function(e) {
+        e.preventDefault();
+        $(this).css({'pointer-events' : 'none'});
+    });
     function getSlots(appointment_date){
         $('#appointment_time  option').removeAttr("disabled");
         $.ajaxSetup({

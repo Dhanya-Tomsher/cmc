@@ -8,8 +8,12 @@ use App\Http\Requests\UpdateVetRequest;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use App\Models\Vet;
+use App\Models\Vetschedule;
+use App\Models\VetShifts;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use DateTime;
+use Helper;
 
 class VetController extends Controller
 {
@@ -23,11 +27,19 @@ class VetController extends Controller
     public function create()
     {
         $countries = Country::all();
-        return view('admin.vet.create', compact('countries'));
+        $timeSlots = Helper::hoursRange( 0, 86400, 60 * 30, 'h:i a' );
+        return view('admin.vet.create')->with([
+            'countries' => $countries,
+            'timeSlots' => $timeSlots
+        ]);
     }
+    
     public function schedule()
     {
-        return view('admin.vet.schedule');
+        $vets = Vet::getActiveVets();
+        return view('admin.vet.schedule')->with([
+            'vets' => $vets,
+        ]);
     }
     public function search()
     {
@@ -35,7 +47,6 @@ class VetController extends Controller
     }
     public function update(UpdateVetRequest $request, Vet $vet)
     {
-
         if ($request->hasFile('image')) {
             $uploadedFile = $request->file('image');
             $filename =   time() . $uploadedFile->getClientOriginalName();
@@ -57,26 +68,37 @@ class VetController extends Controller
         }
 
         $vet->update($request->all());
+        $result = VetShifts::where('vet_id','=',$vet->id)->delete();
+        $timeslots = Helper::generateVetTimeSlot(30,$request->shift_from,$request->shift_to,$vet->id);
+        VetShifts::insert($timeslots);
+
         return back()->with('status', 'Vet Upated!');
     }
     public function view(Vet $vet)
     {
+        $vetResult = Vet::select("vets.*","countries.name as country")
+                    ->leftJoin('countries','countries.id', '=', 'vets.home_country')
+                    ->where('vets.id', $vet->id)
+                    ->get();
+        $image = $vet->getImage();
         return view('admin.vet.show')->with([
-            'vet' => $vet,
+            'vet' => $vetResult,
+            'image' => $image
         ]);
     }
     public function edit(Vet $vet)
     {
         $countries = Country::all();
+        $timeSlots = Helper::hoursRange( 0, 86400, 60 * 30, 'h:i a' );
         return view('admin.vet.edit')->with([
             'vet' => $vet,
             'countries' => $countries,
+            'timeSlots' => $timeSlots
         ]);
     }
 
     public function store(StoreVetRequest $request)
     {
-
         $image_name = '';
 
         if ($request->hasFile('image')) {
@@ -109,9 +131,15 @@ class VetController extends Controller
             'specialization' => $request->specialization,
             'image_url' => $image_name,
             'status' => 'published',
+            'shift_from' => $request->shift_from,
+            'shift_to' => $request->shift_to,
         ]);
+        $vet_id = $vet->id;
 
-
+        $timeslots = Helper::generateVetTimeSlot(30,$request->shift_from,$request->shift_to,$vet_id);
+        VetShifts::insert($timeslots);
         return redirect()->route('vet.index')->with('status', 'vet created!');
     }
+
+   
 }

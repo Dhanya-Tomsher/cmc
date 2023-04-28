@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Caretaker;
 use App\Models\Cat;
 use App\Models\Vet;
+use App\Models\Vetschedule;
 use App\Models\Procedures;
 use App\Models\Country;
 use App\Http\Requests\StoreHospitalAppointmentRequest;
@@ -16,6 +17,7 @@ use Illuminate\Http\Request;
 use App\Models\HospitalAppointments;
 use DB;
 use DateTime;
+use Helper;
 
 class HospitalAppointmentsController extends Controller
 {
@@ -94,8 +96,8 @@ class HospitalAppointmentsController extends Controller
                     ->orderBy('name','ASC')
                     ->get();
 
-        $timeslots = $this->getTimeSlot(30,env('SLOT_FROM_TIME'),env('SLOT_TO_TIME'));
-        
+        $timeslots = Helper::getTimeSlot(30,env('SLOT_FROM_TIME'),env('SLOT_TO_TIME'));
+
         return view('admin.hospital.appointments')-> with([
             'vets' => $vets,
             'timeslots' => $timeslots,
@@ -193,26 +195,7 @@ class HospitalAppointmentsController extends Controller
         return response()->json($procedures);
     }
 
-    function getTimeSlot($interval, $start_time, $end_time)
-    {
-        $start = new DateTime($start_time);
-        $end = new DateTime($end_time);
-        $startTime = $start->format('H:i');
-        $endTime = $end->format('H:i');
-        $i=0;
-        $time = [];
-        while(strtotime($startTime) <= strtotime($endTime)){
-            $start = $startTime;
-            $end = date('H:i',strtotime('+'.$interval.' minutes',strtotime($startTime)));
-            $startTime = date('H:i',strtotime('+'.$interval.' minutes',strtotime($startTime)));
-            $i++;
-            if(strtotime($startTime) <= strtotime($endTime)){
-                $time[$i]['slot_start_time'] = $start;
-                $time[$i]['slot_end_time'] = $end;
-            }
-        }
-        return $time;
-    }
+    
 
     public function saveAppointmentDetails(Request $request){
         $hosp = HospitalAppointments::create([
