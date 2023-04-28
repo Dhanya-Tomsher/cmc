@@ -49,7 +49,7 @@
             <li>
                 <a href="#" class=" waves-effect">
                     <i class="uil-comments-alt"></i>
-                    <span>Hotel Appointments </span>
+                    <span>Hotel Booking </span>
                 </a>
             </li>
 

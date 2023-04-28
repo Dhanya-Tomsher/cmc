@@ -16,4 +16,13 @@ class Vet extends Model
     {
         return Storage::url(Str::replace('/storage/', '', $this->image_url));
     }
+
+    public static function getActiveVets(){
+        $vets = Vet::select("id","name")
+                    ->where('status', 'published')
+                    ->orderBy('name','ASC')
+                    ->get();
+
+        return $vets;
+    }
 }

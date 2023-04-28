@@ -97,7 +97,8 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::post('vet/update/{vet}', [VetController::class, 'update'])->name('vet.update');
     Route::get('vetschedule', [VetscheduleController::class, 'index'])->name('vetschedule.index');
     Route::post('vetschedule/action', [VetscheduleController::class, 'action'])->name('vetschedule.action');
-
+    Route::get('get-vet-schedules/{vet_id}',[VetscheduleController::class,'getVetSchedules'])->name('get-vet-schedule');
+    Route::post('save-vet-schedule',[VetscheduleController::class,'saveVetSchedule'])->name('save-vet-schedule');
 
     Route::get('hospital-appointments',[HospitalAppointmentsController::class,'getAppointments'])->name('hospital-appointments');
     Route::get('caretaker-search',[HospitalAppointmentsController::class,'searchCaretaker'])->name('ajax-autocomplete-caretaker-search');
@@ -112,6 +113,10 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::get('get-appointments',[HospitalAppointmentsController::class,'getHospitalAppointments'])->name('get-appointments');
 
     Route::post('get-selected-slots',[HospitalAppointmentsController::class,'getSelectedSlots'])->name('get-selected-slots');
+    
+    Route::get('get-scheduled-vets',[VetscheduleController::class,'getScheduledVets'])->name('get-scheduled-vets');
+
+
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
