@@ -332,13 +332,16 @@ width: 80% !important;
 }
 
 .date-highlight {
-  background: rgb(163 246 163) !important;
+  background: #caffca !important;
 }
 .fc .fc-bg-event{
   opacity: 1 !important;
 }
 .scheduled{
-  background: rgb(163 246 163) !important;
+  background: #caffca !important;
+}
+.fully-booked{
+  background: #f9a8a8 !important;
 }
 .fc-daygrid-day-number{
   font-size: 16px !important;
@@ -352,7 +355,11 @@ width: 80% !important;
   font-size: 28px;
 }
 .fc-daygrid-bg-harness:has(.scheduled) {
-  background:  rgb(163 246 163) !important;
+  background:  #caffca !important;
+}
+
+.fc-daygrid-bg-harness:has(.fully-booked) {
+  background: #f9a8a8 !important;
 }
 .fc-theme-standard td, .fc-theme-standard th {
   border: 1px solid #b9b8bf !important;

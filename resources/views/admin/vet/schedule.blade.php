@@ -22,7 +22,7 @@
                     <div class="search_warpper w-30" id="vetDropdownParent">
                         <div class="hstack gap-2">
                             <select class="form-select form-control select2 "  id="vet_id" name="vet_id">
-                                <option value="">Select a Vet</option>
+                                <!-- <option value="">Select a Vet</option> -->
                                 @if($vets)
                                     @foreach($vets as $vet)
                                         <option value=" {{ $vet->id }}" data-value="{{ $vet->price }}"> {{ $vet->name }} </option>
@@ -95,7 +95,7 @@
                 url = url.replace(':vet_id', vet_id);
         
             var calendarEl = document.getElementById('vet_schedule_calendar');
-             calendar = new FullCalendar.Calendar(calendarEl, {
+            calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 events: url,
                 headerToolbar: {
@@ -114,27 +114,33 @@
                     betweenDates = getDatesBetween(startDate, endDate);
                 
                     $.each(betweenDates, function(index, value) {
-                        if( $("td[data-date='"+value+"']").find('div.scheduled').length !== 0){
-                            removeItem(value);
-                            $("td[data-date='"+value+"']").find('div.scheduled').removeClass('scheduled');
-                            $("td[data-date='"+value+"'] div:first").removeClass('date-highlight');
-                            $("td[data-date='"+value+"'] div:first").addClass('schedule-removed');
-                        }else if( $("td[data-date='"+value+"'] div:first").hasClass('date-highlight')){
-                            removeItem(value);
-                            $("td[data-date='"+value+"'] div:first").removeClass('date-highlight');
-                        }else{
-                            if( $("td[data-date='"+value+"']").find('div.scheduled').length == 0){
-                                
-                                $("td[data-date='"+value+"']").find('div.fc-bg-event').addClass('scheduled');
+                        var clickedDate = new Date(value);
+                        var nowDate = getDateWithoutTime(new Date())
+                        if (clickedDate >= nowDate){
+                            if( $("td[data-date='"+value+"']").find('div.scheduled').length !== 0){
+                                removeItem(value);
+                                $("td[data-date='"+value+"']").find('div.scheduled').removeClass('scheduled');
+                                $("td[data-date='"+value+"'] div:first").removeClass('date-highlight');
+                                $("td[data-date='"+value+"'] div:first").addClass('schedule-removed');
+                            }else if( $("td[data-date='"+value+"'] div:first").hasClass('date-highlight')){
+                                removeItem(value);
+                                $("td[data-date='"+value+"'] div:first").removeClass('date-highlight');
+                            }else{
+                                if( $("td[data-date='"+value+"']").find('div.scheduled').length == 0){
+                                    
+                                    $("td[data-date='"+value+"']").find('div.fc-bg-event').addClass('scheduled');
+                                }
+                                addItem(value);
+                                $("td[data-date='"+value+"'] div:first").addClass('date-highlight');
                             }
-                            addItem(value);
-                            $("td[data-date='"+value+"'] div:first").addClass('date-highlight');
                         }
+                        
                     });
                 
                     $('#selectedDatesForAdd').val(selectedDatesForAdd);
                     $('#selectedDatesForRemove').val(selectedDatesForRemove);
                 },
+                
             });
 
             calendar.render();

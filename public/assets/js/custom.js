@@ -127,6 +127,12 @@ $(document).ready(function(){
         }
         return year+'-' + month + '-'+dt;
     }
+    //get date without the time of day
+    function getDateWithoutTime(dts)
+    {
+        dts.setHours(0,0,0,0);
+        return dts;
+    }
 
 // function readURL(input) {
 //     if (input.files && input.files[0]) {

@@ -58,6 +58,7 @@ class Helper
                 $time[$i]['slots'] = $start.'-'.$end;
                 $time[$i]['vet_id'] = $vet_id;
                 $time[$i]['created_at'] = date('Y-m-d H:i:s');
+                $time[$i]['from_date'] = date('Y-m-d');
             }
         }
         return $time;

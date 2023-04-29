@@ -483,10 +483,7 @@
 .select2-selection__arrow {
     height: 54px !important;
 }
-.fc-daygrid-bg-harness:has(.scheduled) {
-  background:  rgb(163 246 163) !important;
-  pointer-events: none !important;
-}
+
     </style>
 @endpush
 
