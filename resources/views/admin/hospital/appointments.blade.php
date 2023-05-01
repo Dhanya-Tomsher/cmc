@@ -15,10 +15,10 @@
                         </ol>
                     </div>
                 </div>
-                <div class="d-flex justify-content-end mb-3">
+                <!-- <div class="d-flex justify-content-end mb-3">
                     <a href="#" class="btn btn_back waves-effect waves-light" data-bs-toggle="modal" id="new_appointment"
                         data-bs-target=".bs-example-modal-xl">Create Hospital Appointments</a>
-                </div>
+                </div> -->
             </div>
         </div>
         <!-- end page title -->
@@ -31,6 +31,7 @@
                         <div class="card" id="external-events">
                             <div class="card-body">
                                 <div id="appointment_calendar"></div>
+                                <div id="day_appointment" style="display:none;"></div>
                             </div>
                         </div>
                     </div> <!-- end col -->
@@ -407,11 +408,11 @@
 
                                                 <div class="col-md-4">
                                                     <label for="country" class="col-form-label">Vet</label>
-                                                    <select class="form-select form-control select2"  id="vet_id" name="vet_id" style="width:100%;">
+                                                    <select class="form-select form-control readonly"   id="vet_id" name="vet_id" style="width:100%;">
                                                         <option value="">Select Vet</option>
                                                         @if($vets)
                                                             @foreach($vets as $vet)
-                                                                <option value=" {{ $vet->id }}"> {{ $vet->name }} </option>
+                                                                <option value="{{ $vet->id }}"> {{ $vet->name }} </option>
                                                             @endforeach
                                                         @endif
                                                     </select>
@@ -420,9 +421,9 @@
                                                 <div class="col-md-4">
                                                     <label for="address" class="col-form-label">Select Date</label>
                                                     <div class="input-group" id="datepicker2">
-                                                        <input type="text" class="form-control date-picker"  placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
+                                                        <input type="text" class="form-control date-picker readonly"  placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
                                                             data-date-container="#datepicker2" data-provide="datepicker" data-date-autoclose="true"
-                                                            id="appointment_date" name="appointment_date">
+                                                            id="appointment_date"  name="appointment_date">
                                                         <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                                                     </div>
                                                 </div>
@@ -430,13 +431,8 @@
                                                 <div class="col-md-4">
                                                     <label for="address" class="col-form-label">Select Time</label>
                                                     <div class="input-group">
-                                                        <select class="form-select form-control"  id="appointment_time" name="appointment_time" style="width:100%;">
-                                                            <option value="">Select Time</option>
-                                                            @if($timeslots)
-                                                                @foreach($timeslots as $key=>$value)
-                                                                    <option value="{{ $value['slot_start_time']}} - {{ $value['slot_end_time'] }}">{{ $value['slot_start_time']}} - {{ $value['slot_end_time'] }} </option>
-                                                                @endforeach
-                                                            @endif
+                                                        <select class="form-select form-control select2"  id="appointment_time" name="appointment_time[]" multiple="multiple" style="width:100%;">
+                                                            
                                                         </select>
                                                     </div>
                                                 </div>
@@ -483,6 +479,25 @@
 .select2-selection__arrow {
     height: 54px !important;
 }
+.table td.fit,  .table th.fit {
+    white-space: nowrap;
+}
+.table-bordered {
+    border: 1px solid #cbcaca;
+}
+.table th:first-child {
+  position: sticky;
+  left: 0;
+  color: #373737;
+  width: 0% !important;
+  background: #ffffff;
+}
+table {
+  width: 100%;
+}
+.table td{
+    cursor: pointer;
+}
 
     </style>
 @endpush
@@ -497,7 +512,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
 <script>
-$(document).ready(function() {
+// $(document).ready(function() {
+    $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        
     var calendarEl = document.getElementById('appointment_calendar');
 
 
@@ -512,14 +533,13 @@ $(document).ready(function() {
             return {html: info.event.title};
         },
         selectOverlap: function(event) {
-            console.log(event);
             if(event){
-                return true;
+               return true;
             }
         },
         eventColor: '#ff0000',
         headerToolbar: {
-            left: 'prev,next today',
+            left: 'prev,next',
             center: 'title',
             right: ''
         },
@@ -532,16 +552,28 @@ $(document).ready(function() {
         //         cell.css("background-color", "red");
         //     }
         // },
+        dateClick: function(info) {
+            var selectedDate =  info.dateStr;
+            var str = info.dayEl;
+            var toString = $(str);
+           
+            if (toString[0].className.indexOf("custom-disabled") == -1){
+                getDayCalendar(selectedDate);
+            }
+        },
+       
         select: function(start, end, jsEvent, view) {   
             startDate = start.startStr;
             endDate = getPreviousDay(start.endStr);
             betweenDates = getDatesBetween(startDate, endDate);
         
             $.each(betweenDates, function(index, value) {
-                 if( $("td[data-date='"+value+"']").hasClass('custom-disabled')){
+                if( $("td[data-date='"+value+"']").hasClass('custom-disabled')){
                     $("td[data-date='"+value+"']").find('.fc-highlight').removeClass('fc-highlight');
                 }
             });
+
+         
         },
         eventSourceSuccess: function(content, xhr) {
             var eventDates = [];
@@ -555,9 +587,7 @@ $(document).ready(function() {
 
             $.each(alldates, function(index, value) {
                 if( $.inArray(value, eventDates) > -1 ) {
-                    console.log('inarray  ' + value);
                 }else{
-                    console.log('not inarray  ' + value);
                     $("td[data-date='"+value+"']").addClass('custom-disabled');
                 }
             });
@@ -567,54 +597,22 @@ $(document).ready(function() {
 
     calendar.render();
 
-    function IsDateHasEvent(date) {
-        var allEvents = [];
-        allEvents = $('#calendar').fullCalendar('clientEvents');
-        var event = $.grep(allEvents, function (v) {
-            return +v.start === +date;
-        });
-        return event.length > 0;
-    }
-
-    function convertMsToTime(milliseconds) {
-        let seconds = Math.floor(milliseconds / 1000);
-        let minutes = Math.floor(seconds / 60);
-        let hours = Math.floor(minutes / 60);
-
-        seconds = seconds % 60;
-        minutes = minutes % 60;
-        hours = hours % 24;
-
-        return `${padTo2Digits(hours)}:${padTo2Digits(minutes)}`;
-    }
-
-    function padTo2Digits(num) {
-        return num.toString().padStart(2, '0');
-    }
-
-    function formatDate(date) {
-        var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-
-        if (month.length < 2) 
-            month = '0' + month;
-        if (day.length < 2) 
-            day = '0' + day;
-
-        return [year, month, day].join('-');
-    }
-
     $( "#appointment_date" ).datepicker({
         format: 'yyyy-mm-dd',
     });
-    $('#vet_id').select2({
-        placeholder: 'Select Vet',
+    $('#appointment_time').select2({
+        placeholder: 'Select TIme',
         dropdownParent: $('#createAppointmentModal'),
         width: 'resolve', // need to override the changed default
         allowClear: true,
     });
+    // $('#vet_id').select2({
+    //     placeholder: 'Select Vet',
+    //     dropdownParent: $('#createAppointmentModal'),
+    //     width: 'resolve', // need to override the changed default
+    //     allowClear: true,
+    //     readonly: true
+    // });
 
     $('#search_caretaker').select2({
         placeholder: 'Search by : Customer ID, Name, Mobile Number',
@@ -689,11 +687,7 @@ $(document).ready(function() {
         $("#appointment_tab").removeAttr('data-bs-toggle');
         $("#search_cat").val('').trigger('change') ;
         var id = $(this).val();
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+       
         $.ajax({
             url: "{{ route('get-caretaker')}}",
             type: "POST",
@@ -745,11 +739,6 @@ $(document).ready(function() {
 
     $("#search_cat").on("change", function () { 
         var id = $(this).val();
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
         $.ajax({
             url: "{{ route('get-cat')}}",
             type: "POST",
@@ -838,38 +827,43 @@ $(document).ready(function() {
             $('#navtabs-care-taker,#navtabs-cat-details').css('display','none');
         }
         var date = $('#appointment_date').val();
-        getSlots(date);
+        // getSlots(date);
     });
 
     $('.custom-disabled').on('click', function(e) {
         e.preventDefault();
         $(this).css({'pointer-events' : 'none'});
     });
-    function getSlots(appointment_date){
-        $('#appointment_time  option').removeAttr("disabled");
-        $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+    function getSlots(date, vetId, slot=''){
+       
         $.ajax({
             url: "{{ route('get-selected-slots')}}",
             type: "POST",
-            data: 'id='+ appointment_date,
-            
+            data:  { 
+                vet_id: vetId, 
+                date: date
+            },
             success: function( response ) {
+                var html='';
                 var returnedData = JSON.parse(response);
                 $.each(returnedData, function(index, value) {
-                    $('#appointment_time  option:contains("'+value.time_appointment+'")').attr("disabled","disabled");
-                });
+                    var selected = '';
+                    console.log('slot ==== '+slot);
+                    console.log('value ==== '+value);
+                    if(slot === value){
+                        selected = "selected='selected'";
+                    }
+                    html += '<option value="'+value+'" '+selected+'>'+value+'</option>';
+                });  
                 
+                $('#appointment_time').html(html).trigger('change');
             }
         });
     }
 
     $("#appointment_date").on("change", function () {   
        var date = $(this).val();
-        getSlots(date);
+        // getSlots(date);
     });
 
     $("#procedure").on("change", function () { 
@@ -907,11 +901,7 @@ $(document).ready(function() {
             }
         },
         submitHandler: function(e) { 
-            $.ajaxSetup({
-                headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+            
             // $('#create_appoinment').html('Please Wait...');
             // $("#create_appoinment"). attr("disabled", true);
             
@@ -932,11 +922,14 @@ $(document).ready(function() {
                     );
                     $("#createAppointmentModal").modal('hide');
                     resetForm();
+                    getDayCalendar(response);
                     calendar.refetchEvents()
                 }
             });
         }
     });
+
+   
 
     function resetForm(){
         $('#appointment')[0].reset();
@@ -950,7 +943,7 @@ $(document).ready(function() {
         $('#cat_id,#cat_name,#date_of_birth, #fur_color,#eye_color,#place_of_origin,#cat_emirate,#cat_origin,#microchip,#catId ').val('');
         $('#pregnant-div,#neutered-with-us-div,#neutered-div,#spayed-div').css('display','none');
         $("#appointment_tab").removeAttr('data-bs-toggle');
-        $('#appointment_time').val("");
+        $('#appointment_time').val("").trigger('change');
         $('label.error').css('display','none');
         $('#appointment_time').removeClass('error');
     }
@@ -962,9 +955,53 @@ $(document).ready(function() {
         $('#navtabs-cat-details,#navtabs-appointment').css('display','none');
     });
 
+    function getDayCalendar(selectedDate){
+        $.ajax({
+            url: '{{ route("ajax-getday-appointments") }}',
+            type: "POST",
+            data:  { 
+                date: selectedDate
+            },
+            success: function( response ) {
+                $('#appointment_calendar').css('display','none'); 
+                $('#day_appointment').html(response);
+                $('#day_appointment').css('display','block');
+            }
+        });
+    }
+   
     
-});
+// });
+    function getAppointmentForm(date,slot,vet_id){
+        resetForm();
+        
+        $('#appointment_date' ).datepicker( 'setDate', date ).datepicker('fill');
+        $("#caretaker_tab").addClass('active');
+        $("#cat_tab,#appointment_tab").removeClass('active');
+        $('#navtabs-care-taker').css('display','block');
+        $('#navtabs-cat-details,#navtabs-appointment').css('display','none');
+        $('#vet_id').val(vet_id);
+        getSlots(date, vet_id,slot);
+        $("#createAppointmentModal").modal('show');
+        
+    }
+    function reloadCalendar(date){ 
+        $('#appointment_calendar').css('display','block'); 
+        $('#day_appointment').html('');
+        var date = moment(date, "YYYY-MM-DD");
+            
+        calendar.render();
+    }
 
+    function nextDay(date){
+        var nextDay = getNextDay(date);
+        getDayCalendar(nextDay);
+    }
+    function previousDay(date){
+        var preDay = getPreviousDay(date);
+        getDayCalendar(preDay);
+    }
+    
 
 </script>
 @endpush

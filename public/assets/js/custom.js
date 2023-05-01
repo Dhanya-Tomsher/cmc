@@ -70,6 +70,12 @@ $(document).ready(function(){
         return formatDate(date);
     }
 
+    function getNextDay(date) {
+        var date = new Date(date);
+        date.setDate(date.getDate() + 1);
+        return formatDate(date);
+      }
+
     function formatDate(date) {
         var d = new Date(date),
         month = '' + (d.getMonth() + 1),
