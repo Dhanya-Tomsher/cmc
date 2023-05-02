@@ -47,7 +47,7 @@
             </li>
 
             <li>
-                <a href="#" class=" waves-effect">
+                <a href="{{ route('hotel-appointments') }}" class=" waves-effect">
                     <i class="uil-comments-alt"></i>
                     <span>Hotel Booking </span>
                 </a>

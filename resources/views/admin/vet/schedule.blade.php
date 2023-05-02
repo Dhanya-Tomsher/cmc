@@ -98,6 +98,7 @@
             calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 events: url,
+                aspectRatio: 1.75,
                 headerToolbar: {
                     left: 'prev,next',
                     center: 'title',

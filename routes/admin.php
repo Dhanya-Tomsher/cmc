@@ -119,5 +119,10 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::get('day-appointments',[HospitalAppointmentsController::class,'getDayAppointments'])->name('day-appointments');
     Route::post('ajax-getday-appointments',[HospitalAppointmentsController::class,'ajaxGetDayAppointments'])->name('ajax-getday-appointments');
 
+    Route::get('hotel-appointments',[HotelAppointmentsController::class,'getHotelAppointments'])->name('hotel-appointments');
+    Route::get('get-hotel-schedules',[HotelAppointmentsController::class,'getHotelSchedules'])->name('get-hotel-schedules');
+    Route::post('get-available-rooms',[HotelAppointmentsController::class,'getAvailableRooms'])->name('get-available-rooms');
+    Route::post('save-hotel-booking',[HotelAppointmentsController::class,'saveHotelBooking'])->name('save-hotel-booking');
+
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

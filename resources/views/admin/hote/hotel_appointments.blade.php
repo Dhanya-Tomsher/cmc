@@ -1,4 +1,4 @@
-@extends('admin.layouts.app', ['body_class' => '', 'title' => 'Hospital Appointments'])
+@extends('admin.layouts.app', ['body_class' => '', 'title' => 'Hotel Appointments'])
 @section('content')
 <div class="page-content">
     <div class="container-fluid">
@@ -6,18 +6,18 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-flex align-items-center justify-content-between">
-                    <h4 class="mb-0">Hospital Appointments </h4>
+                    <h4 class="mb-0">Hotel Appointments </h4>
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="dashboard.html">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Hospital Appointments</li>
+                            <li class="breadcrumb-item active">Hotel Appointments</li>
                         </ol>
                     </div>
                 </div>
                 <!-- <div class="d-flex justify-content-end mb-3">
                     <a href="#" class="btn btn_back waves-effect waves-light" data-bs-toggle="modal" id="new_appointment"
-                        data-bs-target=".bs-example-modal-xl">Create Hospital Appointments</a>
+                        data-bs-target=".bs-example-modal-xl">Create Hotel Appointments</a>
                 </div> -->
             </div>
         </div>
@@ -30,8 +30,7 @@
                     <div class="col-lg-12">
                         <div class="card" id="external-events">
                             <div class="card-body">
-                                <div id="appointment_calendar"></div>
-                                <div id="day_appointment" style="display:none;"></div>
+                                <div id="hotel_appointment_calendar"></div>
                             </div>
                         </div>
                     </div> <!-- end col -->
@@ -46,7 +45,7 @@
                     <div class="modal-dialog modal-xl modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="myExtraLargeModalLabel">Create Hospital Appointments </h5>
+                                <h5 class="modal-title" id="myExtraLargeModalLabel">Create Hotel Appointments </h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                                 </button>
                             </div>
@@ -390,61 +389,45 @@
                                                 <div class="col-md-4">
                                                     <input class="form-control" type="hidden"  id="caretaker_id" name="caretaker_id">
                                                     <input class="form-control" type="hidden"  id="catId" name="catId">
-                                                    <label for="country" class="col-form-label">Procedure</label>
-                                                    <select class="form-select form-control select2" id="procedure" name="procedure" style="width:100%;">
-                                                        <option value="">Select Procedure</option>
-                                                        @if($procedures)
-                                                            @foreach($procedures as $procedure)
-                                                                <option value=" {{ $procedure->id }}" data-value="{{ $procedure->price }}"> {{ $procedure->name }} </option>
-                                                            @endforeach
-                                                        @endif
+                                                    <label for="country" class="col-form-label">Rooms</label>
+                                                    <select class="form-select form-control select2" id="rooms" name="rooms" style="width:100%;">
+                                                        <option value="">Select Room</option>
+                                                       
                                                     </select>
                                                 </div>
 
                                                 <div class="col-md-4">
-                                                    <label class="col-form-label">Price</label>
+                                                    <label class="col-form-label">Amount</label>
                                                     <input class="form-control" type="text"  id="price" name="price" value="" readonly placeholder="Price">
                                                 </div>
-
-                                                <div class="col-md-4">
-                                                    <label for="country" class="col-form-label">Vet</label>
-                                                    <select class="form-select form-control readonly"   id="vet_id" name="vet_id" style="width:100%;">
-                                                        <option value="">Select Vet</option>
-                                                        @if($vets)
-                                                            @foreach($vets as $vet)
-                                                                <option value="{{ $vet->id }}"> {{ $vet->name }} </option>
-                                                            @endforeach
-                                                        @endif
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <label for="address" class="col-form-label">Select Date</label>
-                                                    <div class="input-group" id="datepicker2">
-                                                        <input type="text" class="form-control date-picker readonly"  placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
-                                                            data-date-container="#datepicker2" data-provide="datepicker" data-date-autoclose="true"
-                                                            id="appointment_date"  name="appointment_date">
-                                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <label for="address" class="col-form-label">Select Time</label>
-                                                    <div class="input-group">
-                                                        <select class="form-select form-control select2"  id="appointment_time" name="appointment_time[]" multiple="multiple" style="width:100%;">
-                                                            
-                                                        </select>
-                                                    </div>
-                                                </div>
-
 
                                                 <div class="col-md-4">
                                                     <label for="email" class="col-form-label">Remarks</label>
                                                     <textarea class="form-control" rows="1" placeholder="Remarks" name="remarks" id="remarks"></textarea>
                                                 </div>
 
+                                                <div class="col-md-4">
+                                                    <label for="address" class="col-form-label">From Date</label>
+                                                    <div class="input-group" id="datepicker2">
+                                                        <input type="text" class="form-control date-picker "  placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
+                                                            data-date-container="#datepicker2" data-provide="datepicker" data-date-autoclose="true"
+                                                            id="from_date"  name="from_date">
+                                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="address" class="col-form-label">To Date</label>
+                                                    <div class="input-group" id="datepicker2">
+                                                        <input type="text" class="form-control date-picker "  placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
+                                                            data-date-container="#datepicker2" data-provide="datepicker" data-date-autoclose="true"
+                                                            id="to_date"  name="to_date">
+                                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                                    </div>
+                                                </div>
+
                                                 <div class="col-md-12 align-self-end mt-3 text-end">
-                                                    <input type="submit" class="btn btn-primary waves-effect waves-light w-xl me-2" id="create_appoinment" value="Create Appoinment"/>
+                                                    <input type="submit" class="btn btn-primary waves-effect waves-light w-xl me-2" id="create_appoinment" value="Create Booking"/>
                                                 </div>
                                             </div>
                                         </form>
@@ -498,7 +481,9 @@ table {
 .table td{
     cursor: pointer;
 }
-
+.fc .fc-highlight {
+    background: rgb(36 147 170 / 30%) !important;
+}
     </style>
 @endpush
 
@@ -519,15 +504,16 @@ table {
             }
         });
         
-    var calendarEl = document.getElementById('appointment_calendar');
+    var calendarEl = document.getElementById('hotel_appointment_calendar');
 
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
-        // height: 850,
-        aspectRatio: 1.4,
         selectable: true,
-        events: "{{ route('get-scheduled-vets')}}",
+        // height: 850,
+        aspectRatio: 1.75,
+        showNonCurrentDates : false,
+        events: "{{ route('get-hotel-schedules')}}",
         eventContent: function( info ) {
             return {html: info.event.title};
         },
@@ -545,32 +531,29 @@ table {
         
         editable: false,
         droppable: false, // this allows things to be dropped onto the calendar
-        // dayRender: function (date, cell) {
-        //     var today = new Date();
-        //     if (date.getDate() === today.getDate()) {
-        //         cell.css("background-color", "red");
-        //     }
-        // },
-        dateClick: function(info) {
-            var selectedDate =  info.dateStr;
-            var str = info.dayEl;
-            var toString = $(str);
-           
-            if (toString[0].className.indexOf("custom-disabled") == -1){
-                getDayCalendar(selectedDate);
-            }
-        },
-       
         select: function(start, end, jsEvent, view) {   
             startDate = start.startStr;
             endDate = getPreviousDay(start.endStr);
-            betweenDates = getDatesBetween(startDate, endDate);
-        
-            $.each(betweenDates, function(index, value) {
-                if( $("td[data-date='"+value+"']").hasClass('custom-disabled')){
-                    $("td[data-date='"+value+"']").find('.fc-highlight').removeClass('fc-highlight');
-                }
-            });
+
+            console.log(startDate);
+            if( $("td[data-date='"+startDate+"']").find('.fc-event').hasClass('fully-booked')){
+                Swal.fire(
+                '',
+                'Fully Booked!',
+                'warning'
+                )
+            }else{
+                resetForm();
+                $("#caretaker_tab").addClass('active');
+                $("#cat_tab,#appointment_tab").removeClass('active');
+                $('#navtabs-care-taker').css('display','block');
+                $('#navtabs-cat-details,#navtabs-appointment').css('display','none');
+                $('#from_date').val(startDate);
+                $('#to_date').val(endDate);
+                $('#from_date, #to_date').datepicker('update');
+                getRooms(startDate,endDate)
+                $("#createAppointmentModal").modal('show');
+            }
 
          
         },
@@ -596,23 +579,21 @@ table {
 
     calendar.render();
 
-    $( "#appointment_date" ).datepicker({
+    $( "#from_date, #to_date" ).datepicker({
         format: 'yyyy-mm-dd',
     });
-    $('#appointment_time').select2({
-        placeholder: 'Select TIme',
-        dropdownParent: $('#createAppointmentModal'),
-        width: 'resolve', // need to override the changed default
-        allowClear: true,
-    });
-    // $('#vet_id').select2({
-    //     placeholder: 'Select Vet',
-    //     dropdownParent: $('#createAppointmentModal'),
-    //     width: 'resolve', // need to override the changed default
-    //     allowClear: true,
-    //     readonly: true
-    // });
+    
+    jQuery.validator.addMethod("greaterThan", function(value, element, params) {
 
+        if (!/Invalid|NaN/.test(new Date(value))) {
+            return new Date(value) >= new Date($(params).val());
+        }
+
+        return isNaN(value) && isNaN($(params).val()) 
+            || (Number(value) >= Number($(params).val())); 
+    },'Must be greater than from date.');
+
+   
     $('#search_caretaker').select2({
         placeholder: 'Search by : Customer ID, Name, Mobile Number',
         dropdownParent: $('#createAppointmentModal'),
@@ -667,8 +648,8 @@ table {
         }
     });
 
-    $('#procedure').select2({
-        placeholder: 'Select Procedure',
+    $('#rooms').select2({
+        placeholder: 'Select Room',
         dropdownParent: $('#createAppointmentModal'),
         width: 'resolve', // need to override the changed default
         allowClear: true,
@@ -792,7 +773,7 @@ table {
         if(caretaker_id ==''){
             Swal.fire(
                 '',
-                'Please select the Care Taker Details!',
+                'Please select the Caretaker Details!',
                 'warning'
                 )
         }else{
@@ -806,7 +787,7 @@ table {
         if(cat_id =='' && caretaker_id == ''){
             Swal.fire(
                 '',
-                'Please select Care Taker & Cat Details!',
+                'Please select Caretaker & Cat Details!',
                 'warning'
                 )
         } else if(cat_id ==''){
@@ -818,78 +799,76 @@ table {
         }else if(caretaker_id == ''){
             Swal.fire(
                 '',
-                'Please select Care Taker Details!',
+                'Please select Caretaker Details!',
                 'warning'
                 )
         }else{
             $('#navtabs-appointment').css('display','block');
             $('#navtabs-care-taker,#navtabs-cat-details').css('display','none');
         }
-        var date = $('#appointment_date').val();
+        var date = $('#from_date').val();
         // getSlots(date);
     });
+
+    function getRooms(startDate,endDate){
+       
+       $.ajax({
+           url: "{{ route('get-available-rooms')}}",
+           type: "POST",
+           data:  { 
+                startDate: startDate,
+                endDate :endDate
+           },
+           success: function( response ) {
+               var html='';
+               var returnedData = JSON.parse(response);
+                html += '<option value=""> Select Room </option>';
+               $.each(returnedData, function(index, value) {
+                   html += '<option value="'+value.id+'" data-value="'+value.amount+'"> '+value.room_number+' </option>';
+               });  
+               
+               $('#rooms').html(html).trigger('change');
+           }
+       });
+   }
 
     $('.custom-disabled').on('click', function(e) {
         e.preventDefault();
         $(this).css({'pointer-events' : 'none'});
     });
-    function getSlots(date, vetId, slot=''){
-       
-        $.ajax({
-            url: "{{ route('get-selected-slots')}}",
-            type: "POST",
-            data:  { 
-                vet_id: vetId, 
-                date: date
-            },
-            success: function( response ) {
-                var html='';
-                var returnedData = JSON.parse(response);
-                $.each(returnedData, function(index, value) {
-                    var selected = '';
-                    if(slot === value){
-                        selected = "selected='selected'";
-                    }
-                    html += '<option value="'+value+'" '+selected+'>'+value+'</option>';
-                });  
-                
-                $('#appointment_time').html(html).trigger('change');
-            }
-        });
-    }
+   
 
-    $("#appointment_date").on("change", function () {   
-       var date = $(this).val();
-        // getSlots(date);
-    });
-
-    $("#procedure").on("change", function () { 
-        let element = document.getElementById("procedure");
+    $("#rooms").on("change", function () { 
+        let element = document.getElementById("rooms");
         let price = element.options[element.selectedIndex].getAttribute("data-value");
         $('#price').val(price);
     });
 
+    $("#from_date, #to_date").on("change", function () { 
+       var startDate = $('#from_date').val();
+       var endDate = $('#to_date').val();
+       if($('#to_date').valid()){
+            getRooms(startDate,endDate);
+       }else{
+            getRooms(startDate,'');
+       }
+    });
      
     $("#appointment").validate({
         rules: {
-            procedure: "required",
+            rooms: "required",
             vet_id: "required",
-            appointment_date: {
+            from_date: {
                 required: true
             },
-            "appointment_time[]": {
-                required: true
-            },
+            to_date: {
+                required: true,
+                greaterThan:"#from_date"
+            }
         },
         messages: {
-            procedure: " Please select a procedure",
+            rooms: " Please select a room",
             vet_id: " Please select a vet",
-            appointment_date: {
-                required: " Please select appointment date"
-            },
-            "appointment_time[]": {
-                required: " Please select appointment time"
-            }
         },
         errorPlacement: function (error, element) {
             if(element.hasClass('select2')) {
@@ -905,7 +884,7 @@ table {
             
             var data = new FormData($('#appointment')[0]);
             $.ajax({
-                url: "{{ route('save-appointment')}}",
+                url: "{{ route('save-hotel-booking')}}",
                 type: "POST",
                 data: data,
                 processData: false,
@@ -915,25 +894,21 @@ table {
                     // $("#create_appoinment"). attr("disabled", false);
                     Swal.fire(
                         '',
-                        'Appointment created successfully!',
+                        'Booked successfully!',
                         'success'
                     );
                     $("#createAppointmentModal").modal('hide');
                     resetForm();
-                    getDayCalendar(response);
                     calendar.refetchEvents()
                 }
             });
         }
     });
 
-   
-
     function resetForm(){
         $('#appointment')[0].reset();
         $("#search_cat").val('').trigger('change') ;
-        $("#procedure").val('').trigger('change') ;
-        $("#vet_id").val('').trigger('change') ;
+        $("#rooms").val('').trigger('change') ;
         $("#search_caretaker").val('').trigger('change') ;
         $('#caretaker_id,#customer_id,#name, #address,#email,#phone,#whatsapp,#country,#emirate,#work_place,#work_address,#position,#work_number,#visa_type,#passport_no,#emirates_id ').val('');
         $('#passport_no,#emirates_id').css('display','none');
@@ -941,10 +916,11 @@ table {
         $('#cat_id,#cat_name,#date_of_birth, #fur_color,#eye_color,#place_of_origin,#cat_emirate,#cat_origin,#microchip,#catId ').val('');
         $('#pregnant-div,#neutered-with-us-div,#neutered-div,#spayed-div').css('display','none');
         $("#appointment_tab").removeAttr('data-bs-toggle');
-        $('#appointment_time').val("").trigger('change');
         $('label.error').css('display','none');
-        $('#appointment_time').removeClass('error');
+        $('#from_date').removeClass('error');
+        $('#to_date').removeClass('error');
     }
+
     $("#new_appointment").on("click", function (e) { 
         resetForm();
         $("#caretaker_tab").addClass('active');
@@ -961,7 +937,7 @@ table {
                 date: selectedDate
             },
             success: function( response ) {
-                $('#appointment_calendar').css('display','none'); 
+                $('#hotel_appointment_calendar').css('display','none'); 
                 $('#day_appointment').html(response);
                 $('#day_appointment').css('display','block');
             }
@@ -970,36 +946,7 @@ table {
    
     
 // });
-    function getAppointmentForm(date,slot,vet_id){
-        resetForm();
-        
-        $('#appointment_date' ).datepicker( 'setDate', date ).datepicker('fill');
-        $("#caretaker_tab").addClass('active');
-        $("#cat_tab,#appointment_tab").removeClass('active');
-        $('#navtabs-care-taker').css('display','block');
-        $('#navtabs-cat-details,#navtabs-appointment').css('display','none');
-        $('#vet_id').val(vet_id);
-        getSlots(date, vet_id,slot);
-        $("#createAppointmentModal").modal('show');
-        
-    }
-    function reloadCalendar(date){ 
-        $('#appointment_calendar').css('display','block'); 
-        $('#day_appointment').html('');
-        var date = moment(date, "YYYY-MM-DD");
-            
-        calendar.render();
-    }
-
-    function nextDay(date){
-        var nextDay = getNextDay(date);
-        getDayCalendar(nextDay);
-    }
-    function previousDay(date){
-        var preDay = getPreviousDay(date);
-        getDayCalendar(preDay);
-    }
-    
+   
 
 </script>
 @endpush

@@ -71,22 +71,7 @@ class HospitalAppointmentsController extends Controller
         return redirect()->route('hosp.index')->with('status', 'Hospital Appointment created!');
     }
     public function getAppointments(){
-        // $hosp  = HospitalAppointments::all();
-        // return view('admin.hospital.appointments')->with([
-        //     'hosp' => $hosp,
-        // ]);
-
         $events = [];
- 
-        // $appointments = HospitalAppointments::with(['client', 'employee'])->get();
- 
-        // foreach ($appointments as $appointment) {
-        //     $events[] = [
-        //         'title' => $appointment->client->name . ' ('.$appointment->employee->name.')',
-        //         'start' => $appointment->start_time,
-        //         'end' => $appointment->finish_time,
-        //     ];
-        // }
         $vets = Vet::select("id","name")
                     ->where('status', 'published')
                     ->orderBy('name','ASC')
@@ -282,15 +267,20 @@ class HospitalAppointmentsController extends Controller
         $vetSlots = VetShifts::getVetDateShifts($date);
         $timeslots = Helper::getTimeSlotHrMIn(30,env('SLOT_FROM_TIME'),env('SLOT_TO_TIME'));
         $vetBookings = HospitalAppointments::leftJoin('vets','vets.id', '=', 'hospital_appointments.vet_id')
+                                        ->leftJoin('caretakers','hospital_appointments.caretaker_id','=','caretakers.id')
+                                        ->leftJoin('cats','hospital_appointments.cat_id','=','cats.id')
                                         ->whereDate('hospital_appointments.date_appointment', '=',  $date)
-                                        ->get(['hospital_appointments.vet_id','hospital_appointments.time_appointment','vets.name']);
-        $vetBooks = [];
+                                        ->get(['hospital_appointments.vet_id','hospital_appointments.time_appointment','vets.name','caretakers.name as caretaker_name','cats.name as cat_name']);
+        $vetBooks = $details = [];
         if($vetBookings){
             foreach($vetBookings as $booking){
                 $vetBooks[$booking->vet_id][] = $booking->time_appointment;
+                $details[$booking->time_appointment]['caretaker'] = $booking->caretaker_name;
+                $details[$booking->time_appointment]['cat'] = $booking->cat_name;
             }
         }
-        $viewData = view('admin.hospital.day_appointment', compact('vets','timeslots','vetBooks','date','vetSlots'))->render();
+        
+        $viewData = view('admin.hospital.day_appointment', compact('vets','timeslots','vetBooks','date','vetSlots','details'))->render();
         return $viewData;
     }
 }
