@@ -8,12 +8,14 @@ use App\Http\Requests\UpdateVetRequest;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use App\Models\Vet;
+use App\Models\HospitalAppointments;
 use App\Models\Vetschedule;
 use App\Models\VetShifts;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use DateTime;
 use Helper;
+use DB;
 
 class VetController extends Controller
 {
@@ -67,13 +69,53 @@ class VetController extends Controller
             $vet->save();
         }
 
+        if($vet->slot_from != trim($request->shift_from) && ($vet->shift_to != trim($request->shift_to))){
+            $dataShifts = ['vet_id' => $vet->id,
+                        'shift_from' => trim($request->shift_from),
+                        'shift_to'   => trim($request->shift_to)
+                    ];
+
+            $this->manageVetShifts($dataShifts);
+        }
         $vet->update($request->all());
-        $result = VetShifts::where('vet_id','=',$vet->id)->delete();
-        $timeslots = Helper::generateVetTimeSlot(30,$request->shift_from,$request->shift_to,$vet->id);
-        VetShifts::insert($timeslots);
 
         return back()->with('status', 'Vet Upated!');
     }
+
+    public function manageVetShifts($dataShifts){
+        $timeslots = Helper::generateVetTimeSlot(30, trim($dataShifts['shift_from']), trim($dataShifts['shift_to']), $dataShifts['vet_id']);
+
+        $checkTodaysSlot = VetShifts::where('vet_id',$dataShifts['vet_id'])->whereDate('from_date',now())->get();
+       
+        if(!empty($checkTodaysSlot[0])){
+            $checkTodaysBookings = HospitalAppointments::where('vet_id',$dataShifts['vet_id'])
+                                                        ->whereDate('date_appointment',now())
+                                                        ->get()->pluck('time_appointment')->toArray();
+            if(empty($checkTodaysBookings)){
+                VetShifts::where('vet_id','=',$dataShifts['vet_id'])->whereDate('from_date',now())->delete();
+            }else{
+                foreach($timeslots as $newtime){
+                    if (($key = array_search($newtime['slots'], $checkTodaysBookings)) !== false) {
+                        unset($checkTodaysBookings[$key]);
+                    }
+                } 
+                VetShifts::where('vet_id','=',$dataShifts['vet_id'])
+                            ->whereDate('from_date',now())
+                            ->whereNotIn('slots',$checkTodaysBookings)->delete();
+
+                VetShifts::where('vet_id',$dataShifts['vet_id'])
+                            ->whereDate('from_date',now())
+                            ->whereIn('slots',$checkTodaysBookings)
+                            ->update(['status' => 0, 'end_date' => date('Y-m-d')]);
+            }
+        }else{
+            $result = VetShifts::where('vet_id',$dataShifts['vet_id'])
+                            ->where('status', 1)
+                            ->update(['status' => 0, 'end_date' => date('Y-m-d',strtotime("-1 days"))]);
+        }
+        VetShifts::insert($timeslots);
+    }
+
     public function view(Vet $vet)
     {
         $vetResult = Vet::select("vets.*","countries.name as country")

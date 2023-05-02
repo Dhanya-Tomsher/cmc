@@ -8,6 +8,7 @@ use App\Models\Cat;
 use App\Models\Vet;
 use App\Models\Vetschedule;
 use App\Models\Procedures;
+use App\Models\VetShifts;
 use App\Models\Country;
 use App\Http\Requests\StoreHospitalAppointmentRequest;
 use App\Http\Requests\StoreHospitalAppointmentsRequest;
@@ -96,7 +97,7 @@ class HospitalAppointmentsController extends Controller
                     ->orderBy('name','ASC')
                     ->get();
 
-        $timeslots = Helper::getTimeSlot(30,env('SLOT_FROM_TIME'),env('SLOT_TO_TIME'));
+        $timeslots = Helper::getTimeSlotHrMIn(30,env('SLOT_FROM_TIME'),env('SLOT_TO_TIME'));
 
         return view('admin.hospital.appointments')-> with([
             'vets' => $vets,
@@ -198,15 +199,22 @@ class HospitalAppointmentsController extends Controller
     
 
     public function saveAppointmentDetails(Request $request){
-        $hosp = HospitalAppointments::create([
-            'cat_id' => $request->catId,
-            'caretaker_id' => $request->caretaker_id,
-            'procedure_id' => $request->procedure,
-            'vet_id' => $request->vet_id,
-            'date_appointment' => $request->appointment_date,
-            'time_appointment' => $request->appointment_time,
-            'reason' => $request->remarks,
-        ]);
+        $appointmentTime = $request->appointment_time;
+        if(!empty($appointmentTime)){
+            foreach($appointmentTime as $time){
+                $hosp = HospitalAppointments::create([
+                    'cat_id' => $request->catId,
+                    'caretaker_id' => $request->caretaker_id,
+                    'procedure_id' => $request->procedure,
+                    'vet_id' => $request->vet_id,
+                    'date_appointment' => $request->appointment_date,
+                    'time_appointment' => $time,
+                    'reason' => $request->remarks,
+                ]);
+            }
+        }
+        
+        return $request->appointment_date;
     }
 
     public function getHospitalAppointments(Request $request){
@@ -238,10 +246,51 @@ class HospitalAppointmentsController extends Controller
     }
 
     public function getSelectedSlots(Request $request){
-        $date = $request->id;
-        $result = HospitalAppointments::select('time_appointment')
+        $date = $request->date;
+        $vet_id = $request->vet_id;
+        $allSlots  = VetShifts::getVetDateShiftsByVet($date, $vet_id);
+        $bookedSlots = HospitalAppointments::select('time_appointment')
                                     ->whereDate('date_appointment', $date)
-                                    ->get();
+                                    ->where('vet_id',$vet_id)
+                                    ->get()->pluck('time_appointment')->toArray();
+        $result =  array_diff($allSlots,$bookedSlots);
         return json_encode($result);
+    }
+
+    public function getDayAppointments(){
+        $vets = Vet::select("id","name")
+                    ->where('status', 'published')
+                    ->orderBy('name','ASC')
+                    ->get();
+
+        $procedures = Procedures::select("id","name","price")
+                    ->where('status', 1)
+                    ->orderBy('name','ASC')
+                    ->get();
+
+        $timeslots = Helper::getTimeSlot(30,env('SLOT_FROM_TIME'),env('SLOT_TO_TIME'));
+
+        return view('admin.hospital.day_appointment')-> with([
+            'vets' => $vets,
+            'timeslots' => $timeslots,
+            'procedures' => $procedures
+        ]);
+    }
+    public function ajaxGetDayAppointments(Request $request){
+        $date = $request->date; 
+        $vets = Vetschedule::getVetsByDatesScheduled($date);
+        $vetSlots = VetShifts::getVetDateShifts($date);
+        $timeslots = Helper::getTimeSlotHrMIn(30,env('SLOT_FROM_TIME'),env('SLOT_TO_TIME'));
+        $vetBookings = HospitalAppointments::leftJoin('vets','vets.id', '=', 'hospital_appointments.vet_id')
+                                        ->whereDate('hospital_appointments.date_appointment', '=',  $date)
+                                        ->get(['hospital_appointments.vet_id','hospital_appointments.time_appointment','vets.name']);
+        $vetBooks = [];
+        if($vetBookings){
+            foreach($vetBookings as $booking){
+                $vetBooks[$booking->vet_id][] = $booking->time_appointment;
+            }
+        }
+        $viewData = view('admin.hospital.day_appointment', compact('vets','timeslots','vetBooks','date','vetSlots'))->render();
+        return $viewData;
     }
 }

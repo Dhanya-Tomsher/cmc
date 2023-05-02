@@ -70,6 +70,12 @@ $(document).ready(function(){
         return formatDate(date);
     }
 
+    function getNextDay(date) {
+        var date = new Date(date);
+        date.setDate(date.getDate() + 1);
+        return formatDate(date);
+      }
+
     function formatDate(date) {
         var d = new Date(date),
         month = '' + (d.getMonth() + 1),
@@ -126,6 +132,12 @@ $(document).ready(function(){
         month = '0' + month;
         }
         return year+'-' + month + '-'+dt;
+    }
+    //get date without the time of day
+    function getDateWithoutTime(dts)
+    {
+        dts.setHours(0,0,0,0);
+        return dts;
     }
 
 // function readURL(input) {

@@ -332,13 +332,16 @@ width: 80% !important;
 }
 
 .date-highlight {
-  background: rgb(163 246 163) !important;
+  background: #caffca !important;
 }
 .fc .fc-bg-event{
   opacity: 1 !important;
 }
 .scheduled{
-  background: rgb(163 246 163) !important;
+  background: #caffca !important;
+}
+.fully-booked{
+  background: #f9a8a8 !important;
 }
 .fc-daygrid-day-number{
   font-size: 16px !important;
@@ -352,7 +355,11 @@ width: 80% !important;
   font-size: 28px;
 }
 .fc-daygrid-bg-harness:has(.scheduled) {
-  background:  rgb(163 246 163) !important;
+  background:  #caffca !important;
+}
+
+.fc-daygrid-bg-harness:has(.fully-booked) {
+  background: #f9a8a8 !important;
 }
 .fc-theme-standard td, .fc-theme-standard th {
   border: 1px solid #b9b8bf !important;
@@ -383,5 +390,53 @@ background: white !important;
 .opacity-0{
   opacity: 0 !important;
 }
+.appointment-red{
+  background:#f9a8a8 !important;
+}
+.appointment-green{
+  background:#caffca  !important;
+}
+.app-disabled{
+  pointer-events: none !important;
+}
+.readonly{
+  pointer-events: none !important;
+  background-color: #f1f1f1 !important;
+}
+.fc-custom-toolbar{
+  margin-bottom: 1.5em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.fc-button-group-custom{
+  display: inline-flex;
+    vertical-align: middle;
+}
+.fc-prev-button-custom{
+  border: 1px solid transparent;
+  border-radius: 0.25em;
+  padding: 15px !important;
+}
+.fc-icon-custom{
+  vertical-align: middle;
+  font-size: 1.5em;
+}
+.fc-next-button-custom{
+  border: 1px solid transparent;
+    border-radius: 0.25em;
+    margin-left: -1px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.vet-name{
+  font-size: 16px !important;
+}
+table td.highlighted {
+  background-color:#999;
+}
+
+
+
 /* Jisha Styles End*/
 
