@@ -36,4 +36,14 @@ class Vetschedule extends Model
                             ->get();
         return $vets;
     }
+    public static function getVetsByDatesScheduled($date){
+        $vets = Vetschedule::select('vets.name','vets.id')
+                ->leftJoin('vets','vetschedules.vet_id','=','vets.id')
+                ->where('vets.status', 'published')
+                ->whereDate('vetschedules.date','=' ,$date)
+                ->orderBy('vets.name','ASC')
+                ->get();
+
+        return $vets;
+    }
 }

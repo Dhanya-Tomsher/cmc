@@ -116,7 +116,8 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     
     Route::get('get-scheduled-vets',[VetscheduleController::class,'getScheduledVets'])->name('get-scheduled-vets');
 
-
+    Route::get('day-appointments',[HospitalAppointmentsController::class,'getDayAppointments'])->name('day-appointments');
+    Route::post('ajax-getday-appointments',[HospitalAppointmentsController::class,'ajaxGetDayAppointments'])->name('ajax-getday-appointments');
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

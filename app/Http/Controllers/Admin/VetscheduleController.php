@@ -129,7 +129,7 @@ public function index(Request $request)
 
 	public function getSlotAvailabiltyColor($date,$vet_ids){
 		$vetIds = explode(',',$vet_ids);
-		$shifts = VetShifts::getAllShiftsByVets($vetIds);
+		$shifts = VetShifts::getVetShiftsByDate($vetIds,$date);
 		$count = 0;
 		if($vetIds){
 			foreach($vetIds as $id){
@@ -143,7 +143,7 @@ public function index(Request $request)
 	}
 	public function checkSlotBooked($id,$date){
 		$count = HospitalAppointments::select('id')
-										->where('date_appointment',$date)
+										->whereDate('date_appointment',$date)
 										->where('vet_id',$id)
 										->count();
 		return $count;
