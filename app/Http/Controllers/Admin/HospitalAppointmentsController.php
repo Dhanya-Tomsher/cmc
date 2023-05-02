@@ -20,6 +20,7 @@ use DB;
 use DateTime;
 use Helper;
 
+
 class HospitalAppointmentsController extends Controller
 {
     public function index(Request $request)
@@ -283,4 +284,40 @@ class HospitalAppointmentsController extends Controller
         $viewData = view('admin.hospital.day_appointment', compact('vets','timeslots','vetBooks','date','vetSlots','details'))->render();
         return $viewData;
     }
+    public function manageHospitalAppointments(){
+        $hosp  = HospitalAppointments::leftJoin('vets','vets.id', '=', 'hospital_appointments.vet_id')
+                                ->leftJoin('caretakers','hospital_appointments.caretaker_id','=','caretakers.id')
+                                ->leftJoin('cats','hospital_appointments.cat_id','=','cats.id')
+                                ->leftJoin('procedures','hospital_appointments.procedure_id','=','procedures.id')
+                                ->orderBy('hospital_appointments.id','DESC')
+                                ->get(['procedures.name as procedure_name','hospital_appointments.id','hospital_appointments.date_appointment','hospital_appointments.time_appointment','vets.name','cats.cat_id','caretakers.customer_id','caretakers.name as caretaker_name','cats.name as cat_name']);
+        return view('admin.hospital.list_appointments')->with([
+            'hosp' => $hosp,
+        ]);
+    }
+
+    public function deleteAppointment(Request $request){
+        $id = $request->id;
+        $app = HospitalAppointments::find($id);
+        $app->delete();
+    }
+    // public function getAppointmentList(Request $request){
+    //     if ($request->ajax()) {
+    //         $hosp  = HospitalAppointments::leftJoin('vets','vets.id', '=', 'hospital_appointments.vet_id')
+    //                 ->leftJoin('caretakers','hospital_appointments.caretaker_id','=','caretakers.id')
+    //                 ->leftJoin('cats','hospital_appointments.cat_id','=','cats.id')
+    //                 ->leftJoin('procedures','hospital_appointments.procedure_id','=','procedures.id')
+    //                 ->orderBy('hospital_appointments.id','DESC')
+    //                 ->get(['procedures.name as procedure_name','hospital_appointments.id','hospital_appointments.date_appointment','hospital_appointments.time_appointment','vets.name','cats.cat_id','caretakers.customer_id','caretakers.name as caretaker_name','cats.name as cat_name']);
+
+    //         return Datatables::of($hosp)
+    //             ->addIndexColumn()
+    //             ->addColumn('action', function($row){
+    //             $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+    //             return $actionBtn;
+    //             })
+    //             ->rawColumns(['action'])
+    //             ->make(true);
+    //     }
+    // }
 }

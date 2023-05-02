@@ -40,15 +40,23 @@
 
             <li>
                 <a href="{{ route('hospital-appointments') }}" class=" waves-effect">
-                    <i class="uil-window-section"></i>
+                    <i class="uil-hospital"></i>
                     <span>Hospital Appointments </span>
                 </a>
 
             </li>
 
             <li>
+                <a href="{{ route('manage-hospital-appointments') }}" class=" waves-effect">
+                    <i class="uil-hospital"></i>
+                    <span>Manage Hospital Appointments </span>
+                </a>
+
+            </li>
+
+            <li>
                 <a href="{{ route('hotel-appointments') }}" class=" waves-effect">
-                    <i class="uil-comments-alt"></i>
+                    <i class="uil-building"></i>
                     <span>Hotel Booking </span>
                 </a>
             </li>

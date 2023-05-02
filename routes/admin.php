@@ -124,5 +124,9 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::post('get-available-rooms',[HotelAppointmentsController::class,'getAvailableRooms'])->name('get-available-rooms');
     Route::post('save-hotel-booking',[HotelAppointmentsController::class,'saveHotelBooking'])->name('save-hotel-booking');
 
+    Route::get('manage-hospital-appointments',[HospitalAppointmentsController::class,'manageHospitalAppointments'])->name('manage-hospital-appointments');
+    Route::get('appointment/list', [HospitalAppointmentsController::class, 'getAppointmentList'])->name('appointment.list');
+    Route::post('appointment.delete', [HospitalAppointmentsController::class, 'deleteAppointment'])->name('appointment.delete');
+
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
