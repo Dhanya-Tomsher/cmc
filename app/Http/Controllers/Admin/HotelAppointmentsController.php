@@ -154,7 +154,7 @@ class HotelAppointmentsController extends Controller
                                         ->leftJoin('hotelrooms','hotel_appointments.room_number','=','hotelrooms.id');
 
         if($search){  
-            $query->orWhere(function ($query) use ($search) {
+            $query->where(function ($query) use ($search) {
                 $query->orWhere('hotelrooms.room_number', 'LIKE', $search . '%')
                         ->orWhere('cats.cat_id', 'LIKE', $search . '%')
                         ->orWhere('caretakers.customer_id', 'LIKE', $search . '%')
@@ -163,14 +163,13 @@ class HotelAppointmentsController extends Controller
             });                    
         }
         if($from_date != '' || $to_date != ''){
-            $query->Where(function ($query) use ($from_date,$to_date) {
+            $query->where(function ($query) use ($from_date,$to_date) {
                 if($from_date != '' && $to_date != ''){
-                    $query->whereRaw('? between start_date and end_date', [$from_date])
-                    ->orwhereRaw('? between start_date and end_date', [$to_date]);
+                    $query->whereRaw("start_date <=  '$to_date' AND end_date >= '$from_date'");
                 }elseif($from_date == '' && $to_date != ''){
-                    $query->whereRaw('? between start_date and end_date', [$to_date]);
+                    $query->whereRaw("start_date <=  '$to_date' AND end_date >= '$to_date'");
                 }elseif($from_date != '' && $to_date == ''){
-                    $query->whereRaw('? between start_date and end_date', [$from_date]);
+                    $query->whereRaw("start_date <=  '$from_date' AND end_date >= '$from_date'");
                 }
             });   
         }

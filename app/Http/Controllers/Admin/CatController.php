@@ -6,6 +6,11 @@ use App\Http\Requests\StoreCatRequest;
 use App\Http\Requests\UpdateCatRequest;
 use Illuminate\Http\Request;
 use App\Models\Cat; 
+use App\Models\Country;
+use App\Models\Caretaker;
+use DB;
+use Str;
+use Storage;
 
 class CatController extends Controller
 {
@@ -18,7 +23,9 @@ class CatController extends Controller
     }
     public function create()
     {
-        return view('admin.cat.create');
+        $countries = Country::all();
+        $caretakers = Caretaker::orderBy('name','ASC')->get();
+        return view('admin.cat.create', compact('countries','caretakers'));
     }
     public function search()
     {
@@ -44,13 +51,24 @@ class CatController extends Controller
     }
     public function store(StoreCatRequest $request)
     {
-        
+        $imageUrl = '';
+        if ($request->hasFile('image_url')) {
+            $uploadedFile = $request->file('image_url');
+            $filename =    strtolower(Str::random(2)).time().'.'. $uploadedFile->getClientOriginalName();
+            $name = Storage::disk('public')->putFileAs(
+                'cats',
+                $uploadedFile,
+                $filename
+            );
+           $imageUrl = Storage::url($name);
+        }   
+       
         $cat = Cat::create([
             'name' => $request->name,
             'cat_id' => $request->cat_id,
             'date_birth' => $request->date_birth,
             'gender' => $request->gender,
-            'pregnantstatus'=>$request->pregnantstatus,
+            'pregnant'=>$request->pregnantstatus,
             'blood_type' => $request->blood_type,
             'castrated' => $request->castrated,
             'spayed'=>$request->spayed,
@@ -65,8 +83,8 @@ class CatController extends Controller
             'dead_alive' => $request->dead_alive,
             'caretaker_id' => $request->caretaker_id,            
             'comments' => $request->comments,
-            'image_url' => $request->image_url,
-            'status' => $request->status,
+            'image_url' => $imageUrl,
+            'status' => (isset($request->status)) ? $request->status : 'published',
         ]);
 
       /*  if ($request->hasFile('image_url')) {
@@ -82,5 +100,28 @@ class CatController extends Controller
         }   */    
        // $cat->save();
         return redirect()->route('cat.index')->with('status', 'cat created!');
+    }
+
+    public function getCatsList(Request $request){
+        $search = $request->search;
+        // DB::enableQueryLog();
+        $query  = Cat::leftJoin('cat_caretakers','cat_caretakers.cat_id', '=', 'cats.id')
+                        ->leftJoin('caretakers','cat_caretakers.caretaker_id','=','caretakers.id')
+                        ->where('cat_caretakers.transfer_status', 0);
+        if($search){  
+            $query->Where(function ($query) use ($search) {
+                $query->orWhere('cats.gender', 'LIKE', $search . '%')
+                        ->orWhere('cats.cat_id', 'LIKE', $search . '%')
+                        ->orWhere('caretakers.customer_id', 'LIKE', $search . '%')
+                        ->orWhere('caretakers.name', 'LIKE', $search . '%')
+                        ->orWhere('cats.name', 'LIKE', $search . '%');
+            });                    
+        }
+        $cats = $query->orderBy('cats.id','DESC')
+                    ->get(['cats.created_at','cats.id','cats.status','cats.gender','cats.cat_id','caretakers.customer_id','caretakers.name as caretaker_name','cats.name as cat_name']);
+    //  dd(DB::getQueryLog());
+        $viewData = view('admin.cat.ajax_list', compact('cats'))->render();
+
+        return $viewData;
     }
 }

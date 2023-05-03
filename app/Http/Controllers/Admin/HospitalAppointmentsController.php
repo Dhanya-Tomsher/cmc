@@ -323,7 +323,7 @@ class HospitalAppointmentsController extends Controller
                                 ->leftJoin('cats','hospital_appointments.cat_id','=','cats.id')
                                 ->leftJoin('procedures','hospital_appointments.procedure_id','=','procedures.id');
         if($search){  
-            $query->orWhere(function ($query) use ($search) {
+            $query->where(function ($query) use ($search) {
                 $query->orWhere('procedures.name', 'LIKE', '%' . $search . '%')
                         ->orWhere('vets.name', 'LIKE', $search . '%')
                         ->orWhere('hospital_appointments.time_appointment', 'LIKE', $search . '%')

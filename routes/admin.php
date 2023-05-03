@@ -53,6 +53,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::get('cat/search', [CatController::class, 'search'])->name('cat.search');
     Route::post('cat/store', [CatController::class, 'store'])->name('cat.store');
     Route::post('cat/update', [CatController::class, 'update'])->name('cat.update');
+    Route::post('cat.list', [CatController::class, 'getCatsList'])->name('cat.list');
 
     Route::get('invoice', [InvoiceController::class, 'index'])->name('invoice.index');
     Route::get('invoice/create', [InvoiceController::class, 'create'])->name('invoice.create');
@@ -132,6 +133,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::get('manage-hotel-bookings',[HotelAppointmentsController::class,'manageHotelBookings'])->name('manage-hotel-bookings');
     Route::post('booking.list', [HotelAppointmentsController::class, 'getBookingList'])->name('booking.list');
     Route::post('booking.delete', [HotelAppointmentsController::class, 'deleteBooking'])->name('booking.delete');
+    
     
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

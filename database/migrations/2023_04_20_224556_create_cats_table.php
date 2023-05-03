@@ -27,7 +27,7 @@ class CreateCatsTable extends Migration
             $table->integer('place_of_origin')->nullable();
             $table->string('emirate')->nullable();
             $table->longText('origin')->nullable();
-            $table->string('microchip_number')->default(1);
+            $table->string('microchip_number')->nullable();
             $table->boolean('dead_alive')->default(1);  
             $table->string('image_url')->nullable();   
             $table->integer('created_by')->nullable();
