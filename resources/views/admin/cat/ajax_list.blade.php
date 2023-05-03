@@ -1,4 +1,4 @@
-    @if ($cats)
+    @if($cats)
         @php  $i = 1; @endphp
         @foreach ($cats as $cate)
         <tr>

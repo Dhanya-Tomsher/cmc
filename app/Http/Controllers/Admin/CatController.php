@@ -16,7 +16,7 @@ class CatController extends Controller
 {
     public function index(Request $request)
     {
-        $cat  = Cat::all();
+        $cat  = Cat::orderBy('name','ASC')->get();
         return view('admin.cat.index')->with([
             'cat' => $cat,
         ]);
@@ -106,8 +106,8 @@ class CatController extends Controller
         $search = $request->search;
         // DB::enableQueryLog();
         $query  = Cat::leftJoin('cat_caretakers','cat_caretakers.cat_id', '=', 'cats.id')
-                        ->leftJoin('caretakers','cat_caretakers.caretaker_id','=','caretakers.id')
-                        ->where('cat_caretakers.transfer_status', 0);
+                        ->leftJoin('caretakers','cat_caretakers.caretaker_id','=','caretakers.id');
+                        // ->where('cat_caretakers.transfer_status', 0);
         if($search){  
             $query->Where(function ($query) use ($search) {
                 $query->orWhere('cats.gender', 'LIKE', $search . '%')
