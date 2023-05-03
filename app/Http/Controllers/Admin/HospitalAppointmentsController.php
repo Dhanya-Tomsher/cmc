@@ -285,15 +285,7 @@ class HospitalAppointmentsController extends Controller
         return $viewData;
     }
     public function manageHospitalAppointments(){
-        $hosp  = HospitalAppointments::leftJoin('vets','vets.id', '=', 'hospital_appointments.vet_id')
-                                ->leftJoin('caretakers','hospital_appointments.caretaker_id','=','caretakers.id')
-                                ->leftJoin('cats','hospital_appointments.cat_id','=','cats.id')
-                                ->leftJoin('procedures','hospital_appointments.procedure_id','=','procedures.id')
-                                ->orderBy('hospital_appointments.id','DESC')
-                                ->get(['procedures.name as procedure_name','hospital_appointments.id','hospital_appointments.date_appointment','hospital_appointments.time_appointment','vets.name','cats.cat_id','caretakers.customer_id','caretakers.name as caretaker_name','cats.name as cat_name']);
-        return view('admin.hospital.list_appointments')->with([
-            'hosp' => $hosp,
-        ]);
+        return view('admin.hospital.list_appointments');
     }
 
     public function deleteAppointment(Request $request){
@@ -320,4 +312,42 @@ class HospitalAppointmentsController extends Controller
     //             ->make(true);
     //     }
     // }
+
+    public function getAppointmentsList(Request $request){
+        $search = $request->search;
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+        
+        $query  = HospitalAppointments::leftJoin('vets','vets.id', '=', 'hospital_appointments.vet_id')
+                                ->leftJoin('caretakers','hospital_appointments.caretaker_id','=','caretakers.id')
+                                ->leftJoin('cats','hospital_appointments.cat_id','=','cats.id')
+                                ->leftJoin('procedures','hospital_appointments.procedure_id','=','procedures.id');
+        if($search){  
+            $query->orWhere(function ($query) use ($search) {
+                $query->orWhere('procedures.name', 'LIKE', '%' . $search . '%')
+                        ->orWhere('vets.name', 'LIKE', $search . '%')
+                        ->orWhere('hospital_appointments.time_appointment', 'LIKE', $search . '%')
+                        ->orWhere('cats.cat_id', 'LIKE', $search . '%')
+                        ->orWhere('caretakers.customer_id', 'LIKE', $search . '%')
+                        ->orWhere('caretakers.name', 'LIKE', $search . '%')
+                        ->orWhere('cats.name', 'LIKE', $search . '%');
+            });                    
+        }
+        if($from_date != '' || $to_date != ''){
+            if($from_date != '' && $to_date != ''){
+                $query->whereDate('hospital_appointments.date_appointment', '>=', $from_date)
+                ->whereDate('hospital_appointments.date_appointment',   '<=', $to_date);
+            }elseif($from_date == '' && $to_date != ''){
+                $query->whereDate('hospital_appointments.date_appointment', '=', $to_date);
+            }elseif($from_date != '' && $to_date == ''){
+                $query->whereDate('hospital_appointments.date_appointment', '=', $from_date);
+            }
+        }
+        $hosp = $query->orderBy('hospital_appointments.id','DESC')
+        ->get(['hospital_appointments.created_at','procedures.name as procedure_name','hospital_appointments.id','hospital_appointments.date_appointment','hospital_appointments.time_appointment','vets.name','cats.cat_id','caretakers.customer_id','caretakers.name as caretaker_name','cats.name as cat_name']);
+     
+        $viewData = view('admin.hospital.ajax_list', compact('hosp'))->render();
+
+        return $viewData;
+    }
 }

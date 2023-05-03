@@ -387,6 +387,25 @@
                                         <form id="appointment" method="post" >
                                             <div class="row">
                                                 <div class="col-md-4">
+                                                    <label for="address" class="col-form-label">From Date</label>
+                                                    <div class="input-group" id="datepicker2">
+                                                        <input type="text" class="form-control date-picker "  placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
+                                                            data-date-container="#datepicker2" data-provide="datepicker" data-date-autoclose="true"
+                                                            id="from_date"  name="from_date">
+                                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="address" class="col-form-label">To Date</label>
+                                                    <div class="input-group" id="datepicker2">
+                                                        <input type="text" class="form-control date-picker "  placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
+                                                            data-date-container="#datepicker2" data-provide="datepicker" data-date-autoclose="true"
+                                                            id="to_date"  name="to_date">
+                                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
                                                     <input class="form-control" type="hidden"  id="caretaker_id" name="caretaker_id">
                                                     <input class="form-control" type="hidden"  id="catId" name="catId">
                                                     <label for="country" class="col-form-label">Rooms</label>
@@ -406,25 +425,7 @@
                                                     <textarea class="form-control" rows="1" placeholder="Remarks" name="remarks" id="remarks"></textarea>
                                                 </div>
 
-                                                <div class="col-md-4">
-                                                    <label for="address" class="col-form-label">From Date</label>
-                                                    <div class="input-group" id="datepicker2">
-                                                        <input type="text" class="form-control date-picker "  placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
-                                                            data-date-container="#datepicker2" data-provide="datepicker" data-date-autoclose="true"
-                                                            id="from_date"  name="from_date">
-                                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <label for="address" class="col-form-label">To Date</label>
-                                                    <div class="input-group" id="datepicker2">
-                                                        <input type="text" class="form-control date-picker "  placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
-                                                            data-date-container="#datepicker2" data-provide="datepicker" data-date-autoclose="true"
-                                                            id="to_date"  name="to_date">
-                                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                                    </div>
-                                                </div>
+                                               
 
                                                 <div class="col-md-12 align-self-end mt-3 text-end">
                                                     <input type="submit" class="btn btn-primary waves-effect waves-light w-xl me-2" id="create_appoinment" value="Create Booking"/>
@@ -449,7 +450,7 @@
 
 @push('header')
 <link rel="stylesheet" href="{{ asset('assets/libs/select2/css/select2.min.css') }}" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.2/main.css">
+<link rel="stylesheet" href="{{ asset('assets/css/fullcalendar/main.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" />
 
 <style>
@@ -490,11 +491,10 @@ table {
 @push('scripts')
 <script src="{{ asset('assets/libs/select2/js/select2.min.js') }}"></script>
 <script src="{{ asset('assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.2/main.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="{{ asset('assets/js/sweetalert.js') }}"></script>
+<script src="{{ asset('assets/js/fullcalendar/main.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('assets/js/moment.min.js') }}"></script>
 
 <script>
 // $(document).ready(function() {

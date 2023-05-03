@@ -1,4 +1,4 @@
-@extends('admin.layouts.app', ['body_class' => '', 'title' => 'Manage Hospital Appointments'])
+@extends('admin.layouts.app', ['body_class' => '', 'title' => 'Manage Hotel Bookings'])
 @section('content')
 <div class="page-content">
     <div class="container-fluid">
@@ -7,24 +7,24 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-flex align-items-center justify-content-between">
-                    <h4 class="mb-0">Manage Hospital Appointments</h4>
+                    <h4 class="mb-0">Manage Hotel Bookings</h4>
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Manage Hospital Appointments</li>
+                            <li class="breadcrumb-item active">Manage Hotel Bookings</li>
                         </ol>
                     </div>
 
                 </div>
 
                 <div class="d-flex justify-content-between mb-3">
-                    <div class="search_warpper w-50">
+                    <div class="search_warpper w-60">
                         <form>
                             <div class="hstack gap-2">
-                                <input class="form-control me-auto border-0" type="text" id="search" placeholder="Search with Appointment Time, Vet Name, Caretaker, Cat and Procedure">
-                                <button type="button" class="btn btn_back waves-effect waves-light w-md"  onclick="getAppointments()">Search</button>
-                                <button type="button" class="btn btn_back waves-effect waves-light w-md" id="appointmentReset">Reset</button>
+                                <input class="form-control me-auto border-0" type="text" id="search" placeholder="Search with Room Number, Caretaker and Cat ">
+                                <button type="button" class="btn btn_back waves-effect waves-light w-md" id="bookingSearch" onclick="getBookings()">Search</button>
+                                <button type="button" class="btn btn_back waves-effect waves-light w-md" id="bookingReset">Reset</button>
                             </div>
                         </form>
                     </div>
@@ -34,7 +34,7 @@
                             data-date-autoclose="true" data-provide="datepicker" data-date-container="#datepicker6">
                             <input type="text" class="form-control text-start" placeholder="From" name="From" id="from_date">
                             <input type="text" class="form-control text-start" placeholder="To" name="To" id="to_date">
-                            <button type="button" class="btn btn-primary" id="dateFilter" onclick="getAppointments()"><i  class="fa fa-search"></i></button>
+                            <button type="button" class="btn btn-primary" id="dateFilter" onclick="getBookings()"><i  class="fa fa-search"></i></button>
                             <button type="button" class="btn btn-primary" id="resetDateFilter" ><i  class="fa fa-sync"></i></button>
                         </div>
                     </div>
@@ -48,24 +48,25 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-centered table-nowrap mb-0" id="hospitalAppointments">
+                            <table class="table table-centered table-nowrap mb-0" id="hotelBookings">
                                 <thead class="table-light">
                                     <tr>
                                         <th>No</th>
-                                        <th>Appointment Date</th>
-                                        <th>Appointment Time</th>
-                                        <th>Vet Name</th>
+                                        <th>From Date</th>
+                                        <th>To Date</th>
+                                        <th>Room Number</th>
                                         <th>Caretaker Name</th>
                                         <th>Caretaker ID</th>
                                         <th>Cat Name</th>
                                         <th>Cat ID</th>
-                                        <th>Procedure</th>
                                         <th>Created At</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody id="appDetails">
-                                   
+                                <tbody id="bookingDetails">
+                                    <tr>
+                                        <td colspan="10" class="text-center"> No data available</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -89,19 +90,19 @@
 <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-     $.ajaxSetup({
+    $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    getAppointments(); 
+    getBookings(); 
 
-    function getAppointments(){
+    function getBookings(){
         var search = $('#search').val();
         var from_date = $('#from_date').val();
         var to_date = $('#to_date').val();
         $.ajax({
-            url: "{{ route('appointment.list')}}",
+            url: "{{ route('booking.list')}}",
             type: "POST",
             data: { 
                 search:search,
@@ -109,17 +110,18 @@
                 to_date:to_date
             },
             success: function( response ) {
-            $('#appDetails').html(response);
-            $('#hospitalAppointments').DataTable();  
+                
+                $('#bookingDetails').html(response);
+                $('#hotelBookings').DataTable();  
             }
         });
     }
-
-    function deleteAppointment(id){
+    function deleteBooking(id){
         var el = this;
+        
         Swal.fire({
             title: 'Are you sure?',
-            text: "Do you want to delete this appointment?",
+            text: "Do you want to delete this booking details?",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -129,13 +131,9 @@
             console.log(result);
             if (result.isConfirmed) {
                 var data = []
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
+                alert();
                 $.ajax({
-                    url: "{{ route('appointment.delete')}}",
+                    url: "{{ route('booking.delete')}}",
                     type: "POST",
                     data: { id:id },
                     success: function( response ) {
@@ -155,15 +153,14 @@
             
         })
     }
-
-    $("#appointmentReset").on("click", function (e) { 
+   
+    $("#bookingReset").on("click", function (e) { 
         $('#search').val('');
-        getAppointments(); 
+        getBookings(); 
     });
-
     $("#resetDateFilter").on("click", function (e) { 
         $('#from_date,#to_date' ).datepicker( 'setDate', '' ).datepicker('fill');
-        getAppointments(); 
+        getBookings(); 
     });
 </script>
 @endpush

@@ -61,6 +61,14 @@
                 </a>
             </li>
 
+            <li>
+                <a href="{{ route('manage-hotel-bookings') }}" class=" waves-effect">
+                    <i class="uil-building"></i>
+                    <span>Manage Hotel Bookings </span>
+                </a>
+
+            </li>
+
 
             <li>
                 <a href="{{ route('vet.index') }}" class=" waves-effect">

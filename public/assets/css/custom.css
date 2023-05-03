@@ -435,7 +435,18 @@ background: white !important;
 table td.highlighted {
   background-color:#999;
 }
-
+.w-80 {
+  width: 80%!important;
+}
+.w-60 {
+  width: 60%!important;
+}
+.w-70 {
+  width: 70%!important;
+}
+.w-90 {
+  width: 90%!important;
+}
 
 
 /* Jisha Styles End*/

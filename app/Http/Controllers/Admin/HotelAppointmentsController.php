@@ -139,4 +139,52 @@ class HotelAppointmentsController extends Controller
             'caretaker_comment' => $request->remarks,
         ]);
     }
+    public function manageHotelBookings(){
+        
+        return view('admin.hote.list_appointments');
+    }
+
+    public function getBookingList(Request $request){
+        $search = $request->search;
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+
+        $query  = HotelAppointments::leftJoin('caretakers','hotel_appointments.caretaker_id','=','caretakers.id')
+                                        ->leftJoin('cats','hotel_appointments.cat_id','=','cats.id')
+                                        ->leftJoin('hotelrooms','hotel_appointments.room_number','=','hotelrooms.id');
+
+        if($search){  
+            $query->orWhere(function ($query) use ($search) {
+                $query->orWhere('hotelrooms.room_number', 'LIKE', $search . '%')
+                        ->orWhere('cats.cat_id', 'LIKE', $search . '%')
+                        ->orWhere('caretakers.customer_id', 'LIKE', $search . '%')
+                        ->orWhere('caretakers.name', 'LIKE', $search . '%')
+                        ->orWhere('cats.name', 'LIKE', $search . '%');
+            });                    
+        }
+        if($from_date != '' || $to_date != ''){
+            $query->Where(function ($query) use ($from_date,$to_date) {
+                if($from_date != '' && $to_date != ''){
+                    $query->whereRaw('? between start_date and end_date', [$from_date])
+                    ->orwhereRaw('? between start_date and end_date', [$to_date]);
+                }elseif($from_date == '' && $to_date != ''){
+                    $query->whereRaw('? between start_date and end_date', [$to_date]);
+                }elseif($from_date != '' && $to_date == ''){
+                    $query->whereRaw('? between start_date and end_date', [$from_date]);
+                }
+            });   
+        }
+
+        $bookings = $query->orderBy('hotel_appointments.id','DESC')
+        ->get(['hotel_appointments.created_at','hotelrooms.room_number as room_no','hotel_appointments.id','hotel_appointments.start_date','hotel_appointments.end_date','cats.cat_id','caretakers.customer_id','caretakers.name as caretaker_name','cats.name as cat_name']);
+       
+        $viewData = view('admin.hote.ajax_list', compact('bookings'))->render();
+
+        return $viewData;
+    }
+    public function deleteBooking(Request $request){
+        $id = $request->id;
+        $app = HotelAppointments::find($id);
+        $app->delete();
+    }
 }
