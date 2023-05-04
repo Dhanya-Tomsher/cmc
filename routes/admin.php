@@ -48,12 +48,15 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
 
     Route::get('cat', [CatController::class, 'index'])->name('cat.index');
     Route::get('cat/create', [CatController::class, 'create'])->name('cat.create');
-    Route::get('cat/view', [CatController::class, 'view'])->name('cat.view');
-    Route::get('cat/edit', [CatController::class, 'edit'])->name('cat.edit');
+    Route::get('cat/view/{cat}', [CatController::class, 'view'])->name('cat.view');
+    Route::get('cat/edit/{cat}', [CatController::class, 'edit'])->name('cat.edit');
     Route::get('cat/search', [CatController::class, 'search'])->name('cat.search');
     Route::post('cat/store', [CatController::class, 'store'])->name('cat.store');
     Route::post('cat/update', [CatController::class, 'update'])->name('cat.update');
     Route::post('cat.list', [CatController::class, 'getCatsList'])->name('cat.list');
+    Route::post('cat/update-pic', [CatController::class, 'updateImage'])->name('cat.update-pic');
+    Route::get('cat/journal/{cat}', [CatController::class, 'journal'])->name('cat.journal');
+    Route::post('cat/journal/details', [CatController::class, 'getJournalData'])->name('cat.journal-data');
 
     Route::get('invoice', [InvoiceController::class, 'index'])->name('invoice.index');
     Route::get('invoice/create', [InvoiceController::class, 'create'])->name('invoice.create');

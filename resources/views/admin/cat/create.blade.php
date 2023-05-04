@@ -2,7 +2,6 @@
 @section('content')
 <div class="page-content">
     <div class="container-fluid">
-
         <!-- start page title -->
         <div class="row">
             <div class="col-12">
@@ -50,8 +49,7 @@
                                         <div class="col-6">
                                             <div class="avatar-upload">
                                                 <div class="avatar-preview">
-                                                    <div id="imagePreview"
-                                                        style="background-image: url('assets/images/cat_img.jpg');">
+                                                    <div id="imagePreview" style="background-image: url('assets/images/cat_img.jpg');">
                                                         <div class="edit_button">
                                                             <!-- <a href="cat_details.html"
                                                                 class="btn btn-primary waves-effect waves-light py-2 float-end">Update</a> -->
@@ -89,36 +87,36 @@
                                         <div class="col-md-6">
                                             <label for="address" class="col-form-label">Date of Birth</label>
                                             <div class="input-group" id="datepicker1">
-                                                <input type="text" name="date_birth" class="form-control"  placeholder="dd mm, yyyy" data-date-format="dd M, yyyy"
+                                                <input type="text" name="date_birth" id="date_birth"  class="form-control"  placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
                                                     data-date-container="#datepicker1" data-provide="datepicker"  data-date-autoclose="true"  value="{{ old('date_birth') }}">
                                                 <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="emirates-id" class="col-form-label d-block">Bolod Type</label>
+                                            <label for="emirates-id" class="col-form-label d-block">Blood Type</label>
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
-                                                    <input type="radio" id="BolodA" value="a" name="blood_type"  class="form-check-input">
-                                                    <label class="form-check-label" for="BolodA">A</label>
+                                                    <input type="radio" id="BloodA" value="a" name="blood_type"  class="form-check-input">
+                                                    <label class="form-check-label" for="BloodA">A</label>
                                                 </div>
                                                 <div class="custom-radio form-check form-check-inline">
-                                                    <input type="radio" id="BolodB" value="b" name="blood_type" class="form-check-input">
-                                                    <label class="form-check-label" for="BolodB">B</label>
+                                                    <input type="radio" id="BloodB" value="b" name="blood_type" class="form-check-input">
+                                                    <label class="form-check-label" for="BloodB">B</label>
                                                 </div>
                                                 <div class="custom-radio form-check form-check-inline">
-                                                    <input type="radio" id="BolodAB" value="ab" name="blood_type" class="form-check-input">
-                                                    <label class="form-check-label" for="BolodAB">AB</label>
-                                                </div>
-
-                                                <div class="custom-radio form-check form-check-inline">
-                                                    <input type="radio" id="BolodMic" value="mic" name="blood_type" class="form-check-input">
-                                                    <label class="form-check-label" for="BolodMic">mic</label>
+                                                    <input type="radio" id="BloodAB" value="ab" name="blood_type" class="form-check-input">
+                                                    <label class="form-check-label" for="BloodAB">AB</label>
                                                 </div>
 
                                                 <div class="custom-radio form-check form-check-inline">
-                                                    <input type="radio" id="BolodUnknown" value="unknown" name="blood_type"  class="form-check-input" checked>
-                                                    <label class="form-check-label" for="BolodUnknown">Unknown</label>
+                                                    <input type="radio" id="BloodMic" value="mic" name="blood_type" class="form-check-input">
+                                                    <label class="form-check-label" for="BloodMic">mic</label>
+                                                </div>
+
+                                                <div class="custom-radio form-check form-check-inline">
+                                                    <input type="radio" id="BloodUnknown" value="unknown" name="blood_type"  class="form-check-input" checked>
+                                                    <label class="form-check-label" for="BloodUnknown">Unknown</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -271,37 +269,38 @@
                                         </div>
                                         <div class="col-md-4 align-self-end mt-3">
                                             <div class="">
-                                                <button name="Submit" type="Submit"
-                                                    class="btn btn-primary waves-effect waves-light w-xl me-2">Save</button>
+                                                <button name="Submit" type="Submit" class="btn btn-primary waves-effect waves-light w-xl me-2">Save</button>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div> <!-- end col-->
 
         </div> <!-- end row-->
-    </div>
-
-
-
-
-    <!-- end row -->
-
-
-</div> <!-- container-fluid -->
-</div>
+    </div><!-- container-fluid -->
+</div> 
 @endsection
 @push('header')
 <link rel="stylesheet" href="{{ asset('assets/libs/select2/css/select2.min.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" />
 @endpush
 
 @push('scripts')
 <script src="{{ asset('assets/libs/select2/js/select2.min.js') }}"></script>
 <script src="{{ asset('assets/js/sweetalert.js') }}"></script>
 <script src="{{ asset('assets/js/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script>
+     $(document).on('select2:open', () => {
+        document.querySelector('.select2-search__field').focus();
+    });
+     $( "#date_birth" ).datepicker({
+        format: 'yyyy-mm-dd',
+    });
     $('input[name="gender"]').on('click',function(){
         if($(this).val() == 'Female'){
             $('#pregnant-div,#spayed-div').css('display','block');

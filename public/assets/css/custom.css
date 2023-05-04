@@ -450,6 +450,18 @@ table td.highlighted {
 .required{
   color: red !important;
 }
-
+.image-upload-label{
+  width: 55px !important;
+  height: 55px !important;
+  line-height: 55px !important;
+  border-radius: 100% !important;
+  background: #FFFFFF !important;
+}
+.image-edit{
+  position: absolute !important;
+}
+.cat-avatar-upload{
+  max-width: 485px !important;
+}
 /* Jisha Styles End*/
 

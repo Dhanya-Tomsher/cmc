@@ -57,6 +57,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Cat Name</th>
+                                        <th>Cat Image</th>
                                         <th>Cat ID</th>
                                         <th>Caretaker</th>
                                         <th>Gender</th>
