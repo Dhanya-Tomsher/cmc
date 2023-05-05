@@ -5,34 +5,31 @@
         </div>
 
         <div class="table-responsive mt-3">
-            <table class="table table-centered table-nowrap mb-0">
+            <table class="table table-centered table-nowrap mb-0" id="journal_table">
                 <thead class="table-light">
                     <tr>
                         <th>Sl NO</th>
-                        <th>Date</th>
                         <th>Weight</th>
                         <th>Temperature</th>
-                        <th>B.P</th>
-                        <th>Title</th>
+                        <th>Blood Pressure</th>
+                        <th>Report Date</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>01-02-2022 </td>
-                        <td>4.5 kg</td>
-                        <td>102.5°F</td>
-                        <td>120 mmHg</td>
-                        <td>Medical History</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>06-03-2022 </td>
-                        <td>3 kg</td>
-                        <td>95.5°F</td>
-                        <td>110 mmHg</td>
-                        <td>Medical History</td>
-                    </tr>
+                    @if($data)
+                        @php $i=1; @endphp
+                        @foreach($data as $med)
+                            <tr id="medid_{{$med->id}}">
+                                <td>{{ $i++ }}</td>
+                                <td>{{ $med->weight ? $med->weight : '-' }} </td>
+                                <td>{{ $med->temperature ? $med->temperature : '-' }}</td>
+                                <td>{{ $med->blood_pressure ? $med->blood_pressure : '-' }}</td>
+                                <td>{{ $med->report_date }}</td>
+                                <td><a href="#" onclick="deleteMedicalHistory({{ $med->id }})" class="px-3 text-danger"><i class="uil uil-trash-alt font-size-18"></i></a></td>
+                            </tr>
+                        @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>
@@ -57,11 +54,15 @@
                                 <input class="form-control" type="text" placeholder="Enter Temperature" id="temperature" name="temperature">
                             </div>
                             <div class="col-md-4 mb-2">
-                                <label for="Document" class="col-form-label pt-0">B.P</label>
-                                <input class="form-control" type="text" placeholder="Enter B.P" id="bp" name="bp">
+                                <label for="Document" class="col-form-label pt-0">Blood Pressure</label>
+                                <input class="form-control" type="text" placeholder="Enter Blood Pressure" id="blood_pressure" name="blood_pressure">
                             </div>
                             <div class="col-md-12 mt-3 text-center">
-                                <a href="#" class="btn btn-primary waves-effect waves-light w-lg">Add</a>
+                                <input type="hidden" name="cat_id" value="{{$cat_id}}">
+                                <span class="error hide p-2" id="error_medical" >Atleast one field is required.</span>
+                            </div>
+                            <div class="col-md-12 mt-3 text-center">
+                                <a href="#" class="btn btn-primary waves-effect waves-light w-lg" onclick="addMedicalHistory()">Add</a>
                             </div>
                         </div>
                     </form>

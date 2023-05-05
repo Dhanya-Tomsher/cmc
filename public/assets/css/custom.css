@@ -463,5 +463,21 @@ table td.highlighted {
 .cat-avatar-upload{
   max-width: 485px !important;
 }
+.green{
+  color: #1aa11a !important;
+}
+.f-20{
+    font-size: 20px !important;
+    font-weight: 700 !important;
+}
+.w-100{
+  width: 100% !important;
+}
+.h-800{
+  max-height: 800px !important;
+}
+.w-40{
+  width: 40% !important;
+}
 /* Jisha Styles End*/
 

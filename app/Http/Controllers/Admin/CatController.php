@@ -9,6 +9,10 @@ use App\Models\Cat;
 use App\Models\CatCaretakers; 
 use App\Models\Country;
 use App\Models\Caretaker;
+use App\Models\JournalMedicalHistories;
+use App\Models\JournalDetails;
+use App\Models\JournalFiles;
+use App\Models\JournalVirusTests;
 use DB;
 use Str;
 use Storage;
@@ -183,43 +187,108 @@ class CatController extends Controller
     public function getJournalData(Request $request)
     {
         $viewData = [];
-        switch($request->type) {
+        $cat_id = $request->cat_id;
+        $type = $request->type;
+        $keyword = $request->keyword;
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+
+        switch($type) {
             case 'medical_history':
-                
-                $viewData = view('admin.journal.medical_history')->render();
+              
+                $query = JournalMedicalHistories::select('*')
+                                                ->where('cat_id',$cat_id);
+                if($keyword){  
+                    $query->Where(function ($query) use ($keyword) {
+                        $query->orWhere('weight', 'LIKE','%'. $keyword . '%')
+                                ->orWhere('temperature', 'LIKE','%'. $keyword . '%')
+                                ->orWhere('blood_pressure', 'LIKE', '%'.$keyword . '%');
+                    });                    
+                }
+
+                if($from_date != '' || $to_date != ''){
+                    if($from_date != '' && $to_date != ''){
+                        $query->whereDate('report_date', '>=', $from_date)
+                        ->whereDate('report_date',   '<=', $to_date);
+                    }elseif($from_date == '' && $to_date != ''){
+                        $query->whereDate('report_date', '=', $to_date);
+                    }elseif($from_date != '' && $to_date == ''){
+                        $query->whereDate('report_date', '=', $from_date);
+                    }
+                }
+                $data = $query->orderBy('id','DESC')->get();
+
+                $viewData = view('admin.journal.medical_history',compact('data','cat_id'))->render();
                 break;
             case 'dental':
-
+                $title = 'Dental';
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
                 break;
             case 'hospitalization':
-
+                $title = 'Hospitalization';
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
                 break;
             case 'hotel':
-
+                $title = 'Hotel';
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
                 break;
             case 'laboratory_test':
-
+                $title = 'Laboratory Test';
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
                 break;
             case 'laser':
-
+                $title = 'Laser';
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
                 break;
             case 'medicine':
-
+                $title = 'Medicine';
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
                 break;
             case 'medical_treatment':
-
+                $title = 'Medical Treatment';
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
                 break;
             case 'surgery':
-
+                $title = 'Surgery';
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
                 break;
             case 'ultrasound':
-
+                $title = 'Ultrasound';
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
                 break;
             case 'virus_test':
-
+                $title = 'Virus Test';
+                $query = JournalVirusTests::select('*')
+                                        ->where('cat_id',$cat_id);
+                if($keyword){
+                    $query->where('calicivirus', 'LIKE', '%'.$keyword. '%');
+                } 
+                if($from_date != '' || $to_date != ''){
+                    if($from_date != '' && $to_date != ''){
+                        $query->whereDate('report_date', '>=', $from_date)
+                        ->whereDate('report_date',   '<=', $to_date);
+                    }elseif($from_date == '' && $to_date != ''){
+                        $query->whereDate('report_date', '=', $to_date);
+                    }elseif($from_date != '' && $to_date == ''){
+                        $query->whereDate('report_date', '=', $from_date);
+                    }
+                }
+                $data = $query->orderBy('id','DESC')->get();
+                $viewData = view('admin.journal.virus_tests',compact('data','cat_id','type','title'))->render();
                 break;
             case 'xray':
-
+                $title = 'X-ray';
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
                 break;
  
             default:
@@ -227,5 +296,116 @@ class CatController extends Controller
         }
  
         return $viewData;
+    }
+
+    public function deleteMedicalHistory(Request $request){
+        $med_id = $request->med_id;
+        $medical = JournalMedicalHistories::find($med_id);
+        $medical->delete();
+    }
+
+    public function deleteVirusTest(Request $request){
+        $vid = $request->vid;
+        $virus = JournalVirusTests::find($vid);
+        $virus->delete();
+    }
+
+    public function storeMedicalHistory(Request $request){
+        JournalMedicalHistories::create([
+            'cat_id' => $request->cat_id, 
+            'weight' => $request->weight,  
+            'temperature' => $request->temperature, 
+            'blood_pressure' => $request->blood_pressure,  
+            'report_date' => date('Y-m-d')
+        ]);
+    }
+
+    public function storeVirusTest(Request $request){
+        JournalVirusTests::create([
+            'cat_id' => $request->cat_id, 
+            'calicivirus' => $request->calicivirus, 
+            'coronavirus' => $request->coronavirus, 
+            'herpesvirus' => $request->herpes,  
+            'felv'  => $request->felv, 
+            'fiv'  => $request->fiv, 
+            'panleukopenia'  => $request->panleukopenia, 
+            'report_date' => date('Y-m-d')
+        ]);
+    }
+
+    public function storeJournalDetails(Request $request){
+
+        $journal = JournalDetails::create([
+            'cat_id' => $request->cat_id, 
+            'journal_type' => $request->type,  
+            'remarks'  => $request->remarks, 
+            'report_date'=> date('Y-m-d')
+        ]);
+        $journal_id = $journal->id;
+
+        $imageData = [];
+        if ($request->hasFile('files')) {
+            $uploadedFile = $request->file('files');
+            $i = 0;
+            foreach($uploadedFile as $file){
+                $filename =    strtolower(Str::random(2)).time().'.'. $file->getClientOriginalName();
+                $name = Storage::disk('public')->putFileAs(
+                    'journals/'.$request->type,
+                    $file,
+                    $filename
+                );
+               $imageData[$i]['journal_id'] = $journal_id;
+               $imageData[$i]['image_url'] = Storage::url($name);
+               $i++;
+            }
+        }   
+        if(!empty($imageData)){
+            JournalFiles::insert($imageData);
+        }
+    }
+
+    public function getJournalDetails($type, $cat_id, $keyword,$from_date,$to_date){
+        $query = JournalDetails::select("*")
+                ->where('status', 1)
+                ->where('cat_id', $cat_id)
+                ->where('journal_type', $type);
+        if($keyword){
+            $query->where('remarks', 'LIKE', '%'.$keyword. '%');
+        } 
+        if($from_date != '' || $to_date != ''){
+            if($from_date != '' && $to_date != ''){
+                $query->whereDate('report_date', '>=', $from_date)
+                ->whereDate('report_date',   '<=', $to_date);
+            }elseif($from_date == '' && $to_date != ''){
+                $query->whereDate('report_date', '=', $to_date);
+            }elseif($from_date != '' && $to_date == ''){
+                $query->whereDate('report_date', '=', $from_date);
+            }
+        }
+        $journals = $query->orderBy('id','desc')
+                ->get();
+        if($journals){
+            foreach($journals as $key=>$journal){
+                $files = JournalFiles::where('journal_id',$journal->id)->get()->pluck('image_url')->toArray();
+                $journals[$key]['files'] = $files;
+                $journals[$key]['file_names'] = implode(',',$files);
+            }
+        }
+        return $journals;
+    }
+
+    public function deleteJournalData(Request $request){
+        $jid = $request->jid;
+        $journal = JournalDetails::find($jid);
+        $journal->delete();
+        $files = JournalFiles::select('image_url')->where('journal_id',$jid)->get()->toArray();
+        if($files){
+            foreach($files as $file){
+                if(File::exists(public_path($file['image_url']))){
+                    unlink(public_path($file['image_url']));
+                }
+            }
+            JournalFiles::where('journal_id',$jid)->delete();
+        }
     }
 }

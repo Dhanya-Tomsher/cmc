@@ -57,6 +57,12 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::post('cat/update-pic', [CatController::class, 'updateImage'])->name('cat.update-pic');
     Route::get('cat/journal/{cat}', [CatController::class, 'journal'])->name('cat.journal');
     Route::post('cat/journal/details', [CatController::class, 'getJournalData'])->name('cat.journal-data');
+    Route::post('medical-history.delete', [CatController::class, 'deleteMedicalHistory'])->name('delete-medical-history');
+    Route::post('medical-history.store', [CatController::class, 'storeMedicalHistory'])->name('medical-history.store');
+    Route::post('journal-details.store', [CatController::class, 'storeJournalDetails'])->name('journal-details.store');
+    Route::post('journal-data.delete', [CatController::class, 'deleteJournalData'])->name('delete-journal-data');
+    Route::post('virus-test.store', [CatController::class, 'storeVirusTest'])->name('virus-test.store');
+    Route::post('virus-test.delete', [CatController::class, 'deleteVirusTest'])->name('delete-virus-test');
 
     Route::get('invoice', [InvoiceController::class, 'index'])->name('invoice.index');
     Route::get('invoice/create', [InvoiceController::class, 'create'])->name('invoice.create');
