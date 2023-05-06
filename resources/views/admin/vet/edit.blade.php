@@ -53,7 +53,7 @@
                                             </div>
                                             <div class="avatar-preview">
                                                 <div id="imagePreview"
-                                                    style="background-image: url('{{ $vet->getImage() }}');">
+                                                    style="background-image: url('{{ asset($vet->image_url) }}');">
                                                 </div>
                                             </div>
                                         </div>

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\VetSchedule;
+use App\Models\Vetschedule;
 use App\Models\VetShifts;
 use App\Models\HospitalAppointments;
 use DB;
@@ -94,7 +94,7 @@ public function index(Request $request)
 		if(!empty($add[0])){
 			foreach($add as $add_date){
 				$schedule = Vetschedule::firstOrCreate(
-					['vet_id' => $vet_id,'date' =>  "$add_date",'status' => 'published'],
+					['vet_id' => $vet_id,'date' =>  "$add_date",'status' => 'published']
 				);
 			}
 		}
