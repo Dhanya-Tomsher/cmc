@@ -61,7 +61,7 @@
                                                                 <div id="imagePreview" style="background-image: url('{{ asset('assets/images/user_img.png') }}');">
                                                                 </div>
                                                             @else
-                                                                <div id="imagePreview" style="background-image: url('{{ $caretaker->getImage() }}');">
+                                                                <div id="imagePreview" style="background-image: url('{{  asset($caretaker->image_url) }}');">
                                                                 </div>
                                                             @endif
                                                         </div>

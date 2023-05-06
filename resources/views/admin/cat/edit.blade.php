@@ -55,7 +55,7 @@
                                                         <div id="imagePreview" style="background-image: url('{{ asset('assets/images/cat_plc.jpg') }}');">
                                                         </div>
                                                     @else
-                                                        <div id="imagePreview" style="background-image: url('{{ $cat[0]->getImage() }}');">
+                                                        <div id="imagePreview" style="background-image: url('{{ asset($cat[0]->image_url) }}');">
                                                         </div>
                                                     @endif
                                                 </div>
