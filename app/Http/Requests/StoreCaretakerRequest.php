@@ -24,8 +24,10 @@ class StoreCaretakerRequest extends FormRequest
     public function rules()
     {
         return [
-            /*'name' => 'nullable',
-            'image' => 'required|file|mimes:jpg,jpeg,png,gif,bmp,tiff,webp|max:1000',
+           'name' => 'required',
+           'customer_id' => 'required',
+           'email' => 'required|email|unique:caretakers'
+            /* 'image' => 'required|file|mimes:jpg,jpeg,png,gif,bmp,tiff,webp|max:1000',
             'button_text' => 'nullable|max:15',
             'button_url' => 'nullable',
             'sub_heading' => 'nullable|max:25',

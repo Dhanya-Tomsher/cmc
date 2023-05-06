@@ -41,7 +41,7 @@
                                         <div class="avatar-upload caretaker_dp">
                                             <div class="avatar-preview">
                                                 <div id="imagePreview"
-                                                    style="background-image: url('{{ $vet->getImage() }}');">
+                                                    style="background-image: url('{{ $image }}');">
                                                 </div>
                                             </div>
                                         </div>
@@ -53,82 +53,96 @@
                                     <div class="col-md-4">
                                         <label for="Name" class="col-form-label">Name</label>
                                         <input class="form-control" type="text" placeholder="Enter Name"
-                                            value="{{ $vet->name }}" id="Name" disabled>
+                                            value="{{ $vet[0]->name }}" id="Name" disabled>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="address" class="col-form-label">Address</label>
-                                        <textarea disabled required="" class="form-control" placeholder="Enter address" rows="2">{{ $vet->address }}</textarea>
+                                        <textarea disabled required="" class="form-control" placeholder="Enter address" rows="2">{{ $vet[0]->address }}</textarea>
                                     </div>
 
                                     <div class="col-md-4">
                                         <label for="email" class="col-form-label">Email ID</label>
-                                        <input disabled class="form-control" type="email" value="{{ $vet->email }}"
+                                        <input disabled class="form-control" type="email" value="{{ $vet[0]->email }}"
                                             placeholder="Enter Email ID" id="Email">
                                     </div>
 
                                     <div class="col-md-4">
                                         <label for="phone" class="col-form-label">Phone Number</label>
-                                        <input disabled class="form-control" value="{{ $vet->phone_number }}" type="text"
+                                        <input disabled class="form-control" value="{{ $vet[0]->phone_number }}" type="text"
                                             placeholder="Enter Phone Number" id="phone">
                                     </div>
 
                                     <div class="col-md-4">
                                         <label for="whatsapp" class="col-form-label">Whatsapp Number</label>
-                                        <input disabled class="form-control" value="{{ $vet->whatsapp_number }}"
+                                        <input disabled class="form-control" value="{{ $vet[0]->whatsapp_number }}"
                                             type="text" placeholder="Enter Whatsapp Number" id="whatsapp">
                                     </div>
 
                                     <div class="col-md-4">
                                         <label for="country" class="col-form-label">Home Country</label>
                                         <select disabled class="form-select form-control">
-                                            <option>{{ $vet->home_country }}</option>
+                                            <option>{{ $vet[0]->country }}</option>
                                         </select>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="country" class="col-form-label">Emirate</label>
                                         <select disabled class="form-select form-control">
-                                            <option>{{ $vet->emirate }}</option>
+                                            <option>{{ $vet[0]->emirate }}</option>
                                         </select>
                                     </div>
 
                                     <div class="col-md-4">
                                         <label for="country" class="col-form-label">Gender</label>
                                         <select disabled class="form-select form-control" name="gender">
-                                            <option>{{ $vet->gender }}</option>
+                                            <option>{{ $vet[0]->gender }}</option>
                                         </select>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="col-form-label">Color Name</label>
                                         <input disabled class="form-control" name="color_name" type="text"
-                                            placeholder="Enter Color Name" value="{{ $vet->color_name }}">
+                                            placeholder="Enter Color Name" value="{{ $vet[0]->color_name }}">
                                     </div>
                                     <div class="col-md-4">
                                         <label class="col-form-label">Color Code</label>
                                         <input disabled class="form-control" name="color_code" type="text"
-                                            placeholder="Enter Color Code" value="{{ $vet->color_code }}">
+                                            placeholder="Enter Color Code" value="{{ $vet[0]->color_code }}">
                                     </div>
 
                                     <div class="col-md-4">
                                         <label for="work-number" class="col-form-label">Emirates ID</label>
                                         <input disabled class="form-control" name="emirates_id" type="text"
-                                            placeholder="Emirates ID" value="{{ $vet->emirates_id }}">
+                                            placeholder="Emirates ID" value="{{ $vet[0]->emirates_id }}">
                                     </div>
                                     <div class="col-md-4">
                                         <label for="work-number" class="col-form-label">License Number</label>
                                         <input disabled class="form-control" name="license_number" type="text"
-                                            placeholder="Licence Number" value="{{ $vet->license_number }}">
+                                            placeholder="Licence Number" value="{{ $vet[0]->license_number }}">
                                     </div>
                                     <div class="col-md-4">
                                         <label for="work-number" class="col-form-label">Designation</label>
                                         <input disabled class="form-control" name="designation" type="text"
-                                            placeholder="Designation" value="{{ $vet->designation }}">
+                                            placeholder="Designation" value="{{ $vet[0]->designation }}">
                                     </div>
                                     <div class="col-md-4">
                                         <label for="work-number" class="col-form-label">Specialization</label>
                                         <input disabled class="form-control" name="specialization" type="text"
-                                            placeholder="Specialization" value="{{ $vet->specialization }}">
+                                            placeholder="Specialization" value="{{ $vet[0]->specialization }}">
                                     </div>
-
+                                    <div class="col-md-2">
+                                        <label for="work-number" class="col-form-label">Shift Time</label>
+                                        <input disabled class="form-control" name="shift_from" type="text"
+                                            placeholder="Shift Time" value="{{ date('h:i a', strtotime($vet[0]->shift_from)) }}">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="work-number" class="col-form-label opacity-0">.</label>
+                                        <input disabled class="form-control" name="specialization" type="text"
+                                            placeholder="Shift Time" value="{{ date('h:i a', strtotime($vet[0]->shift_to)) }}">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="work-number" class="col-form-label">Status</label>
+                                        <input disabled class="form-control" name="status" type="text"
+                                            placeholder="Status" value="{{ ucfirst($vet[0]->status) }}">
+                                    </div>
                                 </div>
 
                             </form>

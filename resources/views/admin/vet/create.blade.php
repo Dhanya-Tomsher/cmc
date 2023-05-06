@@ -34,7 +34,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body py-4">
-                            <form name="frm" action="{{ route('vet.store') }}" enctype="multipart/form-data"
+                            <form name="frm" action="{{ route('vet.store') }}" id="saveVet" enctype="multipart/form-data"
                                 method="POST">
                                 @csrf
                                 <div class="row mb-3">
@@ -60,7 +60,7 @@
                                     <div class="col-md-4">
                                         <label for="Name" class="col-form-label">Name</label>
                                         <input class="form-control" name="name" type="text" placeholder="Enter Name"
-                                            id="Name"  >
+                                            id="Name"  value="{{ old('name') }}">
                                         @error('name')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -75,7 +75,7 @@
                                     <div class="col-md-4">
                                         <label for="email" class="col-form-label">Email ID</label>
                                         <input class="form-control" name="email" type="email"
-                                            placeholder="Enter Email ID" id="Email" value="{{ old('name') }}">
+                                            placeholder="Enter Email ID" id="Email" value="{{ old('email') }}">
                                         @error('email')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -115,9 +115,8 @@
                                     <div class="col-md-4">
                                         <label for="country" class="col-form-label">Gender</label>
                                         <select class="form-select form-control" name="gender">
-                                            <option value="0" selected disabled>Select</option>
-                                            <option {{ old('emirate') == 'Male' ? 'selected' : '' }} value="Male">Male</option>
-                                            <option {{ old('emirate') == 'Female' ? 'selected' : '' }} value="Female">Female</option>
+                                            <option {{ old('gender') == 'Male' ? 'selected' : '' }} value="Male">Male</option>
+                                            <option {{ old('gender') == 'Female' ? 'selected' : '' }} value="Female">Female</option>
                                         </select>
                                     </div>
                                     <div class="col-md-4">
@@ -151,11 +150,39 @@
                                         <input class="form-control" name="specialization" type="text"
                                             placeholder="Specialization" value="{{ old('specialization') }}">
                                     </div>
+                                    <div class="col-md-2">
+                                        <label for="work-number" class="col-form-label">Shift Time</label>
+                                        <select class="form-select form-control "  id="shift_from" name="shift_from">
+                                            <option value="">From</option>
+                                            @if($timeSlots)
+                                                @foreach($timeSlots as $key => $slot)
+                                                    <option {{ old('shift_from') == $key ? 'selected' : '' }} value="{{ $key }}"> {{ $slot }} </option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                        @error('shift_from')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="work-number" class="col-form-label opacity-0">.</label>
+                                        <select class="form-select form-control"  id="shift_to" name="shift_to">
+                                            <option value="">To</option>
+                                            @if($timeSlots)
+                                                @foreach($timeSlots as $key => $slot)
+                                                    <option {{ old('shift_to') == $key ? 'selected' : '' }} value="{{ $key }}"> {{ $slot }} </option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                        @error('shift_to')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
 
                                     <div class="col-md-4 align-self-end mt-3">
                                         <div class="">
-                                            <button name="Submit" type="Submit"
-                                                class="btn btn-primary waves-effect waves-light w-xl me-2">Save</button>
+                                            <button name="Submit" type="submit"
+                                                class="btn btn-primary waves-effect waves-light w-xl me-2" id="save">Save</button>
                                         </div>
                                     </div>
                                 </div>
@@ -174,4 +201,8 @@
     </div>
 @endsection
 @push('header')
+@endpush
+
+@push('footer')
+
 @endpush

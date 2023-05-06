@@ -14,9 +14,7 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item active"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                                <li class="breadcrumb-item active"><a href="{{ route('caretaker.index') }}">Caretaker
-                                        Details</a></li>
-                                <li class="breadcrumb-item active">Caretaker Details Edit</li>
+                                <li class="breadcrumb-item active"><a href="#">Create Caretaker</a></li>
 
                             </ol>
                         </div>
@@ -34,8 +32,12 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body py-4">
-                            <form name="frm" action="{{ route('caretaker.store') }}" enctype="multipart/form-data"
-                                method="POST">
+                            @if(session()->has('status'))
+                                <div class="alert alert-success">
+                                    {{ session()->get('status') }}
+                                </div>
+                            @endif
+                            <form name="frm" action="{{ route('caretaker.store') }}" enctype="multipart/form-data" method="POST">
                                 @csrf
                                 <div class="row mb-3">
                                     <div class="col-6">
@@ -54,15 +56,16 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    {{-- <div class="col-md-4">
-                                        <label for="example-text-input" class="col-form-label">Customer ID</label>
-                                        <input class="form-control" name="customer_id" type="text"
-                                            id="example-text-input">
-                                    </div> --}}
                                     <div class="col-md-4">
-                                        <label for="Name" class="col-form-label">Name</label>
-                                        <input class="form-control" name="name" type="text" placeholder="Enter Name"
-                                            id="Name">
+                                        <label for="example-text-input" class="col-form-label">Customer ID<span class="error">*</span></label>
+                                        <input class="form-control" name="customer_id" type="text" value="{{ old('customer_id') }}"  placeholder="Enter Customer ID" id="example-text-input">
+                                        @error('customer_id')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="Name" class="col-form-label">Name<span class="error">*</span></label>
+                                        <input class="form-control" name="name" type="text" placeholder="Enter Name" value="{{ old('name') }}" id="Name">
                                         @error('name')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -77,9 +80,9 @@
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label for="email" class="col-form-label">Email ID</label>
+                                        <label for="email" class="col-form-label">Email ID<span class="error">*</span></label>
                                         <input class="form-control" name="email" type="email"
-                                            placeholder="Enter Email ID" id="Email" value="{{ old('name') }}">
+                                            placeholder="Enter Email ID" id="Email" value="{{ old('email') }}">
                                         @error('email')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -244,10 +247,8 @@
         $('input[name="is_passport_no"]').on('click', function() {
             if ($(this).val() === 'hide') {
                 $('#input1').val('').hide();
-                $('#input3').show();
             } else {
                 $('#input1').show();
-                $('#input3').val('').hide();
             }
         });
         $('input[name="is_emirates_id"]').on('click', function() {
