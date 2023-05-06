@@ -115,7 +115,6 @@
                                     <div class="col-md-4">
                                         <label for="country" class="col-form-label">Gender</label>
                                         <select class="form-select form-control" name="gender">
-                                            <option value="0" selected disabled>Select</option>
                                             <option {{ old('gender') == 'Male' ? 'selected' : '' }} value="Male">Male</option>
                                             <option {{ old('gender') == 'Female' ? 'selected' : '' }} value="Female">Female</option>
                                         </select>

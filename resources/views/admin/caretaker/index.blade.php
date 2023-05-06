@@ -21,19 +21,23 @@
                                 <div class="d-flex justify-content-between mb-3">
                                     <div class="search_warpper w-50">
                                        <form>
-                                           <div class="hstack gap-2">
-                                               <input class="form-control me-auto border-0" type="search" placeholder="Search here">
-                                               <button type="button" class="btn btn_back waves-effect waves-light w-xl">Search</button>
-                                           </div>
+                                       <div class="hstack gap-2">
+                                            <input class="form-control me-auto border-0" type="text" id='search' placeholder="Search here">
+                                            <button type="button" class="btn btn_back waves-effect waves-light w-xl" onclick=" getCaretakers()">Search</button>
+                                            <button type="button" class="btn btn_back waves-effect waves-light w-md" id="searchReset">Reset</button>
+                                        </div>
                                        </form>
                                     </div>
 
-                                <div class="btn_group">
+                                <!-- <div class="btn_group">
                                     <div class="input-daterange input-group" id="datepicker6" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container="#datepicker6">
                                         <input type="text" class="form-control text-start" placeholder="From" name="From">
                                         <input type="text" class="form-control text-start" placeholder="To" name="To">
                                         <button type="button" class="btn btn-primary"><i class="mdi mdi-filter-variant"></i></button>
                                     </div>
+                                </div> -->
+                                <div class="d-flex justify-content-end mb-3">
+                                    <a href="{{ route('caretaker.create') }}" class="btn btn_back waves-effect waves-light w-xl" id="new_appointment">Create Caretaker</a>
                                 </div>
                                </div>
 
@@ -47,45 +51,21 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-centered table-nowrap mb-0">
+                                            <table class="table table-centered table-nowrap mb-0" id="caretakerTable">
                                                 <thead class="table-light">
                                                     <tr>
                                                         <th>No</th>
                                                         <th>Name</th>
+                                                        <th>Customer ID</th>
                                                         <th>Email</th>
                                                         <th>Phone Number</th>
                                                         <th>Whatsapp</th>
                                                         <th>Status</th>
-                                                        <th>View</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                    @if ($caretaker)
-                                                    @foreach ($caretaker as $caretake)
-                                                    <tr>
-                                                 
-                                                        <td>{{ $caretake->id }}</td>
-                                                        <td>{{ $caretake->name }} </td>
-                                                        <td>{{ $caretake->email }} </td>
-                                                        <td>{{ $caretake->phone_number }} </td>
-                                                        <td>{{ $caretake->whatsapp_number }}  </td>                                                        
-                                                        <td>
-                                                            <div class="badge bg-soft-warning font-size-12">{{ $caretake->status }} </div>
-                                                        </td>
-                                                        <td>
-                                                            <a href="{{ route('caretaker.view', $caretake) }}" class="px-3 text-primary"><i class="uil uil-eye font-size-18"></i></a>
-                                                        </td>
-                                                        <td>
-                                                            <a href="{{ route('caretaker.edit', $caretake) }}" class="px-3 text-primary"><i class="uil uil-pen font-size-18"></i></a>
-                                                        </td>
-
-                                                    </tr>
-                                                    @endforeach
-                                                    @endif                                             
-                                                 
-                                                 
-                                                
+                                                <tbody id="caretakerDetails">
+                                                    
                                                 </tbody>
                                             </table>
                                         </div>
@@ -100,4 +80,37 @@
                 </div>
                 @endsection
 @push('header')
+<link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}" />
+@endpush
+@push('scripts')
+<script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+     $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    getCaretakers(); 
+
+    function getCaretakers(){
+        var search = $('#search').val();
+        $.ajax({
+            url: "{{ route('caretaker.list')}}",
+            type: "POST",
+            data: { 
+                search:search
+            },
+            success: function( response ) {
+            $('#caretakerDetails').html(response);
+            $('#caretakerTable').DataTable();  
+            }
+        });
+    }
+
+    $("#searchReset").on("click", function (e) { 
+        $('#search').val('');
+        getCaretakers(); 
+    });
+</script>
 @endpush

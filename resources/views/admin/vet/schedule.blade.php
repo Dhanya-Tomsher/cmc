@@ -10,7 +10,7 @@
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="dashboard.html">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
                             <li class="breadcrumb-item active">Vets Schedule</li>
                         </ol>
                     </div>
@@ -98,6 +98,7 @@
             calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 events: url,
+                aspectRatio: 1.75,
                 headerToolbar: {
                     left: 'prev,next',
                     center: 'title',

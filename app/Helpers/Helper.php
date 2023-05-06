@@ -1,7 +1,11 @@
 <?php 
 
 namespace App\Helpers;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use DateTime;
+use DatePeriod;
+use DateInterval;
 
 class Helper
 {
@@ -82,4 +86,16 @@ class Helper
         }
         return $time;
     }
+
+    public static function getDatesBetween2Dates($startDate, $endDate){
+        $dates = [];
+       
+        $period = CarbonPeriod::create($startDate,  $endDate);
+        foreach ($period as $date) {
+            $dates[] =  $date->format('Y-m-d');
+        }
+        return $dates;
+    }
+
+  
 }

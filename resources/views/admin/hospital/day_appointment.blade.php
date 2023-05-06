@@ -30,36 +30,35 @@
             <tr>
                 <th class="fit"></th>
                 @if($vets)
-                @foreach($vets as $vet)
-                <th class="fit vet-name">{{ $vet->name }}</th>
-                @endforeach
+                    @foreach($vets as $vet)
+                        <th class="fit vet-name">{{ $vet->name }}</th>
+                    @endforeach
                 @endif
             </tr>
         </thead>
         <tbody>
             @if($timeslots)
-            @foreach($timeslots as $slot)
-            <tr>
-                <th class="fit">{{ $slot }}</th>
-                @foreach($vets as $vet)
-                @if(isset($vetSlots[$vet->id]) && in_array($slot, $vetSlots[$vet->id]))
-                @if(isset($vetBooks[$vet->id]) && in_array($slot, $vetBooks[$vet->id]))
-                <td class="fit appointment-red app-disabled"></td>
-                @else
-                <td class="fit appointment-green" data-date="" id="appointment-create"
-                    onclick="getAppointmentForm('{{ $date }}','{{$slot }}','{{$vet->id}}')"></td>
-                @endif
-                @else
-                <td class="fit app-disabled"></td>
-                @endif
+                @foreach($timeslots as $slot)
+                <tr>
+                    <th class="fit">{{ $slot }}</th>
+                    @foreach($vets as $vet)
+                        @if(isset($vetSlots[$vet->id]) && in_array($slot, $vetSlots[$vet->id]))
+                            @if(isset($vetBooks[$vet->id]) && in_array($slot, $vetBooks[$vet->id]))
+                                <td class="fit appointment-red app-disabled">
+                                    <span><b>Caretaker : </b>{{ $details[$slot]['caretaker']}} </span> &nbsp;
+                                    <span><b>Cat :</b> {{ $details[$slot]['cat']}}</span>
+                                </td>
+                            @else
+                                <td class="fit appointment-green" data-date="" id="appointment-create" onclick="getAppointmentForm('{{ $date }}','{{$slot }}','{{$vet->id}}')"></td>
+                            @endif
+                        @else
+                            <td class="fit app-disabled"></td>
+                        @endif
+                    @endforeach
+                </tr>
                 @endforeach
-            </tr>
-            @endforeach
             @endif
         </tbody>
     </table>
     <pre id='result'></pre>
 </div>
-
-
-

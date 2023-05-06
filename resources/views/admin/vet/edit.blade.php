@@ -35,6 +35,11 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body py-4">
+                        @if(session()->has('status'))
+                                        <div class="alert alert-success">
+                                            {{ session()->get('status') }}
+                                        </div>
+                                    @endif
                             <form name="frm" action="{{ route('vet.update', $vet) }}" enctype="multipart/form-data"
                                 method="POST" id="saveVet">
                                 @csrf

@@ -53,7 +53,7 @@ class VetController extends Controller
             $uploadedFile = $request->file('image');
             $filename =   time() . $uploadedFile->getClientOriginalName();
             $name = Storage::disk('public')->putFileAs(
-                'caretaker',
+                'vets',
                 $uploadedFile,
                 $filename
             );
@@ -79,7 +79,7 @@ class VetController extends Controller
         }
         $vet->update($request->all());
 
-        return back()->with('status', 'Vet Upated!');
+        return back()->with('status', 'Vet Details Upated!');
     }
 
     public function manageVetShifts($dataShifts){
@@ -182,6 +182,21 @@ class VetController extends Controller
         VetShifts::insert($timeslots);
         return redirect()->route('vet.index')->with('status', 'vet created!');
     }
+    public function getVetList(Request $request){
+        $search = $request->search;
+        $query  = Vet::select('id','name', 'email', 'phone_number', 'whatsapp_number', 'status');
+        if($search){  
+            $query->Where(function ($query) use ($search) {
+                $query->orWhere('name', 'LIKE', '%'.$search . '%')
+                        ->orWhere('email', 'LIKE', '%'.$search . '%')
+                        ->orWhere('phone_number', 'LIKE', '%'.$search . '%')
+                        ->orWhere('whatsapp_number', 'LIKE', '%'.$search . '%');
+            });                    
+        }
+        $vet = $query->orderBy('id','DESC')->get();
+        $viewData = view('admin.vet.ajax_list', compact('vet'))->render();
 
+        return $viewData;
+    }
    
 }

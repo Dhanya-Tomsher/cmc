@@ -1,4 +1,4 @@
-@extends('admin.layouts.app', ['body_class' => '', 'title' => 'Vets'])
+@extends('admin.layouts.app', ['body_class' => '', 'title' => 'Hospital Appointments'])
 @section('content')
 <div class="page-content">
     <div class="container-fluid">
@@ -10,7 +10,7 @@
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="dashboard.html">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
                             <li class="breadcrumb-item active">Hospital Appointments</li>
                         </ol>
                     </div>
@@ -280,7 +280,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-4 input4" style="display: none;" id="neutered-div">
+                                            <div class="col-md-4 input4" id="neutered-div">
                                                 <label for="emirates-id" class="col-form-label d-block">Neutered</label>
                                                 <div class="d-flex align-items-center">
                                                     <div class="custom-radio form-check form-check-inline">
@@ -294,7 +294,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-4 input4" style="display: none;"  id="neutered-with-us-div">
+                                            <div class="col-md-4 input4"  id="neutered-with-us-div">
                                                 <label for="emirates-id" class="col-form-label d-block">Neutered  with Us</label>
                                                 <div class="d-flex align-items-center">
                                                     <div class="custom-radio form-check form-check-inline">
@@ -323,7 +323,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-4">
+                                            <div class="col-md-4"  id="castrated-div">
                                                 <label for="emirates-id"
                                                     class="col-form-label d-block">Castrated</label>
                                                 <div class="d-flex align-items-center">
@@ -466,7 +466,7 @@
 
 @push('header')
 <link rel="stylesheet" href="{{ asset('assets/libs/select2/css/select2.min.css') }}" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.2/main.css">
+<link rel="stylesheet" href="{{ asset('assets/css/fullcalendar/main.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" />
 
 <style>
@@ -505,11 +505,10 @@ table {
 @push('scripts')
 <script src="{{ asset('assets/libs/select2/js/select2.min.js') }}"></script>
 <script src="{{ asset('assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.2/main.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="{{ asset('assets/js/sweetalert.js') }}"></script>
+<script src="{{ asset('assets/js/fullcalendar/main.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('assets/js/moment.min.js') }}"></script>
 
 <script>
 // $(document).ready(function() {
@@ -524,9 +523,8 @@ table {
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
-        slotMinTime: '8:00:00',
-        slotMaxTime: '22:00:00',
-        slotMinWidth:'100',
+        // height: 850,
+        aspectRatio: 1.4,
         selectable: true,
         events: "{{ route('get-scheduled-vets')}}",
         eventContent: function( info ) {
@@ -683,7 +681,8 @@ table {
 
     $("#search_caretaker").on("change", function () { 
         $('#cat_id,#cat_name,#date_of_birth, #fur_color,#eye_color,#place_of_origin,#cat_emirate,#cat_origin,#microchip,#catId ').val('');
-        $('#pregnant-div,#neutered-with-us-div,#neutered-div,#spayed-div').css('display','none');
+        $('#pregnant-div,#spayed-div').css('display','none');
+        $('#castrated-div').css('display','block');
         $("#appointment_tab").removeAttr('data-bs-toggle');
         $("#search_cat").val('').trigger('change') ;
         var id = $(this).val();
@@ -768,14 +767,17 @@ table {
                     $("input[name=deadalive][value=" + returnedData[0].dead_alive + "]").prop('checked', true);
 
                     if(returnedData[0].gender == 'Female'){
-                        $('#pregnant-div,#neutered-with-us-div,#neutered-div,#spayed-div').css('display','block');
+                        $('#pregnant-div,#spayed-div').css('display','block');
+                        $('#castrated-div').css('display','none');
                     }else{
-                        $('#pregnant-div,#neutered-with-us-div,#neutered-div,#spayed-div').css('display','none');
+                        $('#pregnant-div,#spayed-div').css('display','none');
+                        $('#castrated-div').css('display','block');
                     }
                     $("#appointment_tab").attr('data-bs-toggle','tab');
                 }else{
                     $('#cat_id,#cat_name,#date_of_birth, #fur_color,#eye_color,#place_of_origin,#cat_emirate,#cat_origin,#microchip,#catId ').val('');
-                    $('#pregnant-div,#neutered-with-us-div,#neutered-div,#spayed-div').css('display','none');
+                    $('#pregnant-div,#spayed-div').css('display','none');
+                    $('#castrated-div').css('display','block');
                     $("#appointment_tab").removeAttr('data-bs-toggle');
                 }
             }
@@ -848,8 +850,6 @@ table {
                 var returnedData = JSON.parse(response);
                 $.each(returnedData, function(index, value) {
                     var selected = '';
-                    console.log('slot ==== '+slot);
-                    console.log('value ==== '+value);
                     if(slot === value){
                         selected = "selected='selected'";
                     }
@@ -872,6 +872,7 @@ table {
         $('#price').val(price);
     });
 
+     
     $("#appointment").validate({
         rules: {
             procedure: "required",
@@ -879,7 +880,7 @@ table {
             appointment_date: {
                 required: true
             },
-            appointment_time: {
+            "appointment_time[]": {
                 required: true
             },
         },
@@ -889,7 +890,7 @@ table {
             appointment_date: {
                 required: " Please select appointment date"
             },
-            appointment_time: {
+            "appointment_time[]": {
                 required: " Please select appointment time"
             }
         },
@@ -941,7 +942,8 @@ table {
         $('#passport_no,#emirates_id').css('display','none');
         $("#cat_tab").removeAttr('data-bs-toggle');
         $('#cat_id,#cat_name,#date_of_birth, #fur_color,#eye_color,#place_of_origin,#cat_emirate,#cat_origin,#microchip,#catId ').val('');
-        $('#pregnant-div,#neutered-with-us-div,#neutered-div,#spayed-div').css('display','none');
+        $('#pregnant-div,#spayed-div').css('display','none');
+        $('#castrated-div').css('display','block');
         $("#appointment_tab").removeAttr('data-bs-toggle');
         $('#appointment_time').val("").trigger('change');
         $('label.error').css('display','none');
@@ -1005,3 +1007,15 @@ table {
 
 </script>
 @endpush
+
+
+
+
+
+    
+
+
+      
+
+
+     
