@@ -147,7 +147,7 @@ class CatController extends Controller
         ]);
 
         $caretaker = CatCaretakers::create([
-            'cat_id' => $request->cat_id,
+            'cat_id' => $cat->id,
             'caretaker_id' => $request->caretaker_id,
             'transfer_status' => 0,
           ]);

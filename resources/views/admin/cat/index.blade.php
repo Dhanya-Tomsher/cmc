@@ -38,8 +38,8 @@
                         </div>
                     </div> -->
                     <div class="d-flex justify-content-end mb-3">
-                    <a href="{{ route('cat.create') }}" class="btn btn_back waves-effect waves-light w-xl" id="new_appointment">Create Cat</a>
-                </div>
+                        <a href="{{ route('cat.create') }}" class="btn btn_back waves-effect waves-light w-xl" id="new_appointment">Create Cat</a>
+                    </div>
                 </div>
 
 

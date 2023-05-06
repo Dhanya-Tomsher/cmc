@@ -280,7 +280,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-4 input4" style="display: none;" id="neutered-div">
+                                            <div class="col-md-4 input4" id="neutered-div">
                                                 <label for="emirates-id" class="col-form-label d-block">Neutered</label>
                                                 <div class="d-flex align-items-center">
                                                     <div class="custom-radio form-check form-check-inline">
@@ -294,7 +294,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-4 input4" style="display: none;"  id="neutered-with-us-div">
+                                            <div class="col-md-4 input4"  id="neutered-with-us-div">
                                                 <label for="emirates-id" class="col-form-label d-block">Neutered  with Us</label>
                                                 <div class="d-flex align-items-center">
                                                     <div class="custom-radio form-check form-check-inline">
@@ -323,7 +323,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-4">
+                                            <div class="col-md-4"  id="castrated-div">
                                                 <label for="emirates-id"
                                                     class="col-form-label d-block">Castrated</label>
                                                 <div class="d-flex align-items-center">
@@ -681,7 +681,8 @@ table {
 
     $("#search_caretaker").on("change", function () { 
         $('#cat_id,#cat_name,#date_of_birth, #fur_color,#eye_color,#place_of_origin,#cat_emirate,#cat_origin,#microchip,#catId ').val('');
-        $('#pregnant-div,#neutered-with-us-div,#neutered-div,#spayed-div').css('display','none');
+        $('#pregnant-div,#spayed-div').css('display','none');
+        $('#castrated-div').css('display','block');
         $("#appointment_tab").removeAttr('data-bs-toggle');
         $("#search_cat").val('').trigger('change') ;
         var id = $(this).val();
@@ -766,14 +767,17 @@ table {
                     $("input[name=deadalive][value=" + returnedData[0].dead_alive + "]").prop('checked', true);
 
                     if(returnedData[0].gender == 'Female'){
-                        $('#pregnant-div,#neutered-with-us-div,#neutered-div,#spayed-div').css('display','block');
+                        $('#pregnant-div,#spayed-div').css('display','block');
+                        $('#castrated-div').css('display','none');
                     }else{
-                        $('#pregnant-div,#neutered-with-us-div,#neutered-div,#spayed-div').css('display','none');
+                        $('#pregnant-div,#spayed-div').css('display','none');
+                        $('#castrated-div').css('display','block');
                     }
                     $("#appointment_tab").attr('data-bs-toggle','tab');
                 }else{
                     $('#cat_id,#cat_name,#date_of_birth, #fur_color,#eye_color,#place_of_origin,#cat_emirate,#cat_origin,#microchip,#catId ').val('');
-                    $('#pregnant-div,#neutered-with-us-div,#neutered-div,#spayed-div').css('display','none');
+                    $('#pregnant-div,#spayed-div').css('display','none');
+                    $('#castrated-div').css('display','block');
                     $("#appointment_tab").removeAttr('data-bs-toggle');
                 }
             }
@@ -938,7 +942,8 @@ table {
         $('#passport_no,#emirates_id').css('display','none');
         $("#cat_tab").removeAttr('data-bs-toggle');
         $('#cat_id,#cat_name,#date_of_birth, #fur_color,#eye_color,#place_of_origin,#cat_emirate,#cat_origin,#microchip,#catId ').val('');
-        $('#pregnant-div,#neutered-with-us-div,#neutered-div,#spayed-div').css('display','none');
+        $('#pregnant-div,#spayed-div').css('display','none');
+        $('#castrated-div').css('display','block');
         $("#appointment_tab").removeAttr('data-bs-toggle');
         $('#appointment_time').val("").trigger('change');
         $('label.error').css('display','none');
@@ -1002,3 +1007,15 @@ table {
 
 </script>
 @endpush
+
+
+
+
+
+    
+
+
+      
+
+
+     

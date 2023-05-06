@@ -24,8 +24,7 @@
                             Hospital Appointments </a>
                         <a href="hotel_appointments.html" class="btn btn_back waves-effect waves-light" id="sa-warning">
                             Create Hotel Appointments </a> -->
-                        <a href="journal.html" class="btn btn_back waves-effect waves-light" id="sa-warning"> Journal
-                        </a>
+                        
                     </div>
                 </div>
             </div>
@@ -48,8 +47,7 @@
                                         <div class="col-6">
                                             <div class="avatar-upload cat-avatar-upload">
                                                 <div class="avatar-edit image-edit">
-                                                    <input type='file' name="image" id="imageUpload"
-                                                        accept=".png, .jpg, .jpeg" />
+                                                    <input type='file' name="image" id="imageUpload" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff,.webp" />
                                                     <label for="imageUpload" class="image-upload-label"><i class="uil uil-pen font-size-18"></i> </label>
                                                 </div>
                                                 <div class="avatar-preview">
@@ -337,10 +335,12 @@
         rules: {
             name: "required",
             caretaker_id: "required",
+            cat_id:"required"
         },
         messages: {
             caretaker_id: " Please select a caretaker",
             name: " Please enter a name",
+            cat_id:"This field is required"
         },
         errorPlacement: function (error, element) {
             if(element.hasClass('select2')) {

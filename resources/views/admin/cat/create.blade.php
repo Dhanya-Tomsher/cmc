@@ -24,8 +24,6 @@
                             Hospital Appointments </a>
                         <a href="hotel_appointments.html" class="btn btn_back waves-effect waves-light" id="sa-warning">
                             Create Hotel Appointments </a> -->
-                        <a href="journal.html" class="btn btn_back waves-effect waves-light" id="sa-warning"> Journal
-                        </a>
                     </div>
                 </div>
             </div>
@@ -75,8 +73,8 @@
                                             </select>
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="example-text-input" class="col-form-label">Cat ID</label>
-                                            <input class="form-control" name="cat_id" type="text" id="cat_id" value="{{ old('cat_id') }}">
+                                            <label for="example-text-input" class="col-form-label">Cat ID<span class="required">*</span></label>
+                                            <input class="form-control" name="cat_id" placeholder="Enter Cat ID" type="text" id="cat_id" value="{{ old('cat_id') }}">
                                         </div>
 
                                         <div class="col-md-6">
@@ -322,10 +320,12 @@
         rules: {
             name: "required",
             caretaker_id: "required",
+            cat_id:"required"
         },
         messages: {
             caretaker_id: " Please select a caretaker",
             name: " Please enter a name",
+            cat_id:"This field is required"
         },
         errorPlacement: function (error, element) {
             if(element.hasClass('select2')) {

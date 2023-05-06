@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\View;
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\CaretakerController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CatController;
 use App\Http\Controllers\Admin\VetController;
 use App\Http\Controllers\Admin\VetscheduleController;
@@ -37,14 +38,18 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::get('dashboard',[HomeController::class,'index'])->name('dashboard');
 });*/
 
-    Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('dashboard-caretaker-search',[DashboardController::class,'searchCaretaker'])->name('dashboard-caretaker-search');
+    Route::get('dashboard-cat-search',[DashboardController::class,'searchCat'])->name('dashboard-cat-search');
+    Route::post('dashboard-caretaker-list', [DashboardController::class, 'getCaretakerList'])->name('dashboard-caretaker-list');
 
     Route::get('caretaker', [CaretakerController::class, 'index'])->name('caretaker.index');
     Route::get('caretaker/create', [CaretakerController::class, 'create'])->name('caretaker.create');
     Route::get('caretaker/view/{caretaker}', [CaretakerController::class, 'view'])->name('caretaker.view');
-    Route::get('caretaker/edit', [CaretakerController::class, 'edit'])->name('caretaker.edit');
+    Route::get('caretaker/edit/{caretaker}', [CaretakerController::class, 'edit'])->name('caretaker.edit');
     Route::post('caretaker/store', [CaretakerController::class, 'store'])->name('caretaker.store');
     Route::post('caretaker/update', [CaretakerController::class, 'update'])->name('caretaker.update');
+    Route::post('caretaker.list', [CaretakerController::class, 'getCaretakerList'])->name('caretaker.list');
 
     Route::get('cat', [CatController::class, 'index'])->name('cat.index');
     Route::get('cat/create', [CatController::class, 'create'])->name('cat.create');
