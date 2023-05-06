@@ -114,6 +114,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::post('vetschedule/action', [VetscheduleController::class, 'action'])->name('vetschedule.action');
     Route::get('get-vet-schedules/{vet_id}',[VetscheduleController::class,'getVetSchedules'])->name('get-vet-schedule');
     Route::post('save-vet-schedule',[VetscheduleController::class,'saveVetSchedule'])->name('save-vet-schedule');
+    Route::post('vet.list', [VetController::class, 'getVetList'])->name('vet.list');
 
     Route::get('hospital-appointments',[HospitalAppointmentsController::class,'getAppointments'])->name('hospital-appointments');
     Route::get('caretaker-search',[HospitalAppointmentsController::class,'searchCaretaker'])->name('ajax-autocomplete-caretaker-search');
