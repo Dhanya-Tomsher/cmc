@@ -469,6 +469,11 @@
 <link rel="stylesheet" href="{{ asset('assets/css/fullcalendar/main.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" />
 
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+
 <style>
     .select2-selection__rendered {
     line-height: 51px !important;
@@ -968,6 +973,10 @@ table {
                 $('#appointment_calendar').css('display','none'); 
                 $('#day_appointment').html(response);
                 $('#day_appointment').css('display','block');
+
+                // $(".vetselect").selectable();
+                sort();
+
             }
         });
     }
@@ -1006,13 +1015,12 @@ table {
     
 
 </script>
+
+
+
 @endpush
 
 
-
-
-
-    
 
 
       
