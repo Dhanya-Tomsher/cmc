@@ -293,7 +293,14 @@
 <script src="{{ asset('assets/js/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script>
-     $(document).on('select2:open', () => {
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $(document).on('select2:open', () => {
         document.querySelector('.select2-search__field').focus();
     });
      $( "#date_birth" ).datepicker({
@@ -320,12 +327,21 @@
         rules: {
             name: "required",
             caretaker_id: "required",
-            cat_id:"required"
+            cat_id:{
+                    required: true,
+                    remote: {
+                        url: "{{ route('cat.check-availability')}}",
+                        type: "post"
+                    }
+                }
         },
         messages: {
             caretaker_id: " Please select a caretaker",
             name: " Please enter a name",
-            cat_id:"This field is required"
+            cat_id:{
+                    required: "Please enter Cat ID.",
+                    remote: "This Cat ID already exists."
+                    }
         },
         errorPlacement: function (error, element) {
             if(element.hasClass('select2')) {

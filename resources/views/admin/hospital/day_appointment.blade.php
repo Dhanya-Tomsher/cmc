@@ -21,6 +21,7 @@
                     onclick="reloadCalendar('{{ $date }}')" id="month_view" type="button" aria-label="prev">
                     Month View
                 </button>
+                
             </div>
         </div>
     </div>
@@ -49,7 +50,7 @@
                                         <span><b>Cat :</b> {{ $details[$slot]['cat'] }}</span>
                                     </td>
                                 @else
-                                    <td class="fit appointment-green" data-date="" id="appointment-create"
+                                    <td class="fit appointment-green "  id="vet-{{ $vet->id }}" data-slot="{{ $slot }}" id="appointment-create"
                                         onclick="getAppointmentForm('{{ $date }}','{{ $slot }}','{{ $vet->id }}')">
                                     </td>
                                 @endif
@@ -63,6 +64,7 @@
         </tbody>
     </table>
     <div class="header d-flex justify-content-sm-around">
+    <input type="hidden" id="select-result"/>
         <div>Time</div>
         @if ($vets)
             @foreach ($vets as $vet)
@@ -89,8 +91,8 @@
                                     <span><b>Cat :</b> {{ $details[$slot]['cat'] }}</span>
                                 </div>
                             @else
-                                <div class="fit appointment-green" data-date="" id="appointment-create"
-                                    onclick="getAppointmentForm('{{ $date }}','{{ $slot }}','{{ $vet->id }}')">
+                                <div class="fit appointment-green" data-slot="{{ $slot }}" id="appointment-create"
+                                    onclick="getAppointmentForm('{{ $date }}',['{{ $slot }}'],'{{ $vet->id }}')">
                                     green
                                 </div>
                             @endif
@@ -108,7 +110,37 @@
 <script>
     function sort() {
         @foreach ($vets as $vet)
-            $("#vet-div-{{ $vet->id }}").selectable();
+            $("#vet-div-{{ $vet->id }}").selectable({
+            filter: '.appointment-green',
+            distance: 30,
+            start: function() {
+                $(".vetselect").find('.ui-selected').removeClass('ui-selected');
+			},
+            stop: function() {
+				var result = [];
+                $( "#select-result" ).val('');
+				$( ".ui-selected").each(function() {
+                    var slot = $.trim($(this).attr('data-slot'));
+					result.push(slot);
+				});
+                $( "#select-result" ).val(result);
+                getAppointmentForm('{{ $date }}',result,'{{ $vet->id }}')
+			}
+        });
         @endforeach
+        // $("#dayTable").selectable({
+        //     filter: '.appointment-green',
+        //     distance: 30,
+            
+        //     stop: function() {
+		// 		var result = [];
+        //         $( "#select-result" ).val('');
+		// 		$( ".ui-selected").each(function() {
+        //             var slot = $(this).attr('data-slot');
+		// 			result.push(slot);
+		// 		});
+        //         $( "#select-result" ).val(result);
+		// 	}
+        // });
     }
 </script>

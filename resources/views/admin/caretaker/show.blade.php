@@ -153,6 +153,23 @@
                                         <label for="phone" class="col-form-label">Status</label>
                                         <input class="form-control" type="text" value="{{ ucfirst($caretaker[0]->status) }}" readonly id="microchip_number">
                                     </div>
+
+                                    <div class="col-md-4">
+                                        <label for="emirates-id" class="col-form-label d-block">BlackList Status</label>
+                                        <div class="d-flex align-items-center">
+                                            <div class="custom-radio form-check form-check-inline">
+                                                <input type="radio" id="blacklistYes" disabled {{ $caretaker[0]->is_blacklist == "1" ? 'checked' : '' }}  name="is_blacklist" class="form-check-input"  value="1">
+                                                <label class="form-check-label" for="blacklistYes">Yes</label>
+                                            </div>
+                                            <div class="custom-radio form-check form-check-inline" >
+                                                <input type="radio" id="blacklistNo" disabled name="is_blacklist" {{ $caretaker[0]->is_blacklist == "0" ? 'checked' : '' }} class="form-check-input" value="0" >
+                                                <label class="form-check-label" for="blacklistNo">No</label>
+                                            </div>
+
+                                            <input class="form-control" type="text" name="blacklist_reason" style="{{ $caretaker[0]->is_blacklist == "0" ? 'display:none;' : '' }}" value="{{ $caretaker[0]->blacklist_reason }}" placeholder="Enter reason for blacklist" id="blacklistReason" >
+                                        
+                                        </div>
+                                    </div>
                                 </div>
 
                             

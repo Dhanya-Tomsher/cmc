@@ -504,6 +504,23 @@ table {
     cursor: pointer;
 }
 
+
+#dayTable .ui-selecting {
+  background: #aaaaaa !important;
+}
+#dayTable .ui-selected {
+  background: #aaaaaa !important;
+  color: white !important;
+}
+
+.vetselect .ui-selecting {
+  background: #aaaaaa !important;
+}
+.vetselect .ui-selected {
+  background: #aaaaaa !important;
+  color: white !important;
+}
+
     </style>
 @endpush
 
@@ -853,9 +870,13 @@ table {
             success: function( response ) {
                 var html='';
                 var returnedData = JSON.parse(response);
+                console.log(slot);
+                console.log(returnedData);
                 $.each(returnedData, function(index, value) {
                     var selected = '';
-                    if(slot === value){
+                    console.log(value);
+                    if($.inArray($.trim(value), slot) != -1){
+                        console.log('inarray slot='+value);
                         selected = "selected='selected'";
                     }
                     html += '<option value="'+value+'" '+selected+'>'+value+'</option>';

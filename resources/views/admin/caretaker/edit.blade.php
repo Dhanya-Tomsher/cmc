@@ -220,6 +220,22 @@
                                                         <option {{ $caretaker->status == 'draft' ? 'selected' : '' }} value="draft">Draft</option>
                                                     </select>
                                                 </div>
+                                                <div class="col-md-4">
+                                                    <label for="emirates-id" class="col-form-label d-block">BlackList Status</label>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="custom-radio form-check form-check-inline">
+                                                            <input type="radio" id="blacklistYes" {{ $caretaker->is_blacklist == "1" ? 'checked' : '' }}  name="is_blacklist" class="form-check-input"  value="1">
+                                                            <label class="form-check-label" for="blacklistYes">Yes</label>
+                                                        </div>
+                                                        <div class="custom-radio form-check form-check-inline" >
+                                                            <input type="radio" id="blacklistNo" name="is_blacklist" {{ $caretaker->is_blacklist == "0" ? 'checked' : '' }} class="form-check-input" value="0" >
+                                                            <label class="form-check-label" for="blacklistNo">No</label>
+                                                        </div>
+
+                                                        <input class="form-control" type="text" name="blacklist_reason" style="{{ $caretaker->is_blacklist == "0" ? 'display:none;' : '' }}" value="{{ $caretaker->blacklist_reason }}" placeholder="Enter reason for blacklist" id="blacklistReason" >
+                                                    
+                                                    </div>
+                                                </div>
 
                                                 <div class="col-md-4 align-self-end mt-3">
                                                     <div class="">
@@ -259,6 +275,13 @@
                 $('#input2').val('').hide();
             } else {
                 $('#input2').show();
+            }
+        });
+        $('input[name="is_blacklist"]').on('click', function() {
+            if ($(this).val() === '0') {
+                $('#blacklistReason').val('').hide();
+            } else {
+                $('#blacklistReason').show();
             }
         });
     </script>

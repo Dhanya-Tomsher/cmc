@@ -78,7 +78,12 @@ class CatController extends Controller
             'status' => (isset($request->status)) ? $request->status : 'published',
         ];
         Cat::where('id',$request->catId)->update($data);
-        CatCaretakers::where('cat_id',$request->catId)->where('transfer_status',0)->update(['caretaker_id' => $request->caretaker_id]);
+        CatCaretakers::where('cat_id',$request->catId)->where('transfer_status',0)->update(['transfer_status' => 1]);
+        $caretaker = CatCaretakers::create([
+            'cat_id' => $request->catId,
+            'caretaker_id' => $request->caretaker_id,
+            'transfer_status' => 0,
+          ]);
     }
     public function view(cat $cat)
     {
@@ -407,5 +412,18 @@ class CatController extends Controller
             }
             JournalFiles::where('journal_id',$jid)->delete();
         }
+    }
+
+    public function checkCatIdAvailability(Request $request){
+        
+        $query = Cat::where('cat_id',$request->cat_id);
+        
+        if(isset($request->id)) {
+            $query->where('id','!=',$request->id);
+        }
+        $result = $query->count();
+        
+        $check = ($result === 0) ?  'true' : 'false';
+        echo $check;
     }
 }

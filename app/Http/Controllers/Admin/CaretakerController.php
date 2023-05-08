@@ -51,7 +51,7 @@ class CaretakerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'customer_id' => 'required',
+            'customer_id' => 'required|unique:caretakers,customer_id,'.$request->careId,
             'email' => 'required|email|unique:caretakers,email,'.$request->careId
         ]);
  
@@ -97,6 +97,8 @@ class CaretakerController extends Controller
             'comments' => $request->comments,
             'image_url' => ($imageUrl !='') ? $imageUrl : $presentImage,
             'status' => (isset($request->status)) ? $request->status : 'published',
+            'is_blacklist' => $request->is_blacklist,
+            'blacklist_reason' => $request->blacklist_reason
         ];
 
         Caretaker::where('id',$request->careId)->update($data);
@@ -139,6 +141,8 @@ class CaretakerController extends Controller
             'comments' => $request->comments,
             'status' => 'published',
             'image_url' => $image_name,
+            'is_blacklist' => $request->is_blacklist,
+            'blacklist_reason' => $request->blacklist_reason
         ]);
 
         $caretaker->customer_id = 'CMC' . str_pad($caretaker->id, 4, 0, STR_PAD_LEFT);

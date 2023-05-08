@@ -66,7 +66,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <label for="example-text-input" class="col-form-label">Caretaker ID</label>
-                                            <input type="hidden" name="catId" value="{{ $cat[0]->id }}">
+                                            <input type="hidden" name="catId" id="catId" value="{{ $cat[0]->id }}">
                                             <input type="hidden" name="image_url" value="{{ $cat[0]->image_url }}">
                                             <select class="form-select form-control" name="caretaker_id"  id="caretaker_id">
                                                 <option value="" >Select Caretaker</option>
@@ -77,7 +77,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <label for="example-text-input" class="col-form-label">Cat ID</label>
-                                            <input class="form-control" value="{{ $cat[0]->cat_id }}" name="cat_id" type="text" id="example-text-input">
+                                            <input class="form-control" value="{{ $cat[0]->cat_id }}" name="cat_id" id="cat_id" type="text" id="example-text-input">
                                         </div>
 
                                         <div class="col-md-6">
@@ -331,16 +331,37 @@
         allowClear: true,
     });
 
+    $.validator.addMethod("checkExists", function(value, element){
+        var data = 0;
+        $.ajax({
+            type: "POST",
+            url: "{{ route('cat.check-availability')}}",
+            async: false,
+            data: "cat_id="+value +"&id="+$('#catId').val(), 
+            success: function(returnData)
+            {
+                data = (returnData === 'true') ? 1 :0;
+            }
+        });
+        return data;
+    }, 'This Cat ID already exists');
+
     $("#updateCat").validate({
         rules: {
             name: "required",
             caretaker_id: "required",
-            cat_id:"required"
+            cat_id:{
+                    required: true,
+                    checkExists : true
+            }
         },
         messages: {
             caretaker_id: " Please select a caretaker",
             name: " Please enter a name",
-            cat_id:"This field is required"
+            cat_id:{
+                    required: "Please enter Cat ID.",
+                    checkExists: "This Cat ID already exists."
+            }
         },
         errorPlacement: function (error, element) {
             if(element.hasClass('select2')) {
