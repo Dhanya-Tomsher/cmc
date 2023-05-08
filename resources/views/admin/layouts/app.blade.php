@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+    <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script>
+
     @stack('header')
 
 </head>
@@ -57,7 +59,7 @@
     <!-- Right bar overlay-->
     <div class="rightbar-overlay"></div>
 
-    <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script>
+    
     <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/libs/metismenu/metisMenu.min.js') }}"></script>
     <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
