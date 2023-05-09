@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\Admin\HospitalAppointmentsController;
 use App\Http\Controllers\Admin\HotelAppointmentsController;
 use App\Http\Controllers\Admin\HotelroomsController;
+use App\Http\Controllers\Admin\ProcedureController;
 
 //Route::prefix('admin')->group(function () {
 //    Route::middleware(['auth', 'auth.session'])->group(function () {
@@ -50,6 +51,8 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::post('caretaker/store', [CaretakerController::class, 'store'])->name('caretaker.store');
     Route::post('caretaker/update', [CaretakerController::class, 'update'])->name('caretaker.update');
     Route::post('caretaker.list', [CaretakerController::class, 'getCaretakerList'])->name('caretaker.list');
+    Route::post('caretaker.blacklist', [CaretakerController::class, 'getCaretakerBlackList'])->name('caretaker.blacklist');
+    Route::get('caretaker.blacklisted', [CaretakerController::class, 'getCaretakerBlackListing'])->name('caretaker.blacklisted');
 
     Route::get('cat', [CatController::class, 'index'])->name('cat.index');
     Route::get('cat/create', [CatController::class, 'create'])->name('cat.create');
@@ -88,11 +91,13 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
 
     Route::get('hrooms', [HotelroomsController::class, 'index'])->name('hrooms.index');
     Route::get('hrooms/create', [HotelroomsController::class, 'create'])->name('hrooms.create');
-    Route::get('hrooms/view', [HotelroomsController::class, 'view'])->name('hrooms.view');
-    Route::get('hrooms/edit', [HotelroomsController::class, 'edit'])->name('hrooms.edit');
+    Route::get('hrooms/view/{hrooms}', [HotelroomsController::class, 'view'])->name('hrooms.view');
+    Route::get('hrooms/edit/{hrooms}', [HotelroomsController::class, 'edit'])->name('hrooms.edit');
     Route::get('hrooms/search', [HotelroomsController::class, 'search'])->name('hrooms.search');
     Route::post('hrooms/store', [HotelroomsController::class, 'store'])->name('hrooms.store');
-    Route::post('hrooms/update', [HotelroomsController::class, 'update'])->name('hrooms.update');
+    Route::post('hrooms/update/{hrooms}', [HotelroomsController::class, 'update'])->name('hrooms.update');
+    Route::post('rooms.list', [HotelroomsController::class, 'getRoomsList'])->name('rooms.list');
+    Route::post('hrooms/delete', [HotelroomsController::class, 'delete'])->name('hrooms.delete');
 
     Route::get('hosp', [HospitalAppointmentsController::class, 'index'])->name('hosp.index');
     Route::get('hosp/create', [HospitalAppointmentsController::class, 'create'])->name('hosp.create');
@@ -150,6 +155,10 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::post('booking.list', [HotelAppointmentsController::class, 'getBookingList'])->name('booking.list');
     Route::post('booking.delete', [HotelAppointmentsController::class, 'deleteBooking'])->name('booking.delete');
     
+    Route::get('procedure', [ProcedureController::class, 'index'])->name('procedure.index');
+    Route::post('procedure/store', [ProcedureController::class, 'store'])->name('procedure.store');
+    Route::post('procedure/delete', [ProcedureController::class, 'delete'])->name('procedure.delete');
+    Route::post('procedure.list', [ProcedureController::class, 'getProcedureList'])->name('procedure.list');
     
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

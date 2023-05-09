@@ -30,7 +30,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $other->report_date }}</td>
-                                <td><a href="#" onclick="deleteJournalData({{ $other->id }})" class="px-3 text-danger"><i class="uil uil-trash-alt font-size-18"></i></a></td>
+                                <td><a href="#" onclick="deleteJournalData({{ $other->id }})" class="px-3 text-danger"><i class="uil uil-trash-alt required font-size-18"></i></a></td>
                             </tr>
                         @endforeach
                     @endif

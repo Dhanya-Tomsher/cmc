@@ -14,8 +14,7 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item active"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                                <li class="breadcrumb-item active"><a href="#">Caretaker
-                                        Details</a></li>
+                                <li class="breadcrumb-item active"><a href="#">Caretaker Details</a></li>
                             </ol>
                         </div>
 
@@ -55,25 +54,25 @@
                                     </div> 
                                     <div class="col-md-4">
                                         <label for="Name" class="col-form-label">Name</label>
-                                        <input class="form-control" name="name" readonly type="text" placeholder="Enter Name" id="Name" value="{{ $caretaker[0]->name }}">
+                                        <input class="form-control" name="name" readonly type="text" placeholder="" id="Name" value="{{ $caretaker[0]->name }}">
                                     </div>
 
                                     <div class="col-md-4">
                                         <label for="address" class="col-form-label">Address</label>
-                                        <textarea required="" name="address" readonly class="form-control" placeholder="Enter address" rows="2">{{ $caretaker[0]->address }}</textarea>
+                                        <textarea required="" name="address" readonly class="form-control" placeholder="" rows="2">{{ $caretaker[0]->address }}</textarea>
                                     </div>
 
                                     <div class="col-md-4">
                                         <label for="email" class="col-form-label">Email ID</label>
-                                        <input class="form-control" readonly name="email" type="email" placeholder="Enter Email ID" id="Email" value="{{ $caretaker[0]->email }}">
+                                        <input class="form-control" readonly name="email" type="email" placeholder="" id="Email" value="{{ $caretaker[0]->email }}">
                                     </div>
                                     <div class="col-md-4">
                                         <label for="phone" class="col-form-label">Phone Number</label>
-                                        <input class="form-control" readonly name="phone_number" type="text" placeholder="Enter Phone Number" id="phone" value="{{ $caretaker[0]->phone_number }}">
+                                        <input class="form-control" readonly name="phone_number" type="text" placeholder="" id="phone" value="{{ $caretaker[0]->phone_number }}">
                                     </div>
                                     <div class="col-md-4">
                                         <label for="whatsapp" class="col-form-label">Whatsapp Number</label>
-                                        <input class="form-control" readonly name="whatsapp_number" type="text"  placeholder="Enter Whatsapp Number" id="whatsapp" value="{{ $caretaker[0]->whatsapp_number }}">
+                                        <input class="form-control" readonly name="whatsapp_number" type="text"  placeholder="" id="whatsapp" value="{{ $caretaker[0]->whatsapp_number }}">
                                     </div>
 
                                     <div class="col-md-4">
@@ -87,22 +86,22 @@
 
                                     <div class="col-md-4">
                                         <label class="col-form-label">Work Place</label>
-                                        <input class="form-control" readonly name="work_place" type="text" placeholder="Enter Work Place" value="{{ $caretaker[0]->work_place }}">
+                                        <input class="form-control" readonly name="work_place" type="text" placeholder="" value="{{ $caretaker[0]->work_place }}">
                                     </div>
 
                                     <div class="col-md-4">
                                         <label class="col-form-label">Work Address</label>
-                                        <input class="form-control" readonly name="work_address" type="text" placeholder="Enter Work Address" value="{{ $caretaker[0]->work_address }}">
+                                        <input class="form-control" readonly name="work_address" type="text" placeholder="" value="{{ $caretaker[0]->work_address }}">
                                     </div>
 
                                     <div class="col-md-4">
                                         <label class="col-form-label">Position</label>
-                                        <input class="form-control" readonly name="position" type="text" placeholder="Enter Position" value="{{ $caretaker[0]->position }}">
+                                        <input class="form-control" readonly name="position" type="text" placeholder="" value="{{ $caretaker[0]->position }}">
                                     </div>
 
                                     <div class="col-md-4">
                                         <label for="work-number" class="col-form-label">Work Contact Number</label>
-                                        <input class="form-control" readonly name="work_contact_number" type="text"  placeholder="Enter Work Contact Number" id="work-number" value="{{ $caretaker[0]->work_contact_number }}">
+                                        <input class="form-control" readonly name="work_contact_number" type="text"  placeholder="" id="work-number" value="{{ $caretaker[0]->work_contact_number }}">
                                     </div>
 
                                     <div class="col-md-4 passport_input align-items-center" id="myRadioGroup">
@@ -119,7 +118,7 @@
                                                 <label class="form-check-label" for="PassportNo">No</label>
                                             </div>
                                             <input class="form-control" name="passport_number" type="text"
-                                                placeholder="Enter Passport No" readonly style=" {{ $caretaker[0]->is_passport_no == "0" ? 'display:none;' : '' }}"
+                                                placeholder="" readonly style=" {{ $caretaker[0]->is_passport_no == "0" ? 'display:none;' : '' }}"
                                                 value="{{ $caretaker[0]->passport_number }}">
                                         </div>
                                     </div>
@@ -139,14 +138,14 @@
                                                 <label class="form-check-label" for="EmiratesNo">No</label>
                                             </div>
                                             <input class="form-control" name="emirates_id_number" type="text"
-                                                placeholder="Enter Emirates ID"  readonly style=" {{ $caretaker[0]->is_emirates_id == "0" ? 'display:none;' : '' }}"
+                                                placeholder=""  readonly style=" {{ $caretaker[0]->is_emirates_id == "0" ? 'display:none;' : '' }}"
                                                 value="{{ $caretaker[0]->emirates_id_number }}">
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <label for="country" class="col-form-label">Visa Status</label>
-                                        <input class="form-control" name="position" readonly type="text" placeholder="Enter Position" value="{{ $caretaker[0]->visa_status }}">
+                                        <input class="form-control" name="position" readonly type="text" placeholder="" value="{{ $caretaker[0]->visa_status }}">
                                     </div>
 
                                     <div class="col-md-4">
@@ -166,7 +165,7 @@
                                                 <label class="form-check-label" for="blacklistNo">No</label>
                                             </div>
 
-                                            <input class="form-control" type="text" name="blacklist_reason" style="{{ $caretaker[0]->is_blacklist == "0" ? 'display:none;' : '' }}" value="{{ $caretaker[0]->blacklist_reason }}" placeholder="Enter reason for blacklist" id="blacklistReason" >
+                                            <input class="form-control" type="text" readonly name="blacklist_reason" style="{{ $caretaker[0]->is_blacklist == "0" ? 'display:none;' : '' }}" value="{{ $caretaker[0]->blacklist_reason }}" placeholder="" id="blacklistReason" >
                                         
                                         </div>
                                     </div>

@@ -33,14 +33,14 @@
 
             <li>
                 <a href="{{ route('dashboard') }}">
-                    <i class="uil-home-alt"></i>
+                    <i class="fa fa-home"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
 
             <li>
                 <a href="{{ route('hospital-appointments') }}" class=" waves-effect">
-                    <i class="uil-hospital"></i>
+                    <i class="fa fa-hospital"></i>
                     <span>Hospital Appointments </span>
                 </a>
 
@@ -48,7 +48,7 @@
 
             <li>
                 <a href="{{ route('manage-hospital-appointments') }}" class=" waves-effect">
-                    <i class="uil-hospital"></i>
+                    <i class="fa fa-hospital"></i>
                     <span>Manage Hospital Appointments </span>
                 </a>
 
@@ -56,14 +56,14 @@
 
             <li>
                 <a href="{{ route('hotel-appointments') }}" class=" waves-effect">
-                    <i class="uil-building"></i>
+                    <i class="fa fa-building"></i>
                     <span>Hotel Booking </span>
                 </a>
             </li>
 
             <li>
                 <a href="{{ route('manage-hotel-bookings') }}" class=" waves-effect">
-                    <i class="uil-building"></i>
+                    <i class="fa fa-building"></i>
                     <span>Manage Hotel Bookings </span>
                 </a>
 
@@ -72,14 +72,14 @@
 
             <li>
                 <a href="{{ route('vet.index') }}" class=" waves-effect">
-                    <i class="uil-comments-alt"></i>
+                    <i class="fa fa-user-friends"></i>
                     <span>Manage Vets </span>
                 </a>
             </li>
 
             <li>
                 <a href="{{ route('vet.schedule') }}" class=" waves-effect">
-                    <i class="uil-comments-alt"></i>
+                    <i class="fa fa-user-check"></i>
                     <span>Vets Schedule </span>
                 </a>
             </li>
@@ -87,30 +87,37 @@
             
             <li>
                 <a href="{{ route('invoice.index') }}" class=" waves-effect">
-                    <i class="uil-comments-alt"></i>
+                    <i class="fa fa-file-invoice-dollar"></i>
                     <span>Invoice </span>
                 </a>
             </li>
 
             <li>
+                <a href="{{ route('caretaker.index') }}" class=" waves-effect">
+                    <i class="fa fa-users"></i>
+                    <span>Caretakers </span>
+                </a>
+            </li>
+
+            <li>
                 <a href="{{ route('cat.index') }}" class=" waves-effect">
-                    <i class="uil-comments-alt"></i>
+                    <i class="fa fa-cat"></i>
                     <span>Cats </span>
                 </a>
             </li>
-            <li>
-                <a href="{{ route('caretaker.index') }}" class=" waves-effect">
-                    <i class="uil-comments-alt"></i>
-                    <span>Caretaker </span>
-                </a>
-            </li>
+            
             <li>
                 <a href="{{ route('hrooms.index') }}" class=" waves-effect">
-                    <i class="uil-comments-alt"></i>
+                    <i class="fa fa-hospital"></i>
                     <span>Rooms </span>
                 </a>
             </li>
-            
+            <li>
+                <a href="{{ route('procedure.index') }}" class=" waves-effect">
+                    <i class="fa fa-list"></i>
+                    <span>Procedures </span>
+                </a>
+            </li>
 
         </ul>
     </div>

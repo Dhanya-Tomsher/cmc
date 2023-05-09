@@ -22,6 +22,9 @@ class CaretakerController extends Controller
             'caretaker' => $caretaker,
         ]);
     }
+    public function getCaretakerBlackListing(){
+        return view('admin.caretaker.blacklist');
+    }
     public function create()
     {
         $countries = Country::all();
@@ -137,11 +140,11 @@ class CaretakerController extends Controller
             'is_emirates_id' => $request->is_emirates_id == 'hide' ? 0 : 1,
             'emirates_id_number' => $request->emirates_id_number,
             'visa_status' => $request->visa_status,
-            'number_of_registered_cats' => $request->number_of_registered_cats,
+            'number_of_registered_cats' => 0,
             'comments' => $request->comments,
             'status' => 'published',
             'image_url' => $image_name,
-            'is_blacklist' => $request->is_blacklist,
+            'is_blacklist' => ($request->is_blacklist) ? $request->is_blacklist : 0,
             'blacklist_reason' => $request->blacklist_reason
         ]);
 
@@ -152,7 +155,24 @@ class CaretakerController extends Controller
 
     public function getCaretakerList(Request $request){
         $search = $request->search;
-        $query  = Caretaker::select('id','name', 'customer_id', 'email', 'phone_number', 'whatsapp_number', 'status');
+        $query  = Caretaker::select('id','name', 'customer_id', 'email', 'phone_number', 'whatsapp_number', 'status')->where('is_blacklist',0);
+        if($search){  
+            $query->Where(function ($query) use ($search) {
+                $query->orWhere('name', 'LIKE', '%'.$search . '%')
+                        ->orWhere('customer_id', 'LIKE', '%'.$search . '%')
+                        ->orWhere('email', 'LIKE', '%'.$search . '%')
+                        ->orWhere('phone_number', 'LIKE', '%'.$search . '%')
+                        ->orWhere('whatsapp_number', 'LIKE', '%'.$search . '%');
+            });                    
+        }
+        $caretaker = $query->orderBy('id','DESC')->get();
+        $viewData = view('admin.caretaker.ajax_list', compact('caretaker'))->render();
+
+        return $viewData;
+    }
+    public function getCaretakerBlackList(Request $request){
+        $search = $request->search;
+        $query  = Caretaker::select('id','name', 'customer_id', 'email', 'phone_number', 'whatsapp_number', 'status')->where('is_blacklist',1);
         if($search){  
             $query->Where(function ($query) use ($search) {
                 $query->orWhere('name', 'LIKE', '%'.$search . '%')

@@ -26,7 +26,7 @@
                                 <td>{{ $med->temperature ? $med->temperature : '-' }}</td>
                                 <td>{{ $med->blood_pressure ? $med->blood_pressure : '-' }}</td>
                                 <td>{{ $med->report_date }}</td>
-                                <td><a href="#" onclick="deleteMedicalHistory({{ $med->id }})" class="px-3 text-danger"><i class="uil uil-trash-alt font-size-18"></i></a></td>
+                                <td><a href="#" onclick="deleteMedicalHistory({{ $med->id }})" class="px-3 text-danger"><i class="uil uil-trash-alt required font-size-18"></i></a></td>
                             </tr>
                         @endforeach
                     @endif

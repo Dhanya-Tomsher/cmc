@@ -21,7 +21,7 @@
                 <td>
                     <a href="{{ route('vet.edit', $vete) }}"
                         class="px-3 text-primary"><i
-                            class="uil uil-pen font-size-18"></i></a>
+                            class="uil uil-pen green font-size-18"></i></a>
                 </td>
 
             </tr>

@@ -29,16 +29,21 @@
                                        </form>
                                     </div>
 
-                                <!-- <div class="btn_group">
-                                    <div class="input-daterange input-group" id="datepicker6" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container="#datepicker6">
-                                        <input type="text" class="form-control text-start" placeholder="From" name="From">
-                                        <input type="text" class="form-control text-start" placeholder="To" name="To">
-                                        <button type="button" class="btn btn-primary"><i class="mdi mdi-filter-variant"></i></button>
+                                    <!-- <div class="btn_group">
+                                        <div class="input-daterange input-group" id="datepicker6" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container="#datepicker6">
+                                            <input type="text" class="form-control text-start" placeholder="From" name="From">
+                                            <input type="text" class="form-control text-start" placeholder="To" name="To">
+                                            <button type="button" class="btn btn-primary"><i class="mdi mdi-filter-variant"></i></button>
+                                        </div>
+                                    </div> -->
+                                    <div  class="btn_group">
+                                        <!-- <div class="d-flex justify-content-end mb-3"> -->
+                                            <a href="{{ route('caretaker.create') }}" class="btn btn_back waves-effect waves-light w-xl" id="new_appointment">Create Caretaker</a>
+                                        <!-- </div>
+                                        <div class="d-flex justify-content-end mb-3"> -->
+                                            <a href="{{ route('caretaker.blacklisted') }}" class="btn btn_back waves-effect waves-light w-xl" id="blacklisted">Blacklisted Caretakers</a>
+                                        <!-- </div> -->
                                     </div>
-                                </div> -->
-                                <div class="d-flex justify-content-end mb-3">
-                                    <a href="{{ route('caretaker.create') }}" class="btn btn_back waves-effect waves-light w-xl" id="new_appointment">Create Caretaker</a>
-                                </div>
                                </div>
 
 

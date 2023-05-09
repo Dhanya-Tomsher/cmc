@@ -13,7 +13,7 @@
                 <td>{{ date('Y-m-d',strtotime($app->created_at)) }} </td>
                 <td>
                     <a href="#" class="px-3 text-primary" onclick="deleteBooking({{$app->id}})"><i
-                            class="uil uil-trash font-size-18"></i></a>
+                            class="uil uil-trash required font-size-18"></i></a>
                 </td>
             </tr>
             @php $i++; @endphp

@@ -71,7 +71,7 @@
                                             <select class="form-select form-control" name="caretaker_id"  id="caretaker_id">
                                                 <option value="" >Select Caretaker</option>
                                                 @foreach ($caretakers as $ct)
-                                                    <option {{ $cat[0]->caretaker_id == $ct->id ? 'selected' : '' }} value="{{ $ct->id }}">{{ $ct->name }}</option>
+                                                    <option {{ $cat[0]->caretaker_id == $ct['id'] ? 'selected' : '' }} value="{{ $ct['id'] }}">{{ $ct['name'] }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

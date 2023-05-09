@@ -15,7 +15,7 @@
             <td>
                 
                 <a href="#" class="px-3 text-primary" onclick="deleteAppointment({{$app->id}})"><i
-                        class="uil uil-trash font-size-18"></i></a>
+                        class="uil uil-trash required font-size-18"></i></a>
             </td>
         </tr>
         @php $i++; @endphp

@@ -117,13 +117,14 @@ class HotelAppointmentsController extends Controller
             foreach($dates as $date){
                 $availableRooms[]  = Hotelrooms::where('room_status', 1)
                                     ->whereNotIN('id', DB::table('hotel_appointments')->whereRaw('"'.$date.'" between start_date and end_date')->get()->pluck('room_number'))
-                                    ->get()->pluck('id')->toArray();
+                                    ->orderBy('room_number','ASC')->get()->pluck('id')->toArray();
             }
             
             $inter = array_intersect(...$availableRooms);
             $rooms  = Hotelrooms::select('id','room_number','amount')
                                     ->where('room_status', 1)
                                     ->whereIN('id', $inter)
+                                    ->orderBy('room_number','ASC')
                                     ->get()->toArray();
         }
         return json_encode($rooms);

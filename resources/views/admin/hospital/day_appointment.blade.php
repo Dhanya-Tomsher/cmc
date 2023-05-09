@@ -51,7 +51,7 @@
                                     </td>
                                 @else
                                     <td class="fit appointment-green "  id="vet-{{ $vet->id }}" data-slot="{{ $slot }}" id="appointment-create"
-                                        onclick="getAppointmentForm('{{ $date }}','{{ $slot }}','{{ $vet->id }}')">
+                                        onclick="getAppointmentForm('{{ $date }}',['{{ $slot }}'],'{{ $vet->id }}')">
                                     </td>
                                 @endif
                             @else
@@ -63,8 +63,8 @@
             @endif
         </tbody>
     </table>
-    <div class="header d-flex justify-content-sm-around">
-    <input type="hidden" id="select-result"/>
+    <div class="header d-flex justify-content-sm-around hide">
+        <input type="hidden" id="select-result"/>
         <div>Time</div>
         @if ($vets)
             @foreach ($vets as $vet)
@@ -72,7 +72,7 @@
             @endforeach
         @endif
     </div>
-    <div class="table-con d-flex justify-content-sm-around">
+    <div class="table-con d-flex justify-content-sm-around hide">
         <div class="time-col">
             @if ($timeslots)
                 @foreach ($timeslots as $slot)
@@ -105,7 +105,6 @@
         @endif
     </div>
 
-    <pre id='result'></pre>
 </div>
 <script>
     function sort() {

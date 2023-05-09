@@ -204,7 +204,7 @@
                                                 <div class="col-md-4">
                                                     <label for="country" class="col-form-label">Visa Status</label>
                                                     <select class="form-select form-control" name="visa_status" >
-                                                        <option>Select</option>
+                                                        <option value="">Select</option>
                                                         <option value="Residence Visa"
                                                             {{ $caretaker->visa_status == 'Residence Visa' ? 'selected' : '' }}>Residence
                                                             Visa</option>

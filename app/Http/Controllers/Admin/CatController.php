@@ -30,7 +30,7 @@ class CatController extends Controller
     public function create()
     {
         $countries = Country::all();
-        $caretakers = Caretaker::orderBy('name','ASC')->get();
+        $caretakers = Caretaker::where('is_blacklist',0)->orderBy('name','ASC')->get();
         return view('admin.cat.create', compact('countries','caretakers'));
     }
     public function search()
@@ -78,12 +78,18 @@ class CatController extends Controller
             'status' => (isset($request->status)) ? $request->status : 'published',
         ];
         Cat::where('id',$request->catId)->update($data);
-        CatCaretakers::where('cat_id',$request->catId)->where('transfer_status',0)->update(['transfer_status' => 1]);
-        $caretaker = CatCaretakers::create([
-            'cat_id' => $request->catId,
-            'caretaker_id' => $request->caretaker_id,
-            'transfer_status' => 0,
-          ]);
+        $currentCaretaker = CatCaretakers::where('cat_id',$request->catId)->where('transfer_status',0)->get()->toArray();
+        
+        if($currentCaretaker[0]['caretaker_id'] != $request->caretaker_id){
+            CatCaretakers::where('cat_id',$request->catId)->where('transfer_status',0)->update(['transfer_status' => 1]);
+            $caretaker = CatCaretakers::create([
+                'cat_id' => $request->catId,
+                'caretaker_id' => $request->caretaker_id,
+                'transfer_status' => 0,
+              ]);
+            Caretaker::find($currentCaretaker[0]['caretaker_id'])->decrement('number_of_registered_cats');
+            Caretaker::find($request->caretaker_id)->increment('number_of_registered_cats');
+        }
     }
     public function view(cat $cat)
     {
@@ -106,11 +112,13 @@ class CatController extends Controller
                     ->where('cats.id', '=', $cat->id)
                     ->where('cat_caretakers.transfer_status', 0)->get();
         $countries = Country::all();
-        $caretakers = Caretaker::orderBy('name','ASC')->get();
+        $presentCaretaker = Caretaker::select('id','name')->where('id',$query[0]->caretaker_id)->where('is_blacklist',1)->get()->toArray();
+        $caretakers = Caretaker::select('id','name')->orderBy('name','ASC')->where('is_blacklist',0)->get()->toArray();
+        $editCaretakers = array_merge($presentCaretaker, $caretakers);
         return view('admin.cat.edit')->with([
             'cat' => $query,
             'countries' => $countries,
-            'caretakers' => $caretakers
+            'caretakers' => $editCaretakers
         ]);
     }
     public function store(StoreCatRequest $request)
@@ -155,7 +163,8 @@ class CatController extends Controller
             'cat_id' => $cat->id,
             'caretaker_id' => $request->caretaker_id,
             'transfer_status' => 0,
-          ]);
+        ]);
+        Caretaker::find($request->caretaker_id)->increment('number_of_registered_cats');
         return redirect()->route('cat.index')->with('status', 'cat created!');
     }
 
@@ -176,7 +185,7 @@ class CatController extends Controller
         }
         $cats = $query->orderBy('cats.id','DESC')
                     ->get(['cats.created_at','cats.id','cats.status','cats.gender','cats.cat_id','caretakers.customer_id','caretakers.name as caretaker_name','cats.name as cat_name','cats.image_url']);
-    //  dd(DB::getQueryLog());
+        //  dd(DB::getQueryLog());
         $viewData = view('admin.cat.ajax_list', compact('cats'))->render();
 
         return $viewData;

@@ -98,18 +98,24 @@ class HospitalAppointmentsController extends Controller
             
         if($request->has('term')){
             $search = $request->term;
-            $caretakers = Caretaker::select("id","name","customer_id")
-                            ->where('status', 'published')
-                            ->Where('name', 'LIKE', "%$search%")
-                            ->orWhere('customer_id', 'LIKE', "$search%")
-                            ->orWhere('phone_number', 'LIKE', "$search%")
-                            ->orWhere('whatsapp_number', 'LIKE', "$search%")
-                            ->orWhere('work_contact_number', 'LIKE', "$search%")
-                            ->orderBy('name','ASC')
+            $query = Caretaker::select("id","name","customer_id")
+                            ->where('status', 'published')->where('is_blacklist',0);
+            if($search){  
+                $query->Where(function ($query) use ($search) {
+                    $query->orWhere('name', 'LIKE', "%$search%")
+                    ->orWhere('customer_id', 'LIKE', "$search%")
+                    ->orWhere('phone_number', 'LIKE', "$search%")
+                    ->orWhere('whatsapp_number', 'LIKE', "$search%")
+                    ->orWhere('work_contact_number', 'LIKE', "$search%");
+                });                    
+            }
+                            
+            $caretakers = $query->orderBy('name','ASC')
                             ->get();
         }else{
             $caretakers = Caretaker::select("id","name","customer_id")
                             ->where('status', 'published')
+                            ->where('is_blacklist',0)
                             ->orderBy('name','ASC')
                             ->get();
         }
@@ -120,6 +126,7 @@ class HospitalAppointmentsController extends Controller
         $id = $request->id;
         $caretakers = Caretaker::select("caretakers.*","countries.name as country")
                             ->leftJoin('countries','countries.id', '=', 'caretakers.home_country')
+                            ->where('caretakers.is_blacklist',0)
                             ->where('caretakers.status', 'published')
                             ->where('caretakers.id', $id)
                             ->get();
