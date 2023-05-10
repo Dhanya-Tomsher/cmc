@@ -138,6 +138,7 @@ class HotelAppointmentsController extends Controller
             'start_date' => $request->from_date,
             'end_date' => $request->to_date,
             'caretaker_comment' => $request->remarks,
+            'payment_type' => $request->payment_type
         ]);
     }
     public function manageHotelBookings(){

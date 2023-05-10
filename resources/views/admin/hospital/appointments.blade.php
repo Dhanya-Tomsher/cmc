@@ -443,6 +443,14 @@
                                                     <textarea class="form-control" rows="1" placeholder="Remarks" name="remarks" id="remarks"></textarea>
                                                 </div>
 
+                                                <div class="col-md-4">
+                                                    <label for="payment" class="col-form-label">Payment Type</label>
+                                                    <select class="form-select form-control select2" id="payment_type" name="payment_type" style="width:100%;">
+                                                        <option value="online">Online</option>
+                                                        <option value="pos_cash">POS or Cash</option>
+                                                    </select>
+                                                </div>
+
                                                 <div class="col-md-12 align-self-end mt-3 text-end">
                                                     <input type="submit" class="btn btn-primary waves-effect waves-light w-xl me-2" id="create_appoinment" value="Create Appoinment"/>
                                                 </div>

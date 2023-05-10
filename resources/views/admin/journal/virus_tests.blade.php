@@ -15,6 +15,7 @@
                     <th>FeLv</th>
                     <th>FIV</th>
                     <th>Panleukopenia</th>
+                    <th>Others</th>
                     <th>Report Date</th>
                     <th>Action</th>
                 </tr>
@@ -36,6 +37,8 @@
                     <td>{!! ($virus->fiv == 1) ? '<span class="error f-20">+ </span>' : '<span
                             class="green f-20">-</span>' !!} </td>
                     <td>{!! ($virus->panleukopenia == 1) ? '<span class="error f-20">+ </span>' : '<span
+                            class="green f-20">-</span>' !!} </td>
+                    <td>{!! ($virus->others == 1) ? '<span class="error f-20">+ </span>' : '<span
                             class="green f-20">-</span>' !!} </td>
                     <td>{{ $virus->report_date }}</td>
                     <td><a href="#" onclick="deleteVirusTest({{ $virus->id }})" class="px-3 text-danger"><i  class="uil uil-trash-alt font-size-18"></i></a></td>
@@ -140,11 +143,24 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 mt-3 text-center">
-                            <input type="text" name="cat_id" value="{{$cat_id}}">
-                            <input type="text" name="type" value="{{$type}}">
+                        <div class="col-md-4 mb-2">
+                            <label for="Document" class="col-form-label pt-0">Others</label>
+                            <div class="d-flex align-items-center">
+                                <div class="custom-radio form-check form-check-inline">
+                                    <input type="radio" id="otherYes" name="others" class="form-check-input" value="1">
+                                    <label class="form-check-label f-20" for="otherYes">+</label>
+                                </div>
+                                <div class="custom-radio form-check form-check-inline">
+                                    <input type="radio" id="otherNo" name="others" class="form-check-input" value="0" checked>
+                                    <label class="form-check-label f-20 f-20" for="otherNo">-</label>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-6 mt-3">
+                        <div class="col-md-12 mt-3 text-center">
+                            <input type="hidden" name="cat_id" value="{{$cat_id}}">
+                            <input type="hidden" name="type" value="{{$type}}">
+                        </div>
+                        <div class="col-md-12 mt-3 text-center">
                             <a href="#" class="btn btn-primary waves-effect waves-light w-lg" data-bs-dismiss="modal" onclick="addVirusTest()" aria-label="Close">Add</a>
                         </div>
                     </div>

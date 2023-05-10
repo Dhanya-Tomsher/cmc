@@ -203,6 +203,7 @@ class HospitalAppointmentsController extends Controller
                     'date_appointment' => $request->appointment_date,
                     'time_appointment' => $time,
                     'reason' => $request->remarks,
+                    'payment_type' => $request->payment_type
                 ]);
             }
         }

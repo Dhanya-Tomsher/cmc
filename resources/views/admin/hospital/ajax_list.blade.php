@@ -7,9 +7,9 @@
             <td>{{ $app->time_appointment }} </td>
             <td>{{ $app->name }} </td>
             <td>{{ $app->caretaker_name }} </td>
-            <td>{{ $app->customer_id }} </td>
+            <!-- <td>{{ $app->customer_id }} </td> -->
             <td>{{ $app->cat_name }} </td>
-            <td>{{ $app->cat_id }} </td>
+            <!-- <td>{{ $app->cat_id }} </td> -->
             <td>{{ $app->procedure_name }} </td>
             <td>{{ date('Y-m-d',strtotime($app->created_at)) }} </td>
             <td>

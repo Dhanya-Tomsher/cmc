@@ -343,6 +343,7 @@ class CatController extends Controller
             'felv'  => $request->felv, 
             'fiv'  => $request->fiv, 
             'panleukopenia'  => $request->panleukopenia, 
+            'others' => $request->others,
             'report_date' => date('Y-m-d')
         ]);
     }

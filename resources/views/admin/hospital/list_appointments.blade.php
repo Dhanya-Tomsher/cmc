@@ -56,9 +56,9 @@
                                         <th>Appointment Time</th>
                                         <th>Vet Name</th>
                                         <th>Caretaker Name</th>
-                                        <th>Caretaker ID</th>
+                                        <!-- <th>Caretaker ID</th> -->
                                         <th>Cat Name</th>
-                                        <th>Cat ID</th>
+                                        <!-- <th>Cat ID</th> -->
                                         <th>Procedure</th>
                                         <th>Created At</th>
                                         <th>Action</th>
