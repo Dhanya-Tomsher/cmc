@@ -176,7 +176,7 @@
                                                         <label class="form-check-label" for="PassportNo">No</label>
                                                     </div>
 
-                                                    <input class="form-control" type="text" name="passport_number" style="{{ $caretaker->is_passport_no == "0" ? 'display:none;' : '' }}" value="{{ $caretaker->passport_number }}" placeholder="Enter Passport No" id="input1" >
+                                                    <input class="form-control" type="text" name="passport_number" style="{{ $caretaker->is_passport_no == "0" ? 'display:none;' : '' }}" value="{{ $caretaker->passport_number }}"  id="input1" >
                                                    
                                                     </div>
                                                 </div>

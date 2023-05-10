@@ -188,4 +188,22 @@ class HotelAppointmentsController extends Controller
         $app = HotelAppointments::find($id);
         $app->delete();
     }
+
+    function getBookingDetails(Request $request){
+        $app_id = $request->id;
+       
+        $hosp  = HotelAppointments::leftJoin('caretakers as care','hotel_appointments.caretaker_id','=','care.id')
+                                ->leftJoin('cats','hotel_appointments.cat_id','=','cats.id')
+                                ->leftJoin('hotelrooms as room','hotel_appointments.room_number','=','room.id')
+                                ->leftJoin('countries as care_country','care_country.id', '=', 'care.home_country')
+                                ->leftJoin('countries as cat_country','cat_country.id', '=', 'cats.place_of_origin')
+                                ->where('hotel_appointments.id', $app_id)
+                                ->get(['care_country.name as care_country','cat_country.name as cat_country','hotel_appointments.created_at','room.amount','room.room_number as procedure_name','hotel_appointments.id',
+                                'hotel_appointments.payment_type','hotel_appointments.room_number','hotel_appointments.start_date','hotel_appointments.end_date','cats.cat_id',
+                                'care.*','care.work_place as caretaker_work_place','care.name as caretaker_name','cats.name as cat_name','cats.*', 'care.emirate as caretaker_emirate','cats.emirate as cat_emirate']);                 
+       
+        $viewData = view('admin.hote.booking_view_details', compact('hosp'))->render();
+
+        return $viewData;
+    }
 }

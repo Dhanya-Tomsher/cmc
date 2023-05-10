@@ -175,6 +175,8 @@
             type: "POST",
             data: { type : type , cat_id : cat_id, keyword :keyword,from_date:from_date,to_date:to_date},
             success: function( response ) {
+                $('#journal_table').DataTable().clear();
+                $('#journal_table').DataTable().destroy();
                $('#journal_data').html(response);
                $('#journal_table').DataTable();  
                $('.menus .nav-link').removeClass('data_active');

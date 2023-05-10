@@ -77,6 +77,23 @@
         </div>
         <!-- end row -->
 
+         <!-- Add New Event MODAL --> 
+         <div class="modal fade bs-example-modal-xl" id="appointmentDetails" tabindex="-1">
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myExtraLargeModalLabel">Booking Details </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body" id="appointment_details">
+                        
+                    </div>
+                </div><!-- /.modal-content -->
+            </div> <!-- end modal dialog-->
+        </div>
+        <!-- end modal-->
+
     </div> <!-- container-fluid -->
 </div>
 @endsection
@@ -110,7 +127,8 @@
                 to_date:to_date
             },
             success: function( response ) {
-                
+                // $('#hotelBookings').DataTable().clear();
+                // $('#hotelBookings').DataTable().destroy();
                 $('#bookingDetails').html(response);
                 $('#hotelBookings').DataTable();  
             }
@@ -162,5 +180,19 @@
         $('#from_date,#to_date' ).datepicker( 'setDate', '' ).datepicker('fill');
         getBookings(); 
     });
+
+    function viewBooking(app_id){
+        $.ajax({
+            url: "{{ route('booking.view')}}",
+            type: "POST",
+            data: { 
+                id:app_id
+            },
+            success: function( response ) {
+                $('#appointment_details').html(response);
+                $('#appointmentDetails').modal('show');  
+            }
+        });
+    }
 </script>
 @endpush

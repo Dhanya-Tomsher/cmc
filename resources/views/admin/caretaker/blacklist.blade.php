@@ -107,6 +107,8 @@
                 search: search
             },
             success: function(response) {
+                $('#caretakerTable').DataTable().clear();
+                $('#caretakerTable').DataTable().destroy();
                 $('#caretakerDetails').html(response);
                 $('#caretakerTable').DataTable();
             }

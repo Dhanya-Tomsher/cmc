@@ -101,8 +101,10 @@
                 search:search
             },
             success: function( response ) {
-            $('#roomDetails').html(response);
-            $('#roomTable').DataTable();  
+                $('#roomTable').DataTable().clear();
+                $('#roomTable').DataTable().destroy();
+                $('#roomDetails').html(response);
+                $('#roomTable').DataTable();  
             }
         });
     }

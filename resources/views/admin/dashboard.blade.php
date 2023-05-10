@@ -281,8 +281,10 @@
                 search:search
             },
             success: function( response ) {
-            $('#caretakerDetails').html(response);
-            $('#caretakerTable').DataTable();  
+                $('#caretakerTable').DataTable().clear();
+                $('#caretakerTable').DataTable().destroy();
+                $('#caretakerDetails').html(response);
+                $('#caretakerTable').DataTable();  
             }
         });
     }

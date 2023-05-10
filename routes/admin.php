@@ -125,17 +125,20 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::get('hospital-appointments',[HospitalAppointmentsController::class,'getAppointments'])->name('hospital-appointments');
     Route::get('caretaker-search',[HospitalAppointmentsController::class,'searchCaretaker'])->name('ajax-autocomplete-caretaker-search');
     Route::post('caretaker-details',[HospitalAppointmentsController::class,'getCaretakerDetails'])->name('get-caretaker');
+    Route::post('caretaker-cats-details',[HospitalAppointmentsController::class,'getCaretakerCats'])->name('get-caretaker-cats');
 
     Route::get('cat-search',[HospitalAppointmentsController::class,'searchCat'])->name('ajax-autocomplete-cat-search');
     Route::post('cat-details',[HospitalAppointmentsController::class,'getCatDetails'])->name('get-cat');
 
     Route::get('procedure-search',[HospitalAppointmentsController::class,'searchProcedure'])->name('ajax-autocomplete-procedure-search');
     Route::post('save-appointment-details',[HospitalAppointmentsController::class,'saveAppointmentDetails'])->name('save-appointment');
+    Route::post('update-appointment-details',[HospitalAppointmentsController::class,'updateAppointmentDetails'])->name('update-appointment');
 
     Route::get('get-appointments',[HospitalAppointmentsController::class,'getHospitalAppointments'])->name('get-appointments');
 
     Route::post('get-selected-slots',[HospitalAppointmentsController::class,'getSelectedSlots'])->name('get-selected-slots');
-    
+    Route::post('get-selected-edit-slots',[HospitalAppointmentsController::class,'getSelectedEditSlots'])->name('get-selected-edit-slots');
+    Route::post('get-vets-ondate',[HospitalAppointmentsController::class,'getVetsOnDate'])->name('get-vets-ondate');
     Route::get('get-scheduled-vets',[VetscheduleController::class,'getScheduledVets'])->name('get-scheduled-vets');
 
     Route::get('day-appointments',[HospitalAppointmentsController::class,'getDayAppointments'])->name('day-appointments');
@@ -150,10 +153,14 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     // Route::get('appointment/list', [HospitalAppointmentsController::class, 'getAppointmentList'])->name('appointment.list');
     Route::post('appointment.list', [HospitalAppointmentsController::class, 'getAppointmentsList'])->name('appointment.list');
     Route::post('appointment.delete', [HospitalAppointmentsController::class, 'deleteAppointment'])->name('appointment.delete');
+    Route::post('appointment.view', [HospitalAppointmentsController::class, 'getAppointmentsDetails'])->name('appointment.view');
+    Route::post('appointment.edit', [HospitalAppointmentsController::class, 'editAppointments'])->name('appointment.edit');
 
     Route::get('manage-hotel-bookings',[HotelAppointmentsController::class,'manageHotelBookings'])->name('manage-hotel-bookings');
     Route::post('booking.list', [HotelAppointmentsController::class, 'getBookingList'])->name('booking.list');
     Route::post('booking.delete', [HotelAppointmentsController::class, 'deleteBooking'])->name('booking.delete');
+    Route::post('booking.view', [HotelAppointmentsController::class, 'getBookingDetails'])->name('booking.view');
+
     
     Route::get('procedure', [ProcedureController::class, 'index'])->name('procedure.index');
     Route::post('procedure/store', [ProcedureController::class, 'store'])->name('procedure.store');

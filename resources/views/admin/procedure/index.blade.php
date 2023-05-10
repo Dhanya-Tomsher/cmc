@@ -125,12 +125,15 @@
 @endsection
 @push('header')
 <link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}" />
+<script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
 @endpush
 @push('scripts')
-<script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('assets/js/jquery.validate.min.js') }}"></script>
 <script>
+    
+    
      $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -147,8 +150,10 @@
                 search:search
             },
             success: function( response ) {
-            $('#procedureDetails').html(response);
-            $('#procedureTable').DataTable();  
+                $('#procedureTable').DataTable().clear();
+                $('#procedureTable').DataTable().destroy();
+                $('#procedureDetails').html(response);
+                $('#procedureTable').DataTable();
             }
         });
     }

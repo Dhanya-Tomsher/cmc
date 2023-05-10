@@ -106,8 +106,10 @@
                 search:search
             },
             success: function( response ) {
-            $('#catDetails').html(response);
-            $('#catsTable').DataTable();  
+                $('#catsTable').DataTable().clear();
+                $('#catsTable').DataTable().destroy();
+                $('#catDetails').html(response);
+                $('#catsTable').DataTable();  
             }
         });
     }

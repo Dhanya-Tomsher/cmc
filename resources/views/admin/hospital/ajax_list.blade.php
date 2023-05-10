@@ -13,9 +13,9 @@
             <td>{{ $app->procedure_name }} </td>
             <td>{{ date('Y-m-d',strtotime($app->created_at)) }} </td>
             <td>
-                
-                <a href="#" class="px-3 text-primary" onclick="deleteAppointment({{$app->id}})"><i
-                        class="uil uil-trash required font-size-18"></i></a>
+                <a href="#" class="px-3 text-primary" onclick="viewAppointment({{$app->id}})"><i class="uil uil-eye font-size-18"></i></a>
+                <a href="#" class="px-3 text-primary" onclick="editAppointment({{$app->id}})"><i class="uil uil-pen green font-size-18"></i></a>
+                <a href="#" class="px-3 text-primary" onclick="deleteAppointment({{$app->id}})"><i class="uil uil-trash required font-size-18"></i></a>
             </td>
         </tr>
         @php $i++; @endphp

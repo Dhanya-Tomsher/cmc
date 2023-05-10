@@ -92,8 +92,10 @@
                 search:search
             },
             success: function( response ) {
-            $('#vetDetails').html(response);
-            $('#vatTable').DataTable();  
+                $('#vatTable').DataTable().clear();
+                $('#vatTable').DataTable().destroy();
+                $('#vetDetails').html(response);
+                $('#vatTable').DataTable();  
             }
         });
     }
