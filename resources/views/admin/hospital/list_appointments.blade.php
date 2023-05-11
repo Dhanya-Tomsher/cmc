@@ -59,8 +59,9 @@
                                         <!-- <th>Caretaker ID</th> -->
                                         <th>Cat Name</th>
                                         <!-- <th>Cat ID</th> -->
-                                        <th>Procedure</th>
+                                        <!-- <th>Procedure</th> -->
                                         <th>Created At</th>
+                                        <th class="text-center w-10">Payment Confirmation</th>
                                         <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
@@ -502,7 +503,7 @@
                                         </div>
 
                                         <div class="col-md-12 align-self-end mt-3 text-end">
-                                            <input type="submit" class="btn btn-primary waves-effect waves-light w-xl me-2" id="create_appoinment" value="Create Appoinment"/>
+                                            <input type="submit" class="btn btn-primary waves-effect waves-light w-xl me-2" id="create_appoinment" value="Update Appoinment"/>
                                         </div>
                                     </div>
                                 </form>
@@ -1051,7 +1052,44 @@
             });
         }
     });
-
+    function changePaymentStatus(id,status){
+        Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you want to change this payment status?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+        }).then(function(result) {
+            if (result.isConfirmed) {
+                var data = []
+                $.ajax({
+                    url: "{{ route('hospital-payment-status')}}",
+                    type: "POST",
+                    data: { id:id,status:status },
+                    success: function( response ) {
+                        var html = '';
+                       
+                        if(status == 0){
+                            html = '<a class="payment_not_confirmed" onclick="changePaymentStatus('+id+',1);"><i class="fas fa-times"></i></a>';
+                        }else{
+                            html = '<a class="payment_confirmed" onclick="changePaymentStatus('+id+',0);"><i class="fas fa-check"></i></a>';
+                        }
+                        console.log(html);
+                        $('#payment_'+id).html(html);
+                        
+                        Swal.fire(
+                            'Status changed successfully',
+                            '',
+                            'success'
+                        );
+                    }
+                });
+            } 
+            
+        })
+    }
 
 </script>
 @endpush

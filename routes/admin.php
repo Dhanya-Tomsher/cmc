@@ -80,6 +80,12 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::get('invoice/search', [InvoiceController::class, 'search'])->name('invoice.search');
     Route::post('invoice/store', [InvoiceController::class, 'store'])->name('invoice.store');
     Route::post('invoice/update', [InvoiceController::class, 'update'])->name('invoice.update');
+   
+    Route::get('get-hospital-invoice/{invoice}', [InvoiceController::class, 'getHospitalInvoiceDetails'])->name('get-hospital-invoice');
+    Route::post('update-invoice-data', [InvoiceController::class, 'updateInvoice'])->name('update-invoice-data');
+    
+    Route::get('get-hotel-invoice/{invoice}', [InvoiceController::class, 'getHotelInvoiceDetails'])->name('get-hotel-invoice');
+    Route::get('/generatepdf/{id}/{type}', [InvoiceController::class, 'generateInvoicePDF'])->name('generate-pdf');
 
     Route::get('hote', [HotelAppointmentsController::class, 'index'])->name('hote.index');
     Route::get('hote/create', [HotelAppointmentsController::class, 'create'])->name('hote.create');
@@ -148,6 +154,10 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::get('get-hotel-schedules',[HotelAppointmentsController::class,'getHotelSchedules'])->name('get-hotel-schedules');
     Route::post('get-available-rooms',[HotelAppointmentsController::class,'getAvailableRooms'])->name('get-available-rooms');
     Route::post('save-hotel-booking',[HotelAppointmentsController::class,'saveHotelBooking'])->name('save-hotel-booking');
+    Route::post('update-hotel-booking',[HotelAppointmentsController::class,'updateHotelBooking'])->name('update-hotel-booking');
+    Route::post('booking.edit', [HotelAppointmentsController::class, 'editBookings'])->name('booking.edit');
+    Route::post('get-available-edit-rooms',[HotelAppointmentsController::class,'getAvailableEditRooms'])->name('get-available-edit-rooms');
+    Route::post('hotel-payment-status',[HotelAppointmentsController::class,'changePaymentStatus'])->name('hotel-payment-status');
 
     Route::get('manage-hospital-appointments',[HospitalAppointmentsController::class,'manageHospitalAppointments'])->name('manage-hospital-appointments');
     // Route::get('appointment/list', [HospitalAppointmentsController::class, 'getAppointmentList'])->name('appointment.list');
@@ -155,6 +165,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::post('appointment.delete', [HospitalAppointmentsController::class, 'deleteAppointment'])->name('appointment.delete');
     Route::post('appointment.view', [HospitalAppointmentsController::class, 'getAppointmentsDetails'])->name('appointment.view');
     Route::post('appointment.edit', [HospitalAppointmentsController::class, 'editAppointments'])->name('appointment.edit');
+    Route::post('hospital-payment-status',[HospitalAppointmentsController::class,'changePaymentStatus'])->name('hospital-payment-status');
 
     Route::get('manage-hotel-bookings',[HotelAppointmentsController::class,'manageHotelBookings'])->name('manage-hotel-bookings');
     Route::post('booking.list', [HotelAppointmentsController::class, 'getBookingList'])->name('booking.list');

@@ -85,12 +85,12 @@
             </li>
 
             
-            <li>
+            <!-- <li>
                 <a href="{{ route('invoice.index') }}" class=" waves-effect">
                     <i class="uil-invoice"></i>
                     <span>Invoice </span>
                 </a>
-            </li>
+            </li> -->
 
             <li>
                 <a href="{{ route('caretaker.index') }}" class=" waves-effect">

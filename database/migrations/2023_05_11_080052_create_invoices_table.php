@@ -15,20 +15,19 @@ class CreateInvoicesTable extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->string('cat_id');
-            $table->string('caretaker_id');
-            $table->string('appointment_type')->nullable();
-            $table->string('appointment_id')->nullable();
+            $table->integer('booking_id');
+            $table->enum('booking_type', ['hospital_appointment', 'hotel_booking'])->default(null);
+            $table->float('price', 6, 2)->default(0.00);
+            $table->float('net', 6, 2)->default(0.00);
+            $table->float('vat', 6, 2)->default(0.00);
+            $table->float('net_vat', 6, 2)->default(0.00);
+            $table->float('service_charge', 6, 2)->default(0.00);
+            $table->float('total', 6, 2)->default(0.00);
             $table->date('invoice_date')->nullable();
-            $table->string('amount')->nullable();
-            $table->string('vat')->nullable();
-            $table->string('total_amount')->nullable();
-            $table->string('paid')->nullable();
-            $table->string('balance')->nullable();
             $table->boolean('status')->default(1);  
             $table->timestamps();
         });
-    } 
+    }
 
     /**
      * Reverse the migrations.

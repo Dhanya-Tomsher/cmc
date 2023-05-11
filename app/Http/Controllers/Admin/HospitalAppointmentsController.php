@@ -10,6 +10,7 @@ use App\Models\Vetschedule;
 use App\Models\Procedures;
 use App\Models\VetShifts;
 use App\Models\Country;
+use App\Models\Invoices;
 use App\Http\Requests\StoreHospitalAppointmentRequest;
 use App\Http\Requests\StoreHospitalAppointmentsRequest;
 use App\Http\Requests\UpdateHospitalAppointmentRequest;
@@ -193,6 +194,8 @@ class HospitalAppointmentsController extends Controller
 
     public function saveAppointmentDetails(Request $request){
         $appointmentTime = $request->appointment_time;
+        $data = [];
+      
         if(!empty($appointmentTime)){
             foreach($appointmentTime as $time){
                 $hosp = HospitalAppointments::create([
@@ -205,6 +208,21 @@ class HospitalAppointmentsController extends Controller
                     'reason' => $request->remarks,
                     'payment_type' => $request->payment_type
                 ]);
+
+                $data[] = array(
+                    'booking_id' => $hosp->id,
+                    'booking_type' => 'hospital_appointment',
+                    'price' => $request->price, 
+                    'net' => $request->price, 
+                    'net_vat' => $request->price, 
+                    'total' => $request->price, 
+                    'invoice_date' => date('Y-m-d'),
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s')
+                );
+            }
+            if(!empty($data)){
+                Invoices::insert($data);
             }
         }
         
@@ -316,6 +334,7 @@ class HospitalAppointmentsController extends Controller
         $id = $request->id;
         $app = HospitalAppointments::find($id);
         $app->delete();
+        Invoices::where('booking_id',$id)->where('booking_type','hospital_appointment')->delete();
     }
     // public function getAppointmentList(Request $request){
     //     if ($request->ajax()) {
@@ -368,7 +387,7 @@ class HospitalAppointmentsController extends Controller
             }
         }
         $hosp = $query->orderBy('hospital_appointments.id','DESC')
-        ->get(['hospital_appointments.created_at','procedures.name as procedure_name','hospital_appointments.id','hospital_appointments.date_appointment','hospital_appointments.time_appointment','vets.name','cats.cat_id','caretakers.customer_id','caretakers.name as caretaker_name','cats.name as cat_name']);
+        ->get(['hospital_appointments.payment_confirmation','hospital_appointments.created_at','procedures.name as procedure_name','hospital_appointments.id','hospital_appointments.date_appointment','hospital_appointments.time_appointment','vets.name','cats.cat_id','caretakers.customer_id','caretakers.name as caretaker_name','cats.name as cat_name']);
      
         $viewData = view('admin.hospital.ajax_list', compact('hosp'))->render();
 
@@ -489,5 +508,10 @@ class HospitalAppointmentsController extends Controller
                     ]);
         
         return $request->appointment_date;
+    }
+    public function changePaymentStatus(Request $request){
+        $hotel = HospitalAppointments::find($request->id)->update([
+            'payment_confirmation' => $request->status
+        ]);
     }
 }

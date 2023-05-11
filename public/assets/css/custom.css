@@ -475,11 +475,25 @@ table td.highlighted {
 .w-100{
   width: 100% !important;
 }
+.w-10{
+  width: 10% !important;
+}
 .h-800{
   max-height: 800px !important;
 }
 .w-40{
   width: 40% !important;
 }
+.payment_confirmed{
+    color: green !important;
+    font-size: 20px !important;
+    cursor: pointer !important;
+}
+.payment_not_confirmed{
+  color: red !important;
+  font-size: 20px !important;
+  cursor: pointer !important;
+}
+
 /* Jisha Styles End*/
 

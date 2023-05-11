@@ -1,19 +1,19 @@
 <!-- Nav tabs -->
     <ul class="nav nav-tabs border-0" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="appointment_tab" data-bs-toggle="tab" href="#navtabs-appointment" role="tab">
+            <a class="nav-link active"  data-bs-toggle="tab" href="#navtabs-appointmentview" role="tab">
                 <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
                 <span class="d-none d-sm-block">Appointment Details</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="caretaker_tab" data-bs-toggle="tab" href="#navtabs-care-taker" role="tab">
+            <a class="nav-link" data-bs-toggle="tab" href="#navtabs-care-takerview" role="tab">
                 <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
                 <span class="d-none d-sm-block">Care Taker Details</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="cat_tab" data-bs-toggle="tab" href="#navtabs-cat-details" role="tab">
+            <a class="nav-link"  data-bs-toggle="tab" href="#navtabs-cat-detailsview" role="tab">
                 <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
                 <span class="d-none d-sm-block">Cat Details</span>
             </a>
@@ -22,7 +22,7 @@
 
     <!-- Tab panes -->
     <div class="tab-content py-3 text-muted">
-        <div class="tab-pane " id="navtabs-care-taker" role="tabpanel">
+        <div class="tab-pane " id="navtabs-care-takerview" role="tabpanel">
             <div class="row">
                 <div class="col-md-4">
                     <label for="example-text-input" class="col-form-label">Customer ID</label>
@@ -121,7 +121,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane" id="navtabs-cat-details" role="tabpanel">
+        <div class="tab-pane" id="navtabs-cat-detailsview" role="tabpanel">
             <div class="row">
                 <div class="col-md-4">
                     <label for="example-text-input" class="col-form-label">Cat ID</label>
@@ -303,7 +303,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane active" id="navtabs-appointment" role="tabpanel">
+        <div class="tab-pane active" id="navtabs-appointmentview" role="tabpanel">
             <div class="row">
                 <div class="col-md-4">
                     <label for="country" class="col-form-label">Procedure</label>
