@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\HospitalAppointmentsController;
 use App\Http\Controllers\Admin\HotelAppointmentsController;
 use App\Http\Controllers\Admin\HotelroomsController;
 use App\Http\Controllers\Admin\ProcedureController;
+use App\Http\Controllers\Admin\FormsController;
 
 //Route::prefix('admin')->group(function () {
 //    Route::middleware(['auth', 'auth.session'])->group(function () {
@@ -177,6 +178,22 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::post('procedure/store', [ProcedureController::class, 'store'])->name('procedure.store');
     Route::post('procedure/delete', [ProcedureController::class, 'delete'])->name('procedure.delete');
     Route::post('procedure.list', [ProcedureController::class, 'getProcedureList'])->name('procedure.list');
-    
+
+    Route::get('forms', [FormsController::class, 'index'])->name('forms.index');
+    Route::post('forms/delete', [FormsController::class, 'delete'])->name('form.delete');
+    Route::get('form/create', [FormsController::class, 'create'])->name('form.create');
+    Route::get('form/view/{form}', [FormsController::class, 'view'])->name('form.view');
+    Route::get('form/edit/{form}', [FormsController::class, 'edit'])->name('form.edit');
+    Route::post('form/store', [FormsController::class, 'store'])->name('form.store');
+
+    Route::get('custom-forms', [FormsController::class, 'customFormsList'])->name('custom-forms');
+    Route::post('generate-custom-form', [FormsController::class, 'generateCustomForm'])->name('generate-custom-form');
+    Route::post('custom-forms-list', [FormsController::class, 'customFormsListing'])->name('custom-forms-list');
+    Route::post('custom-form.delete', [FormsController::class, 'customFormDelete'])->name('custom-form.delete');
+    Route::get('custom-form/view/{cid}', [FormsController::class, 'viewCustom'])->name('custom-form.view');
+    Route::post('signaturepad',[FormsController::class, 'signatureUpload'])->name('signaturepad.upload');
+
+    Route::get('custom-signature/{cid}', [FormsController::class, 'customSignature'])->name('custom-signature');
+
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

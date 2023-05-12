@@ -99,8 +99,8 @@ class InvoiceController extends Controller
                         ->get(['ha.payment_confirmation','room.room_number as service','c.cat_id','ct.customer_id','ct.name as caretaker_name','ct.address','ct.email','ct.phone_number','invoices.*'])->toArray(); 
         }
       
-       
+       $invoice[0]['imagePath'] = public_path('assets/images/logo.png');
         $pdf = PDF::loadView('admin.invoice_pdf', $invoice[0]);
-        return $pdf->stream('invoice.pdf');
+        return $pdf->stream('invoice.pdf',array('Attachment'=>0));
     }
 }

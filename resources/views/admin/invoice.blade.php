@@ -144,7 +144,7 @@
                                         <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light me-1"><i class="fa fa-print"></i></a>
                                     </div>
                                     <div class="float-end">
-                                        <a href="{{ route('generate-pdf',['id' => $invoice[0]->id, 'type' => $invoice[0]->booking_type])}}" class="btn btn-danger waves-effect waves-light me-1">Generate Pdf <i class="fa fa-file-pdf"></i></a>
+                                        <a href="{{ route('generate-pdf',['id' => $invoice[0]->id, 'type' => $invoice[0]->booking_type])}}" target="_blank" class="btn btn-danger waves-effect waves-light me-1">Generate Pdf <i class="fa fa-file-pdf"></i></a>
                                     </div>
                                 </div>
                             </div>

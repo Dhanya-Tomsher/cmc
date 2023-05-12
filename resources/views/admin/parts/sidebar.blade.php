@@ -119,6 +119,17 @@
                 </a>
             </li>
 
+            
+            <li>
+                <a href="#" class="has-arrow waves-effect">
+                    <i class="uil-file"></i> <span>Forms</span>
+                </a>
+                <ul class="sub-menu" aria-expanded="false">
+                    <li><a href="{{ route('forms.index') }}">Forms</a></li>
+                    <li><a href="{{ route('custom-forms') }}">Customer Forms </a></li>
+                </ul>
+            </li>
+
         </ul>
     </div>
     <!-- Sidebar -->
