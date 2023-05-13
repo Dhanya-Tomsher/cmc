@@ -43,6 +43,7 @@ class FormsController extends Controller
             $form = Forms::find($request->form_id);
             $form->form_title = $request->title;
             $form->form_content = $request->content;
+            $form->status = $request->status;
             $form->save();
 
             $msg = "Form details updated successfully.";

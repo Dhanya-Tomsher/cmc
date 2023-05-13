@@ -57,6 +57,13 @@
                                         <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                <div class="col-md-8 offset-md-2">
+                                    <label for="country" class="col-form-label">Status</label>
+                                    <select class="form-select form-control" name="status">
+                                        <option {{ $form->status == '1' ? 'selected' : '' }} value="1">Enabled</option>
+                                        <option {{ $form->status == '0' ? 'selected' : '' }} value="0">Disabled</option>
+                                    </select>
+                                </div>
 
                                 <div class="col-md-8 offset-md-2 mt-4">
                                     <div class="">

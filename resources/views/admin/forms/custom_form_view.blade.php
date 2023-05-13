@@ -8,7 +8,7 @@
             <div class="col-12">
                 <div class="page-title-box d-flex align-items-center justify-content-between">
                     <div class="div">
-                        <h4 class="mb-0">Edit Form Details</h4>
+                        <h4 class="mb-0">Customer Form Details</h4>
                     </div>
 
                     <div class="page-title-right">
@@ -21,8 +21,14 @@
                     </div>
 
                 </div>
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                    <a href="{{ route('custom-forms') }}" class="btn btn_back waves-effect waves-light"> <i class="uil-angle-left-b"></i> Back</a>
+                
+                <div class="d-flex justify-content-between mb-3">
+                    <div class="search_warpper w-60">
+                        <a href="{{ route('custom-forms') }}" class="btn btn_back waves-effect waves-light"> <i class="uil-angle-left-b"></i> Back</a>
+                    </div>
+                    <div class="btn_group">
+                        <a href="{{ route('custom-signature',$form[0]['id']) }}" target="_blank" class="btn btn_back waves-effect waves-light">Get Customer Signature Form</a>
+                    </div>
                 </div>
             </div>
         </div>
