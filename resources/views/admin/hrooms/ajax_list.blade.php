@@ -3,7 +3,7 @@
         <tr id="roomid_{{$room->id}}">
             <td>{{ $loop->iteration }} </td>
             <td>{{ $room->room_number }} </td>
-            <td>{{ $room->room_type == 'hotel' ? 'Hotel' : 'Hospital' }} </td>
+            <!-- <td>{{ $room->room_type == 'hotel' ? 'Hotel' : 'Hospital' }} </td> -->
             <td>{{ $room->branch }} </td>
             <td>{{ $room->amount }} </td>
             <td>

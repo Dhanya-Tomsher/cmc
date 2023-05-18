@@ -49,7 +49,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-md-4">
+                                <!-- <div class="col-md-4">
                                     <label for="address" class="col-form-label">Room Type</label>
                                     <select class="form-select form-control" name="room_type" id="room_type">
                                         <option value="">Select </option>
@@ -59,7 +59,7 @@
                                     @error('room_type')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
-                                </div>
+                                </div> -->
 
                                 <div class="col-md-4">
                                     <label for="email" class="col-form-label">Branch</label>
@@ -69,6 +69,9 @@
                                 <div class="col-md-4">
                                     <label for="phone" class="col-form-label">Amount</label>
                                     <input class="form-control" name="amount"  value="{{ old('amount') }}" type="text" placeholder="Enter Amount" id="amount">
+                                    @error('amount')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="col-md-4">

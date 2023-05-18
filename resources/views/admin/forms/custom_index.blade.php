@@ -38,8 +38,8 @@
                                         <th >Caretaker Name</th>
                                         <th >Cat Name</th>
                                         <th >Form</th>
-                                        <th>Signed Status</th>
-                                        <th>Active Status</th>
+                                        <th class="text-center">Signed Status</th>
+                                        <!-- <th>Active Status</th> -->
                                         <th>Created At</th>
                                         <th class="text-center">Action</th>
                                     </tr>

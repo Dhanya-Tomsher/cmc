@@ -148,10 +148,10 @@
                                         <input class="form-control" name="position" readonly type="text" placeholder="" value="{{ $caretaker[0]->visa_status }}">
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <!-- <div class="col-md-4">
                                         <label for="phone" class="col-form-label">Status</label>
                                         <input class="form-control" type="text" value="{{ ucfirst($caretaker[0]->status) }}" readonly id="microchip_number">
-                                    </div>
+                                    </div> -->
 
                                     <div class="col-md-4">
                                         <label for="emirates-id" class="col-form-label d-block">BlackList Status</label>

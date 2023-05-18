@@ -80,7 +80,7 @@
             <li>
                 <a href="{{ route('vet.schedule') }}" class=" waves-effect">
                     <i class="uil-calendar-alt"></i>
-                    <span>Vets Schedule </span>
+                    <span>Vets Work Schedule </span>
                 </a>
             </li>
 

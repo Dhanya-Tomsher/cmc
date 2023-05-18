@@ -56,7 +56,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Room Number</th>
-                                        <th>Type</th>
+                                        <!-- <th>Type</th> -->
                                         <th>Branch</th>
                                         <th>Amount</th>
                                         <th>Status</th>

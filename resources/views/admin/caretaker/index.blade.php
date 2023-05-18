@@ -65,7 +65,7 @@
                                                         <th>Email</th>
                                                         <th>Phone Number</th>
                                                         <th>Whatsapp</th>
-                                                        <th>Status</th>
+                                                        <!-- <th>Status</th> -->
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>

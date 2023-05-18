@@ -77,7 +77,7 @@
                                         <div class="input-group" id="datepicker1">
                                             <input type="text" class="form-control" value="{{ $cat[0]->date_birth }}" readonly>
                                         </div>
-                                        <!-- <span>3 years 10 months 20 days</span> -->
+                                        <span>{{ Helper::getAgeFromDate($cat[0]->date_birth) }}</span>
                                     </div>
 
                                     <div class="col-md-6">
@@ -103,7 +103,25 @@
 
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="BloodUnknown" disabled {{ $cat[0]->blood_type == "unknown" ? 'checked' : '' }} value="unknown" name="blood_type" class="form-check-input">
-                                                <label class="form-check-label" for="BloodUnknown">Unknown</label>
+                                                <label class="form-check-label" for="BloodUnknown">Default</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 input4" >
+                                        <label for="emirates-id" class="col-form-label d-block">Virus</label>
+                                        <div class="d-flex align-items-center">
+                                            <div class="custom-radio form-check form-check-inline">
+                                                <input type="radio" id="virusYes" value="1" name="virusstatus" disabled {{ $cat[0]->virus == "1" ? 'checked' : '' }} class="form-check-input">
+                                                <label class="form-check-label" for="virusYes">Yes</label>
+                                            </div>
+                                            <div class="custom-radio form-check form-check-inline">
+                                                <input type="radio" id="virusNo" value="0" name="virusstatus" disabled {{ $cat[0]->virus == "0" ? 'checked' : '' }} class="form-check-input">
+                                                <label class="form-check-label" for="virusNo">No</label>
+                                            </div>
+                                            <div class="custom-radio form-check form-check-inline">
+                                                <input type="radio" id="virusUnknown" value="2" disabled {{ $cat[0]->virus == "2" ? 'checked' : '' }} name="virusstatus" class="form-check-input">
+                                                <label class="form-check-label" for="virusUnknown">Unknown</label>
                                             </div>
                                         </div>
                                     </div>
@@ -206,8 +224,26 @@
                                         <input type="text" value="{{ $cat[0]->eye_color }}" readonly name="eye_color" class="form-control" id="EyeColor" placeholder="Enter Eye Color">
                                     </div>
 
+                                    <div class="col-md-6 input4" id="behaviour-div">
+                                            <label for="emirates-id" class="col-form-label d-block">Behaviour</label>
+                                            <div class="d-flex align-items-center">
+                                                <div class="custom-radio form-check form-check-inline">
+                                                    <input type="radio" id="behaviourGreen" value="1" disabled {{ $cat[0]->behaviour == "1" ? 'checked' : '' }}  name="behaviour" class="form-check-input" >
+                                                    <label class="form-check-label" for="behaviourGreen">Green</label>
+                                                </div>
+                                                <div class="custom-radio form-check form-check-inline">
+                                                    <input type="radio" id="behaviourOrange" value="2" disabled {{ $cat[0]->behaviour == "2" ? 'checked' : '' }}  name="behaviour" class="form-check-input">
+                                                    <label class="form-check-label" for="behaviourOrange">Orange</label>
+                                                </div>
+                                                <div class="custom-radio form-check form-check-inline">
+                                                    <input type="radio" id="behaviourRed" value="3" disabled {{ $cat[0]->behaviour == "3" ? 'checked' : '' }}  name="behaviour" class="form-check-input" >
+                                                    <label class="form-check-label" for="behaviourRed">Red</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     <div class="col-md-6">
-                                        <label for="country" class="col-form-label">Place of Orgin</label>
+                                        <label for="country" class="col-form-label">Place of Origin</label>
                                         <input type="text" class="form-control" value="{{ $cat[0]->cat_country }}" readonly>
                                     </div>
 
@@ -217,8 +253,8 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <label for="email" class="col-form-label">Orgin</label>
-                                        <input type="text" value="{{ $cat[0]->origin }}" name="origin" readonly class="form-control" placeholder="Enter Origin">
+                                        <label for="email" class="col-form-label">Origin / History</label>
+                                        <input type="text" value="{{ $cat[0]->origin }}" name="origin" readonly class="form-control" placeholder="Enter Origin / History">
                                     </div>
 
                                     <div class="col-md-6">
@@ -240,10 +276,10 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
                                         <label for="phone" class="col-form-label">Status</label>
                                         <input class="form-control" type="text" value="{{ ucfirst($cat[0]->status) }}" readonly id="microchip_number">
-                                    </div>
+                                    </div> -->
 
                                 </div>
 

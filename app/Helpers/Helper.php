@@ -97,5 +97,24 @@ class Helper
         return $dates;
     }
 
+    public static function getAgeFromDate($dateOfBirth){
+        $dob = new DateTime($dateOfBirth);
+        $now = new DateTime();
+        $diff = $now->diff($dob);
+
+        $day = ($diff->d == 1) ? $diff->d."day" : $diff->d." days.";
+        $month = ($diff->m == 1) ? $diff->m."month" : $diff->m." months";
+        $year = ($diff->y == 1) ? $diff->y."year" : $diff->y." years";
+
+        if($diff->y == 0 && $diff->m == 0){
+            $age = $day;
+        }elseif($diff->y == 0 && $diff->m != 0){
+            $age = $month.' '.$day;
+        }else{
+           
+            $age = $year.' '.$month.' '.$day;
+        }
+        echo $age;
+    }
   
 }

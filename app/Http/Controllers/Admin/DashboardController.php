@@ -106,5 +106,25 @@ class DashboardController extends Controller
 
       return $viewData;
   }
+
+    public function countsApi()
+    {
+        $data = json_decode($this->catsCountApi());
+        $counts = $data->data;
+       
+        return view('admin.dashboard-counts')->with([
+            'countNeutered' =>  $counts->neutered,
+            'countSpayed' => $counts->spayed,
+            'countCastrated' => $counts->castrated
+        ]);
+    }
+
+    public function catsCountApi(){
+        $data['neutered'] = Cat::where('neutered',1)->count();
+        $data['spayed'] = Cat::where('gender','Female')->where('spayed',1)->count();
+        $data['castrated']  = Cat::where('gender','Male')->where('castrated',1)->count();
+
+        return json_encode(array('status'=>'success','data'=>$data));
+    }
 }
 

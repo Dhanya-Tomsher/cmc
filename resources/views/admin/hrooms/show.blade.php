@@ -36,10 +36,10 @@
                                 <input class="form-control" name="room_number" readonly value="{{ $hrooms->room_number }}" type="text" id="room_number">
                             </div>
 
-                            <div class="col-md-4">
+                            <!-- <div class="col-md-4">
                                 <label for="address" class="col-form-label">Room Type</label>
                                 <input class="form-control" name="room_type" readonly value="{{ ucfirst($hrooms->room_type) }}" type="text">
-                            </div>
+                            </div> -->
 
                             <div class="col-md-4">
                                 <label for="email" class="col-form-label">Branch</label>

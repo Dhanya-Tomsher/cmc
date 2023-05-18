@@ -213,13 +213,13 @@
                                                         </option>
                                                     </select>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <!-- <div class="col-md-4">
                                                     <label for="country" class="col-form-label">Status</label>
                                                     <select class="form-select form-control" name="status">
                                                         <option {{ $caretaker->status == 'published' ? 'selected' : '' }} value="published">Published</option>
                                                         <option {{ $caretaker->status == 'draft' ? 'selected' : '' }} value="draft">Draft</option>
                                                     </select>
-                                                </div>
+                                                </div> -->
                                                 <div class="col-md-4">
                                                     <label for="emirates-id" class="col-form-label d-block">BlackList Status</label>
                                                     <div class="d-flex align-items-center">

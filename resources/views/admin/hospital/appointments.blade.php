@@ -275,7 +275,25 @@
 
                                                     <div class="custom-radio form-check form-check-inline">
                                                         <input type="radio" id="bloodUnknown" name="bloodtype"  value="unknown" disabled class="form-check-input" checked>
-                                                        <label class="form-check-label" for="bloodUnknown">Unknown</label>
+                                                        <label class="form-check-label" for="bloodUnknown">Default</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 input4" >
+                                                <label for="emirates-id" class="col-form-label d-block">Virus</label>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="custom-radio form-check form-check-inline">
+                                                        <input type="radio" id="virusYes" value="1" name="virusstatus" disabled class="form-check-input">
+                                                        <label class="form-check-label" for="virusYes">Yes</label>
+                                                    </div>
+                                                    <div class="custom-radio form-check form-check-inline">
+                                                        <input type="radio" id="virusNo" value="0" name="virusstatus" disabled class="form-check-input">
+                                                        <label class="form-check-label" for="virusNo">No</label>
+                                                    </div>
+                                                    <div class="custom-radio form-check form-check-inline">
+                                                        <input type="radio" id="virusUnknown" value="2" disabled name="virusstatus" class="form-check-input">
+                                                        <label class="form-check-label" for="virusUnknown">Unknown</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -348,6 +366,24 @@
                                                 <input type="text" class="form-control" id="eye_color" name="eye_color" readonly placeholder="Eye Color" rows="1"/>
                                             </div>
 
+                                            <div class="col-md-4" id="behaviour-div">
+                                                <label for="emirates-id" class="col-form-label d-block">Behaviour</label>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="custom-radio form-check form-check-inline">
+                                                        <input type="radio" id="behaviourGreen" value="1" disabled name="behaviour" class="form-check-input" >
+                                                        <label class="form-check-label" for="behaviourGreen">Green</label>
+                                                    </div>
+                                                    <div class="custom-radio form-check form-check-inline">
+                                                        <input type="radio" id="behaviourOrange" value="2" disabled name="behaviour" class="form-check-input">
+                                                        <label class="form-check-label" for="behaviourOrange">Orange</label>
+                                                    </div>
+                                                    <div class="custom-radio form-check form-check-inline">
+                                                        <input type="radio" id="behaviourRed" value="3" disabled name="behaviour" class="form-check-input" >
+                                                        <label class="form-check-label" for="behaviourRed">Red</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div class="col-md-4">
                                                 <label for="country" class="col-form-label">Place of Origin</label>
                                                 <input type="text" class="form-control" id="place_of_origin" name="place_of_origin" placeholder="Place of Origin" readonly  rows="1"/>
@@ -359,8 +395,8 @@
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label for="email" class="col-form-label">Origin</label>
-                                                <input type="text" class="form-control" rows="1" id="cat_origin" name="cat_origin" readonly placeholder="Origin"/>
+                                                <label for="email" class="col-form-label">Origin / History</label>
+                                                <input type="text" class="form-control" rows="1" id="cat_origin" name="cat_origin" readonly placeholder="Origin / History"/>
                                             </div>
 
                                             <div class="col-md-4">
@@ -474,7 +510,7 @@
 
 @push('header')
 <link rel="stylesheet" href="{{ asset('assets/libs/select2/css/select2.min.css') }}" />
-<link rel="stylesheet" href="{{ asset('assets/css/fullcalendar/main.css') }}" />
+<!-- <link rel="stylesheet" href="{{ asset('assets/css/fullcalendar/main.css') }}" /> -->
 <link rel="stylesheet" href="{{ asset('assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" />
 
 
@@ -484,50 +520,56 @@
 
 <style>
     .select2-selection__rendered {
-    line-height: 51px !important;
-}
-.select2-container .select2-selection--single {
-    height: 55px !important;
-}
-.select2-selection__arrow {
-    height: 54px !important;
-}
-.table td.fit,  .table th.fit {
-    white-space: nowrap;
-}
-.table-bordered {
-    border: 1px solid #cbcaca;
-}
-.table th:first-child {
-  position: sticky;
-  left: 0;
-  color: #373737;
-  width: 0% !important;
-  background: #ffffff;
-}
-table {
-  width: 100%;
-}
-.table td{
-    cursor: pointer;
-}
+        line-height: 51px !important;
+    }
+    .select2-container .select2-selection--single {
+        height: 55px !important;
+    }
+    .select2-selection__arrow {
+        height: 54px !important;
+    }
+    .table td.fit,  .table th.fit {
+        white-space: nowrap;
+    }
+    .table-bordered {
+        border: 1px solid #cbcaca;
+    }
+    .table th:first-child {
+    position: sticky;
+    left: 0;
+    color: #373737;
+    width: 0% !important;
+    background: #ffffff;
+    }
+    table {
+    width: 100%;
+    }
+    .table td{
+        cursor: pointer;
+    }
 
 
-#dayTable .ui-selecting {
-  background: #aaaaaa !important;
-}
-#dayTable .ui-selected {
-  background: #aaaaaa !important;
-  color: white !important;
-}
+    #dayTable .ui-selecting {
+    background: #aaaaaa !important;
+    }
+    #dayTable .ui-selected {
+    background: #aaaaaa !important;
+    color: white !important;
+    }
 
-.vetselect .ui-selecting {
-  background: #aaaaaa !important;
-}
-.vetselect .ui-selected {
-  background: #aaaaaa !important;
-  color: white !important;
-}
+    .vetselect .ui-selecting {
+    background: #aaaaaa !important;
+    }
+    .vetselect .ui-selected {
+    background: #aaaaaa !important;
+    color: white !important;
+    }
+    .fc-multimonth-title{
+        font-size: 1.75em !important;
+        padding: 0.5em 0 !important;
+        color: #9e9304 !important;
+        text-transform: uppercase !important;
+    }
 
     </style>
 @endpush
@@ -536,7 +578,8 @@ table {
 <script src="{{ asset('assets/libs/select2/js/select2.min.js') }}"></script>
 <script src="{{ asset('assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('assets/js/sweetalert.js') }}"></script>
-<script src="{{ asset('assets/js/fullcalendar/main.js') }}"></script>
+<!-- <script src="{{ asset('assets/js/fullcalendar/main.js') }}"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js"></script>
 <script src="{{ asset('assets/js/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('assets/js/moment.min.js') }}"></script>
 
@@ -565,13 +608,14 @@ table {
                return true;
             }
         },
+        multiMonthMaxColumns:1,
         eventColor: '#ff0000',
         headerToolbar: {
             left: 'prev,next',
             center: 'title',
-            right: ''
+            right: 'dayGridMonth,multiMonthYear'
         },
-        
+          
         editable: false,
         droppable: false, // this allows things to be dropped onto the calendar
         // dayRender: function (date, cell) {
@@ -795,6 +839,8 @@ table {
                     $("input[name=spayedstatus][value=" + returnedData[0].spayed + "]").prop('checked', true);
                     $("input[name=castratedstatus][value=" + returnedData[0].castrated + "]").prop('checked', true);
                     $("input[name=deadalive][value=" + returnedData[0].dead_alive + "]").prop('checked', true);
+                    $("input[name=behaviour][value=" + returnedData[0].behaviour + "]").prop('checked', true);
+                    $("input[name=virusstatus][value=" + returnedData[0].virus + "]").prop('checked', true);
 
                     if(returnedData[0].gender == 'Female'){
                         $('#pregnant-div,#spayed-div').css('display','block');

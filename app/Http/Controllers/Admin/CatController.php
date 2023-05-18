@@ -76,6 +76,8 @@ class CatController extends Controller
             'dead_alive' => $request->dead_alive,   
             'image_url' => ($imageUrl !='') ? $imageUrl : $presentImage,
             'status' => (isset($request->status)) ? $request->status : 'published',
+            'virus' => (isset($request->virusstatus)) ? $request->virusstatus : 2,
+            'behaviour' => $request->behaviour,
         ];
         Cat::where('id',$request->catId)->update($data);
         $currentCaretaker = CatCaretakers::where('cat_id',$request->catId)->where('transfer_status',0)->get()->toArray();
@@ -156,6 +158,8 @@ class CatController extends Controller
             'caretaker_id' => $request->caretaker_id,            
             'comments' => $request->comments,
             'image_url' => $imageUrl,
+            'virus' => (isset($request->virusstatus)) ? $request->virusstatus : 2,
+            'behaviour' => $request->behaviour,
             'status' => (isset($request->status)) ? $request->status : 'published',
         ]);
 

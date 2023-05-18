@@ -195,7 +195,25 @@
 
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio"  {{ $hotel[0]->blood_type == "unknown" ? 'checked' : '' }} value="unknown" disabled class="form-check-input" >
-                            <label class="form-check-label" for="bloodUnknown">Unknown</label>
+                            <label class="form-check-label" for="bloodUnknown">Default</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 input4" >
+                    <label for="emirates-id" class="col-form-label d-block">Virus</label>
+                    <div class="d-flex align-items-center">
+                        <div class="custom-radio form-check form-check-inline">
+                            <input type="radio" id="virusYes" value="1" name="virusstatus" {{ $hotel[0]->virus == "1" ? 'checked' : '' }} disabled class="form-check-input">
+                            <label class="form-check-label" for="virusYes">Yes</label>
+                        </div>
+                        <div class="custom-radio form-check form-check-inline">
+                            <input type="radio" id="virusNo" value="0" name="virusstatus" {{ $hotel[0]->virus == "0" ? 'checked' : '' }} disabled class="form-check-input">
+                            <label class="form-check-label" for="virusNo">No</label>
+                        </div>
+                        <div class="custom-radio form-check form-check-inline">
+                            <input type="radio" id="virusUnknown" value="2" {{ $hotel[0]->virus == "2" ? 'checked' : '' }} disabled name="virusstatus" class="form-check-input">
+                            <label class="form-check-label" for="virusUnknown">Unknown</label>
                         </div>
                     </div>
                 </div>
@@ -268,6 +286,24 @@
                     <input type="text" class="form-control" readonly  value="{{ $hotel[0]->eye_color }}" rows="1"/>
                 </div>
 
+                <div class="col-md-4" id="behaviour-div">
+                    <label for="emirates-id" class="col-form-label d-block">Behaviour</label>
+                    <div class="d-flex align-items-center">
+                        <div class="custom-radio form-check form-check-inline">
+                            <input type="radio" id="behaviourGreen" value="1" {{ $hotel[0]->behaviour == "1" ? 'checked' : '' }} disabled name="behaviour" class="form-check-input" >
+                            <label class="form-check-label" for="behaviourGreen">Green</label>
+                        </div>
+                        <div class="custom-radio form-check form-check-inline">
+                            <input type="radio" id="behaviourOrange" value="2" {{ $hotel[0]->behaviour == "2" ? 'checked' : '' }}  disabled name="behaviour" class="form-check-input">
+                            <label class="form-check-label" for="behaviourOrange">Orange</label>
+                        </div>
+                        <div class="custom-radio form-check form-check-inline">
+                            <input type="radio" id="behaviourRed" value="3" {{ $hotel[0]->behaviour == "3" ? 'checked' : '' }}  disabled name="behaviour" class="form-check-input" >
+                            <label class="form-check-label" for="behaviourRed">Red</label>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-md-4">
                     <label for="country" class="col-form-label">Place of Origin</label>
                     <input type="text" class="form-control" value="{{ $hotel[0]->cat_country }}"readonly  rows="1"/>
@@ -279,7 +315,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <label for="email" class="col-form-label">Origin</label>
+                    <label for="email" class="col-form-label">Origin / History</label>
                     <input type="text" class="form-control" rows="1" readonly value="{{ $hotel[0]->origin }}"/>
                 </div>
 

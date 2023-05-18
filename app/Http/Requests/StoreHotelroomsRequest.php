@@ -25,7 +25,7 @@ class StoreHotelroomsRequest extends FormRequest
     {
         return [
             'room_number' => 'required',
-            'room_type' => 'required',
+            'amount' => 'required',
         ];
     }
 
@@ -33,7 +33,7 @@ class StoreHotelroomsRequest extends FormRequest
     {
         return [
             'room_number.required' => 'Room Number is required',
-            'room_type.required' => 'Room Type is required'
+            'amount.required' => 'Amount is required'
         ];
     }
 }

@@ -32,7 +32,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
         // });
 
         Route::get('/', [AuthenticatedSessionController::class, 'create'])->name('login');
-        Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
+        Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
         Route::post('login', [AuthenticatedSessionController::class, 'store'])->name('login');
     });
     //will do later
@@ -195,5 +195,8 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
 
     Route::get('custom-signature/{cid}', [FormsController::class, 'customSignature'])->name('custom-signature');
 
+    Route::get('dashboard-counts', [DashboardController::class, 'countsApi'])->name('dashboard-counts');
+
+    Route::get('cats-count', [DashboardController::class, 'catsCountApi'])->name('cats-count');
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

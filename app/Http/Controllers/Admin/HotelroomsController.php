@@ -50,7 +50,7 @@ class HotelroomsController extends Controller
         
         $hrooms = Hotelrooms::create([
             'room_number' => $request->room_number,
-            'room_type' => $request->room_type,
+            'room_type' => 'hotel',
             'branch' => $request->branch,
             'amount'=> $request->amount ? $request->amount : 0,
             'room_status' => $request->room_status

@@ -61,7 +61,7 @@
                                         <th>Cat ID</th>
                                         <th>Caretaker</th>
                                         <th>Gender</th>
-                                        <th>Status</th>
+                                        <!-- <th>Status</th> -->
                                         <th>Action</th>
                                     </tr>
                                 </thead>
