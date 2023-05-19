@@ -63,7 +63,7 @@
             @endif
         </tbody>
     </table>
-    <div class="header d-flex justify-content-sm-around hide">
+    <div class="header d-flex justify-content-sm-around ">
         <input type="hidden" id="select-result"/>
         <div>Time</div>
         @if ($vets)
@@ -72,7 +72,7 @@
             @endforeach
         @endif
     </div>
-    <div class="table-con d-flex justify-content-sm-around hide">
+    <div class="table-con d-flex justify-content-sm-around ">
         <div class="time-col">
             @if ($timeslots)
                 @foreach ($timeslots as $slot)

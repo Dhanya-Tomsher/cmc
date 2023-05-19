@@ -54,6 +54,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::post('caretaker.list', [CaretakerController::class, 'getCaretakerList'])->name('caretaker.list');
     Route::post('caretaker.blacklist', [CaretakerController::class, 'getCaretakerBlackList'])->name('caretaker.blacklist');
     Route::get('caretaker.blacklisted', [CaretakerController::class, 'getCaretakerBlackListing'])->name('caretaker.blacklisted');
+    Route::get('caretaker/cat/view/{cat}', [CaretakerController::class, 'catView'])->name('caretaker.cat.view');
 
     Route::get('cat', [CatController::class, 'index'])->name('cat.index');
     Route::get('cat/create', [CatController::class, 'create'])->name('cat.create');

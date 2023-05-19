@@ -16,7 +16,7 @@
                 @endif
             </td> -->
             <td>
-                <a href="{{ route('caretaker.view', $caretake) }}" class="px-3 text-primary"><i  class="uil uil-eye font-size-18"></i></a>
+                <a href="{{ route('caretaker.view', $caretake->id) }}" class="px-3 text-primary"><i  class="uil uil-eye font-size-18"></i></a>
                 <a href="{{ route('caretaker.edit', $caretake) }}" class="px-3 text-primary"><i class="uil uil-pen green font-size-18"></i></a>
             </td>
 

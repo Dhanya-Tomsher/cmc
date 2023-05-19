@@ -88,7 +88,7 @@ class HotelAppointmentsController extends Controller
         $result = [];
 		$params['start'] = date('Y-m-d',strtotime($request->get('start')));
 		$params['end'] = date('Y-m-d',strtotime($request->get('end')));
-        $rooms = Hotelrooms::where('room_status', 1)->get()->pluck('id')->toArray();
+        $rooms = Hotelrooms::where('room_status', 1)->get()->pluck('room_number','id')->toArray();
         $roomsCount = count($rooms);
         
         $betweenDates = Helper::getDatesBetween2Dates($params['start'], $params['end']);
@@ -96,21 +96,41 @@ class HotelAppointmentsController extends Controller
         if($betweenDates){
             $i=0;
             foreach($betweenDates as $bdate){
-                $bookingCount = HotelAppointments::select('id')
-                                                ->whereRaw('"'.$bdate.'" between start_date and end_date')
-                                                ->whereIn('room_number',$rooms)
-                                                ->count();
-                $result[$i]['title'] ='';
+                $bookingCount = $this->getDateAvailabilityColor($bdate, $rooms);
+                $response = json_decode($bookingCount);
+
+                $result[$i]['title'] =  implode(' <br> ',$response->roomNames);
                 $result[$i]['start'] = $bdate;
                 $result[$i]['end'] = $bdate;
                 $result[$i]['display'] = 'background';
                 $result[$i]['allDay'] = true;
-                $result[$i]['className'] = ($bookingCount >= $roomsCount) ? 'fully-booked' : 'scheduled';
+                $result[$i]['className'] = ($response->count != 0) ? 'scheduled' : 'fully-booked';
                 $i++;
             }
         }
         return response()->json($result);
     }
+
+    public function getDateAvailabilityColor($date, $rooms){
+        $count = 0;
+        $roomNames = [];
+       
+        foreach($rooms as $key=>$room){
+            $bookingCount = HotelAppointments::select('id')
+                                                ->whereRaw('"'.$date.'" between start_date and end_date')
+                                                ->where('room_number',$key)
+                                                ->count();
+            if($bookingCount == 0){
+                $count++;
+                $roomNames[] = '<span class="not-booked">'.$room.'</span>';
+            }else{
+                $roomNames[] = '<span class="booked-red">'.$room.'</span>';
+            }
+        }
+       
+        return json_encode(array('count' => $count, 'roomNames' => $roomNames));
+    }
+
     public function getAvailableRooms(Request $request){
         $startDate = $request->startDate;
         $endDate = $request->endDate;

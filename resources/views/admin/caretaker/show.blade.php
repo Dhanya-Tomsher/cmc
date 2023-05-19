@@ -20,8 +20,7 @@
 
                     </div>
                     <div class="d-flex align-items-center justify-content-between mb-3">
-                        <a href="{{ URL::previous() }}" class="btn btn_back waves-effect waves-light"> <i
-                                class="uil-angle-left-b"></i> Back</a>
+                        <a href="{{ route('caretaker.index') }}" class="btn btn_back waves-effect waves-light"> <i class="uil-angle-left-b"></i> Back</a>
                     </div>
                 </div>
             </div>
@@ -175,7 +174,70 @@
                         </div>
                     </div>
                 </div> <!-- end col-->
+
+                <div class="col-lg-12">
+                
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <h3 class="mb-3">Cat Details</h3>
+                                </div>
+                            </div>
+                        
+                            <div class="table-responsive">
+                                <table class="table table-centered table-nowrap mb-0" id="catsTable">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Cat Name</th>
+                                            <th>Cat Image</th>
+                                            <th>Cat ID</th>
+                                            <th>Gender</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="catDetails">
+                                        @foreach ($cats as $cat)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $cat->name }}</td>
+                                                <td>
+                                                @if($cat->image_url == NULL)
+                                                    <a href="{{ route('caretaker.cat.view', $cat) }}"><img class="rounded-circle avatar-sm" alt="200x200" src="{{ asset('assets/images/cat_plc.jpg') }} " data-holder-rendered="true"> </a>
+                                                @else
+                                                    <a href="{{ route('caretaker.cat.view', $cat) }}"><img class="rounded-circle avatar-sm" alt="200x200" src="{{ asset($cat->image_url) }} " data-holder-rendered="true"> </a>
+                                                @endif
+                                                </td>
+                                                <td>{{ $cat->cat_id }}</td>
+                                                <td>{{ $cat->gender }}</td>
+                                                <td>
+                                                    <a href="{{ route('caretaker.cat.view', $cat) }}" class="px-3 text-primary"><i  class="uil uil-eye font-size-18"></i></a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- end table-responsive -->
+                        </div>
+                    </div>
+                </div>
             </div> <!-- end row-->
         </div> <!-- container-fluid -->
     </div>
 @endsection
+@push('header')
+<link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}" />
+@endpush
+
+@push('scripts')
+<script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+<script>
+// $('#catsTable').DataTable();  
+$(document).ready(function() {
+    oTable = $('#catsTable').dataTable();
+    oTable.fnFilter( "^" + TERM + "$", COLUMN , true);
+});
+</script>
+@endpush

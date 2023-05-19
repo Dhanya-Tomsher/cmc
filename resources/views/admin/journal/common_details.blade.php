@@ -50,14 +50,28 @@
                     <form  id="createJournalData"  enctype="multipart/form-data" method="POST">
                         <div class="row">
                             <div class="col-md-12 mb-2">
-                                <label for="Document" class="col-form-label pt-0">Remarks <span class="error">*</span></label>
-                                <input class="form-control" type="text" placeholder="Enter Remarks" name="remarks" id="remarks">
-                                <span class="error hide" id="error_details">Remarks field is required. </span>
+                                <label for="Document" class="col-form-label pt-0">Heading<span class="error">*</span></label>
+                                <input class="form-control" type="text" placeholder="Enter heading" name="heading" id="heading">
+                                <span class="error hide" id="error_heading">Heading field is required. </span>
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <label for="Document" class="col-form-label pt-0">Remarks</label>
+                                <textarea class="form-control" type="text" placeholder="Enter Remarks" name="remarks" id="remarks"> </textarea>
                             </div>
                             <div class="col-md-12 mb-2">
                                 <label for="Document" class="col-form-label pt-0">Choose Files</label>
                                 <input class="form-control" type="file" placeholder="Enter Remarks" accept="image/*" name="files[]" multiple  id="files">
                             </div>
+
+                            <div class="col-md-12 mb-2">
+                                <label for="address" class="col-form-label">Report Date</label>
+                                <div class="input-group" id="datepicker1">
+                                    <input type="text" name="report_date" id="report_date"  class="form-control date-picker"  placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
+                                        data-date-container="#datepicker1" data-provide="datepicker"  data-date-autoclose="true"  value="">
+                                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                </div>
+                            </div>
+
                             <div class="col-md-12 mt-3 text-center">
                                 <input type="hidden" name="cat_id" value="{{$cat_id}}">
                                 <input type="hidden" name="type" value="{{$type}}">

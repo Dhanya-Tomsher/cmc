@@ -197,9 +197,28 @@ class CatController extends Controller
 
     public function journal(Cat $cat)
     {
+        $counts = $this->getJournalCounts($cat->id);
+        $medCount = JournalMedicalHistories::where('cat_id',$cat->id)->count();
+        if($medCount != 0){
+            $counts['vital'] = $medCount;
+        }
+        $virusCount = JournalVirusTests::where('cat_id',$cat->id)->count();
+        if($virusCount != 0){
+            $counts['virus_test'] = $virusCount;
+        }
+       
         return view('admin.cat.journal')->with([
             'cat' =>  $cat,
+            'counts' => $counts
         ]);
+    }
+
+    public function getJournalCounts($cat_id){
+        $query = JournalDetails::select(DB::raw("COUNT(*) as count"),"journal_type")
+                                ->where('status', 1)
+                                ->groupBy('journal_type')
+                                ->where('cat_id', $cat_id)->get()->pluck("count", "journal_type")->toArray();
+        return $query;
     }
 
     public function getJournalData(Request $request)
@@ -212,7 +231,7 @@ class CatController extends Controller
         $to_date = $request->to_date;
 
         switch($type) {
-            case 'medical_history':
+            case 'vital':
               
                 $query = JournalMedicalHistories::select('*')
                                                 ->where('cat_id',$cat_id);
@@ -319,13 +338,20 @@ class CatController extends Controller
     public function deleteMedicalHistory(Request $request){
         $med_id = $request->med_id;
         $medical = JournalMedicalHistories::find($med_id);
+        $mCat_id =  $medical->cat_id;
         $medical->delete();
+
+        $count = JournalMedicalHistories::where('cat_id', $mCat_id)->count();
+        return $count;
     }
 
     public function deleteVirusTest(Request $request){
         $vid = $request->vid;
         $virus = JournalVirusTests::find($vid);
+        $vCat_id =  $virus->cat_id;
         $virus->delete();
+        $count = JournalVirusTests::where('cat_id', $vCat_id)->count();
+        return $count;
     }
 
     public function storeMedicalHistory(Request $request){
@@ -416,6 +442,8 @@ class CatController extends Controller
     public function deleteJournalData(Request $request){
         $jid = $request->jid;
         $journal = JournalDetails::find($jid);
+        $jType = $journal->journal_type;
+        $jCat_id =  $journal->cat_id;
         $journal->delete();
         $files = JournalFiles::select('image_url')->where('journal_id',$jid)->get()->toArray();
         if($files){
@@ -426,6 +454,9 @@ class CatController extends Controller
             }
             JournalFiles::where('journal_id',$jid)->delete();
         }
+
+        $count = JournalDetails::where('journal_type', $jType)->where('cat_id', $jCat_id)->count();
+        return json_encode(array('count' => $count, 'type' => $jType));
     }
 
     public function checkCatIdAvailability(Request $request){

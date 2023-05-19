@@ -6,6 +6,7 @@ use App\Http\Requests\StoreCaretakerRequest;
 use App\Http\Requests\UpdateCaretakerRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Caretaker;
+use App\Models\Cat;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -31,14 +32,36 @@ class CaretakerController extends Controller
         return view('admin.caretaker.create', compact('countries'));
     }
 
-    public function view(Caretaker $caretaker)
+    public function view($caretaker)
     {
         $query  = Caretaker::select('caretakers.*','care_country.name as care_country')
                     ->leftJoin('countries as care_country','care_country.id', '=', 'caretakers.home_country')
-                    ->where('caretakers.id', '=', $caretaker->id)->get();
+                    ->where('caretakers.id', '=', $caretaker)->get();
                     
+        $catsQuery  = Cat::select('cats.*')
+                    ->leftJoin('cat_caretakers','cat_caretakers.cat_id', '=', 'cats.id')
+                    ->where('cat_caretakers.transfer_status', 0)
+                    ->where('cat_caretakers.caretaker_id', $caretaker)
+                    ->orderBy('cats.id','DESC')
+                    ->get();
+    
+
         return view('admin.caretaker.show')->with([
             'caretaker' => $query,
+            'cats' => $catsQuery
+        ]);
+    } 
+
+    public function catView($cat)
+    {
+        $query  = Cat::select('cats.*','cat_country.name as cat_country','cc.caretaker_id')
+                    ->leftJoin('cat_caretakers as cc','cc.cat_id', '=', 'cats.id')
+                    ->leftJoin('countries as cat_country','cat_country.id', '=', 'cats.place_of_origin')
+                    ->where('cc.transfer_status', 0)
+                    ->where('cats.id', '=', $cat)->get();
+                    
+        return view('admin.caretaker.cat_view')->with([
+            'cat' => $query,
         ]);
     } 
 

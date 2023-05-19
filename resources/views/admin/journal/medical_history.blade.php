@@ -1,6 +1,6 @@
     <div class="tab-pane fade show active">
         <div class="d-flex justify-content-between">
-            <h5>Medical History</h5>
+            <h5>Vitals</h5>
             <a href="#" data-bs-toggle="modal" data-bs-target=".med_history" class="btn btn_back waves-effect waves-light">Add</a>
         </div>
 
@@ -39,7 +39,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myExtraLargeModalLabel">Add Medical History</h5>
+                    <h5 class="modal-title" id="myExtraLargeModalLabel">Add Vitals</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
                 </div>
                 <div class="modal-body">

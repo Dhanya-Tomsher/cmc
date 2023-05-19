@@ -27,7 +27,11 @@
         .border{
             border: 1px solid #c3bcbc !important;
         }
-        .float-end{float:right!important}
+        .float-end{
+            float:right!important;
+            text-align: center;
+            align-items:center;
+        }
         .font-size-16 {
             font-size: 16px!important;
         }
@@ -44,15 +48,15 @@
 
         .badge {
             display: inline-block;
-            padding: 0.25em 0.4em;
+            padding: 0.3em 0.5em;
             font-size: 75%;
             font-weight: 500;
             line-height: 1;
-            color: #fff;
+            color: #000;
             text-align: center;
             white-space: nowrap;
-            vertical-align: baseline;
             border-radius: 0.25rem;
+            margin-top: 3px;
         }
         .my-4 {
             margin-top: 2.5rem!important;
@@ -65,7 +69,9 @@
             border-top: 1px solid #f6f6f6;
             opacity: .5;
         }
-        
+        @page{
+            margin:0 !important;
+        }
         .text-muted {
             --bs-text-opacity: 1;
             color:  #74788d !important;
@@ -131,29 +137,29 @@
        
         .card {
             margin-bottom: 1.25rem;
-            -webkit-box-shadow: 0 2px 4px rgba(15,34,58,.12);
-            box-shadow: 0 2px 4px rgba(15,34,58,.12);
+            /* -webkit-box-shadow: 0 2px 4px rgba(15,34,58,.12);
+            box-shadow: 0 2px 4px rgba(15,34,58,.12); */
         }
         .card {
             position: relative;
-            display: -webkit-box;
-            display: -ms-flexbox;
             display: flex;
-           
             flex-direction: column;
             min-width: 0;
             height: var(--bs-card-height);
             word-wrap: break-word;
             background-color: #fff;
             background-clip: border-box;
-            border: 1px solid #f6f6f6;
-            border-radius:0.25rem;
         }
         .card-body {
             -webkit-box-flex: 1;
             -ms-flex: 1 1 auto;
             flex: 1 1 auto;
-            padding: 12px 20px 10px;
+            padding: 25px;
+            margin-top:25px;
+        }
+
+        .bg-danger{
+            background-color: rgba(244,106,106,1)!important;
         }
         .row>* {
             position: relative;
@@ -169,7 +175,8 @@
             border-style: solid;
             border-width: 2px;
         }
-        
+        body,.card-body { background-color: #fcf7bd !important; }
+       
     </style> 
 </head> 
 <body>
@@ -181,7 +188,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="invoice-title">
-                                <img src="{{$imagePath}}" style="width:200px;">
+                                    <img src="{{$imagePath}}" style="width:200px;">
                                     <h4 class="float-end font-size-16">Invoice #INV{{$id }}
                                         @if($payment_confirmation == 1)
                                         <span class="badge bg-success font-size-12 ms-2">Paid</span>
@@ -198,7 +205,7 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <div class="text-muted">
+                                                    <div class="">
                                                         <h5 class="font-size-15 mb-2">{{ $caretaker_name }}</h5>
                                                         <p class="mb-1">{{ $address }}</p>
                                                         <p class="mb-1">{{ $email  }}</p>
@@ -206,7 +213,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="text-muted text-sm-end">
+                                                    <div class=" text-sm-end">
                                                         <div>
                                                             <h5 class="font-size-16 mb-1">Invoice No:</h5>
                                                             <p>#INV{{$id }}</p>
