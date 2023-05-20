@@ -262,6 +262,11 @@ class CatController extends Controller
                 $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
                 $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
                 break;
+            case 'med_history':
+                    $title = 'Medical History';
+                    $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
+                    $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
+                break;
             case 'hospitalization':
                 $title = 'Hospitalization';
                 $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
@@ -383,8 +388,9 @@ class CatController extends Controller
         $journal = JournalDetails::create([
             'cat_id' => $request->cat_id, 
             'journal_type' => $request->type,  
-            'remarks'  => $request->remarks, 
-            'report_date'=> date('Y-m-d')
+            'heading' => $request->heading,
+            'remarks'  => $request->remark_content, 
+            'report_date'=> isset($request->report_date) ? $request->report_date : date('Y-m-d')
         ]);
         $journal_id = $journal->id;
 
@@ -395,7 +401,7 @@ class CatController extends Controller
             foreach($uploadedFile as $file){
                 $filename =    strtolower(Str::random(2)).time().'.'. $file->getClientOriginalName();
                 $name = Storage::disk('public')->putFileAs(
-                    'journals/'.$request->type,
+                    'journals/'.$request->type.'/'.$request->cat_id,
                     $file,
                     $filename
                 );
@@ -470,5 +476,12 @@ class CatController extends Controller
         
         $check = ($result === 0) ?  'true' : 'false';
         echo $check;
+    }
+    public function viewJournalDetails(Request $request){
+        $id = $request->id;
+        $query = JournalDetails::select("*")
+                                ->where('id', $id)
+                                ->get();
+        return $query;
     }
 }
