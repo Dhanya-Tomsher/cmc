@@ -6,6 +6,7 @@ use App\Http\Requests\StoreCaretakerRequest;
 use App\Http\Requests\UpdateCaretakerRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Caretaker;
+use App\Models\Cat;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -22,20 +23,45 @@ class CaretakerController extends Controller
             'caretaker' => $caretaker,
         ]);
     }
+    public function getCaretakerBlackListing(){
+        return view('admin.caretaker.blacklist');
+    }
     public function create()
     {
         $countries = Country::all();
         return view('admin.caretaker.create', compact('countries'));
     }
 
-    public function view(Caretaker $caretaker)
+    public function view($caretaker)
     {
         $query  = Caretaker::select('caretakers.*','care_country.name as care_country')
                     ->leftJoin('countries as care_country','care_country.id', '=', 'caretakers.home_country')
-                    ->where('caretakers.id', '=', $caretaker->id)->get();
+                    ->where('caretakers.id', '=', $caretaker)->get();
                     
+        $catsQuery  = Cat::select('cats.*')
+                    ->leftJoin('cat_caretakers','cat_caretakers.cat_id', '=', 'cats.id')
+                    ->where('cat_caretakers.transfer_status', 0)
+                    ->where('cat_caretakers.caretaker_id', $caretaker)
+                    ->orderBy('cats.id','DESC')
+                    ->get();
+    
+
         return view('admin.caretaker.show')->with([
             'caretaker' => $query,
+            'cats' => $catsQuery
+        ]);
+    } 
+
+    public function catView($cat)
+    {
+        $query  = Cat::select('cats.*','cat_country.name as cat_country','cc.caretaker_id')
+                    ->leftJoin('cat_caretakers as cc','cc.cat_id', '=', 'cats.id')
+                    ->leftJoin('countries as cat_country','cat_country.id', '=', 'cats.place_of_origin')
+                    ->where('cc.transfer_status', 0)
+                    ->where('cats.id', '=', $cat)->get();
+                    
+        return view('admin.caretaker.cat_view')->with([
+            'cat' => $query,
         ]);
     } 
 
@@ -51,7 +77,7 @@ class CaretakerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'customer_id' => 'required',
+            'customer_id' => 'required|unique:caretakers,customer_id,'.$request->careId,
             'email' => 'required|email|unique:caretakers,email,'.$request->careId
         ]);
  
@@ -97,6 +123,8 @@ class CaretakerController extends Controller
             'comments' => $request->comments,
             'image_url' => ($imageUrl !='') ? $imageUrl : $presentImage,
             'status' => (isset($request->status)) ? $request->status : 'published',
+            'is_blacklist' => $request->is_blacklist,
+            'blacklist_reason' => $request->blacklist_reason
         ];
 
         Caretaker::where('id',$request->careId)->update($data);
@@ -135,10 +163,12 @@ class CaretakerController extends Controller
             'is_emirates_id' => $request->is_emirates_id == 'hide' ? 0 : 1,
             'emirates_id_number' => $request->emirates_id_number,
             'visa_status' => $request->visa_status,
-            'number_of_registered_cats' => $request->number_of_registered_cats,
+            'number_of_registered_cats' => 0,
             'comments' => $request->comments,
             'status' => 'published',
             'image_url' => $image_name,
+            'is_blacklist' => ($request->is_blacklist) ? $request->is_blacklist : 0,
+            'blacklist_reason' => $request->blacklist_reason
         ]);
 
         $caretaker->customer_id = 'CMC' . str_pad($caretaker->id, 4, 0, STR_PAD_LEFT);
@@ -148,7 +178,24 @@ class CaretakerController extends Controller
 
     public function getCaretakerList(Request $request){
         $search = $request->search;
-        $query  = Caretaker::select('id','name', 'customer_id', 'email', 'phone_number', 'whatsapp_number', 'status');
+        $query  = Caretaker::select('id','name', 'customer_id', 'email', 'phone_number', 'whatsapp_number', 'status')->where('is_blacklist',0);
+        if($search){  
+            $query->Where(function ($query) use ($search) {
+                $query->orWhere('name', 'LIKE', '%'.$search . '%')
+                        ->orWhere('customer_id', 'LIKE', '%'.$search . '%')
+                        ->orWhere('email', 'LIKE', '%'.$search . '%')
+                        ->orWhere('phone_number', 'LIKE', '%'.$search . '%')
+                        ->orWhere('whatsapp_number', 'LIKE', '%'.$search . '%');
+            });                    
+        }
+        $caretaker = $query->orderBy('id','DESC')->get();
+        $viewData = view('admin.caretaker.ajax_list', compact('caretaker'))->render();
+
+        return $viewData;
+    }
+    public function getCaretakerBlackList(Request $request){
+        $search = $request->search;
+        $query  = Caretaker::select('id','name', 'customer_id', 'email', 'phone_number', 'whatsapp_number', 'status')->where('is_blacklist',1);
         if($search){  
             $query->Where(function ($query) use ($search) {
                 $query->orWhere('name', 'LIKE', '%'.$search . '%')

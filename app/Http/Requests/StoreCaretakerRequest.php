@@ -25,7 +25,7 @@ class StoreCaretakerRequest extends FormRequest
     {
         return [
            'name' => 'required',
-           'customer_id' => 'required',
+           'customer_id' => 'required|unique:caretakers',
            'email' => 'required|email|unique:caretakers'
             /* 'image' => 'required|file|mimes:jpg,jpeg,png,gif,bmp,tiff,webp|max:1000',
             'button_text' => 'nullable|max:15',

@@ -14,6 +14,8 @@ use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\Admin\HospitalAppointmentsController;
 use App\Http\Controllers\Admin\HotelAppointmentsController;
 use App\Http\Controllers\Admin\HotelroomsController;
+use App\Http\Controllers\Admin\ProcedureController;
+use App\Http\Controllers\Admin\FormsController;
 
 //Route::prefix('admin')->group(function () {
 //    Route::middleware(['auth', 'auth.session'])->group(function () {
@@ -30,7 +32,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
         // });
 
         Route::get('/', [AuthenticatedSessionController::class, 'create'])->name('login');
-        Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
+        Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
         Route::post('login', [AuthenticatedSessionController::class, 'store'])->name('login');
     });
     //will do later
@@ -50,6 +52,9 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::post('caretaker/store', [CaretakerController::class, 'store'])->name('caretaker.store');
     Route::post('caretaker/update', [CaretakerController::class, 'update'])->name('caretaker.update');
     Route::post('caretaker.list', [CaretakerController::class, 'getCaretakerList'])->name('caretaker.list');
+    Route::post('caretaker.blacklist', [CaretakerController::class, 'getCaretakerBlackList'])->name('caretaker.blacklist');
+    Route::get('caretaker.blacklisted', [CaretakerController::class, 'getCaretakerBlackListing'])->name('caretaker.blacklisted');
+    Route::get('caretaker/cat/view/{cat}', [CaretakerController::class, 'catView'])->name('caretaker.cat.view');
 
     Route::get('cat', [CatController::class, 'index'])->name('cat.index');
     Route::get('cat/create', [CatController::class, 'create'])->name('cat.create');
@@ -62,6 +67,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::post('cat/update-pic', [CatController::class, 'updateImage'])->name('cat.update-pic');
     Route::get('cat/journal/{cat}', [CatController::class, 'journal'])->name('cat.journal');
     Route::post('cat/journal/details', [CatController::class, 'getJournalData'])->name('cat.journal-data');
+    Route::post('cat.check-availability', [CatController::class, 'checkCatIdAvailability'])->name('cat.check-availability');
     Route::post('medical-history.delete', [CatController::class, 'deleteMedicalHistory'])->name('delete-medical-history');
     Route::post('medical-history.store', [CatController::class, 'storeMedicalHistory'])->name('medical-history.store');
     Route::post('journal-details.store', [CatController::class, 'storeJournalDetails'])->name('journal-details.store');
@@ -76,6 +82,12 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::get('invoice/search', [InvoiceController::class, 'search'])->name('invoice.search');
     Route::post('invoice/store', [InvoiceController::class, 'store'])->name('invoice.store');
     Route::post('invoice/update', [InvoiceController::class, 'update'])->name('invoice.update');
+   
+    Route::get('get-hospital-invoice/{invoice}', [InvoiceController::class, 'getHospitalInvoiceDetails'])->name('get-hospital-invoice');
+    Route::post('update-invoice-data', [InvoiceController::class, 'updateInvoice'])->name('update-invoice-data');
+    
+    Route::get('get-hotel-invoice/{invoice}', [InvoiceController::class, 'getHotelInvoiceDetails'])->name('get-hotel-invoice');
+    Route::get('/generatepdf/{id}/{type}', [InvoiceController::class, 'generateInvoicePDF'])->name('generate-pdf');
 
     Route::get('hote', [HotelAppointmentsController::class, 'index'])->name('hote.index');
     Route::get('hote/create', [HotelAppointmentsController::class, 'create'])->name('hote.create');
@@ -87,11 +99,13 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
 
     Route::get('hrooms', [HotelroomsController::class, 'index'])->name('hrooms.index');
     Route::get('hrooms/create', [HotelroomsController::class, 'create'])->name('hrooms.create');
-    Route::get('hrooms/view', [HotelroomsController::class, 'view'])->name('hrooms.view');
-    Route::get('hrooms/edit', [HotelroomsController::class, 'edit'])->name('hrooms.edit');
+    Route::get('hrooms/view/{hrooms}', [HotelroomsController::class, 'view'])->name('hrooms.view');
+    Route::get('hrooms/edit/{hrooms}', [HotelroomsController::class, 'edit'])->name('hrooms.edit');
     Route::get('hrooms/search', [HotelroomsController::class, 'search'])->name('hrooms.search');
     Route::post('hrooms/store', [HotelroomsController::class, 'store'])->name('hrooms.store');
-    Route::post('hrooms/update', [HotelroomsController::class, 'update'])->name('hrooms.update');
+    Route::post('hrooms/update/{hrooms}', [HotelroomsController::class, 'update'])->name('hrooms.update');
+    Route::post('rooms.list', [HotelroomsController::class, 'getRoomsList'])->name('rooms.list');
+    Route::post('hrooms/delete', [HotelroomsController::class, 'delete'])->name('hrooms.delete');
 
     Route::get('hosp', [HospitalAppointmentsController::class, 'index'])->name('hosp.index');
     Route::get('hosp/create', [HospitalAppointmentsController::class, 'create'])->name('hosp.create');
@@ -119,17 +133,20 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::get('hospital-appointments',[HospitalAppointmentsController::class,'getAppointments'])->name('hospital-appointments');
     Route::get('caretaker-search',[HospitalAppointmentsController::class,'searchCaretaker'])->name('ajax-autocomplete-caretaker-search');
     Route::post('caretaker-details',[HospitalAppointmentsController::class,'getCaretakerDetails'])->name('get-caretaker');
+    Route::post('caretaker-cats-details',[HospitalAppointmentsController::class,'getCaretakerCats'])->name('get-caretaker-cats');
 
     Route::get('cat-search',[HospitalAppointmentsController::class,'searchCat'])->name('ajax-autocomplete-cat-search');
     Route::post('cat-details',[HospitalAppointmentsController::class,'getCatDetails'])->name('get-cat');
 
     Route::get('procedure-search',[HospitalAppointmentsController::class,'searchProcedure'])->name('ajax-autocomplete-procedure-search');
     Route::post('save-appointment-details',[HospitalAppointmentsController::class,'saveAppointmentDetails'])->name('save-appointment');
+    Route::post('update-appointment-details',[HospitalAppointmentsController::class,'updateAppointmentDetails'])->name('update-appointment');
 
     Route::get('get-appointments',[HospitalAppointmentsController::class,'getHospitalAppointments'])->name('get-appointments');
 
     Route::post('get-selected-slots',[HospitalAppointmentsController::class,'getSelectedSlots'])->name('get-selected-slots');
-    
+    Route::post('get-selected-edit-slots',[HospitalAppointmentsController::class,'getSelectedEditSlots'])->name('get-selected-edit-slots');
+    Route::post('get-vets-ondate',[HospitalAppointmentsController::class,'getVetsOnDate'])->name('get-vets-ondate');
     Route::get('get-scheduled-vets',[VetscheduleController::class,'getScheduledVets'])->name('get-scheduled-vets');
 
     Route::get('day-appointments',[HospitalAppointmentsController::class,'getDayAppointments'])->name('day-appointments');
@@ -139,16 +156,48 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::get('get-hotel-schedules',[HotelAppointmentsController::class,'getHotelSchedules'])->name('get-hotel-schedules');
     Route::post('get-available-rooms',[HotelAppointmentsController::class,'getAvailableRooms'])->name('get-available-rooms');
     Route::post('save-hotel-booking',[HotelAppointmentsController::class,'saveHotelBooking'])->name('save-hotel-booking');
+    Route::post('update-hotel-booking',[HotelAppointmentsController::class,'updateHotelBooking'])->name('update-hotel-booking');
+    Route::post('booking.edit', [HotelAppointmentsController::class, 'editBookings'])->name('booking.edit');
+    Route::post('get-available-edit-rooms',[HotelAppointmentsController::class,'getAvailableEditRooms'])->name('get-available-edit-rooms');
+    Route::post('hotel-payment-status',[HotelAppointmentsController::class,'changePaymentStatus'])->name('hotel-payment-status');
 
     Route::get('manage-hospital-appointments',[HospitalAppointmentsController::class,'manageHospitalAppointments'])->name('manage-hospital-appointments');
     // Route::get('appointment/list', [HospitalAppointmentsController::class, 'getAppointmentList'])->name('appointment.list');
     Route::post('appointment.list', [HospitalAppointmentsController::class, 'getAppointmentsList'])->name('appointment.list');
     Route::post('appointment.delete', [HospitalAppointmentsController::class, 'deleteAppointment'])->name('appointment.delete');
+    Route::post('appointment.view', [HospitalAppointmentsController::class, 'getAppointmentsDetails'])->name('appointment.view');
+    Route::post('appointment.edit', [HospitalAppointmentsController::class, 'editAppointments'])->name('appointment.edit');
+    Route::post('hospital-payment-status',[HospitalAppointmentsController::class,'changePaymentStatus'])->name('hospital-payment-status');
 
     Route::get('manage-hotel-bookings',[HotelAppointmentsController::class,'manageHotelBookings'])->name('manage-hotel-bookings');
     Route::post('booking.list', [HotelAppointmentsController::class, 'getBookingList'])->name('booking.list');
     Route::post('booking.delete', [HotelAppointmentsController::class, 'deleteBooking'])->name('booking.delete');
+    Route::post('booking.view', [HotelAppointmentsController::class, 'getBookingDetails'])->name('booking.view');
+
     
-    
+    Route::get('procedure', [ProcedureController::class, 'index'])->name('procedure.index');
+    Route::post('procedure/store', [ProcedureController::class, 'store'])->name('procedure.store');
+    Route::post('procedure/delete', [ProcedureController::class, 'delete'])->name('procedure.delete');
+    Route::post('procedure.list', [ProcedureController::class, 'getProcedureList'])->name('procedure.list');
+
+    Route::get('forms', [FormsController::class, 'index'])->name('forms.index');
+    Route::post('forms/delete', [FormsController::class, 'delete'])->name('form.delete');
+    Route::get('form/create', [FormsController::class, 'create'])->name('form.create');
+    Route::get('form/view/{form}', [FormsController::class, 'view'])->name('form.view');
+    Route::get('form/edit/{form}', [FormsController::class, 'edit'])->name('form.edit');
+    Route::post('form/store', [FormsController::class, 'store'])->name('form.store');
+
+    Route::get('custom-forms', [FormsController::class, 'customFormsList'])->name('custom-forms');
+    Route::post('generate-custom-form', [FormsController::class, 'generateCustomForm'])->name('generate-custom-form');
+    Route::post('custom-forms-list', [FormsController::class, 'customFormsListing'])->name('custom-forms-list');
+    Route::post('custom-form.delete', [FormsController::class, 'customFormDelete'])->name('custom-form.delete');
+    Route::get('custom-form/view/{cid}', [FormsController::class, 'viewCustom'])->name('custom-form.view');
+    Route::post('signaturepad',[FormsController::class, 'signatureUpload'])->name('signaturepad.upload');
+
+    Route::get('custom-signature/{cid}', [FormsController::class, 'customSignature'])->name('custom-signature');
+
+    Route::get('dashboard-counts', [DashboardController::class, 'countsApi'])->name('dashboard-counts');
+
+    Route::get('cats-count', [DashboardController::class, 'catsCountApi'])->name('cats-count');
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

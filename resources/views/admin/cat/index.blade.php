@@ -61,7 +61,7 @@
                                         <th>Cat ID</th>
                                         <th>Caretaker</th>
                                         <th>Gender</th>
-                                        <th>Status</th>
+                                        <!-- <th>Status</th> -->
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -106,8 +106,10 @@
                 search:search
             },
             success: function( response ) {
-            $('#catDetails').html(response);
-            $('#catsTable').DataTable();  
+                $('#catsTable').DataTable().clear();
+                $('#catsTable').DataTable().destroy();
+                $('#catDetails').html(response);
+                $('#catsTable').DataTable();  
             }
         });
     }

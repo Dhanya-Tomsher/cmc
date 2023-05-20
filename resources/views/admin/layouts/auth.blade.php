@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/icons.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/app.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/css/css/custom.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}" />
 </head>
 
 <body class="{{ $body_class ?? '' }}">

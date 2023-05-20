@@ -10,6 +10,7 @@ use App\Models\Vetschedule;
 use App\Models\Procedures;
 use App\Models\VetShifts;
 use App\Models\Country;
+use App\Models\Invoices;
 use App\Http\Requests\StoreHospitalAppointmentRequest;
 use App\Http\Requests\StoreHospitalAppointmentsRequest;
 use App\Http\Requests\UpdateHospitalAppointmentRequest;
@@ -98,18 +99,24 @@ class HospitalAppointmentsController extends Controller
             
         if($request->has('term')){
             $search = $request->term;
-            $caretakers = Caretaker::select("id","name","customer_id")
-                            ->where('status', 'published')
-                            ->Where('name', 'LIKE', "%$search%")
-                            ->orWhere('customer_id', 'LIKE', "$search%")
-                            ->orWhere('phone_number', 'LIKE', "$search%")
-                            ->orWhere('whatsapp_number', 'LIKE', "$search%")
-                            ->orWhere('work_contact_number', 'LIKE', "$search%")
-                            ->orderBy('name','ASC')
+            $query = Caretaker::select("id","name","customer_id")
+                            ->where('status', 'published')->where('is_blacklist',0);
+            if($search){  
+                $query->Where(function ($query) use ($search) {
+                    $query->orWhere('name', 'LIKE', "%$search%")
+                    ->orWhere('customer_id', 'LIKE', "$search%")
+                    ->orWhere('phone_number', 'LIKE', "$search%")
+                    ->orWhere('whatsapp_number', 'LIKE', "$search%")
+                    ->orWhere('work_contact_number', 'LIKE', "$search%");
+                });                    
+            }
+                            
+            $caretakers = $query->orderBy('name','ASC')
                             ->get();
         }else{
             $caretakers = Caretaker::select("id","name","customer_id")
                             ->where('status', 'published')
+                            ->where('is_blacklist',0)
                             ->orderBy('name','ASC')
                             ->get();
         }
@@ -120,6 +127,7 @@ class HospitalAppointmentsController extends Controller
         $id = $request->id;
         $caretakers = Caretaker::select("caretakers.*","countries.name as country")
                             ->leftJoin('countries','countries.id', '=', 'caretakers.home_country')
+                            ->where('caretakers.is_blacklist',0)
                             ->where('caretakers.status', 'published')
                             ->where('caretakers.id', $id)
                             ->get();
@@ -186,6 +194,8 @@ class HospitalAppointmentsController extends Controller
 
     public function saveAppointmentDetails(Request $request){
         $appointmentTime = $request->appointment_time;
+        $data = [];
+      
         if(!empty($appointmentTime)){
             foreach($appointmentTime as $time){
                 $hosp = HospitalAppointments::create([
@@ -196,7 +206,23 @@ class HospitalAppointmentsController extends Controller
                     'date_appointment' => $request->appointment_date,
                     'time_appointment' => $time,
                     'reason' => $request->remarks,
+                    'payment_type' => $request->payment_type
                 ]);
+
+                $data[] = array(
+                    'booking_id' => $hosp->id,
+                    'booking_type' => 'hospital_appointment',
+                    'price' => $request->price, 
+                    'net' => $request->price, 
+                    'net_vat' => $request->price, 
+                    'total' => $request->price, 
+                    'invoice_date' => date('Y-m-d'),
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s')
+                );
+            }
+            if(!empty($data)){
+                Invoices::insert($data);
             }
         }
         
@@ -285,13 +311,30 @@ class HospitalAppointmentsController extends Controller
         return $viewData;
     }
     public function manageHospitalAppointments(){
-        return view('admin.hospital.list_appointments');
+        $vets = Vet::select("id","name")
+                    ->where('status', 'published')
+                    ->orderBy('name','ASC')
+                    ->get();
+
+        $procedures = Procedures::select("id","name","price")
+                    ->where('status', 1)
+                    ->orderBy('name','ASC')
+                    ->get();
+
+        $timeslots = Helper::getTimeSlotHrMIn(30,env('SLOT_FROM_TIME'),env('SLOT_TO_TIME'));
+
+        return view('admin.hospital.list_appointments')-> with([
+            'vets' => $vets,
+            'timeslots' => $timeslots,
+            'procedures' => $procedures
+        ]);
     }
 
     public function deleteAppointment(Request $request){
         $id = $request->id;
         $app = HospitalAppointments::find($id);
         $app->delete();
+        Invoices::where('booking_id',$id)->where('booking_type','hospital_appointment')->delete();
     }
     // public function getAppointmentList(Request $request){
     //     if ($request->ajax()) {
@@ -344,10 +387,131 @@ class HospitalAppointmentsController extends Controller
             }
         }
         $hosp = $query->orderBy('hospital_appointments.id','DESC')
-        ->get(['hospital_appointments.created_at','procedures.name as procedure_name','hospital_appointments.id','hospital_appointments.date_appointment','hospital_appointments.time_appointment','vets.name','cats.cat_id','caretakers.customer_id','caretakers.name as caretaker_name','cats.name as cat_name']);
+        ->get(['hospital_appointments.payment_confirmation','hospital_appointments.created_at','procedures.name as procedure_name','hospital_appointments.id','hospital_appointments.date_appointment','hospital_appointments.time_appointment','vets.name','cats.cat_id','caretakers.customer_id','caretakers.name as caretaker_name','cats.name as cat_name']);
      
         $viewData = view('admin.hospital.ajax_list', compact('hosp'))->render();
 
         return $viewData;
+    }
+
+    function getAppointmentsDetails(Request $request){
+        $app_id = $request->id;
+        $hosp  = HospitalAppointments::leftJoin('vets','vets.id', '=', 'hospital_appointments.vet_id')
+                                ->leftJoin('caretakers as care','hospital_appointments.caretaker_id','=','care.id')
+                                ->leftJoin('cats','hospital_appointments.cat_id','=','cats.id')
+                                ->leftJoin('procedures as pro','hospital_appointments.procedure_id','=','pro.id')
+                                ->leftJoin('countries as care_country','care_country.id', '=', 'care.home_country')
+                                ->leftJoin('countries as cat_country','cat_country.id', '=', 'cats.place_of_origin')
+                                ->where('hospital_appointments.id', $app_id)
+                                ->get(['care_country.name as care_country','cat_country.name as cat_country','hospital_appointments.created_at','pro.price','pro.name as procedure_name','hospital_appointments.id',
+                                'hospital_appointments.payment_type','hospital_appointments.reason','hospital_appointments.date_appointment','hospital_appointments.time_appointment','vets.name as vet_name','cats.cat_id',
+                                'care.*','care.work_place as caretaker_work_place','care.name as caretaker_name','cats.name as cat_name','cats.*', 'care.emirate as caretaker_emirate','cats.emirate as cat_emirate']);                 
+        $viewData = view('admin.hospital.appointment_view_details', compact('hosp'))->render();
+
+        return $viewData;
+    }
+
+    function editAppointments(Request $request){
+        $app_id = $request->id;
+        $hosp  = HospitalAppointments::leftJoin('vets','vets.id', '=', 'hospital_appointments.vet_id')
+                                ->leftJoin('caretakers as care','hospital_appointments.caretaker_id','=','care.id')
+                                ->leftJoin('cats','hospital_appointments.cat_id','=','cats.id')
+                                ->leftJoin('procedures as pro','hospital_appointments.procedure_id','=','pro.id')
+                                ->leftJoin('countries as care_country','care_country.id', '=', 'care.home_country')
+                                ->leftJoin('countries as cat_country','cat_country.id', '=', 'cats.place_of_origin')
+                                ->where('hospital_appointments.id', $app_id)
+                                ->get(['hospital_appointments.vet_id','hospital_appointments.procedure_id','cats.id as catId','hospital_appointments.caretaker_id as app_caretaker_id','vets.id as vet_id','hospital_appointments.id as app_id',
+                                'hospital_appointments.payment_type','hospital_appointments.reason','hospital_appointments.date_appointment','hospital_appointments.time_appointment']);                 
+
+        $caretakers = Caretaker::select("id","name","customer_id")
+                            ->where('status', 'published')
+                            ->where('is_blacklist',0)
+                            ->orderBy('name','ASC')
+                            ->get();
+
+        $cats = Cat::select("cats.id","cats.name","cats.cat_id")
+                            ->leftJoin('cat_caretakers','cats.id', '=', 'cat_caretakers.cat_id')
+                            ->where('cat_caretakers.caretaker_id', $hosp[0]->app_caretaker_id)
+                            ->where('cats.status', 'published')
+                            ->where('cat_caretakers.transfer_status', 0)
+                            ->orderBy('cats.name','ASC')
+                            ->get();
+
+        $vets = Vet::select("vets.id","vets.name")
+                            ->leftJoin('vetschedules as vs','vs.vet_id','=','vets.id')
+                            ->where('vets.status', 'published')
+                            ->where('vs.date', $hosp[0]->date_appointment)
+                            ->orderBy('vets.name','ASC')
+                            ->get();
+        
+        $procedures = Procedures::select("id","name","price")
+                            ->where('status', 1)
+                            ->orderBy('name','ASC')
+                            ->get();
+        
+
+       return json_encode(array('appointment' => $hosp , 'caretakers' => $caretakers,'cats' => $cats, 'vets' => $vets, 'procedures' => $procedures));
+    }
+
+    public function getVetsOnDate(Request $request){
+        $vets = Vet::select("vets.id","vets.name")
+                            ->leftJoin('vetschedules as vs','vs.vet_id','=','vets.id')
+                            ->where('vets.status', 'published')
+                            ->where('vs.date', $request->date)
+                            ->orderBy('vets.name','ASC')
+                            ->get();
+        return json_encode($vets);
+    }
+
+    public function getCaretakerCats(Request $result){
+
+        $cats = Cat::select("cats.id","cats.name","cats.cat_id")
+                    ->leftJoin('cat_caretakers','cats.id', '=', 'cat_caretakers.cat_id')
+                    ->where('cat_caretakers.caretaker_id', $result->cid)
+                    ->where('cats.status', 'published')
+                    ->where('cat_caretakers.transfer_status', 0)
+                    ->orderBy('cats.name','ASC')
+                    ->get();
+
+        return json_encode($cats);
+    }
+    public function getSelectedEditSlots(Request $request){
+        $date = $request->date;
+        $vet_id = $request->vet_id;
+        $result = [];
+        $checkAssigned = Vetschedule::where('vet_id',$vet_id)->whereDate('date', $date)->count();
+        if($checkAssigned > 0){
+            $allSlots  = VetShifts::getVetDateShiftsByVet($date, $vet_id);
+            $bookedSlots = HospitalAppointments::select('time_appointment')
+                                        ->whereDate('date_appointment', $date)
+                                        ->where('vet_id',$vet_id)
+                                        ->get()->pluck('time_appointment')->toArray();
+            $result =  array_diff($allSlots,$bookedSlots);
+            if($request->slot != ''){
+                array_unshift($result , $request->slot);
+            }
+        }
+       
+        return json_encode($result);
+    }
+
+    public function updateAppointmentDetails(Request $request){
+        $hosp = HospitalAppointments::find($request->appointment_id)->update([
+                        'cat_id' => $request->catId,
+                        'caretaker_id' => $request->caretaker_id,
+                        'procedure_id' => $request->procedure,
+                        'vet_id' => $request->vet_id,
+                        'date_appointment' => $request->appointment_date,
+                        'time_appointment' => $request->appointment_time,
+                        'reason' => $request->remarks,
+                        'payment_type' => $request->payment_type
+                    ]);
+        
+        return $request->appointment_date;
+    }
+    public function changePaymentStatus(Request $request){
+        $hotel = HospitalAppointments::find($request->id)->update([
+            'payment_confirmation' => $request->status
+        ]);
     }
 }

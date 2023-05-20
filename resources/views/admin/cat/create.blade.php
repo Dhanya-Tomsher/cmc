@@ -47,22 +47,23 @@
                                         <div class="col-6">
                                             <div class="avatar-upload">
                                                 <div class="avatar-preview">
-                                                    <div id="imagePreview" style="background-image: url('assets/images/cat_img.jpg');">
+                                                    <div id="imagePreview" style="background-image: url('{{ asset('assets/images/cat_plc.jpg') }}');">
                                                         <div class="edit_button">
                                                             <!-- <a href="cat_details.html"
                                                                 class="btn btn-primary waves-effect waves-light py-2 float-end">Update</a> -->
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="avatar-edit mt-2">
-                                                    <input type="file" id="imageUpload" name="image_url" accept=".png, .jpg, .jpeg">
-                                                    <label for="imageUpload"> Upload Profile Image </label>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="col-form-label" for="imageUpload"> Upload Profile Image<span class="required">*</span> </label>
+                                            <input type="file" class="form-control" id="imageUpload" name="image_url" accept="image/*">
+                                        </div>
+                                            
                                         <div class="col-md-6">
                                             <label for="example-text-input" class="col-form-label">Caretaker ID<span class="required">*</span></label>
                                             <select class="form-select form-control" name="caretaker_id"  id="caretaker_id">
@@ -83,16 +84,16 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="address" class="col-form-label">Date of Birth</label>
+                                            <label for="address" class="col-form-label">Date of Birth<span class="required">*</span></label>
                                             <div class="input-group" id="datepicker1">
-                                                <input type="text" name="date_birth" id="date_birth"  class="form-control"  placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
+                                                <input type="text" name="date_birth" id="date_birth"  class="form-control date-picker"  placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
                                                     data-date-container="#datepicker1" data-provide="datepicker"  data-date-autoclose="true"  value="{{ old('date_birth') }}">
                                                 <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="emirates-id" class="col-form-label d-block">Blood Type</label>
+                                            <label for="emirates-id" class="col-form-label d-block">Blood Type<span class="required">*</span></label>
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="BloodA" value="a" name="blood_type"  class="form-check-input">
@@ -114,7 +115,25 @@
 
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="BloodUnknown" value="unknown" name="blood_type"  class="form-check-input" checked>
-                                                    <label class="form-check-label" for="BloodUnknown">Unknown</label>
+                                                    <label class="form-check-label" for="BloodUnknown">Default</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6 input4" >
+                                            <label for="emirates-id" class="col-form-label d-block">Virus<span class="required">*</span></label>
+                                            <div class="d-flex align-items-center">
+                                                <div class="custom-radio form-check form-check-inline">
+                                                    <input type="radio" id="virusYes" value="1" name="virusstatus" class="form-check-input">
+                                                    <label class="form-check-label" for="virusYes">Yes</label>
+                                                </div>
+                                                <div class="custom-radio form-check form-check-inline">
+                                                    <input type="radio" id="virusNo" value="0" name="virusstatus" class="form-check-input">
+                                                    <label class="form-check-label" for="virusNo">No</label>
+                                                </div>
+                                                <div class="custom-radio form-check form-check-inline">
+                                                    <input type="radio" id="virusUnknown" value="2"  name="virusstatus" class="form-check-input" checked>
+                                                    <label class="form-check-label" for="virusUnknown">Unknown</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -134,7 +153,7 @@
                                         </div>
 
                                         <div class="col-md-6 input4" >
-                                            <label for="emirates-id" class="col-form-label d-block">Neutered</label>
+                                            <label for="emirates-id" class="col-form-label d-block">Neutered<span class="required">*</span></label>
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="NeuteredYes" value="1" name="neutered" class="form-check-input">
@@ -148,7 +167,7 @@
                                         </div>
 
                                         <div class="col-md-6 input4" >
-                                            <label for="emirates-id" class="col-form-label d-block">Neutered with  Us</label>
+                                            <label for="emirates-id" class="col-form-label d-block">Neutered with  Us<span class="required">*</span></label>
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="NeuteredWithYes" value="1" name="neutered_with_us" class="form-check-input">
@@ -162,7 +181,7 @@
                                         </div>
 
                                         <div class="col-md-6 input4" style="display: none;" id="spayed-div">
-                                            <label for="emirates-id" class="col-form-label d-block">Spayed</label>
+                                            <label for="emirates-id" class="col-form-label d-block">Spayed<span class="required">*</span></label>
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="SpayedYes" value="1" name="spayed" class="form-check-input">
@@ -176,7 +195,7 @@
                                         </div>
 
                                         <div class="col-md-6 input4" id="castrated-div">
-                                            <label for="emirates-id" class="col-form-label d-block" >Castrated</label>
+                                            <label for="emirates-id" class="col-form-label d-block" >Castrated<span class="required">*</span></label>
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="CastratedYes" value="1" name="castrated" class="form-check-input">
@@ -189,7 +208,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 input4" style="display: none;" id="pregnant-div">
-                                            <label for="emirates-id" class="col-form-label d-block">Pregnant / Not</label>
+                                            <label for="emirates-id" class="col-form-label d-block">Pregnant / Not<span class="required">*</span></label>
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="PregnantYes" value="1" name="pregnantstatus" class="form-check-input">
@@ -208,17 +227,35 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="FurColor" class="col-form-label">Fur / Color</label>
+                                            <label for="FurColor" class="col-form-label">Fur / Color<span class="required">*</span></label>
                                             <input type="text" name="fur_color" class="form-control" id="fur_color" placeholder="Enter Fur / Color">
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="EyeColor" class="col-form-label">Eye Color</label>
+                                            <label for="EyeColor" class="col-form-label">Eye Color<span class="required">*</span></label>
                                             <input type="text" name="eye_color" class="form-control" id="eye_color"  placeholder="Enter Eye Color">
                                         </div>
 
+                                        <div class="col-md-6 input4" id="behaviour-div">
+                                            <label for="emirates-id" class="col-form-label d-block">Behaviour<span class="required">*</span></label>
+                                            <div class="d-flex align-items-center">
+                                                <div class="custom-radio form-check form-check-inline">
+                                                    <input type="radio" id="behaviourGreen" value="1" name="behaviour" class="form-check-input" checked>
+                                                    <label class="form-check-label" for="behaviourGreen">Green</label>
+                                                </div>
+                                                <div class="custom-radio form-check form-check-inline">
+                                                    <input type="radio" id="behaviourOrange" value="2" name="behaviour" class="form-check-input">
+                                                    <label class="form-check-label" for="behaviourOrange">Orange</label>
+                                                </div>
+                                                <div class="custom-radio form-check form-check-inline">
+                                                    <input type="radio" id="behaviourRed" value="3"  name="behaviour" class="form-check-input" >
+                                                    <label class="form-check-label" for="behaviourRed">Red</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="col-md-6">
-                                            <label for="country" class="col-form-label">Place of Origin</label>
+                                            <label for="country" class="col-form-label">Place of Origin<span class="required">*</span></label>
                                             <select class="form-select form-control" name="place_of_origin">
                                                 <option value="0" selected disabled>Select</option>
                                                 @foreach ($countries as $item)
@@ -228,7 +265,7 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="country" class="col-form-label">Emirate</label>
+                                            <label for="country" class="col-form-label">Emirate<span class="required">*</span></label>
                                             <select class="form-select form-control" name="emirate">
                                                 <option value="0" selected disabled>Select</option>
                                                 <option {{ old('emirate') == 'Abu Dhabi' ? 'selected' : '' }} value="Abu Dhabi">Abu Dhabi</option>
@@ -242,17 +279,17 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="email" class="col-form-label">Origin</label>
-                                            <input type="text" name="origin" class="form-control" placeholder="Enter Origin">
+                                            <label for="email" class="col-form-label">Origin / History<span class="required">*</span></label>
+                                            <input type="text" name="origin" class="form-control" placeholder="Enter Origin / History">
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="phone" class="col-form-label">Microchip Number</label>
+                                            <label for="phone" class="col-form-label">Microchip Number<span class="required">*</span></label>
                                             <input class="form-control" name="microchip_number" type="text" placeholder="Enter Microchip Number" id="microchip_number">
                                         </div>
 
                                         <div class="col-md-6 align-self-end">
-                                            <label for="emirates-id" class="col-form-label d-block">Dead / Alive</label>
+                                            <label for="emirates-id" class="col-form-label d-block">Dead / Alive<span class="required">*</span></label>
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="Alive" value="1" name="dead_alive" class="form-check-input" checked>
@@ -265,7 +302,7 @@
 
                                             </div>
                                         </div>
-                                        <div class="col-md-4 align-self-end mt-3">
+                                        <div class="col-md-12 align-self-end mt-5">
                                             <div class="">
                                                 <button name="Submit" type="Submit" class="btn btn-primary waves-effect waves-light w-xl me-2">Save</button>
                                             </div>
@@ -292,8 +329,16 @@
 <script src="{{ asset('assets/js/sweetalert.js') }}"></script>
 <script src="{{ asset('assets/js/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+<script src="{{ asset('assets/js/additional-methods.min.js') }}"></script>
 <script>
-     $(document).on('select2:open', () => {
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $(document).on('select2:open', () => {
         document.querySelector('.select2-search__field').focus();
     });
      $( "#date_birth" ).datepicker({
@@ -315,17 +360,48 @@
         width: 'resolve', // need to override the changed default
         allowClear: true,
     });
-
+   
     $("#createCat").validate({
         rules: {
             name: "required",
             caretaker_id: "required",
-            cat_id:"required"
+            date_birth: "required",
+            fur_color: "required",
+            eye_color: "required",
+            place_of_origin: "required",
+            emirate: "required",
+            origin: "required",
+            microchip_number: "required",
+            image_url: {
+                required: true,
+                extension: "jpg|jpeg|png|ico|bmp"
+            },
+            cat_id:{
+                    required: true,
+                    remote: {
+                        url: "{{ route('cat.check-availability')}}",
+                        type: "post"
+                    }
+                }
         },
         messages: {
             caretaker_id: " Please select a caretaker",
             name: " Please enter a name",
-            cat_id:"This field is required"
+            cat_id:{
+                    required: "Please enter Cat ID.",
+                    remote: "This Cat ID already exists."
+                    },
+            date_birth: "Date of birth is required",
+            fur_color: "Fur/color is required",
+            eye_color: "Eye color is required",
+            place_of_origin: "Place of origin is required",
+            emirate: "Emirate is required",
+            origin: "Origin / History is required",
+            microchip_number: "Microchip number is required",
+            image_url: {
+                required:"Please select an Image file",
+                extension:"Please upload file in these format only (jpg, jpeg, png, ico, bmp)."
+            },
         },
         errorPlacement: function (error, element) {
             if(element.hasClass('select2')) {
@@ -352,7 +428,8 @@
                     $('#pregnant-div,#spayed-div').css('display','none');
                     $('#castrated-div').css('display','block');
                     $("#caretaker_id").val('').trigger('change') ;
-                    $('#imagePreview').css('display','none');
+                    $('#imagePreview').css('background-image',"url('')");
+                    $('#imagePreview').css('background-image',"url('{{ asset('assets/images/cat_plc.jpg') }}')");
                 }
             });
         }

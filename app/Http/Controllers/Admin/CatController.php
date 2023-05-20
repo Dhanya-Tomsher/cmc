@@ -30,7 +30,7 @@ class CatController extends Controller
     public function create()
     {
         $countries = Country::all();
-        $caretakers = Caretaker::orderBy('name','ASC')->get();
+        $caretakers = Caretaker::where('is_blacklist',0)->orderBy('name','ASC')->get();
         return view('admin.cat.create', compact('countries','caretakers'));
     }
     public function search()
@@ -76,9 +76,22 @@ class CatController extends Controller
             'dead_alive' => $request->dead_alive,   
             'image_url' => ($imageUrl !='') ? $imageUrl : $presentImage,
             'status' => (isset($request->status)) ? $request->status : 'published',
+            'virus' => (isset($request->virusstatus)) ? $request->virusstatus : 2,
+            'behaviour' => $request->behaviour,
         ];
         Cat::where('id',$request->catId)->update($data);
-        CatCaretakers::where('cat_id',$request->catId)->where('transfer_status',0)->update(['caretaker_id' => $request->caretaker_id]);
+        $currentCaretaker = CatCaretakers::where('cat_id',$request->catId)->where('transfer_status',0)->get()->toArray();
+        
+        if($currentCaretaker[0]['caretaker_id'] != $request->caretaker_id){
+            CatCaretakers::where('cat_id',$request->catId)->where('transfer_status',0)->update(['transfer_status' => 1]);
+            $caretaker = CatCaretakers::create([
+                'cat_id' => $request->catId,
+                'caretaker_id' => $request->caretaker_id,
+                'transfer_status' => 0,
+              ]);
+            Caretaker::find($currentCaretaker[0]['caretaker_id'])->decrement('number_of_registered_cats');
+            Caretaker::find($request->caretaker_id)->increment('number_of_registered_cats');
+        }
     }
     public function view(cat $cat)
     {
@@ -101,11 +114,13 @@ class CatController extends Controller
                     ->where('cats.id', '=', $cat->id)
                     ->where('cat_caretakers.transfer_status', 0)->get();
         $countries = Country::all();
-        $caretakers = Caretaker::orderBy('name','ASC')->get();
+        $presentCaretaker = Caretaker::select('id','name')->where('id',$query[0]->caretaker_id)->where('is_blacklist',1)->get()->toArray();
+        $caretakers = Caretaker::select('id','name')->orderBy('name','ASC')->where('is_blacklist',0)->get()->toArray();
+        $editCaretakers = array_merge($presentCaretaker, $caretakers);
         return view('admin.cat.edit')->with([
             'cat' => $query,
             'countries' => $countries,
-            'caretakers' => $caretakers
+            'caretakers' => $editCaretakers
         ]);
     }
     public function store(StoreCatRequest $request)
@@ -143,6 +158,8 @@ class CatController extends Controller
             'caretaker_id' => $request->caretaker_id,            
             'comments' => $request->comments,
             'image_url' => $imageUrl,
+            'virus' => (isset($request->virusstatus)) ? $request->virusstatus : 2,
+            'behaviour' => $request->behaviour,
             'status' => (isset($request->status)) ? $request->status : 'published',
         ]);
 
@@ -150,7 +167,8 @@ class CatController extends Controller
             'cat_id' => $cat->id,
             'caretaker_id' => $request->caretaker_id,
             'transfer_status' => 0,
-          ]);
+        ]);
+        Caretaker::find($request->caretaker_id)->increment('number_of_registered_cats');
         return redirect()->route('cat.index')->with('status', 'cat created!');
     }
 
@@ -171,7 +189,7 @@ class CatController extends Controller
         }
         $cats = $query->orderBy('cats.id','DESC')
                     ->get(['cats.created_at','cats.id','cats.status','cats.gender','cats.cat_id','caretakers.customer_id','caretakers.name as caretaker_name','cats.name as cat_name','cats.image_url']);
-    //  dd(DB::getQueryLog());
+        //  dd(DB::getQueryLog());
         $viewData = view('admin.cat.ajax_list', compact('cats'))->render();
 
         return $viewData;
@@ -179,9 +197,28 @@ class CatController extends Controller
 
     public function journal(Cat $cat)
     {
+        $counts = $this->getJournalCounts($cat->id);
+        $medCount = JournalMedicalHistories::where('cat_id',$cat->id)->count();
+        if($medCount != 0){
+            $counts['vital'] = $medCount;
+        }
+        $virusCount = JournalVirusTests::where('cat_id',$cat->id)->count();
+        if($virusCount != 0){
+            $counts['virus_test'] = $virusCount;
+        }
+       
         return view('admin.cat.journal')->with([
             'cat' =>  $cat,
+            'counts' => $counts
         ]);
+    }
+
+    public function getJournalCounts($cat_id){
+        $query = JournalDetails::select(DB::raw("COUNT(*) as count"),"journal_type")
+                                ->where('status', 1)
+                                ->groupBy('journal_type')
+                                ->where('cat_id', $cat_id)->get()->pluck("count", "journal_type")->toArray();
+        return $query;
     }
 
     public function getJournalData(Request $request)
@@ -194,7 +231,7 @@ class CatController extends Controller
         $to_date = $request->to_date;
 
         switch($type) {
-            case 'medical_history':
+            case 'vital':
               
                 $query = JournalMedicalHistories::select('*')
                                                 ->where('cat_id',$cat_id);
@@ -301,13 +338,20 @@ class CatController extends Controller
     public function deleteMedicalHistory(Request $request){
         $med_id = $request->med_id;
         $medical = JournalMedicalHistories::find($med_id);
+        $mCat_id =  $medical->cat_id;
         $medical->delete();
+
+        $count = JournalMedicalHistories::where('cat_id', $mCat_id)->count();
+        return $count;
     }
 
     public function deleteVirusTest(Request $request){
         $vid = $request->vid;
         $virus = JournalVirusTests::find($vid);
+        $vCat_id =  $virus->cat_id;
         $virus->delete();
+        $count = JournalVirusTests::where('cat_id', $vCat_id)->count();
+        return $count;
     }
 
     public function storeMedicalHistory(Request $request){
@@ -329,6 +373,7 @@ class CatController extends Controller
             'felv'  => $request->felv, 
             'fiv'  => $request->fiv, 
             'panleukopenia'  => $request->panleukopenia, 
+            'others' => $request->others,
             'report_date' => date('Y-m-d')
         ]);
     }
@@ -397,6 +442,8 @@ class CatController extends Controller
     public function deleteJournalData(Request $request){
         $jid = $request->jid;
         $journal = JournalDetails::find($jid);
+        $jType = $journal->journal_type;
+        $jCat_id =  $journal->cat_id;
         $journal->delete();
         $files = JournalFiles::select('image_url')->where('journal_id',$jid)->get()->toArray();
         if($files){
@@ -407,5 +454,21 @@ class CatController extends Controller
             }
             JournalFiles::where('journal_id',$jid)->delete();
         }
+
+        $count = JournalDetails::where('journal_type', $jType)->where('cat_id', $jCat_id)->count();
+        return json_encode(array('count' => $count, 'type' => $jType));
+    }
+
+    public function checkCatIdAvailability(Request $request){
+        
+        $query = Cat::where('cat_id',$request->cat_id);
+        
+        if(isset($request->id)) {
+            $query->where('id','!=',$request->id);
+        }
+        $result = $query->count();
+        
+        $check = ($result === 0) ?  'true' : 'false';
+        echo $check;
     }
 }

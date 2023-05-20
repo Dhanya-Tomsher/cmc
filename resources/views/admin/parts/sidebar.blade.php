@@ -41,7 +41,7 @@
             <li>
                 <a href="{{ route('hospital-appointments') }}" class=" waves-effect">
                     <i class="uil-hospital"></i>
-                    <span>Hospital Appointments </span>
+                    <span>Hospital Schedule </span>
                 </a>
 
             </li>
@@ -49,7 +49,7 @@
             <li>
                 <a href="{{ route('manage-hospital-appointments') }}" class=" waves-effect">
                     <i class="uil-hospital"></i>
-                    <span>Manage Hospital Appointments </span>
+                    <span>Hospital Appointments </span>
                 </a>
 
             </li>
@@ -57,14 +57,14 @@
             <li>
                 <a href="{{ route('hotel-appointments') }}" class=" waves-effect">
                     <i class="uil-building"></i>
-                    <span>Hotel Booking </span>
+                    <span>Hotel Schedule </span>
                 </a>
             </li>
 
             <li>
                 <a href="{{ route('manage-hotel-bookings') }}" class=" waves-effect">
                     <i class="uil-building"></i>
-                    <span>Manage Hotel Bookings </span>
+                    <span>Hotel Appointments </span>
                 </a>
 
             </li>
@@ -72,45 +72,63 @@
 
             <li>
                 <a href="{{ route('vet.index') }}" class=" waves-effect">
-                    <i class="uil-comments-alt"></i>
+                    <i class="mdi mdi-stethoscope"></i>
                     <span>Manage Vets </span>
                 </a>
             </li>
 
             <li>
                 <a href="{{ route('vet.schedule') }}" class=" waves-effect">
-                    <i class="uil-comments-alt"></i>
-                    <span>Vets Schedule </span>
+                    <i class="uil-calendar-alt"></i>
+                    <span>Vets Work Schedule </span>
                 </a>
             </li>
 
             
-            <li>
+            <!-- <li>
                 <a href="{{ route('invoice.index') }}" class=" waves-effect">
-                    <i class="uil-comments-alt"></i>
+                    <i class="uil-invoice"></i>
                     <span>Invoice </span>
+                </a>
+            </li> -->
+
+            <li>
+                <a href="{{ route('caretaker.index') }}" class=" waves-effect">
+                    <i class="uil-users-alt"></i>
+                    <span>Caretakers </span>
                 </a>
             </li>
 
             <li>
                 <a href="{{ route('cat.index') }}" class=" waves-effect">
-                    <i class="uil-comments-alt"></i>
+                    <i class="uil-github-alt"></i>
                     <span>Cats </span>
                 </a>
             </li>
-            <li>
-                <a href="{{ route('caretaker.index') }}" class=" waves-effect">
-                    <i class="uil-comments-alt"></i>
-                    <span>Caretaker </span>
-                </a>
-            </li>
+            
             <li>
                 <a href="{{ route('hrooms.index') }}" class=" waves-effect">
-                    <i class="uil-comments-alt"></i>
+                    <i class="uil-building"></i>
                     <span>Rooms </span>
                 </a>
             </li>
+            <li>
+                <a href="{{ route('procedure.index') }}" class=" waves-effect">
+                    <i class="uil-medical-square"></i>
+                    <span>Procedures </span>
+                </a>
+            </li>
+
             
+            <li>
+                <a href="#" class="has-arrow waves-effect">
+                    <i class="uil-file"></i> <span>Forms</span>
+                </a>
+                <ul class="sub-menu" aria-expanded="false">
+                    <li><a href="{{ route('forms.index') }}">Forms</a></li>
+                    <li><a href="{{ route('custom-forms') }}">Customer Forms </a></li>
+                </ul>
+            </li>
 
         </ul>
     </div>

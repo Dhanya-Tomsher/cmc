@@ -6,12 +6,12 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-flex align-items-center justify-content-between">
-                    <h4 class="mb-0">Vets Schedule </h4>
+                    <h4 class="mb-0">Vets Work Schedule </h4>
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Vets Schedule</li>
+                            <li class="breadcrumb-item active">Vets Work Schedule</li>
                         </ol>
                     </div>
 
@@ -181,10 +181,11 @@
                         removeDates: removeDates
                     },
                     success: function( response ) {
+                        var returnedData = JSON.parse(response);
                         Swal.fire(
                             '',
-                            'Scheduled Successfully!',
-                            'success'
+                            returnedData.msg,
+                            returnedData.status
                         );
                         $('#selectedDatesForAdd').val('');
                         $('#selectedDatesForRemove').val('');

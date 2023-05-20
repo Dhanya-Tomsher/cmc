@@ -274,7 +274,25 @@
 
                                                     <div class="custom-radio form-check form-check-inline">
                                                         <input type="radio" id="bloodUnknown" name="bloodtype"  value="unknown" disabled class="form-check-input" checked>
-                                                        <label class="form-check-label" for="bloodUnknown">Unknown</label>
+                                                        <label class="form-check-label" for="bloodUnknown">Default</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 input4" >
+                                                <label for="emirates-id" class="col-form-label d-block">Virus</label>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="custom-radio form-check form-check-inline">
+                                                        <input type="radio" id="virusYes" value="1" name="virusstatus" disabled class="form-check-input">
+                                                        <label class="form-check-label" for="virusYes">Yes</label>
+                                                    </div>
+                                                    <div class="custom-radio form-check form-check-inline">
+                                                        <input type="radio" id="virusNo" value="0" name="virusstatus" disabled class="form-check-input">
+                                                        <label class="form-check-label" for="virusNo">No</label>
+                                                    </div>
+                                                    <div class="custom-radio form-check form-check-inline">
+                                                        <input type="radio" id="virusUnknown" value="2" disabled name="virusstatus" class="form-check-input">
+                                                        <label class="form-check-label" for="virusUnknown">Unknown</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -347,6 +365,24 @@
                                                 <input type="text" class="form-control" id="eye_color" name="eye_color" readonly placeholder="Eye Color" rows="1"/>
                                             </div>
 
+                                            <div class="col-md-4" id="behaviour-div">
+                                                <label for="emirates-id" class="col-form-label d-block">Behaviour</label>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="custom-radio form-check form-check-inline">
+                                                        <input type="radio" id="behaviourGreen" value="1" disabled name="behaviour" class="form-check-input" checked>
+                                                        <label class="form-check-label" for="behaviourGreen">Green</label>
+                                                    </div>
+                                                    <div class="custom-radio form-check form-check-inline">
+                                                        <input type="radio" id="behaviourOrange" value="2" disabled name="behaviour" class="form-check-input">
+                                                        <label class="form-check-label" for="behaviourOrange">Orange</label>
+                                                    </div>
+                                                    <div class="custom-radio form-check form-check-inline">
+                                                        <input type="radio" id="behaviourRed" value="3" disabled name="behaviour" class="form-check-input" >
+                                                        <label class="form-check-label" for="behaviourRed">Red</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div class="col-md-4">
                                                 <label for="country" class="col-form-label">Place of Origin</label>
                                                 <input type="text" class="form-control" id="place_of_origin" name="place_of_origin" placeholder="Place of Origin" readonly  rows="1"/>
@@ -358,8 +394,8 @@
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label for="email" class="col-form-label">Origin</label>
-                                                <input type="text" class="form-control" rows="1" id="cat_origin" name="cat_origin" readonly placeholder="Origin"/>
+                                                <label for="email" class="col-form-label">Origin / History</label>
+                                                <input type="text" class="form-control" rows="1" id="cat_origin" name="cat_origin" readonly placeholder="Origin / History"/>
                                             </div>
 
                                             <div class="col-md-4">
@@ -425,7 +461,13 @@
                                                     <textarea class="form-control" rows="1" placeholder="Remarks" name="remarks" id="remarks"></textarea>
                                                 </div>
 
-                                               
+                                                <div class="col-md-4">
+                                                    <label for="payment" class="col-form-label">Payment Type</label>
+                                                    <select class="form-select form-control select2" id="payment_type" name="payment_type" style="width:100%;">
+                                                        <option value="online">Online</option>
+                                                        <option value="pos_cash">POS or Cash</option>
+                                                    </select>
+                                                </div>
 
                                                 <div class="col-md-12 align-self-end mt-3 text-end">
                                                     <input type="submit" class="btn btn-primary waves-effect waves-light w-xl me-2" id="create_appoinment" value="Create Booking"/>
@@ -747,6 +789,8 @@ table {
                     $("input[name=spayedstatus][value=" + returnedData[0].spayed + "]").prop('checked', true);
                     $("input[name=castratedstatus][value=" + returnedData[0].castrated + "]").prop('checked', true);
                     $("input[name=deadalive][value=" + returnedData[0].dead_alive + "]").prop('checked', true);
+                    $("input[name=behaviour][value=" + returnedData[0].behaviour + "]").prop('checked', true);
+                    $("input[name=virusstatus][value=" + returnedData[0].virus + "]").prop('checked', true);
 
                     if(returnedData[0].gender == 'Female'){
                         $('#pregnant-div,#spayed-div').css('display','block');

@@ -210,8 +210,8 @@
 
                                     <div class="col-md-4">
                                         <label for="country" class="col-form-label">Visa Status</label>
-                                        <select required class="form-select form-control" name="visa_status">
-                                            <option value="0" selected disabled>Select</option>
+                                        <select  class="form-select form-control" name="visa_status">
+                                            <option value="" >Select</option>
                                             <option value="Residence Visa"
                                                 {{ old('visa_status') == 'Residence Visa' ? 'selected' : '' }}>Residence
                                                 Visa</option>

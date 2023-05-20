@@ -62,7 +62,6 @@ class VetShifts extends Model
                     ->where('vet_id',$vetId)
                     ->orderBy('slots','ASC')
                     ->get()->pluck('slots')->toArray();
-
         return $vets;
     }
 }

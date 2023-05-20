@@ -65,37 +65,37 @@
                                        
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <label for="example-text-input" class="col-form-label">Caretaker ID</label>
-                                            <input type="hidden" name="catId" value="{{ $cat[0]->id }}">
+                                            <label for="example-text-input" class="col-form-label">Caretaker ID<span class="required">*</span></label>
+                                            <input type="hidden" name="catId" id="catId" value="{{ $cat[0]->id }}">
                                             <input type="hidden" name="image_url" value="{{ $cat[0]->image_url }}">
                                             <select class="form-select form-control" name="caretaker_id"  id="caretaker_id">
                                                 <option value="" >Select Caretaker</option>
                                                 @foreach ($caretakers as $ct)
-                                                    <option {{ $cat[0]->caretaker_id == $ct->id ? 'selected' : '' }} value="{{ $ct->id }}">{{ $ct->name }}</option>
+                                                    <option {{ $cat[0]->caretaker_id == $ct['id'] ? 'selected' : '' }} value="{{ $ct['id'] }}">{{ $ct['name'] }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="example-text-input" class="col-form-label">Cat ID</label>
-                                            <input class="form-control" value="{{ $cat[0]->cat_id }}" name="cat_id" type="text" id="example-text-input">
+                                            <label for="example-text-input" class="col-form-label">Cat ID<span class="required">*</span></label>
+                                            <input class="form-control" value="{{ $cat[0]->cat_id }}" name="cat_id" id="cat_id" type="text" id="example-text-input">
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="Name" class="col-form-label">Name</label>
+                                            <label for="Name" class="col-form-label">Name<span class="required">*</span></label>
                                             <input class="form-control" value="{{ $cat[0]->name }}"  name="name" type="text" placeholder="Enter Name" id="Name">
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="address" class="col-form-label">Date of Birth</label>
+                                            <label for="address" class="col-form-label">Date of Birth<span class="required">*</span></label>
                                             <div class="input-group" id="datepicker1">
-                                                <input type="text" value="{{ $cat[0]->date_birth }}" name="date_birth" class="form-control" placeholder="yyyy-mm-dd"
+                                                <input type="text" value="{{ $cat[0]->date_birth }}" name="date_birth" class="form-control date-picker" placeholder="yyyy-mm-dd"
                                                     data-date-format="yyyy-mm-dd" data-date-container="#datepicker1" data-provide="datepicker" data-date-autoclose="true">
                                                 <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="emirates-id" class="col-form-label d-block">Blood Type</label>
+                                            <label for="emirates-id" class="col-form-label d-block">Blood Type<span class="required">*</span></label>
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="BloodA" {{ $cat[0]->blood_type == "a" ? 'checked' : '' }} value="a" name="blood_type" class="form-check-input">
@@ -117,12 +117,29 @@
 
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="BloodUnknown" {{ $cat[0]->blood_type == "unknown" ? 'checked' : '' }} value="unknown" name="blood_type" class="form-check-input">
-                                                    <label class="form-check-label" for="BloodUnknown">Unknown</label>
+                                                    <label class="form-check-label" for="BloodUnknown">Default</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 input4" >
+                                            <label for="emirates-id" class="col-form-label d-block">Virus<span class="required">*</span></label>
+                                            <div class="d-flex align-items-center">
+                                                <div class="custom-radio form-check form-check-inline">
+                                                    <input type="radio" id="virusYes" value="1" name="virusstatus" {{ $cat[0]->virus == "1" ? 'checked' : '' }} class="form-check-input">
+                                                    <label class="form-check-label" for="virusYes">Yes</label>
+                                                </div>
+                                                <div class="custom-radio form-check form-check-inline">
+                                                    <input type="radio" id="virusNo" value="0" name="virusstatus" {{ $cat[0]->virus == "0" ? 'checked' : '' }} class="form-check-input">
+                                                    <label class="form-check-label" for="virusNo">No</label>
+                                                </div>
+                                                <div class="custom-radio form-check form-check-inline">
+                                                    <input type="radio" id="virusUnknown" value="2" {{ $cat[0]->virus == "2" ? 'checked' : '' }} name="virusstatus" class="form-check-input">
+                                                    <label class="form-check-label" for="virusUnknown">Unknown</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="emirates-id" class="col-form-label d-block">Gender</label>
+                                            <label for="emirates-id" class="col-form-label d-block">Gender<span class="required">*</span></label>
                                             <div class="d-flex h-50 align-items-center border-bottom-1">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="GenderMale" {{ $cat[0]->gender == "Male" ? 'checked' : '' }}  value="Male" name="gender" class="form-check-input" value="hide" >
@@ -137,7 +154,7 @@
 
 
                                         <div class="col-md-6 input4" >
-                                            <label for="emirates-id" class="col-form-label d-block">Neutered</label>
+                                            <label for="emirates-id" class="col-form-label d-block">Neutered<span class="required">*</span></label>
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="NeuteredYes" value="1" {{ $cat[0]->neutered == "1" ? 'checked' : '' }}  name="neutered" class="form-check-input">
@@ -151,7 +168,7 @@
                                         </div>
 
                                         <div class="col-md-6 input4" >
-                                            <label for="emirates-id" class="col-form-label d-block">Neutered with Us</label>
+                                            <label for="emirates-id" class="col-form-label d-block">Neutered with Us<span class="required">*</span></label>
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="NeuteredWithYes" value="1" {{ $cat[0]->neutered_with_us == "1" ? 'checked' : '' }}  name="neutered_with_us" class="form-check-input">
@@ -165,7 +182,7 @@
                                         </div>
 
                                         <div class="col-md-6 input4 {{ $cat[0]->gender == "Male" ?  "hide" : '' }}"  id="spayed-div">
-                                            <label for="emirates-id" class="col-form-label d-block">Spayed</label>
+                                            <label for="emirates-id" class="col-form-label d-block">Spayed<span class="required">*</span></label>
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="SpayedYes" value="1" {{ $cat[0]->spayed == "1" ? 'checked' : '' }} name="spayed" class="form-check-input">
@@ -179,7 +196,7 @@
                                         </div>
 
                                         <div class="col-md-6 input4 {{ $cat[0]->gender == "Female" ?  "hide" : '' }}"  id="castrated-div">
-                                            <label for="emirates-id" class="col-form-label d-block">Castrated</label>
+                                            <label for="emirates-id" class="col-form-label d-block">Castrated<span class="required">*</span></label>
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="CastratedYes" value="1" {{ $cat[0]->castrated == "1" ? 'checked' : '' }}  name="castrated" class="form-check-input">
@@ -193,7 +210,7 @@
                                         </div>
 
                                         <div class="col-md-6 input4 {{ $cat[0]->gender == "Male" ?  "hide" : '' }}"   id="pregnant-div">
-                                            <label for="emirates-id" class="col-form-label d-block">Pregnant /  Not</label>
+                                            <label for="emirates-id" class="col-form-label d-block">Pregnant /  Not<span class="required">*</span></label>
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="PregnantYes"  {{ $cat[0]->pregnant == "1" ? 'checked' : '' }} value="1" name="pregnantstatus" class="form-check-input">
@@ -211,17 +228,35 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="FurColor" class="col-form-label">Fur / Color</label>
+                                            <label for="FurColor" class="col-form-label">Fur / Color<span class="required">*</span></label>
                                             <input type="text" value="{{  $cat[0]->fur_color }}" name="fur_color" class="form-control" id="FurColor"  placeholder="Enter Fur / Color">
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="EyeColor" class="col-form-label">Eye Color</label>
+                                            <label for="EyeColor" class="col-form-label">Eye Color<span class="required">*</span></label>
                                             <input type="text" value="{{ $cat[0]->eye_color }}" name="eye_color" class="form-control" id="EyeColor" placeholder="Enter Eye Color">
                                         </div>
 
+                                        <div class="col-md-6 input4" id="behaviour-div">
+                                            <label for="emirates-id" class="col-form-label d-block">Behaviour<span class="required">*</span></label>
+                                            <div class="d-flex align-items-center">
+                                                <div class="custom-radio form-check form-check-inline">
+                                                    <input type="radio" id="behaviourGreen" value="1" {{ $cat[0]->behaviour == "1" ? 'checked' : '' }}  name="behaviour" class="form-check-input" >
+                                                    <label class="form-check-label" for="behaviourGreen">Green</label>
+                                                </div>
+                                                <div class="custom-radio form-check form-check-inline">
+                                                    <input type="radio" id="behaviourOrange" value="2" {{ $cat[0]->behaviour == "2" ? 'checked' : '' }}  name="behaviour" class="form-check-input">
+                                                    <label class="form-check-label" for="behaviourOrange">Orange</label>
+                                                </div>
+                                                <div class="custom-radio form-check form-check-inline">
+                                                    <input type="radio" id="behaviourRed" value="3" {{ $cat[0]->behaviour == "3" ? 'checked' : '' }}  name="behaviour" class="form-check-input" >
+                                                    <label class="form-check-label" for="behaviourRed">Red</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="col-md-6">
-                                            <label for="country" class="col-form-label">Place of Origin</label>
+                                            <label for="country" class="col-form-label">Place of Origin<span class="required">*</span></label>
                                             <select class="form-select form-control" name="place_of_origin">
                                                 <option value="0" selected disabled>Select</option>
                                                 @foreach ($countries as $item)
@@ -231,7 +266,7 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="country" class="col-form-label">Emirate</label>
+                                            <label for="country" class="col-form-label">Emirate<span class="required">*</span></label>
                                             <select class="form-select form-control" name="emirate">
                                                 <option value="0" selected disabled>Select</option>
                                                 <option {{ $cat[0]->emirate == 'Abu Dhabi' ? 'selected' : '' }} value="Abu Dhabi">Abu Dhabi</option>
@@ -245,17 +280,17 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="email" class="col-form-label">Origin</label>
-                                            <input type="text" value="{{ $cat[0]->origin }}" name="origin" class="form-control" placeholder="Enter Origin">
+                                            <label for="email" class="col-form-label">Origin / History<span class="required">*</span></label>
+                                            <input type="text" value="{{ $cat[0]->origin }}" name="origin" class="form-control" placeholder="Enter Origin / History">
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="microchip_number" class="col-form-label">Microchip Number</label>
+                                            <label for="microchip_number" class="col-form-label">Microchip Number<span class="required">*</span></label>
                                             <input class="form-control"  value="{{ $cat[0]->microchip_number }}" name="microchip_number" type="text" placeholder="Enter Microchip Number" id="microchip_number">
                                         </div>
 
                                         <div class="col-md-6 align-self-end">
-                                            <label for="emirates-id" class="col-form-label d-block">Dead / Alive</label>
+                                            <label for="emirates-id" class="col-form-label d-block">Dead / Alive<span class="required">*</span></label>
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="Alive" value="1" {{ $cat[0]->dead_alive == "1" ? 'checked' : '' }} name="dead_alive" class="form-check-input" checked>
@@ -268,14 +303,8 @@
 
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <label for="country" class="col-form-label">Status</label>
-                                            <select class="form-select form-control" name="status">
-                                                <option {{ $cat[0]->status == 'published' ? 'selected' : '' }} value="published">Published</option>
-                                                <option {{ $cat[0]->status == 'draft' ? 'selected' : '' }} value="draft">Draft</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4 align-self-end mt-3">
+                                       
+                                        <div class="col-md-12 align-self-end mt-5">
                                             <div class="">
                                                 <button name="Submit" type="Submit"  class="btn btn-primary waves-effect waves-light w-xl me-2">Save</button>
                                             </div>
@@ -331,16 +360,59 @@
         allowClear: true,
     });
 
+    $.validator.addMethod("checkExists", function(value, element){
+        var data = 0;
+        $.ajax({
+            type: "POST",
+            url: "{{ route('cat.check-availability')}}",
+            async: false,
+            data: "cat_id="+value +"&id="+$('#catId').val(), 
+            success: function(returnData)
+            {
+                data = (returnData === 'true') ? 1 :0;
+            }
+        });
+        return data;
+    }, 'This Cat ID already exists');
+
     $("#updateCat").validate({
         rules: {
             name: "required",
             caretaker_id: "required",
-            cat_id:"required"
+            date_birth: "required",
+            fur_color: "required",
+            eye_color: "required",
+            place_of_origin: "required",
+            emirate: "required",
+            origin: "required",
+            microchip_number: "required",
+            image_url: {
+                required: true,
+                extension: "jpg|jpeg|png|ico|bmp"
+            },
+            cat_id:{
+                    required: true,
+                    checkExists : true
+            }
         },
         messages: {
             caretaker_id: " Please select a caretaker",
             name: " Please enter a name",
-            cat_id:"This field is required"
+            cat_id:{
+                    required: "Please enter Cat ID.",
+                    checkExists: "This Cat ID already exists."
+            },
+            date_birth: "Date of birth is required",
+            fur_color: "Fur/color is required",
+            eye_color: "Eye color is required",
+            place_of_origin: "Place of origin is required",
+            emirate: "Emirate is required",
+            origin: "Origin / History is required",
+            microchip_number: "Microchip number is required",
+            image_url: {
+                required:"Please select an Image file",
+                extension:"Please upload file in these format only (jpg, jpeg, png, ico, bmp)."
+            },
         },
         errorPlacement: function (error, element) {
             if(element.hasClass('select2')) {
