@@ -72,7 +72,7 @@
             @endforeach
         @endif
     </div>
-    <div class="table-con d-flex justify-content-sm-around ">
+    <div class="table-con d-flex justify-content-sm-around custom-schedule">
         <div class="time-col">
             @if ($timeslots)
                 @foreach ($timeslots as $slot)
