@@ -46,6 +46,8 @@
 
                             <a class="nav-link mb-2 {{ isset($counts['vital']) ? 'data_active' : 'data_none' }}" id="vital" onclick="getJournalData('vital','{{ $cat->id }}')" role="button">Vitals</a>
 
+                            <a class="nav-link mb-2 {{ isset($counts['med_history']) ? 'data_active' : 'data_none' }}" id="med_history" onclick="getJournalData('med_history','{{ $cat->id }}')" role="button">Medical History</a>
+
                             <a class="nav-link mb-2 {{ isset($counts['dental']) ? 'data_active' : 'data_none' }}" id="dental"  onclick="getJournalData('dental','{{ $cat->id }}')" role="button">Dental</a>
 
                             <a class="nav-link mb-2 {{ isset($counts['hospitalization']) ? 'data_active' : 'data_none' }}" id="hospitalization" onclick="getJournalData('hospitalization','{{ $cat->id }}')" role="button">Hospitalization</a>
@@ -90,59 +92,62 @@
 <link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-lightbox/0.7.0/bootstrap-lightbox.min.css">
 <style>
-/* The grid: Four equal columns that floats next to each other */
-.column {
-  float: left;
-  width: 25%;
-  padding: 10px;
-}
+    /* The grid: Four equal columns that floats next to each other */
+    .column {
+    float: left;
+    width: 25%;
+    padding: 10px;
+    }
 
-/* Style the images inside the grid */
-.column img {
-  opacity: 0.8;
-  cursor: pointer;
-}
+    /* Style the images inside the grid */
+    .column img {
+    opacity: 0.8;
+    cursor: pointer;
+    }
 
-.column img:hover {
-  opacity: 1;
-}
+    .column img:hover {
+    opacity: 1;
+    }
 
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
+    /* Clear floats after the columns */
+    .row:after {
+    content: "";
+    display: table;
+    clear: both;
+    }
 
-/* The expanding image container (positioning is needed to position the close button and the text) */
-.container {
-  position: relative;
-  display: none;
-}
+    /* The expanding image container (positioning is needed to position the close button and the text) */
+    .container {
+    position: relative;
+    display: none;
+    }
 
-/* Expanding image text */
-#imgtext {
-  position: absolute;
-  bottom: 15px;
-  left: 15px;
-  color: white;
-  font-size: 20px;
-}
+    /* Expanding image text */
+    #imgtext {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    color: white;
+    font-size: 20px;
+    }
 
-/* Closable button inside the image */
-.closebtn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  color: white;
-  font-size: 35px;
-  cursor: pointer;
-}
-.lightbox{
+    /* Closable button inside the image */
+    .closebtn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: white;
+    font-size: 35px;
+    cursor: pointer;
+    }
+    .lightbox{
       z-index: 1041;
     }
     .small-img{
       width: 100px;height: 100px;
+    }
+    .ck-editor__editable_inline {
+        height: 280px;
     }
 </style>
 @endpush
@@ -152,9 +157,10 @@
 <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-lightbox/0.7.0/bootstrap-lightbox.min.js"></script>
+<script src="{{ asset('assets/js/ckeditor.js') }}"></script>
 <script>
     let cat_id = '{{ $cat->id }}';
-    
+    window.editor = '';
      $( "#date" ).datepicker({
         format: 'yyyy-mm-dd',
         dropdownParent: $('#createMedicalHistory'),
@@ -164,6 +170,8 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+   
     getJournalData('vital', cat_id);
     function getJournalData(type, cat_id){
         var keyword = $('#search').val();
@@ -284,7 +292,7 @@
                     $('.journal_data').modal('hide');
                     $('#'+type).addClass('data_active');
                     $('#'+type).removeClass('data_none');
-                    getJournalData(type, cat_id);
+                    getJournalData(type, cat_id); 
                 }
             });
         }
@@ -395,15 +403,43 @@
         var result = files.split(',');
         var html = '';
         $.each(result, function(index1, value1) {
-            html += ' <div class="column"> <img src="'+value1+'"  style="width:100%" onclick="myFunction(this);"> </div>';
+            var fileExt =  value1.substr( (value1.lastIndexOf('.') +1) );
+          
+            console.log(fileExt);
+            switch(fileExt) {
+                case 'jpg':
+                case 'jpeg':
+                case 'png':
+                case 'bmp':
+                case 'gif':
+                    html += ' <div class="column"> <img src="'+value1+'"  style="width:80%;height: 80%;" onclick="myFunction(`'+value1+'`,`image`);"> </div>'; // There's was a typo in the example where
+                break;                         // the alert ended with pdf instead of gif.
+                case 'pdf':
+                    html += ' <div class="column"><img src="{{ asset("assets/images/PDF_file_icon.png") }}"  style="width:80%;height: 80%;" onclick="myFunction(`'+value1+'`,`pdf`);"></div>'; 
+                break;
+                case 'doc':
+                case 'docx':
+                    html += ' <div class="column"> <a href="'+value1+'" target="_blank" > <img src="{{ asset("assets/images/word_file_icon.png") }}"  style="width:80%;height: 80%;" > </a> </div>';
+                break;  
+                case 'txt':
+                html += ' <div class="column"><img src="{{ asset("assets/images/txt-icon.png") }}"  style="width:80%;height: 80%;" onclick="myFunction(`'+value1+'`,`txt`);"></div>'; 
+                break;  
+                default:
+
+            }
+           
         });
         $('#ImageList').html(html);
         $('.images_data').modal('show');
     }
-    function myFunction(e){
-        var src = e.src;
-        console.log(src);
-        $("#large-image").attr('src',src);
+    function myFunction(src, type){
+        var html = '';
+        if(type == 'image'){
+            html += '<img id="large-image" class="w-100 h-800" src="'+src+'" alt="">';
+        }else if(type == 'pdf' || type == 'txt'){
+            html += '<iframe id="large-image" class="w-100" style="min-height: 750px !important;" src="'+src+'" ></iframe>';
+        }
+        $("#image-show-area").html(html);
         $('#show_image_popup').modal('show');
     }
 
@@ -416,5 +452,40 @@
         $('#search_from_date,#search_to_date' ).datepicker( 'setDate', '' ).datepicker('fill');
         getJournalData('vital', cat_id);
     });
+
+    function showAddModal (){
+        if(editor){
+            editor.destroy();
+        }
+        
+        $('.journal_data').modal('show');
+        ClassicEditor .create( document.querySelector( '#remark_content' ), {
+            width:['250px'],
+            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'undo', 'redo' ],
+            updateSourceElementOnDestroy:true,
+            removePlugins: ["EasyImage","ImageUpload","MediaEmbed","blockquote"]
+        } ).then(editor => {
+                window.editor = editor;
+                    editor.model.document.on('change:data', () => {
+					    $('#remark_content').html(editor.getData());
+                    })
+               })
+        .catch( error => {
+            console.log( error );
+        } );
+    }
+    function showModal(id){
+
+        $.ajax({
+            url: "{{ route('journal-details.view')}}",
+            type: "POST",
+            data: { id: id},
+            success: function( response ) {
+                $('#heading-data').html(response[0].heading);
+                $('#content-data').html(response[0].remarks);
+                $('#show_popup').modal('show');
+            }
+        });
+    }
 </script>
 @endpush
