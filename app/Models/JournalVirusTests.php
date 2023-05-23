@@ -17,7 +17,12 @@ class JournalVirusTests extends Model
         'fiv', 
         'panleukopenia', 
         'report_date',
-        'others'
+        'others',
+        'other_name', 
+        'others_2', 
+        'other2_name', 
+        'others_3', 
+        'other3_name'
     ];
 }
 

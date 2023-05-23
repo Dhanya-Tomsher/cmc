@@ -1,18 +1,26 @@
 <div class="tab-pane fade show active">
         <div class="d-flex justify-content-between">
             <h5>{{ $title }}</h5>
-            <a href="#"  class="btn btn_back waves-effect waves-light" onclick="showAddModal();">Add</a>
+            @if($type != 'prescriptions')
+                <a href="#"  class="btn btn_back waves-effect waves-light" onclick="showAddModal();">Add</a>
+            @else
+            <a href="#"  class="btn btn_back waves-effect waves-light" onclick="showPrescriptionAddModal();">Add</a>
+            @endif
         </div>
 
         <div class="table-responsive mt-3">
-            <table class="table table-centered table-nowrap mb-0" id="journal_table">
+            <table class="table table-centered  mb-0" id="journal_table">
                 <thead class="table-light">
                     <tr>
                         <th class="w-10">Sl NO</th>
                         <th class="w-30">Heading</th>
-                        <th class="w-10">Files</th>
-                        <th class="w-10">Report Date</th>
-                        <th class="w-10">Action</th>
+                        @if($type != 'prescriptions')
+                            <th class="w-10">Files</th>
+                            <th class="w-10">Report Date</th>
+                        @else
+                            <th class="w-10">Date</th>
+                        @endif
+                        <th class="text-center w-10">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,16 +31,20 @@
                                 <td>{{ $i++ }}</td>
                                 <td>{!! $other->heading !!} </td>
                                 <!-- <td>{!! $other->remarks !!} </td> -->
-                                <td>
-                                    @if($other->files)
-                                        <a href="#" onclick="getJournalImages('{{ $other->file_names }}')" class="px-3 text-danger"><i class="uil uil-file-alt font-size-20"></i></a>
-                                    @else
-                                        <span class="px-3">- </span>
-                                    @endif
-                                </td>
+                                @if($type != 'prescriptions')
+                                    <td>
+                                        @if($other->files)
+                                            <a href="#" onclick="getJournalImages('{{ $other->file_names }}')" class="px-3 text-danger"><i class="uil uil-file-alt font-size-20"></i></a>
+                                        @else
+                                            <span class="px-3">- </span>
+                                        @endif
+                                    </td>
+                                @endif
                                 <td>{{ $other->report_date }}</td>
-                                <td>
+                                
+                                <td class="text-center">
                                     <a href="#" class="px-3 text-primary" onclick='showModal("{{$other->id}}")'><i class="uil uil-eye font-size-20"></i></a>
+                                   
                                     <a href="#" onclick="deleteJournalData({{ $other->id }})" class="px-3 text-danger"><i class="uil uil-trash-alt required font-size-18"></i></a>
                                 </td>
                             </tr>
@@ -92,6 +104,52 @@
         <!-- /.modal-dialog -->
     </div>
 
+    <div class="modal fade journal_prescription_data" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myExtraLargeModalLabel">Add {{ $title }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+                </div>
+                <div class="modal-body">
+                    <form  id="createPrescriptionJournalData"  enctype="multipart/form-data" method="POST">
+                        <div class="row">
+                            <div class="col-md-12 mb-2">
+                                <label for="Document" class="col-form-label pt-0">Heading<span class="error">*</span></label>
+                                <input class="form-control" type="text" placeholder="Enter heading" name="heading_pre" id="heading_pre">
+                                <span class="error hide" id="error_heading_pre">Heading field is required. </span>
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <label for="Document" class="col-form-label pt-0">Remarks</label>
+                                <textarea class="form-control" type="text" placeholder="Enter Remarks" name="prescription_content" id="prescription_content"> </textarea>
+                            </div>
+            
+                            <div class="col-md-12 mb-2">
+                                <label for="address" class="col-form-label">Date</label>
+                                <div class="input-group" id="datepicker2">
+                                    <input type="text" name="pre_date" id="pre_date"  class="form-control date-picker"  placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
+                                        data-date-container="#datepicker2" data-provide="datepicker"  data-date-autoclose="true"  value="">
+                                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mt-3 text-center">
+                                <input type="hidden" name="cat_id" value="{{$cat_id}}">
+                                <input type="hidden" name="type" value="{{$type}}">
+                            </div>
+                            <div class="col-md-12 mt-3 text-center">
+                                <a href="#" class="btn btn-primary waves-effect waves-light w-lg" onclick="addJournalPrescriptionDetails('{{ $title }}','{{$type}}')">Add</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+               
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
     <div class="modal fade images_data" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content" style="min-height: 600px;">
@@ -136,6 +194,9 @@
                 </div>
                 <div class="modal-body" style="height: 700px;overflow: auto;">
                     <div id="content-data"> </div>
+                </div>
+                <div class="modal-footer">
+                    
                 </div>
             </div>
             <!-- /.modal-content -->

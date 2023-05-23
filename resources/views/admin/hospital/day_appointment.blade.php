@@ -72,7 +72,7 @@
             @endforeach
         @endif
     </div>
-    <div class="table-con d-flex justify-content-sm-around custom-schedule">
+    <div class="table-con d-flex custom-schedule">
         <div class="time-col">
             @if ($timeslots)
                 @foreach ($timeslots as $slot)
@@ -93,11 +93,11 @@
                             @else
                                 <div class="fit appointment-green" data-slot="{{ $slot }}" id="appointment-create"
                                     onclick="getAppointmentForm('{{ $date }}',['{{ $slot }}'],'{{ $vet->id }}')">
-                                    green
+                                    
                                 </div>
                             @endif
                         @else
-                            <div class="fit app-disabled">disabled</div>
+                            <div class="fit app-disabled"></div>
                         @endif
                     @endforeach
                 </div>
