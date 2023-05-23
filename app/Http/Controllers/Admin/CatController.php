@@ -558,6 +558,19 @@ class CatController extends Controller
         return $viewData;
     }
 
+    public function viewJournalPrescriptionDetails(Request $request){
+        $id = $request->id;
+        $journal = JournalDetails::select("journal_details.*","cats.name as cat_name","ct.name as caretaker_name")
+                                    ->leftJoin('cats','journal_details.cat_id','=','cats.id')
+                                    ->leftJoin('cat_caretakers as cc','cc.cat_id', '=', 'cats.id')
+                                    ->leftJoin('caretakers as ct','cc.caretaker_id','=','ct.id')
+                                    ->where('journal_details.id', $id)
+                                    ->get();
+        $viewData = view('admin.journal.view_prescription', compact('journal'))->render();
+
+        return $viewData;
+    }
+
     public function storeJournalPrescriptionDetails(Request $request){
 
         $journal = JournalDetails::create([

@@ -43,7 +43,12 @@
                                 <td>{{ $other->report_date }}</td>
                                 
                                 <td class="text-center">
-                                    <a href="#" class="px-3 text-primary" onclick='showModal("{{$other->id}}")'><i class="uil uil-eye font-size-20"></i></a>
+                                    @if($type == 'prescriptions')
+                                        <a href="#" class="px-3 text-primary" onclick='showPrescriptionModal("{{$other->id}}")'><i class="uil uil-eye font-size-20"></i></a>
+                                    @else
+                                        <a href="#" class="px-3 text-primary" onclick='showModal("{{$other->id}}")'><i class="uil uil-eye font-size-20"></i></a>
+                                    @endif
+                                    
                                    
                                     <a href="#" onclick="deleteJournalData({{ $other->id }})" class="px-3 text-danger"><i class="uil uil-trash-alt required font-size-18"></i></a>
                                 </td>
@@ -194,6 +199,25 @@
                 </div>
                 <div class="modal-body" style="height: 700px;overflow: auto;">
                     <div id="content-data"> </div>
+                </div>
+                <div class="modal-footer">
+                    
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade" id="show_prescription_popup" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="" id="pre-heading-data"> </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+                </div>
+                <div class="modal-body" style="height: 700px;overflow: auto;">
+                    <div id="pre-content-data"> </div>
                 </div>
                 <div class="modal-footer">
                     

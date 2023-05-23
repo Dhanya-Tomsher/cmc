@@ -544,11 +544,7 @@
             success: function( response ) {
                 $('#heading-data').html(response[0].heading);
                 $('#content-data').html(response[0].remarks);
-                if(response[0].journal_type == 'prescriptions'){
-                    var html = '<a href="#" class="btn btn-primary px-3" onclick="PrintElem(`content-data`)"><i class="uil uil-print"> Print</i></a>'+
-                    '<a href="#" class="btn btn-primary px-3" onclick="sendToMail()"><i class="uil uil-message"> Send To Mail</i></a>';
-                    $('.modal-footer').html(html);
-                }
+            
                 $('#show_popup').modal('show');
             }
         });
@@ -581,16 +577,22 @@
         });
     }
 
-    function PrintElem(elem)
+    function printElement(elem)
     {
-        // $('#'+elem).show().printElement();
+        var  node = document.getElementById("pre-content-data");
+        var domClone = node.cloneNode(true);
 
-        var mywindow = window.open();
-        var content = document.getElementById(elem).innerHTML;
-        mywindow.document.write(content);
-        mywindow.close();
-        mywindow.print();
+        var $printSection = document.getElementById("pre-content-data-new");
 
+        if (!$printSection) {
+            var $printSection = document.createElement("div");
+            $printSection.id = "pre-content-data-new";
+            document.body.appendChild($printSection);
+        }
+  
+        $printSection.innerHTML = "";
+        $printSection.appendChild(domClone);
+        window.print();
 
 
         // var mywindow = window.open('', 'PRINT', '');
@@ -608,6 +610,22 @@
         // mywindow.close();
 
         // return true;
+    }
+
+    function showPrescriptionModal(id){
+        $.ajax({
+            url: "{{ route('journal-pre-details.view')}}",
+            type: "POST",
+            data: { id: id},
+            success: function( response ) {
+                $('#pre-content-data').html(response);
+                var html = '<a href="#" class="btn btn-primary px-3" onclick="printElement(`pre-content-data`)"><i class="uil uil-print"> Print</i></a>'+
+                '<a href="#" class="btn btn-primary px-3" onclick="sendToMail()"><i class="uil uil-message"> Send To Mail</i></a>';
+                $('.modal-footer').html(html);
+
+                $('#show_prescription_popup').modal('show');
+            }
+        });
     }
    
 </script>

@@ -520,17 +520,33 @@ table td.highlighted {
       width: 100%;
       flex-basis: 100%;
   }
-
+  .custom-schedule .vetselect{
+    flex-basis: 50%;
+  }
 @media print {
-  body {
-    visibility: hidden;
-  }
-  #content-data {
-    visibility: visible;
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
+    body * {
+        visibility:hidden;
+    }
+    #pre-content-data-new, #pre-content-data-new * {
+        visibility:visible;
+    }
+    #pre-content-data-new {
+        position:absolute;
+        left:0;
+        top:0;
+        width: 100%;
+        height: 100%;
+        background-color: #fcf7bd !important;
+    }
+    .col-md-4{
+      width: 33% !important;
+    }
+    @page { margin: 0; }
+    body  { margin: 1.6cm; }
+    .card-body{
+      margin-top: 7% !important;
+      background-color: #fcf7bd !important;
+    }
 }
 /* Jisha Styles End*/
 

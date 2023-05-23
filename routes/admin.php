@@ -77,6 +77,8 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::post('journal-details.view', [CatController::class, 'viewJournalDetails'])->name('journal-details.view');
     Route::post('journal-form-details.view', [CatController::class, 'viewJournalFormDetails'])->name('journal-form-details.view');
     Route::post('journal-prescription-details.store', [CatController::class, 'storeJournalPrescriptionDetails'])->name('journal-prescription-details.store');
+    Route::post('journal-pre-details.view', [CatController::class, 'viewJournalPrescriptionDetails'])->name('journal-pre-details.view');
+    Route::post('journal/send', [CatController::class, 'journalSendMail'])->name('journal-send-mail');
 
     Route::get('invoice', [InvoiceController::class, 'index'])->name('invoice.index');
     Route::get('invoice/create', [InvoiceController::class, 'create'])->name('invoice.create');
