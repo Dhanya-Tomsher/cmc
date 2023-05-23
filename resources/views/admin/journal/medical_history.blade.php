@@ -45,22 +45,34 @@
                 <div class="modal-body">
                     <form  id="createMedicalHistory"  enctype="multipart/form-data" method="POST">
                         <div class="row">
-                            <div class="col-md-4 mb-2">
+                            <div class="col-md-6 mb-2">
                                 <label for="Document" class="col-form-label pt-0">Weight</label>
                                 <input class="form-control" type="text" placeholder="Enter Weight" id="weight" name="weight">
                             </div>
-                            <div class="col-md-4 mb-2">
+                            <div class="col-md-6 mb-2">
                                 <label for="Document" class="col-form-label pt-0">Temperature</label>
                                 <input class="form-control" type="text" placeholder="Enter Temperature" id="temperature" name="temperature">
                             </div>
-                            <div class="col-md-4 mb-2">
+                            <div class="col-md-6 mb-2">
                                 <label for="Document" class="col-form-label pt-0">Blood Pressure</label>
                                 <input class="form-control" type="text" placeholder="Enter Blood Pressure" id="blood_pressure" name="blood_pressure">
                             </div>
+
+                            <div class="col-md-6 mb-2">
+                                <label for="address" class="col-form-label pt-0">Report Date</label>
+                                <div class="input-group" id="datepicker1">
+                                    <input type="text" name="report_date" id="report_date"  class="form-control date-picker"  placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
+                                        data-date-container="#datepicker1" data-provide="datepicker"  data-date-autoclose="true"  value="">
+                                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                </div>
+                            </div>
+
                             <div class="col-md-12 mt-3 text-center">
                                 <input type="hidden" name="cat_id" value="{{$cat_id}}">
-                                <span class="error hide p-2" id="error_medical" >Atleast one field is required.</span>
+                                <span class="error hide p-2" id="error_medical" >Atleast one vital field is required.</span>
                             </div>
+
+
                             <div class="col-md-12 mt-3 text-center">
                                 <a href="#" class="btn btn-primary waves-effect waves-light w-lg" onclick="addMedicalHistory()">Add</a>
                             </div>

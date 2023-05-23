@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Cat; 
 use App\Models\CatCaretakers; 
 use App\Models\Country;
+use App\Models\CustomForms;
 use App\Models\Caretaker;
 use App\Models\JournalMedicalHistories;
 use App\Models\JournalDetails;
@@ -206,7 +207,11 @@ class CatController extends Controller
         if($virusCount != 0){
             $counts['virus_test'] = $virusCount;
         }
-       
+        $formsCount = CustomForms::where('cat_id',$cat->id)->where('signed_status',1)->count();
+        if($formsCount != 0){
+            $counts['forms'] = $formsCount;
+        }
+
         return view('admin.cat.journal')->with([
             'cat' =>  $cat,
             'counts' => $counts
@@ -312,8 +317,13 @@ class CatController extends Controller
                 $query = JournalVirusTests::select('*')
                                         ->where('cat_id',$cat_id);
                 if($keyword){
-                    $query->where('calicivirus', 'LIKE', '%'.$keyword. '%');
+                    $query->Where(function ($query) use ($keyword) {
+                        $query->orWhere('other_name', 'LIKE','%'. $keyword . '%')
+                                ->orWhere('other2_name', 'LIKE','%'. $keyword . '%')
+                                ->orWhere('other3_name', 'LIKE', '%'.$keyword . '%');
+                    });    
                 } 
+
                 if($from_date != '' || $to_date != ''){
                     if($from_date != '' && $to_date != ''){
                         $query->whereDate('report_date', '>=', $from_date)
@@ -332,7 +342,19 @@ class CatController extends Controller
                 $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
                 $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
                 break;
- 
+
+            case 'forms':
+                $title = 'Forms';
+                $data = $this->getFormDetails($type,$cat_id, $keyword,$from_date,$to_date);
+                $viewData = view('admin.journal.form_details',compact('data','cat_id','type','title'))->render();
+                break;
+
+            case 'prescriptions':
+                $title = 'Prescriptions';
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
+                break;
+    
             default:
                 $viewData = [];
         }
@@ -365,7 +387,7 @@ class CatController extends Controller
             'weight' => $request->weight,  
             'temperature' => $request->temperature, 
             'blood_pressure' => $request->blood_pressure,  
-            'report_date' => date('Y-m-d')
+            'report_date' => isset($request->report_date) ? $request->report_date : date('Y-m-d')
         ]);
     }
 
@@ -379,7 +401,12 @@ class CatController extends Controller
             'fiv'  => $request->fiv, 
             'panleukopenia'  => $request->panleukopenia, 
             'others' => $request->others,
-            'report_date' => date('Y-m-d')
+            'other_name' => $request->text_other_name,
+            'others_2' => $request->others2,
+            'other2_name' => $request->text_other2_name,
+            'others_3' => $request->others3,
+            'other3_name' => $request->text_other3_name,
+            'report_date' => isset($request->report_date) ? $request->report_date : date('Y-m-d')
         ]);
     }
 
@@ -421,8 +448,12 @@ class CatController extends Controller
                 ->where('cat_id', $cat_id)
                 ->where('journal_type', $type);
         if($keyword){
-            $query->where('remarks', 'LIKE', '%'.$keyword. '%');
+            $query->Where(function ($query) use ($keyword) {
+                $query->orWhere('remarks', 'LIKE','%'. $keyword . '%')
+                        ->orWhere('heading', 'LIKE','%'. $keyword . '%');
+            });    
         } 
+
         if($from_date != '' || $to_date != ''){
             if($from_date != '' && $to_date != ''){
                 $query->whereDate('report_date', '>=', $from_date)
@@ -443,6 +474,35 @@ class CatController extends Controller
             }
         }
         return $journals;
+    }
+
+    public function getFormDetails($type, $cat_id, $keyword,$from_date,$to_date){
+        $query =  CustomForms::select('custom_forms.*','care.name as caretaker_name','cats.name as cat_name','for.form_title','for.form_content')
+                            ->leftJoin('caretakers as care','custom_forms.caretaker_id','=','care.id')
+                            ->leftJoin('cats','custom_forms.cat_id','=','cats.id')
+                            ->leftJoin('forms as for','custom_forms.form_id','=','for.id')
+                            ->where('custom_forms.cat_id',$cat_id)->where('custom_forms.signed_status',1);
+        if($keyword){
+            $query->Where(function ($query) use ($keyword) {
+                $query->orWhere('for.form_title', 'LIKE','%'. $keyword . '%')
+                        ->orWhere('for.form_content', 'LIKE','%'. $keyword . '%');
+            });    
+        } 
+
+        if($from_date != '' || $to_date != ''){
+            if($from_date != '' && $to_date != ''){
+                $query->whereDate('signed_date', '>=', $from_date)
+                ->whereDate('signed_date',   '<=', $to_date);
+            }elseif($from_date == '' && $to_date != ''){
+                $query->whereDate('signed_date', '=', $to_date);
+            }elseif($from_date != '' && $to_date == ''){
+                $query->whereDate('signed_date', '=', $from_date);
+            }
+        }
+        $forms = $query->orderBy('id','desc')
+                ->get();
+
+        return $forms;
     }
 
     public function deleteJournalData(Request $request){
@@ -483,5 +543,29 @@ class CatController extends Controller
                                 ->where('id', $id)
                                 ->get();
         return $query;
+    }
+
+    public function viewJournalFormDetails(Request $request){
+        $form  = CustomForms::select('custom_forms.*','care.name as caretaker_name','cats.name as cat_name','for.form_title','for.form_content')
+                            ->leftJoin('caretakers as care','custom_forms.caretaker_id','=','care.id')
+                            ->leftJoin('cats','custom_forms.cat_id','=','cats.id')
+                            ->leftJoin('forms as for','custom_forms.form_id','=','for.id')
+                            ->where('custom_forms.id',$request->id)
+                            ->get()->toArray();
+
+        $viewData = view('admin.journal.view_form', compact('form'))->render();
+
+        return $viewData;
+    }
+
+    public function storeJournalPrescriptionDetails(Request $request){
+
+        $journal = JournalDetails::create([
+            'cat_id' => $request->cat_id, 
+            'journal_type' => $request->type,  
+            'heading' => $request->heading_pre,
+            'remarks'  => $request->prescription_content, 
+            'report_date'=> isset($request->pre_date) ? $request->pre_date : date('Y-m-d')
+        ]);
     }
 }

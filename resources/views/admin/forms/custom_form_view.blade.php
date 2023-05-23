@@ -67,7 +67,7 @@
                                 </div>
                                 <div class="col-md-12 d-flex">
                                     <div class="col-md-5">
-                                        <label class="col-form-label"><b>Date : </b></label> {{ ($form[0]['signed_status'] == 1) ? date('Y-m-d') : '' }}
+                                        <label class="col-form-label"><b>Date : </b></label> {{ ($form[0]['signed_status'] == 1) ? $form[0]['signed_date'] : '' }}
                                         <!-- <input type="text" class="form-control me-auto" value="{{ date('Y-m-d') }}"> -->
                                     </div>
                                     <div class="col-md-7" @if($form[0]['signed_status'] == 0) style="display:none;" @endif>

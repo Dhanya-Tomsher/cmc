@@ -367,6 +367,12 @@ width: 80% !important;
 .w-30{
   width: 30% !important;
 }
+.w-5{
+  width: 5% !important;
+}
+.w-15{
+  width: 15% !important;
+}
 .select2-selection__rendered {
   line-height: 51px !important;
 }
@@ -500,6 +506,31 @@ table td.highlighted {
 .not-booked{
   color: #000000 !important;
 }
+.fw-700{
+  font-weight: 700 !important;
+}
+  
 
+  .custom-schedule .time-col {
+    flex-basis: 70%;
+  }
+  .custom-schedule .fit {
+      border: 1px solid #ccc;
+      padding: 15px;
+      width: 100%;
+      flex-basis: 100%;
+  }
+
+@media print {
+  body {
+    visibility: hidden;
+  }
+  #content-data {
+    visibility: visible;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
 /* Jisha Styles End*/
 

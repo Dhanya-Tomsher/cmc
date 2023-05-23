@@ -69,6 +69,11 @@
                             <a class="nav-link mb-2 {{ isset($counts['virus_test']) ? 'data_active' : 'data_none' }}" id="virus_test" onclick="getJournalData('virus_test','{{ $cat->id }}')" role="button">Virus Test</a>
 
                             <a class="nav-link mb-2 {{ isset($counts['xray']) ? 'data_active' : 'data_none' }}" id="xray" onclick="getJournalData('xray','{{ $cat->id }}')" role="button">X-ray</a>
+
+                            <a class="nav-link mb-2 {{ isset($counts['forms']) ? 'data_active' : 'data_none' }}" id="forms" onclick="getJournalData('forms','{{ $cat->id }}')" role="button">Forms</a>
+
+                            <a class="nav-link mb-2 {{ isset($counts['prescriptions']) ? 'data_active' : 'data_none' }}" id="prescriptions" onclick="getJournalData('prescriptions','{{ $cat->id }}')" role="button">Prescriptions</a>
+
                         </div>
                     </div>
                 </div>
@@ -149,6 +154,7 @@
     .ck-editor__editable_inline {
         height: 280px;
     }
+    .control-label .text-info { display:inline-block; }
 </style>
 @endpush
 
@@ -156,8 +162,7 @@
 <script src="{{ asset('assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-lightbox/0.7.0/bootstrap-lightbox.min.js"></script>
-<script src="{{ asset('assets/js/ckeditor.js') }}"></script>
+<script type="text/javascript" src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script>
 <script>
     let cat_id = '{{ $cat->id }}';
     window.editor = '';
@@ -240,7 +245,7 @@
         var inputcheck = $("#createMedicalHistory input").filter(function () {
                             return $.trim($(this).val()).length == 0
                         }).length;
-        if(inputcheck == 3){
+        if($.trim($('#blood_pressure').val()).length == 0 && $.trim($('#weight').val()).length == 0 && $.trim($('#temperature').val() ).length == 0 ){
             $('#error_medical').removeClass('hide');
         }else{
             var data = new FormData($('#createMedicalHistory')[0]);
@@ -290,6 +295,37 @@
                     $("#createJournalData")[0].reset();
                     $('#error_details').addClass('hide');
                     $('.journal_data').modal('hide');
+                    $('#'+type).addClass('data_active');
+                    $('#'+type).removeClass('data_none');
+                    getJournalData(type, cat_id); 
+                }
+            });
+        }
+    }
+
+    function addJournalPrescriptionDetails(title,type){
+        $('#error_heading_pre').addClass('hide');
+        var check = $.trim($('#heading_pre').val()).length;
+        alert(check);
+        if(check == 0){
+            $('#error_heading_pre').removeClass('hide');
+        }else{
+            var data = new FormData($('#createPrescriptionJournalData')[0]);
+            $.ajax({
+                url: "{{ route('journal-prescription-details.store')}}",
+                type: "POST",
+                data: data,
+                processData: false,
+                contentType: false,
+                success: function( response ) {
+                    Swal.fire(
+                        '',
+                        ' '+title+' details added successfully!',
+                        'success'
+                    );
+                    $("#createPrescriptionJournalData")[0].reset();
+                    $('#error_heading_pre').addClass('hide');
+                    $('.journal_prescription_data').modal('hide');
                     $('#'+type).addClass('data_active');
                     $('#'+type).removeClass('data_none');
                     getJournalData(type, cat_id); 
@@ -461,6 +497,7 @@
         $('.journal_data').modal('show');
         ClassicEditor .create( document.querySelector( '#remark_content' ), {
             width:['250px'],
+            tabSpaces:4,
             toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'undo', 'redo' ],
             updateSourceElementOnDestroy:true,
             removePlugins: ["EasyImage","ImageUpload","MediaEmbed","blockquote"]
@@ -474,6 +511,30 @@
             console.log( error );
         } );
     }
+
+    function showPrescriptionAddModal (){
+        if(editor){
+            editor.destroy();
+        }
+        
+        $('.journal_prescription_data').modal('show');
+        ClassicEditor .create( document.querySelector( '#prescription_content' ), {
+            width:['250px'],
+            tabSpaces:4,
+            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'undo', 'redo' ],
+            updateSourceElementOnDestroy:true,
+            removePlugins: ["EasyImage","ImageUpload","MediaEmbed","blockquote"]
+        } ).then(editor => {
+                window.editor = editor;
+                    editor.model.document.on('change:data', () => {
+					    $('#prescription_content').html(editor.getData());
+                    })
+               })
+        .catch( error => {
+            console.log( error );
+        } );
+    }
+
     function showModal(id){
 
         $.ajax({
@@ -483,9 +544,71 @@
             success: function( response ) {
                 $('#heading-data').html(response[0].heading);
                 $('#content-data').html(response[0].remarks);
+                if(response[0].journal_type == 'prescriptions'){
+                    var html = '<a href="#" class="btn btn-primary px-3" onclick="PrintElem(`content-data`)"><i class="uil uil-print"> Print</i></a>'+
+                    '<a href="#" class="btn btn-primary px-3" onclick="sendToMail()"><i class="uil uil-message"> Send To Mail</i></a>';
+                    $('.modal-footer').html(html);
+                }
                 $('#show_popup').modal('show');
             }
         });
     }
+
+    function showFormModal(id){
+
+        $.ajax({
+            url: "{{ route('journal-form-details.view')}}",
+            type: "POST",
+            data: { id: id},
+            success: function( response ) {
+                $('#content-data').html(response);
+                $('#show_popup').modal('show');
+            }
+        });
+    }
+
+    function createNames(type){
+        var text = $('.'+type).text();
+        var input = $('<input id="attribute_'+type+'" value="' + text + '" />');
+        $('.'+type).text('').append(input);
+        input.select();
+
+        input.blur(function() {
+            var text = $("#attribute_"+type).val();
+            $('#attribute_'+type).parent().text(text);
+            $('#text_'+type).val(text);
+            $('#attribute_'+type).remove();
+        });
+    }
+
+    function PrintElem(elem)
+    {
+        // $('#'+elem).show().printElement();
+
+        var mywindow = window.open();
+        var content = document.getElementById(elem).innerHTML;
+        mywindow.document.write(content);
+        mywindow.close();
+        mywindow.print();
+
+
+
+        // var mywindow = window.open('', 'PRINT', '');
+
+        // // mywindow.document.write('<html><head><title>' + document.title  + '</title>');
+        // // mywindow.document.write('</head><body >');
+        // // mywindow.document.write('<h1>' + document.title  + '</h1>');
+        // mywindow.document.write(document.getElementById(elem).innerHTML);
+        // // mywindow.document.write('</body></html>');
+
+        // // mywindow.document.close(); // necessary for IE >= 10
+        // // mywindow.focus(); // necessary for IE >= 10*/
+
+        // mywindow.print();
+        // mywindow.close();
+
+        // return true;
+    }
+   
 </script>
 @endpush
