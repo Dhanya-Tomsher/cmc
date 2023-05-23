@@ -18,6 +18,8 @@ use DB;
 use Str;
 use Storage;
 use File;
+use PDF;
+use Mail;
 
 class CatController extends Controller
 {
@@ -510,8 +512,15 @@ class CatController extends Controller
         $journal = JournalDetails::find($jid);
         $jType = $journal->journal_type;
         $jCat_id =  $journal->cat_id;
+        $journalPdf = $journal->file_url;
         $journal->delete();
         $files = JournalFiles::select('image_url')->where('journal_id',$jid)->get()->toArray();
+
+        if($journalPdf != null){
+            if(File::exists(public_path($journalPdf))){
+                unlink(public_path($journalPdf));
+            }
+        }
         if($files){
             foreach($files as $file){
                 if(File::exists(public_path($file['image_url']))){
@@ -571,6 +580,25 @@ class CatController extends Controller
         return $viewData;
     }
 
+    public function generatePrescriptionPdf($id){
+        $journal = JournalDetails::select("journal_details.*","cats.name as cat_name","ct.name as caretaker_name","cats.id as cat_id")
+                                    ->leftJoin('cats','journal_details.cat_id','=','cats.id')
+                                    ->leftJoin('cat_caretakers as cc','cc.cat_id', '=', 'cats.id')
+                                    ->leftJoin('caretakers as ct','cc.caretaker_id','=','ct.id')
+                                    ->where('journal_details.id', $id)
+                                    ->get()->toArray();
+                                    
+        $journal[0]['imagePath'] = public_path('assets/images/logo.png');
+        
+        $pdf = PDF::loadView('admin.journal.pdf_prescription', $journal[0]);
+        $pdf->render();
+        $output = $pdf->output();
+        $filename = 'journals/prescriptions/'.$journal[0]['cat_id'] . '/'.strtolower(Str::random(2)).time().'.pdf';
+        
+        Storage::disk('public')->put($filename, $output); 
+        return '/storage/'.$filename;
+    }
+
     public function storeJournalPrescriptionDetails(Request $request){
 
         $journal = JournalDetails::create([
@@ -580,5 +608,44 @@ class CatController extends Controller
             'remarks'  => $request->prescription_content, 
             'report_date'=> isset($request->pre_date) ? $request->pre_date : date('Y-m-d')
         ]);
+
+        $filename = $this->generatePrescriptionPdf($journal->id);
+        $journal->file_url = $filename;
+        $journal->save();
+    }
+
+    public function journalSendMail(Request $request){
+
+        $id = $request->jid;
+        $journal = JournalDetails::select("journal_details.*","cats.name as cat_name","ct.name as caretaker_name","cats.id as cat_id","ct.email as caretaker_email")
+                                    ->leftJoin('cats','journal_details.cat_id','=','cats.id')
+                                    ->leftJoin('cat_caretakers as cc','cc.cat_id', '=', 'cats.id')
+                                    ->leftJoin('caretakers as ct','cc.caretaker_id','=','ct.id')
+                                    ->where('cc.transfer_status',0)
+                                    ->where('journal_details.id', $id)
+                                    ->get()->toArray();
+        if(isset($journal[0]) && $journal[0]['file_url'] != NULL){
+            $caretaker_email = $journal[0]['caretaker_email'];
+            if(File::exists(public_path($journal[0]['file_url']))){
+                $data['email'] = 'jisha@tomsher.co';            // $caretaker_email;
+                $data['title'] = 'Prescription';
+                $data['body'] = "Hi ".$journal[0]['caretaker_email'].",<br> Please find the below attached prescription.";
+                $file = public_path($journal[0]['file_url']);
+                
+
+                $header = "From:jishap.tomsher@gmail.com \r\n";
+                $header .= "MIME-Version: 1.0\r\n";
+                $header .= "Content-type: text/html\r\n";
+                
+                $retval = mail ($data['email'],$data['title'],$data['body'],$header);
+                
+                if( $retval == true ) {
+                    echo "Message sent successfully...";
+                }else {
+                    echo "Message could not be sent...";
+                }
+            }
+
+        }
     }
 }
