@@ -35,10 +35,10 @@
                               
                                 <div class="col-md-12 d-flex mt-4">
                                     <div class="col-md-4 ">
-                                        <label class="col-form-label"><b>Cat Name : </b></label> {{ ($cat_name) ? $cat_name  : '' }}
+                                        <label class="col-form-label"><b>Cat ID : </b></label> {{ ($catId) ? $catId  : '' }}
                                     </div>
                                     <div class="col-md-4 ">
-                                        <label class="col-form-label"><b>Caretaker Name : </b></label> {{ ($caretaker_name) ? $caretaker_name  : '' }}
+                                        <label class="col-form-label"><b>Cat Name : </b></label> {{ ($cat_name) ? $cat_name  : '' }}
                                     </div>
                                     <div class="col-md-4 ">
                                         <label class="col-form-label"><b>Date : </b></label> {{ ($report_date) ? $report_date  : '' }}
@@ -46,8 +46,9 @@
                                 
                                 </div>
                                 <hr style="border-top: 1px solid #655a5ac7;">
+                                <h5 class="text-center"> {{ $heading }} </h5>
                             </div>
-                            <div class="col-md-12 p-5">
+                            <div class="col-md-12 " style="padding: 0.5rem 5rem!important;">
                                 {!! $remarks !!}
                             </div>
                             

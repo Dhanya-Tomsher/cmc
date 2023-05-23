@@ -14,10 +14,10 @@
                                 
                                 <div class="col-md-12 d-flex mt-4">
                                     <div class="col-md-4 ">
-                                        <label class="col-form-label"><b>Cat Name : </b></label> {{ ($journal[0]['cat_name']) ? $journal[0]['cat_name']  : '' }}
+                                        <label class="col-form-label"><b>Cat ID : </b></label> {{ ($journal[0]['catId']) ? $journal[0]['catId']  : '' }}
                                     </div>
                                     <div class="col-md-4 ">
-                                        <label class="col-form-label"><b>Caretaker Name : </b></label> {{ ($journal[0]['caretaker_name']) ? $journal[0]['caretaker_name']  : '' }}
+                                        <label class="col-form-label"><b>Cat Name : </b></label> {{ ($journal[0]['cat_name']) ? $journal[0]['cat_name']  : '' }}
                                     </div>
                                     <div class="col-md-4 ">
                                         <label class="col-form-label"><b>Date : </b></label> {{ ($journal[0]['report_date']) ? $journal[0]['report_date']  : '' }}
@@ -25,8 +25,10 @@
                                 
                                 </div>
                                 <hr style="border-top: 1px solid #655a5ac7;">
+                                <h5 class="text-center"> {{ $journal[0]['heading'] }} </h5>
                             </div>
-                            <div class="col-md-12 p-5">
+                            <div class="col-md-12 " style="padding: 0.5rem 5rem!important;">
+                                
                                 {!!$journal[0]['remarks'] !!}
                             </div>
                             

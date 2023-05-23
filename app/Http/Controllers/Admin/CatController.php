@@ -569,10 +569,11 @@ class CatController extends Controller
 
     public function viewJournalPrescriptionDetails(Request $request){
         $id = $request->id;
-        $journal = JournalDetails::select("journal_details.*","cats.name as cat_name","ct.name as caretaker_name")
+        $journal = JournalDetails::select("journal_details.*","cats.name as cat_name","ct.name as caretaker_name","cats.id as cat_id","cats.cat_id as catId")
                                     ->leftJoin('cats','journal_details.cat_id','=','cats.id')
                                     ->leftJoin('cat_caretakers as cc','cc.cat_id', '=', 'cats.id')
                                     ->leftJoin('caretakers as ct','cc.caretaker_id','=','ct.id')
+                                    ->where('cc.transfer_status', 0)
                                     ->where('journal_details.id', $id)
                                     ->get();
         $viewData = view('admin.journal.view_prescription', compact('journal'))->render();
@@ -581,10 +582,11 @@ class CatController extends Controller
     }
 
     public function generatePrescriptionPdf($id){
-        $journal = JournalDetails::select("journal_details.*","cats.name as cat_name","ct.name as caretaker_name","cats.id as cat_id")
+        $journal = JournalDetails::select("journal_details.*","cats.name as cat_name","ct.name as caretaker_name","cats.id as cat_id","cats.cat_id as catId")
                                     ->leftJoin('cats','journal_details.cat_id','=','cats.id')
                                     ->leftJoin('cat_caretakers as cc','cc.cat_id', '=', 'cats.id')
                                     ->leftJoin('caretakers as ct','cc.caretaker_id','=','ct.id')
+                                    ->where('cc.transfer_status', 0)
                                     ->where('journal_details.id', $id)
                                     ->get()->toArray();
                                     
@@ -617,7 +619,7 @@ class CatController extends Controller
     public function journalSendMail(Request $request){
 
         $id = $request->jid;
-        $journal = JournalDetails::select("journal_details.*","cats.name as cat_name","ct.name as caretaker_name","cats.id as cat_id","ct.email as caretaker_email")
+        $journal = JournalDetails::select("journal_details.*","cats.name as cat_name","ct.name as caretaker_name","cats.id as cat_id","ct.email as caretaker_email","cats.cat_id as catId")
                                     ->leftJoin('cats','journal_details.cat_id','=','cats.id')
                                     ->leftJoin('cat_caretakers as cc','cc.cat_id', '=', 'cats.id')
                                     ->leftJoin('caretakers as ct','cc.caretaker_id','=','ct.id')
@@ -627,25 +629,23 @@ class CatController extends Controller
         if(isset($journal[0]) && $journal[0]['file_url'] != NULL){
             $caretaker_email = $journal[0]['caretaker_email'];
             if(File::exists(public_path($journal[0]['file_url']))){
-                $data['email'] = 'jisha@tomsher.co';            // $caretaker_email;
+                $data['email'] = $caretaker_email;            // $caretaker_email;
                 $data['title'] = 'Prescription';
-                $data['body'] = "Hi ".$journal[0]['caretaker_email'].",<br> Please find the below attached prescription.";
+                $data['body'] = "Hi ".$journal[0]['caretaker_name'].",<br> Please find the prescription attached below.";
                 $file = public_path($journal[0]['file_url']);
                 
-
-                $header = "From:jishap.tomsher@gmail.com \r\n";
-                $header .= "MIME-Version: 1.0\r\n";
-                $header .= "Content-type: text/html\r\n";
-                
-                $retval = mail ($data['email'],$data['title'],$data['body'],$header);
-                
-                if( $retval == true ) {
-                    echo "Message sent successfully...";
-                }else {
-                    echo "Message could not be sent...";
-                }
+                Mail::send('admin.prescription_mail', $data, function($message)use($data, $file) {
+                    $message->to($data["email"])
+                            ->subject($data["title"]);
+                    $message->attach($file);
+                            
+                });
+                echo 1;
+            }else{
+                echo 0;
             }
-
+        }else{
+            echo 0;
         }
     }
 }
