@@ -63,7 +63,7 @@
             @endif
         </tbody>
     </table>
-    <div class="header d-flex justify-content-sm-around ">
+    <!-- <div class="header d-flex justify-content-sm-around ">
         <input type="hidden" id="select-result"/>
         <div>Time</div>
         @if ($vets)
@@ -71,10 +71,11 @@
                 <div class="vet-name">{{ $vet->name }}</div>
             @endforeach
         @endif
-    </div>
+    </div> -->
     <div class="table-con d-flex custom-schedule">
         <div class="time-col">
             @if ($timeslots)
+                <div class="vet-name">Time</div>
                 @foreach ($timeslots as $slot)
                     <div class="fit">{{ $slot }}</div>
                 @endforeach
@@ -82,7 +83,9 @@
         </div>
         @if ($vets)
             @foreach ($vets as $vet)
+                
                 <div class="vetselect" id="vet-div-{{ $vet->id }}">
+                    <div class="vet-name">{{ $vet->name }}</div>
                     @foreach ($timeslots as $slot)
                         @if (isset($vetSlots[$vet->id]) && in_array($slot, $vetSlots[$vet->id]))
                             @if (isset($vetBooks[$vet->id]) && in_array($slot, $vetBooks[$vet->id]))
