@@ -519,6 +519,7 @@ table td.highlighted {
       padding: 15px;
       width: 100%;
       flex-basis: 100%;
+      min-height: 54px;
   }
   .custom-schedule .vetselect{
     flex-basis: 50%;
