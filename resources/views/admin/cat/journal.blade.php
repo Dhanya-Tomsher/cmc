@@ -306,7 +306,7 @@
     function addJournalPrescriptionDetails(title,type){
         $('#error_heading_pre').addClass('hide');
         var check = $.trim($('#heading_pre').val()).length;
-        alert(check);
+       
         if(check == 0){
             $('#error_heading_pre').removeClass('hide');
         }else{
@@ -620,7 +620,7 @@
             success: function( response ) {
                 $('#pre-content-data').html(response);
                 var html = '<a href="#" class="btn btn-primary px-3" onclick="printElement(`pre-content-data`)"><i class="uil uil-print"> Print</i></a>'+
-                '<a href="#" class="btn btn-primary px-3" onclick="sendToMail()"><i class="uil uil-message"> Send To Mail</i></a>';
+                '<a href="#" class="btn btn-primary px-3" onclick="sendJournalMail('+id+')"><i class="uil uil-message"> Send To Mail</i></a>';
                 $('.modal-footer').html(html);
 
                 $('#show_prescription_popup').modal('show');
@@ -628,5 +628,35 @@
         });
     }
    
+
+    function sendJournalMail(jid){
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you want to sent this prescription to the caretaker?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!'
+        }).then(function(result) {
+            console.log(result);
+            if (result.isConfirmed) {
+                var data = []
+                $.ajax({
+                    url: "{{ route('send-prescription-mail')}}",
+                    type: "POST",
+                    data: { jid:jid },
+                    success: function( response ) {
+                        Swal.fire(
+                            'Mail successfully sent!',
+                            '',
+                            'success'
+                        );
+                    }
+                });
+            } 
+            
+        })
+    }
 </script>
 @endpush
