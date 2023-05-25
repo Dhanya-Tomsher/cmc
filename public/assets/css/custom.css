@@ -515,14 +515,14 @@ table td.highlighted {
   }
   .custom-schedule .time-col .fit{
     min-width: 130px;
-    line-height: 48px;
+    line-height: 46px;
 }
   .custom-schedule .fit {
       border: 1px solid #ccc;
       padding: 10px;
       width: 100%;
       flex-basis: 100%;
-      min-height: 70px;
+      min-height: 68px;
       min-width :350px ;
   }
   .custom-schedule .vet-name {

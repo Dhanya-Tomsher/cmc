@@ -26,7 +26,7 @@
         </div>
     </div>
     <h3 class="text-center"></h3>
-    <table class="table table-bordered " id="dayTable">
+    <!-- <table class="table table-bordered " id="dayTable">
         <thead>
             <tr>
                 <th class="fit"></th>
@@ -62,7 +62,7 @@
                 @endforeach
             @endif
         </tbody>
-    </table>
+    </table> -->
     <!-- <div class="header d-flex justify-content-sm-around ">
         <input type="hidden" id="select-result"/>
         <div>Time</div>
