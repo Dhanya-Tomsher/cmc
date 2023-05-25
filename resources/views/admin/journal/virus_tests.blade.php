@@ -1,7 +1,9 @@
 <div class="tab-pane fade show active">
     <div class="d-flex justify-content-between">
         <h5>{{$title}}</h5>
+        @if($transfer_date == '')
         <a href="#" data-bs-toggle="modal" data-bs-target=".virus_test"  class="btn btn_back waves-effect waves-light">Add</a>
+        @endif
     </div>
 
     <div class="table-responsive mt-3">
@@ -17,7 +19,9 @@
                     <th>Panleukopenia</th>
                     <th class="w-20">Others</th>
                     <th>Report Date</th>
-                    <th class="w-5">Action</th>
+                    @if($transfer_date == '')
+                        <th class="w-5">Action</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -50,7 +54,9 @@
                     </td>
                     
                     <td class="text-center">{{ $virus->report_date }}</td>
-                    <td class="text-center"><a href="#" onclick="deleteVirusTest({{ $virus->id }})" class="px-3 text-danger"><i  class="uil uil-trash-alt font-size-18"></i></a></td>
+                    @if($transfer_date == '')
+                        <td class="text-center"><a href="#" onclick="deleteVirusTest({{ $virus->id }})" class="px-3 text-danger"><i  class="uil uil-trash-alt font-size-18"></i></a></td>
+                    @endif
                 </tr>
                 @endforeach
                 @endif

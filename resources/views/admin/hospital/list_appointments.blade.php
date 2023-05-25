@@ -48,7 +48,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-centered table-nowrap mb-0" id="hospitalAppointmentsList">
+                            <table class="table table-centered table-nowrap mb-0 " id="hospitalAppointmentsList">
                                 <thead class="table-light">
                                     <tr>
                                         <th>No</th>

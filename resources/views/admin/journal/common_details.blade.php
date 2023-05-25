@@ -1,10 +1,12 @@
 <div class="tab-pane fade show active">
         <div class="d-flex justify-content-between">
             <h5>{{ $title }}</h5>
-            @if($type != 'prescriptions')
-                <a href="#"  class="btn btn_back waves-effect waves-light" onclick="showAddModal();">Add</a>
-            @else
-            <a href="#"  class="btn btn_back waves-effect waves-light" onclick="showPrescriptionAddModal();">Add</a>
+            @if($transfer_date == '')
+                @if($type != 'prescriptions')
+                    <a href="#"  class="btn btn_back waves-effect waves-light" onclick="showAddModal();">Add</a>
+                @else
+                <a href="#"  class="btn btn_back waves-effect waves-light" onclick="showPrescriptionAddModal();">Add</a>
+                @endif
             @endif
         </div>
 
@@ -48,9 +50,10 @@
                                     @else
                                         <a href="#" class="px-3 text-primary" onclick='showModal("{{$other->id}}")'><i class="uil uil-eye font-size-20"></i></a>
                                     @endif
-                                    
+                                    @if($transfer_date == '')
                                    
                                     <a href="#" onclick="deleteJournalData({{ $other->id }})" class="px-3 text-danger"><i class="uil uil-trash-alt required font-size-18"></i></a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

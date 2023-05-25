@@ -56,7 +56,7 @@
             text-align: center;
             white-space: nowrap;
             border-radius: 0.25rem;
-            margin-top: 3px;
+           
         }
         .my-4 {
             margin-top: 2.5rem!important;
@@ -187,17 +187,16 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <div class="invoice-title">
-                                    <img src="{{$imagePath}}" style="width:200px;">
-                                    <h4 class="float-end font-size-16">Invoice #INV{{$id }}
-                                        @if($payment_confirmation == 1)
-                                        <span class="badge bg-success font-size-12 ms-2">Paid</span>
-                                        @else
-                                        <span class="badge bg-danger font-size-12 ms-2">Not Paid</span>
-                                        @endif
-                                    </h4>
-                                </div>
 
+                                <div class="col-md-12 text-center" style="">
+                                    <img src="{{ $imagePath }}" style="width:200px;">
+                                        <br>
+                                    <span> Cats Medical Center Veterinary Clinic L.L.C. </span><br>
+                                    <span><i class="fa fa-map-marker-alt"> Location : Al Murooj complex, downtown Dubai, UAE.</i></span><br>
+                                    <span>  <i class="fa fa-mobile-alt"></i>Contact :&nbsp;&nbsp;04 320 4204 ,<i class="fab fa-whatsapp" style="color: green"></i> 04 320 4204</span>
+                                </div>
+                                
+                                
                                 <hr class="my-4">
 
                                 <div class="row">
@@ -216,7 +215,15 @@
                                                     <div class=" text-sm-end">
                                                         <div>
                                                             <h5 class="font-size-16 mb-1">Invoice No:</h5>
-                                                            <p>#INV{{$id }}</p>
+                                                            <p >
+                                                                #INV{{$id }}
+
+                                                                @if($payment_confirmation == 1)
+                                                                    <span class="badge bg-success font-size-12 ms-2">Paid</span>
+                                                                @else
+                                                                    <span style="margin-bottom:-3px !important;"class="badge bg-danger font-size-12 ms-2">Not Paid</span>
+                                                                @endif
+                                                            </p>
                                                         </div>
                                                         <div class="mt-4">
                                                             <h5 class="font-size-16 mb-1">Invoice Date:</h5>

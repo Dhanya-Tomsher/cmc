@@ -3,9 +3,12 @@
 namespace App\Helpers;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use App\Models\CatCaretakers; 
 use DateTime;
 use DatePeriod;
 use DateInterval;
+use DB;
+use Route;
 
 class Helper
 {
@@ -116,5 +119,16 @@ class Helper
         }
         echo $age;
     }
-  
+    public static function getCatCaretakerLatestStatus($catId, $caretakerId){
+        $transfer_status =  CatCaretakers::where('cat_id', $catId)->where('caretaker_id', $caretakerId)->orderBy('id', 'desc')->pluck('transfer_status')->first();
+        return $transfer_status;
+    }
+
+    //highlights the selected navigation on admin panel
+    public static function areActiveRoutes(array $routes, $output = "active")
+    {
+        foreach ($routes as $route) {
+            if (Route::currentRouteName() == $route) return $output;
+        }
+    }
 }

@@ -7,9 +7,9 @@
             <td>{{ $cate->cat_name }} </td>
             <td>
                 @if($cate->image_url == NULL)
-                    <a href="{{ route('cat.view', $cate) }}"><img class="rounded-circle avatar-sm" alt="200x200" src="{{ asset('assets/images/cat_plc.jpg') }} " data-holder-rendered="true"> </a>
+                    <a href="{{ route('cat.view', $cate) }}"><img class="rounded-circle avatar-md" alt="200x200" src="{{ asset('assets/images/cat_plc.jpg') }} " data-holder-rendered="true"> </a>
                 @else
-                    <a href="{{ route('cat.view', $cate) }}"><img class="rounded-circle avatar-sm" alt="200x200" src="{{ asset($cate->image_url) }} " data-holder-rendered="true"> </a>
+                    <a href="{{ route('cat.view', $cate) }}"><img class="rounded-circle avatar-md" alt="200x200" src="{{ asset($cate->image_url) }} " data-holder-rendered="true"> </a>
                 @endif
                 
             </td>

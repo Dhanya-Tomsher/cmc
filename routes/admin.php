@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\FormsController;
 
 
 Route::namespace('Admin')->prefix('admin')->group(function () {
+    
     Route::namespace('Auth')->group(function () {
 
         // Route::get('/', function () {
@@ -36,11 +37,11 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
         Route::post('login', [AuthenticatedSessionController::class, 'store'])->name('login');
     });
     //will do later
-    /*Route::middleware('admin')->group(function(){
-    Route::get('dashboard',[HomeController::class,'index'])->name('dashboard');
-});*/
+    // Route::middleware(['auth'])->group(function () {
+    //     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // });
 
-    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
     Route::get('dashboard-caretaker-search',[DashboardController::class,'searchCaretaker'])->name('dashboard-caretaker-search');
     Route::get('dashboard-cat-search',[DashboardController::class,'searchCat'])->name('dashboard-cat-search');
     Route::post('dashboard-caretaker-list', [DashboardController::class, 'getCaretakerList'])->name('dashboard-caretaker-list');
@@ -65,7 +66,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::post('cat/update', [CatController::class, 'update'])->name('cat.update');
     Route::post('cat.list', [CatController::class, 'getCatsList'])->name('cat.list');
     Route::post('cat/update-pic', [CatController::class, 'updateImage'])->name('cat.update-pic');
-    Route::get('cat/journal/{cat}', [CatController::class, 'journal'])->name('cat.journal');
+    Route::get('cat/journal/{cat}/{care_id?}', [CatController::class, 'journal'])->name('cat.journal');
     Route::post('cat/journal/details', [CatController::class, 'getJournalData'])->name('cat.journal-data');
     Route::post('cat.check-availability', [CatController::class, 'checkCatIdAvailability'])->name('cat.check-availability');
     Route::post('medical-history.delete', [CatController::class, 'deleteMedicalHistory'])->name('delete-medical-history');
@@ -205,4 +206,10 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
 
     Route::get('cats-count', [DashboardController::class, 'catsCountApi'])->name('cats-count');
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::namespace('Admin')->prefix('admin')->group(function () {
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    });
 });

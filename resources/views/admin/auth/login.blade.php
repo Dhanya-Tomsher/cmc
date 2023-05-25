@@ -27,20 +27,18 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="username">Username</label>
                                     <input type="text" class="form-control" id="email" name="email" placeholder="Enter username">
-                                    @error('username')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
+                                   
                                 </div>
         
                                 <div class="mb-3">
                                     <label class="form-label" for="userpassword">Password</label>
                                     <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
-                                    @error('title')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
                                 </div>
                                 
                                 <div class="mt-3 text-start">
+                                    @error('email')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                 <button class="btn btn-primary w-sm waves-effect waves-light" type="submit">LOGIN</button>
                                 </div>
 

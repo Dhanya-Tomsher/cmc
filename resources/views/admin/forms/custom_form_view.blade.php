@@ -24,7 +24,7 @@
                 
                 <div class="d-flex justify-content-between mb-3">
                     <div class="search_warpper w-60">
-                        <a href="{{ route('custom-forms') }}" class="btn btn_back waves-effect waves-light"> <i class="uil-angle-left-b"></i> Back</a>
+                        <a onclick="window.location=document.referrer;" href="javascript:void" class="btn btn_back waves-effect waves-light"> <i class="uil-angle-left-b"></i> Back</a>
                     </div>
                     <div class="btn_group">
                         <a href="{{ route('custom-signature',$form[0]['id']) }}" target="_blank" class="btn btn_back waves-effect waves-light">Get Customer Signature Form</a>
