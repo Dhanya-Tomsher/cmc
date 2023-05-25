@@ -524,7 +524,22 @@ table td.highlighted {
       min-height: 60px;
       min-width :350px ;
   }
- 
+  .custom-schedule .vet-name {
+    border: 1px solid #ccc;
+    padding: 15px;
+    background-color: #f2f3f4;
+    font-weight: 700;
+    text-align: center;
+}
+
+.custom-schedule .time-col {
+    position: sticky;
+    left: 0;
+    top: 0;
+    background-color: #fff;
+    font-weight: 700;
+    text-align: center;
+}
 @media print {
     body * {
         visibility:hidden;
