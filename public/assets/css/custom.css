@@ -510,16 +510,19 @@ table td.highlighted {
   font-weight: 700 !important;
 }
   
-
+  .custom-schedule{
+    overflow-x: auto !important;
+  }
   .custom-schedule .time-col {
-    flex-basis: 70%;
+    flex-basis: 30% !important;
   }
   .custom-schedule .fit {
       border: 1px solid #ccc;
       padding: 15px;
       width: 100%;
       flex-basis: 100%;
-      min-height: 54px;
+      min-height: 60px;
+      min-width :350px !important;
   }
   .custom-schedule .vetselect{
     flex-basis: 50%;

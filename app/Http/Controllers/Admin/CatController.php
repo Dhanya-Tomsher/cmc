@@ -86,7 +86,7 @@ class CatController extends Controller
         $currentCaretaker = CatCaretakers::where('cat_id',$request->catId)->where('transfer_status',0)->get()->toArray();
         
         if($currentCaretaker[0]['caretaker_id'] != $request->caretaker_id){
-            CatCaretakers::where('cat_id',$request->catId)->where('transfer_status',0)->update(['transfer_status' => 1]);
+            CatCaretakers::where('cat_id',$request->catId)->where('transfer_status',0)->update(['transfer_status' => 1, 'transfer_to_caretaker' => $request->caretaker_id]);
             $caretaker = CatCaretakers::create([
                 'cat_id' => $request->catId,
                 'caretaker_id' => $request->caretaker_id,
@@ -104,7 +104,8 @@ class CatController extends Controller
                     ->leftJoin('countries as care_country','care_country.id', '=', 'ct.home_country')
                     ->leftJoin('countries as cat_country','cat_country.id', '=', 'cats.place_of_origin')
                     ->where('cats.id', '=', $cat->id)
-                    ->where('cc.transfer_status', 0)->get();
+                    ->where('cc.transfer_status', 0)
+                    ->get();
                     
         return view('admin.cat.show')->with([
             'cat' => $query,
@@ -198,50 +199,166 @@ class CatController extends Controller
         return $viewData;
     }
 
-    public function journal(Cat $cat)
+    public function journal(Cat $cat, $care_id = '')
     {
-        $counts = $this->getJournalCounts($cat->id);
-        $medCount = JournalMedicalHistories::where('cat_id',$cat->id)->count();
-        if($medCount != 0){
-            $counts['vital'] = $medCount;
+        $transfer_date = '';
+        if($care_id){
+            $transfer_status_check = CatCaretakers::where('cat_id', $cat->id)
+                                            ->where('caretaker_id', $care_id)
+                                            ->orderBy('id', 'desc')
+                                            ->first()->toArray();
+            $transfer_status = $transfer_status_check['transfer_status'];
+            if($transfer_status == 1){
+                $transfer_date = $transfer_status_check['updated_at'];
+            }
+            
         }
-        $virusCount = JournalVirusTests::where('cat_id',$cat->id)->count();
-        if($virusCount != 0){
-            $counts['virus_test'] = $virusCount;
-        }
-        $formsCount = CustomForms::where('cat_id',$cat->id)->where('signed_status',1)->count();
-        if($formsCount != 0){
-            $counts['forms'] = $formsCount;
-        }
-
+        $counts = $this->getJournalAllCounts($cat->id, $transfer_date);
+       
         return view('admin.cat.journal')->with([
             'cat' =>  $cat,
-            'counts' => $counts
+            'counts' => $counts,
+            'transfer_date' => $transfer_date
         ]);
     }
 
-    public function getJournalCounts($cat_id){
+    public function getJournalAllCounts($cat_id, $transfer_date, $keyword = '', $from_date = '', $to_date = ''){
+        $counts = $this->getJournalCounts($cat_id, $transfer_date, $keyword, $from_date, $to_date);
+       
+        $medCountcheck = JournalMedicalHistories::where('cat_id',$cat_id);
+
+        if($transfer_date != ''){
+            $medCountcheck->where('created_at','<=', $transfer_date);
+        }
+        if($keyword){  
+            $medCountcheck->Where(function ($medCountcheck) use ($keyword) {
+                $medCountcheck->orWhere('weight', 'LIKE','%'. $keyword . '%')
+                        ->orWhere('temperature', 'LIKE','%'. $keyword . '%')
+                        ->orWhere('blood_pressure', 'LIKE', '%'.$keyword . '%');
+            });                    
+        }
+        if($from_date != '' || $to_date != ''){
+            if($from_date != '' && $to_date != ''){
+                $medCountcheck->whereDate('report_date', '>=', $from_date)
+                ->whereDate('report_date',   '<=', $to_date);
+            }elseif($from_date == '' && $to_date != ''){
+                $medCountcheck->whereDate('report_date', '=', $to_date);
+            }elseif($from_date != '' && $to_date == ''){
+                $medCountcheck->whereDate('report_date', '=', $from_date);
+            }
+        }
+        $medCount = $medCountcheck->count();
+       
+        if($medCount != 0){
+            $counts['vital'] = $medCount;
+        }
+      
+        $virusCountCheck = JournalVirusTests::where('cat_id',$cat_id);
+
+        if($keyword){
+            $virusCountCheck->Where(function ($virusCountCheck) use ($keyword) {
+                $virusCountCheck->orWhere('other_name', 'LIKE','%'. $keyword . '%')
+                        ->orWhere('other2_name', 'LIKE','%'. $keyword . '%')
+                        ->orWhere('other3_name', 'LIKE', '%'.$keyword . '%');
+            });    
+        } 
+        if($transfer_date != ''){
+            $virusCountCheck->where('created_at','<=', $transfer_date);
+        }
+
+        if($from_date != '' || $to_date != ''){
+            if($from_date != '' && $to_date != ''){
+                $virusCountCheck->whereDate('report_date', '>=', $from_date)
+                ->whereDate('report_date',   '<=', $to_date);
+            }elseif($from_date == '' && $to_date != ''){
+                $virusCountCheck->whereDate('report_date', '=', $to_date);
+            }elseif($from_date != '' && $to_date == ''){
+                $virusCountCheck->whereDate('report_date', '=', $from_date);
+            }
+        }
+        $virusCount = $virusCountCheck->count();
+
+        if($virusCount != 0){
+            $counts['virus_test'] = $virusCount;
+        }
+
+        $formsCountCheck = CustomForms::where('cat_id',$cat_id)->where('signed_status',1)
+                                    ->leftJoin('forms as for','custom_forms.form_id','=','for.id');
+    
+        if($keyword){
+            $formsCountCheck->Where(function ($formsCountCheck) use ($keyword) {
+                $formsCountCheck->orWhere('for.form_title', 'LIKE','%'. $keyword . '%')
+                        ->orWhere('for.form_content', 'LIKE','%'. $keyword . '%');
+            });    
+        } 
+        if($transfer_date != ''){
+            $formsCountCheck->where('custom_forms.signed_date','<=', $transfer_date);
+        }
+        if($from_date != '' || $to_date != ''){
+            if($from_date != '' && $to_date != ''){
+                $formsCountCheck->whereDate('signed_date', '>=', $from_date)
+                ->whereDate('signed_date',   '<=', $to_date);
+            }elseif($from_date == '' && $to_date != ''){
+                $formsCountCheck->whereDate('signed_date', '=', $to_date);
+            }elseif($from_date != '' && $to_date == ''){
+                $formsCountCheck->whereDate('signed_date', '=', $from_date);
+            }
+        }
+        $formsCount = $formsCountCheck->count();
+
+        if($formsCount != 0){
+            $counts['forms'] = $formsCount;
+        }
+        return $counts;
+    }
+
+    public function getJournalCounts($cat_id, $transfer_date, $keyword = '', $from_date = '', $to_date = ''){
         $query = JournalDetails::select(DB::raw("COUNT(*) as count"),"journal_type")
-                                ->where('status', 1)
-                                ->groupBy('journal_type')
-                                ->where('cat_id', $cat_id)->get()->pluck("count", "journal_type")->toArray();
-        return $query;
+                                ->where('status', 1);
+
+        if($keyword){
+            $query->Where(function ($query) use ($keyword) {
+                $query->orWhere('remarks', 'LIKE','%'. $keyword . '%')
+                        ->orWhere('heading', 'LIKE','%'. $keyword . '%');
+            });    
+        } 
+        if($transfer_date != ''){
+            $query->where('created_at','<=', $transfer_date);
+        }
+
+        if($from_date != '' || $to_date != ''){
+            if($from_date != '' && $to_date != ''){
+                $query->whereDate('report_date', '>=', $from_date)
+                ->whereDate('report_date',   '<=', $to_date);
+            }elseif($from_date == '' && $to_date != ''){
+                $query->whereDate('report_date', '=', $to_date);
+            }elseif($from_date != '' && $to_date == ''){
+                $query->whereDate('report_date', '=', $from_date);
+            }
+        }
+        $result = $query->groupBy('journal_type')
+            ->where('cat_id', $cat_id)->get()->pluck("count", "journal_type")->toArray();
+            
+        return $result;
     }
 
     public function getJournalData(Request $request)
     {
         $viewData = [];
         $cat_id = $request->cat_id;
+        $transfer_date = $request->transfer_date;
         $type = $request->type;
         $keyword = $request->keyword;
         $from_date = $request->from_date;
         $to_date = $request->to_date;
-
+        $counts = $this->getJournalAllCounts($cat_id, $transfer_date, $keyword, $from_date, $to_date);
         switch($type) {
             case 'vital':
-              
                 $query = JournalMedicalHistories::select('*')
                                                 ->where('cat_id',$cat_id);
+                if($transfer_date != ''){
+                    $query->where('created_at','<=', $transfer_date);
+                }
                 if($keyword){  
                     $query->Where(function ($query) use ($keyword) {
                         $query->orWhere('weight', 'LIKE','%'. $keyword . '%')
@@ -261,58 +378,57 @@ class CatController extends Controller
                     }
                 }
                 $data = $query->orderBy('id','DESC')->get();
-
-                $viewData = view('admin.journal.medical_history',compact('data','cat_id'))->render();
+                $viewData = view('admin.journal.medical_history',compact('data','cat_id','transfer_date'))->render();
                 break;
             case 'dental':
                 $title = 'Dental';
-                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
-                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date, $transfer_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title','transfer_date'))->render();
                 break;
             case 'med_history':
                     $title = 'Medical History';
-                    $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
-                    $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
+                    $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date, $transfer_date);
+                    $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title','transfer_date'))->render();
                 break;
             case 'hospitalization':
                 $title = 'Hospitalization';
-                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
-                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date, $transfer_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title','transfer_date'))->render();
                 break;
             case 'hotel':
                 $title = 'Hotel';
-                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
-                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date, $transfer_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title','transfer_date'))->render();
                 break;
             case 'laboratory_test':
                 $title = 'Laboratory Test';
-                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
-                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date, $transfer_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title','transfer_date'))->render();
                 break;
             case 'laser':
                 $title = 'Laser';
-                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
-                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date, $transfer_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title','transfer_date'))->render();
                 break;
             case 'medicine':
                 $title = 'Medicine';
-                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
-                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date, $transfer_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title','transfer_date'))->render();
                 break;
             case 'medical_treatment':
                 $title = 'Medical Treatment';
-                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
-                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date, $transfer_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title','transfer_date'))->render();
                 break;
             case 'surgery':
                 $title = 'Surgery';
-                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
-                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date, $transfer_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title','transfer_date'))->render();
                 break;
             case 'ultrasound':
                 $title = 'Ultrasound';
-                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
-                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date, $transfer_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title','transfer_date'))->render();
                 break;
             case 'virus_test':
                 $title = 'Virus Test';
@@ -325,6 +441,9 @@ class CatController extends Controller
                                 ->orWhere('other3_name', 'LIKE', '%'.$keyword . '%');
                     });    
                 } 
+                if($transfer_date != ''){
+                    $query->where('created_at','<=', $transfer_date);
+                }
 
                 if($from_date != '' || $to_date != ''){
                     if($from_date != '' && $to_date != ''){
@@ -337,31 +456,38 @@ class CatController extends Controller
                     }
                 }
                 $data = $query->orderBy('id','DESC')->get();
-                $viewData = view('admin.journal.virus_tests',compact('data','cat_id','type','title'))->render();
+                $viewData = view('admin.journal.virus_tests',compact('data','cat_id','type','title','transfer_date'))->render();
                 break;
             case 'xray':
                 $title = 'X-ray';
-                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
-                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date,$transfer_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title','transfer_date'))->render();
                 break;
 
             case 'forms':
                 $title = 'Forms';
-                $data = $this->getFormDetails($type,$cat_id, $keyword,$from_date,$to_date);
-                $viewData = view('admin.journal.form_details',compact('data','cat_id','type','title'))->render();
+                $data = $this->getFormDetails($type,$cat_id, $keyword,$from_date,$to_date,$transfer_date);
+                $viewData = view('admin.journal.form_details',compact('data','cat_id','type','title','transfer_date'))->render();
                 break;
 
             case 'prescriptions':
                 $title = 'Prescriptions';
-                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date);
-                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title'))->render();
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date,$transfer_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title','transfer_date'))->render();
                 break;
-    
+            case 'transfer_history':
+                $title = 'Transfer History';
+                $data = CatCaretakers::select('care_from.name as care_from_name','care_to.name as care_to_name',DB::raw('DATE(cat_caretakers.updated_at) as transfer_date'),'cat_caretakers.transfer_status')
+                                        ->leftJoin('caretakers as care_from','cat_caretakers.caretaker_id','=','care_from.id')
+                                        ->leftJoin('caretakers as care_to','cat_caretakers.transfer_to_caretaker','=','care_to.id')
+                                        ->where('cat_caretakers.cat_id',$cat_id)->orderBy('cat_caretakers.id','ASC')->get();
+                $viewData = view('admin.journal.transfer_history',compact('data','cat_id','type','title','transfer_date'))->render();
+                break;
             default:
                 $viewData = [];
         }
  
-        return $viewData;
+        return json_encode(array('viewData' => $viewData, 'counts' => $counts));
     }
 
     public function deleteMedicalHistory(Request $request){
@@ -444,7 +570,7 @@ class CatController extends Controller
         }
     }
 
-    public function getJournalDetails($type, $cat_id, $keyword,$from_date,$to_date){
+    public function getJournalDetails($type, $cat_id, $keyword,$from_date,$to_date, $transfer_date){
         $query = JournalDetails::select("*")
                 ->where('status', 1)
                 ->where('cat_id', $cat_id)
@@ -455,6 +581,9 @@ class CatController extends Controller
                         ->orWhere('heading', 'LIKE','%'. $keyword . '%');
             });    
         } 
+        if($transfer_date != ''){
+            $query->where('created_at','<=', $transfer_date);
+        }
 
         if($from_date != '' || $to_date != ''){
             if($from_date != '' && $to_date != ''){
@@ -478,7 +607,7 @@ class CatController extends Controller
         return $journals;
     }
 
-    public function getFormDetails($type, $cat_id, $keyword,$from_date,$to_date){
+    public function getFormDetails($type, $cat_id, $keyword,$from_date,$to_date,$transfer_date){
         $query =  CustomForms::select('custom_forms.*','care.name as caretaker_name','cats.name as cat_name','for.form_title','for.form_content')
                             ->leftJoin('caretakers as care','custom_forms.caretaker_id','=','care.id')
                             ->leftJoin('cats','custom_forms.cat_id','=','cats.id')
@@ -490,7 +619,9 @@ class CatController extends Controller
                         ->orWhere('for.form_content', 'LIKE','%'. $keyword . '%');
             });    
         } 
-
+        if($transfer_date != ''){
+            $query->where('custom_forms.signed_date','<=', $transfer_date);
+        }
         if($from_date != '' || $to_date != ''){
             if($from_date != '' && $to_date != ''){
                 $query->whereDate('signed_date', '>=', $from_date)

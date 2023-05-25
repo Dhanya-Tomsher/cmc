@@ -13,4 +13,6 @@ class CatCaretakers extends Model
         'caretaker_id', 
         'transfer_status', 
     ];
+
+    
 }

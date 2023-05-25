@@ -185,16 +185,17 @@
                                 </div>
                             </div>
                         
-                            <div class="table-responsive">
+                            <div class="table-responsive cat_details_table ">
                                 <table class="table table-centered table-nowrap mb-0" id="catsTable">
                                     <thead class="table-light">
                                         <tr>
-                                            <th>No</th>
+                                            <th class="w-5">No</th>
                                             <th>Cat Name</th>
-                                            <th>Cat Image</th>
-                                            <th>Cat ID</th>
-                                            <th>Gender</th>
-                                            <th>Action</th>
+                                            <th class="text-center w-10">Cat Image</th>
+                                            <th class="text-center">Cat ID</th>
+                                            <th class="text-center w-10">Gender</th>
+                                            <th class="text-center w-10">Transfer Status</th>
+                                            <th class="text-center w-15">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="catDetails">
@@ -202,17 +203,31 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $cat->name }}</td>
-                                                <td>
+                                                <td class="text-center">
                                                 @if($cat->image_url == NULL)
-                                                    <a href="{{ route('caretaker.cat.view', $cat) }}"><img class="rounded-circle avatar-sm" alt="200x200" src="{{ asset('assets/images/cat_plc.jpg') }} " data-holder-rendered="true"> </a>
+                                                    <a href="{{ route('caretaker.cat.view', $cat) }}"><img class="rounded-circle avatar-md" alt="200x200" src="{{ asset('assets/images/cat_plc.jpg') }} " data-holder-rendered="true"> </a>
                                                 @else
-                                                    <a href="{{ route('caretaker.cat.view', $cat) }}"><img class="rounded-circle avatar-sm" alt="200x200" src="{{ asset($cat->image_url) }} " data-holder-rendered="true"> </a>
+                                                    <a href="{{ route('caretaker.cat.view', $cat) }}"><img class="rounded-circle avatar-md" alt="200x200" src="{{ asset($cat->image_url) }} " data-holder-rendered="true"> </a>
                                                 @endif
                                                 </td>
-                                                <td>{{ $cat->cat_id }}</td>
-                                                <td>{{ $cat->gender }}</td>
-                                                <td>
-                                                    <a href="{{ route('caretaker.cat.view', $cat) }}" class="px-3 text-primary"><i  class="uil uil-eye font-size-18"></i></a>
+                                                <td class="text-center">{{ $cat->cat_id }}</td>
+                                                <td class="text-center">{{ $cat->gender }}</td>
+                                                <td  class="text-center">
+                                                    @php  
+                                                        $transfer_status = (Helper::getCatCaretakerLatestStatus($cat->id,$caretaker[0]->id) == 1) ? '<span class="badge bg-soft-danger font-size-12 text-uppercase">Transferred</span>' : '<span class="badge bg-soft-success font-size-12 text-uppercase">Owned</span>';
+                                                    @endphp
+                                                    {!! $transfer_status !!}
+                                                </td>
+                                                <td class="text-center">
+                                                    <a href="{{ route('caretaker.cat.view', $cat) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Profile" class="px-2 "><i class="uil uil-eye"></i></a>
+                                                    
+                                                    <a href="{{ route('cat.journal',['cat' => $cat->id, 'care_id' => $caretaker[0]->id]) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Journal" class="px-2 "><i class="uil uil-history"></i></a>
+                                                    
+                                                    <a href="{{ route('hospital-appointments') }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Hospital" class="px-2 "><i class="uil uil-hospital"></i></a>
+                                                    
+                                                    <a href="{{ route('hotel-appointments') }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Hotel" class="px-2"><i class="uil uil-building"></i></a>
+                                                    
+                                                    <a href="{{ route('cat.edit', $cat) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" data-bs-title="Transfer Profile" class="px-2"><i class="uil uil-arrow-right"></i></a>
                                                 </td>
                                             </tr>
                                         @endforeach

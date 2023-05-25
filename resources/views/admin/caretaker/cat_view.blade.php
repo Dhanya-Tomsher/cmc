@@ -18,13 +18,13 @@
 
                 </div>
                 <div class="d-flex align-items-center justify-content-between mb-3">
-                    <a href="{{ route('caretaker.view', $cat[0]->caretaker_id) }}" class="btn btn_back waves-effect waves-light mt-3"> <i class="uil-angle-left-b"></i> Back</a>
+                    <a onclick="window.location=document.referrer;" href="javascript:void" class="btn btn_back waves-effect waves-light mt-3"> <i class="uil-angle-left-b"></i> Back</a>
                     <div class="btn_group">
                         <!-- <a href="hospital_appointments.html" class="btn btn_back waves-effect waves-light me-2"> Create
                             Hospital Appointments </a>
                         <a href="hotel_appointments.html" class="btn btn_back waves-effect waves-light" id="sa-warning">
                             Create Hotel Appointments </a> -->
-                        <a href="{{ route('cat.journal', $cat[0]->id) }}" class="btn btn_back waves-effect waves-light" id="sa-warning"> Journal </a>
+                        <!-- <a href="{{ route('cat.journal', $cat[0]->id) }}" class="btn btn_back waves-effect waves-light" id="sa-warning"> Journal </a> -->
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@
         <!-- end page title -->
 
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="row">
                     <div class="col-12">
                         <div class="">
@@ -284,10 +284,133 @@
                             </div>
                         </div>
                     </div> <!-- end col-->
-
                 </div> <!-- end row-->
             </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-12">
+                        <h6>Caretaker Details</h6>
+                        <div class="card">
+                            <div class="card-body py-4">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <form action="#">
+                                            <div class="row mb-3">
+                                                <div class="col-6">
+                                                    <div class="avatar-upload caretaker_dp">
+                                                        <div class="avatar-preview">
+                                                            @if($cat[0]->caretaker_image == NULL)
+                                                                <div id="imagePreview" style="background-image: url('{{ asset('assets/images/user_img.png') }}');">
+                                                                </div>
+                                                            @else
+                                                                <div id="imagePreview" style="background-image: url('{{ asset($cat[0]->caretaker_image) }}');">
+                                                                </div>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
 
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label for="example-text-input" class="col-form-label">Customer ID</label>
+                                                    <input class="form-control" type="text" value="{{ $cat[0]->customer_id }}" readonly  id="example-text-input">
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label for="Name" class="col-form-label">Name</label>
+                                                    <input class="form-control" type="text" value="{{ $cat[0]->caretaker_name }}" readonly id="Name">
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label for="address" class="col-form-label">Address</label>
+                                                    <input class="form-control" type="text" value="{{ $cat[0]->address }}" readonly id="address">
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label for="email" class="col-form-label">Email ID</label>
+                                                    <input class="form-control" type="email" value="{{ $cat[0]->email }}" readonly id="Email">
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label for="phone" class="col-form-label">Phone Number</label>
+                                                    <input class="form-control" type="text" value="{{ $cat[0]->phone_number }}" readonly
+                                                        id="phone">
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label for="whatsapp" class="col-form-label">Whatsapp Number</label>
+                                                    <input class="form-control" type="text" value="{{ $cat[0]->whatsapp_number }}" readonly
+                                                        id="whatsapp">
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label for="country" class="col-form-label">Home Country</label>
+                                                    <input class="form-control" type="text" value="{{ $cat[0]->care_country }}" readonly id="country">
+                                                </div>
+
+
+                                                <div class="col-md-6">
+                                                    <label for="Emirate" class="col-form-label">Emirate</label>
+                                                    <input class="form-control" type="text" value="{{ $cat[0]->caretaker_emirate }}" readonly id="Emirate">
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label for="WorkPlace" class="col-form-label d-block">Work Place</label>
+                                                    <input class="form-control" type="text" value="{{ $cat[0]->work_place }}" id="WorkPlace" readonly>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label for="WorkAddress" class="col-form-label d-block">Work Address</label>
+                                                    <input class="form-control" type="text"  value="{{ $cat[0]->work_address }}" id="WorkAddress" readonly>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label for="Position"
+                                                        class="col-form-label d-block">Position</label>
+                                                    <input class="form-control" type="text" value="{{ $cat[0]->position }}" id="Position" readonly>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label for="WorkContact" class="col-form-label d-block">Work Contact Number</label>
+                                                    <input class="form-control" type="text" value="{{ $cat[0]->work_contact_number }}" id="WorkContact" readonly>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label for="emirates-id" class="col-form-label d-block">Passport No</label>
+                                                    <input class="form-control" type="text" value="{{ $cat[0]->passport_number }}" id="emirates-id" readonly>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label for="emirates-id" class="col-form-label d-block">Emirates ID No</label>
+                                                    <input class="form-control" type="text" value="{{ $cat[0]->emirates_id_number }}" id="emirates-id" readonly>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label for="VisaStatus" class="col-form-label">Visa Status</label>
+                                                    <input class="form-control" type="text" value="{{ ucfirst($cat[0]->visa_status) }}" readonly id="VisaStatus">
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label for="registered-cats" class="col-form-label">No of Registered Cats</label>
+                                                    <input class="form-control" type="text" value="{{ ucfirst($cat[0]->number_of_registered_cats) }}" id="registered-cats" readonly>
+                                                </div>
+
+                                                <div class="col-md-4 align-self-end">
+
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div> <!-- end col-->
+                                </div> <!-- end row-->
+
+                            </div>
+                        </div>
+                    </div> <!-- end col-->
+                </div> <!-- end row-->
+            </div>
         </div>
 
 

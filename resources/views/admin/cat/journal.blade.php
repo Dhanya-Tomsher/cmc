@@ -18,7 +18,7 @@
                     <div class="search_warpper w-40">
                         <div class="hstack gap-2">
                             <input class="form-control me-auto border-0" type="text" id="search" placeholder="Search..">
-                            <button type="button" class="btn btn_back waves-effect waves-light w-md"  onclick="getJournalData('vital', '{{ $cat->id }}')">Search</button>
+                            <button type="button" class="btn btn_back waves-effect waves-light w-md"  onclick="getJournalData('vital', '{{ $cat->id }}', '{{ $transfer_date }}')">Search</button>
                             <button type="button" class="btn btn_back waves-effect waves-light w-md" id="searchReset">Reset</button>
                         </div>
                     </div>
@@ -28,12 +28,12 @@
                             data-date-autoclose="true" data-provide="datepicker" data-date-container="#datepicker6">
                             <input type="text" class="form-control text-start" placeholder="From" name="From" id="search_from_date">
                             <input type="text" class="form-control text-start" placeholder="To" name="To" id="search_to_date">
-                            <button type="button" class="btn btn-primary" id="dateFilter" onclick="getJournalData('vital', '{{ $cat->id }}')"><i  class="fa fa-search"></i></button>
+                            <button type="button" class="btn btn-primary" id="dateFilter" onclick="getJournalData('vital', '{{ $cat->id }}', '{{ $transfer_date }}')"><i  class="fa fa-search"></i></button>
                             <button type="button" class="btn btn-primary" id="resetDateFilter" ><i  class="fa fa-sync"></i></button>
                         </div>
                        
                     </div>
-                    <a href="{{ URL::previous() }}" class="btn btn_back waves-effect waves-light"> <i class="uil-angle-left-b"></i> Back</a>
+                    <a onclick="window.location=document.referrer;" href="javascript:void" class="btn btn_back waves-effect waves-light"> <i class="uil-angle-left-b"></i> Back</a>
                 </div>
             </div>
         </div>
@@ -44,36 +44,37 @@
                     <div class="card-body">
                         <div class="nav flex-column nav-pills menus" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 
-                            <a class="nav-link mb-2 {{ isset($counts['vital']) ? 'data_active' : 'data_none' }}" id="vital" onclick="getJournalData('vital','{{ $cat->id }}')" role="button">Vitals</a>
+                            <a class="nav-link mb-2 journalMenus {{ isset($counts['vital']) ? 'data_active' : 'data_none' }}" id="vital" onclick="getJournalData('vital','{{ $cat->id }}', '{{ $transfer_date }}')" role="button">Vitals</a>
 
-                            <a class="nav-link mb-2 {{ isset($counts['med_history']) ? 'data_active' : 'data_none' }}" id="med_history" onclick="getJournalData('med_history','{{ $cat->id }}')" role="button">Medical History</a>
+                            <a class="nav-link mb-2 journalMenus {{ isset($counts['med_history']) ? 'data_active' : 'data_none' }}" id="med_history" onclick="getJournalData('med_history','{{ $cat->id }}', '{{ $transfer_date }}')" role="button">Medical History</a>
 
-                            <a class="nav-link mb-2 {{ isset($counts['dental']) ? 'data_active' : 'data_none' }}" id="dental"  onclick="getJournalData('dental','{{ $cat->id }}')" role="button">Dental</a>
+                            <a class="nav-link mb-2 journalMenus {{ isset($counts['dental']) ? 'data_active' : 'data_none' }}" id="dental"  onclick="getJournalData('dental','{{ $cat->id }}', '{{ $transfer_date }}')" role="button">Dental</a>
 
-                            <a class="nav-link mb-2 {{ isset($counts['hospitalization']) ? 'data_active' : 'data_none' }}" id="hospitalization" onclick="getJournalData('hospitalization','{{ $cat->id }}')" role="button">Hospitalization</a>
+                            <a class="nav-link mb-2 journalMenus {{ isset($counts['hospitalization']) ? 'data_active' : 'data_none' }}" id="hospitalization" onclick="getJournalData('hospitalization','{{ $cat->id }}', '{{ $transfer_date }}')" role="button">Hospitalization</a>
 
-                            <a class="nav-link mb-2 {{ isset($counts['hotel']) ? 'data_active' : 'data_none' }}" id="hotel" onclick="getJournalData('hotel','{{ $cat->id }}')" role="button">Hotel</a>
+                            <a class="nav-link mb-2 journalMenus {{ isset($counts['hotel']) ? 'data_active' : 'data_none' }}" id="hotel" onclick="getJournalData('hotel','{{ $cat->id }}', '{{ $transfer_date }}')" role="button">Hotel</a>
 
-                            <a class="nav-link mb-2 {{ isset($counts['laboratory_test']) ? 'data_active' : 'data_none' }}" id="laboratory_test" onclick="getJournalData('laboratory_test','{{ $cat->id }}')" role="button">Laboratory Test</a>
+                            <a class="nav-link mb-2 journalMenus {{ isset($counts['laboratory_test']) ? 'data_active' : 'data_none' }}" id="laboratory_test" onclick="getJournalData('laboratory_test','{{ $cat->id }}', '{{ $transfer_date }}')" role="button">Laboratory Test</a>
 
-                            <a class="nav-link mb-2 {{ isset($counts['laser']) ? 'data_active' : 'data_none' }}" id="laser" onclick="getJournalData('laser','{{ $cat->id }}')" role="button">Laser</a>
+                            <a class="nav-link mb-2 journalMenus {{ isset($counts['laser']) ? 'data_active' : 'data_none' }}" id="laser" onclick="getJournalData('laser','{{ $cat->id }}', '{{ $transfer_date }}')" role="button">Laser</a>
 
-                            <a class="nav-link mb-2 {{ isset($counts['medicine']) ? 'data_active' : 'data_none' }}" id="medicine" onclick="getJournalData('medicine','{{ $cat->id }}')" role="button">Medicine</a>
+                            <a class="nav-link mb-2 journalMenus {{ isset($counts['medicine']) ? 'data_active' : 'data_none' }}" id="medicine" onclick="getJournalData('medicine','{{ $cat->id }}', '{{ $transfer_date }}')" role="button">Medicine</a>
 
-                            <a class="nav-link mb-2 {{ isset($counts['medical_treatment']) ? 'data_active' : 'data_none' }}" id="medical_treatment" onclick="getJournalData('medical_treatment','{{ $cat->id }}')" role="button">Medical Treatment</a>
+                            <a class="nav-link mb-2 journalMenus {{ isset($counts['medical_treatment']) ? 'data_active' : 'data_none' }}" id="medical_treatment" onclick="getJournalData('medical_treatment','{{ $cat->id }}', '{{ $transfer_date }}')" role="button">Medical Treatment</a>
 
-                            <a class="nav-link mb-2 {{ isset($counts['surgery']) ? 'data_active' : 'data_none' }}" id="surgery" onclick="getJournalData('surgery','{{ $cat->id }}')" role="button">Surgery</a>
+                            <a class="nav-link mb-2 journalMenus {{ isset($counts['surgery']) ? 'data_active' : 'data_none' }}" id="surgery" onclick="getJournalData('surgery','{{ $cat->id }}', '{{ $transfer_date }}')" role="button">Surgery</a>
 
-                            <a class="nav-link mb-2 {{ isset($counts['ultrasound']) ? 'data_active' : 'data_none' }}" id="ultrasound" onclick="getJournalData('ultrasound','{{ $cat->id }}')" role="button">Ultrasound</a>
+                            <a class="nav-link mb-2 journalMenus {{ isset($counts['ultrasound']) ? 'data_active' : 'data_none' }}" id="ultrasound" onclick="getJournalData('ultrasound','{{ $cat->id }}', '{{ $transfer_date }}')" role="button">Ultrasound</a>
 
-                            <a class="nav-link mb-2 {{ isset($counts['virus_test']) ? 'data_active' : 'data_none' }}" id="virus_test" onclick="getJournalData('virus_test','{{ $cat->id }}')" role="button">Virus Test</a>
+                            <a class="nav-link mb-2 journalMenus {{ isset($counts['virus_test']) ? 'data_active' : 'data_none' }}" id="virus_test" onclick="getJournalData('virus_test','{{ $cat->id }}', '{{ $transfer_date }}')" role="button">Virus Test</a>
 
-                            <a class="nav-link mb-2 {{ isset($counts['xray']) ? 'data_active' : 'data_none' }}" id="xray" onclick="getJournalData('xray','{{ $cat->id }}')" role="button">X-ray</a>
+                            <a class="nav-link mb-2 journalMenus {{ isset($counts['xray']) ? 'data_active' : 'data_none' }}" id="xray" onclick="getJournalData('xray','{{ $cat->id }}', '{{ $transfer_date }}')" role="button">X-ray</a>
 
-                            <a class="nav-link mb-2 {{ isset($counts['forms']) ? 'data_active' : 'data_none' }}" id="forms" onclick="getJournalData('forms','{{ $cat->id }}')" role="button">Forms</a>
+                            <a class="nav-link mb-2 journalMenus {{ isset($counts['forms']) ? 'data_active' : 'data_none' }}" id="forms" onclick="getJournalData('forms','{{ $cat->id }}', '{{ $transfer_date }}')" role="button">Forms</a>
 
-                            <a class="nav-link mb-2 {{ isset($counts['prescriptions']) ? 'data_active' : 'data_none' }}" id="prescriptions" onclick="getJournalData('prescriptions','{{ $cat->id }}')" role="button">Prescriptions</a>
+                            <a class="nav-link mb-2 journalMenus {{ isset($counts['prescriptions']) ? 'data_active' : 'data_none' }}" id="prescriptions" onclick="getJournalData('prescriptions','{{ $cat->id }}', '{{ $transfer_date }}')" role="button">Prescriptions</a>
 
+                            <a class="nav-link mb-2  data_active" id="transfer_history" onclick="getJournalData('transfer_history','{{ $cat->id }}', '{{ $transfer_date }}')"  role="button">Transfer History</a>
                         </div>
                     </div>
                 </div>
@@ -165,6 +166,7 @@
 <script type="text/javascript" src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script>
 <script>
     let cat_id = '{{ $cat->id }}';
+    var transfer_date = '{{ $transfer_date }}';
     window.editor = '';
      $( "#date" ).datepicker({
         format: 'yyyy-mm-dd',
@@ -177,8 +179,8 @@
     });
 
    
-    getJournalData('vital', cat_id);
-    function getJournalData(type, cat_id){
+    getJournalData('vital', cat_id, transfer_date);
+    function getJournalData(type, cat_id, transfer_date){
         var keyword = $('#search').val();
         var from_date = $('#search_from_date').val();
         var to_date = $('#search_to_date').val();
@@ -186,12 +188,20 @@
         $.ajax({
             url: "{{ route('cat.journal-data') }}",
             type: "POST",
-            data: { type : type , cat_id : cat_id, keyword :keyword,from_date:from_date,to_date:to_date},
+            data: { type : type , cat_id : cat_id, transfer_date : transfer_date, keyword :keyword,from_date:from_date,to_date:to_date},
             success: function( response ) {
+                var responseData = JSON.parse(response);
+                $('.journalMenus').removeClass('data_active');
+                $('.journalMenus').addClass('data_none');
+                $.each(responseData.counts, function(index, value) {
+                    $('#'+index).addClass('data_active');
+                    $('#'+index).removeClass('data_none');
+                });
+
                 $('#journal_table').DataTable().clear();
                 $('#journal_table').DataTable().destroy();
-               $('#journal_data').html(response);
-               $('#journal_table').DataTable();  
+                $('#journal_data').html(responseData.viewData);
+                $('#journal_table').DataTable();  
             //    $('.menus .nav-link').removeClass('data_active');
             //    $('.menus .nav-link').addClass('data_none');
             //    $('#'+type).addClass('data_active');
@@ -266,7 +276,7 @@
                     $('.med_history').modal('hide');
                     $('#vital').addClass('data_active');
                     $('#vital').removeClass('data_none');
-                    getJournalData('vital', cat_id);
+                    getJournalData('vital', cat_id, transfer_date);
                 }
             });
         }
@@ -297,7 +307,7 @@
                     $('.journal_data').modal('hide');
                     $('#'+type).addClass('data_active');
                     $('#'+type).removeClass('data_none');
-                    getJournalData(type, cat_id); 
+                    getJournalData(type, cat_id, transfer_date); 
                 }
             });
         }
@@ -328,7 +338,7 @@
                     $('.journal_prescription_data').modal('hide');
                     $('#'+type).addClass('data_active');
                     $('#'+type).removeClass('data_none');
-                    getJournalData(type, cat_id); 
+                    getJournalData(type, cat_id, transfer_date); 
                 }
             });
         }
@@ -392,7 +402,7 @@
                 $('.virus_test').modal('hide');
                 $('#virus_test').addClass('data_active');
                 $('#virus_test').removeClass('data_none');
-                getJournalData('virus_test', cat_id);
+                getJournalData('virus_test', cat_id, transfer_date);
             }
         });
     }
@@ -481,12 +491,12 @@
 
     $("#searchReset").on("click", function (e) { 
         $('#search').val('');
-        getJournalData('vital', cat_id);
+        getJournalData('vital', cat_id, transfer_date);
     });
 
     $("#resetDateFilter").on("click", function (e) { 
         $('#search_from_date,#search_to_date' ).datepicker( 'setDate', '' ).datepicker('fill');
-        getJournalData('vital', cat_id);
+        getJournalData('vital', cat_id, transfer_date);
     });
 
     function showAddModal (){
