@@ -90,7 +90,8 @@
                         @if (isset($vetSlots[$vet->id]) && in_array($slot, $vetSlots[$vet->id]))
                             @if (isset($vetBooks[$vet->id]) && in_array($slot, $vetBooks[$vet->id]))
                                 <div class="fit appointment-red app-disabled">
-                                    <span><b>Caretaker : </b>{{ $details[$slot]['caretaker'] }} </span> &nbsp;
+                                    <span><b>Caretaker : </b>{{ $details[$slot]['caretaker'] }} </span> 
+                                    <br>
                                     <span><b>Cat :</b> {{ $details[$slot]['cat'] }}</span>
                                 </div>
                             @else
