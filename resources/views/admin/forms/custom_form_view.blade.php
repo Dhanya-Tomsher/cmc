@@ -113,12 +113,13 @@
 .kbw-signature { width: 100%; height: 200px;}
         #sig canvas{ width: 100% !important; height: auto;}
 </style>
-<link rel="stylesheet" type="text/css" href="http://keith-wood.name/css/jquery.signature.css">
+<link rel="stylesheet" href="{{ asset('assets/css/jquery.signature.css') }}" />
 @endpush
 
 @push('scripts')
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
-<script type="text/javascript" src="http://keith-wood.name/js/jquery.signature.js"></script>
+<script src="{{ asset('assets/js/jquery.signature.js') }}"></script>
+
 <script type="text/javascript">
     var sig = $('#sig').signature({syncField: '#signature64', syncFormat: 'PNG'});
     $('#clear').click(function(e) {

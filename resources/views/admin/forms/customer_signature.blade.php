@@ -19,7 +19,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script>
-    <link rel="stylesheet" type="text/css" href="http://keith-wood.name/css/jquery.signature.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery.signature.css') }}" />
     @stack('header')
     <style>
     .ck-editor__editable_inline {
@@ -168,7 +168,7 @@
     <script src="{{ asset('assets/js/app.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="http://keith-wood.name/js/jquery.signature.js"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/jquery.signature.js') }}"></script>
     <script type="text/javascript">
     var sig = $('#sig').signature({
         syncField: '#signature64',
