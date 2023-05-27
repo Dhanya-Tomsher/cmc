@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Vet;
 use App\Models\HotelAppointments;
-use App\Models\HotelRooms;
+use App\Models\HotelRooms; 
 use App\Models\Caretaker;
 use App\Models\Cat;
 use App\Models\Invoices;
