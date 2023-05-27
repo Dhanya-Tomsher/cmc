@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Vet;
 use App\Models\HotelAppointments;
-use App\Models\Hotelrooms; 
+use App\Models\HotelRooms;
 use App\Models\Caretaker;
 use App\Models\Cat;
 use App\Models\Invoices;
@@ -143,8 +143,7 @@ class HotelAppointmentsController extends Controller
                                     ->orderBy('room_number','ASC')->get()->pluck('id')->toArray();
             }
             
-            // $inter = array_intersect(...$availableRooms);
-            $inter = call_user_func_array('array_intersect', $availableRooms);
+            $inter = array_intersect(...$availableRooms);
             $rooms  = Hotelrooms::select('id','room_number','amount')
                                     ->where('room_status', 1)
                                     ->whereIN('id', $inter)
@@ -263,7 +262,7 @@ class HotelAppointmentsController extends Controller
                             ->orderBy('cats.name','ASC')
                             ->get();
         
-        $rooms = Hotelrooms::select("id","room_number","amount")
+        $rooms = HotelRooms::select("id","room_number","amount")
                             ->where('room_status', 1)
                             ->orderBy('room_number','ASC')
                             ->get();
