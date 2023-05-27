@@ -64,7 +64,7 @@
             <li>
                 <a href="{{ route('manage-hotel-bookings') }}" class=" waves-effect">
                     <i class="uil-building"></i>
-                    <span>Hotel Appointments </span>
+                    <span>Hotel Bookings </span>
                 </a>
 
             </li>
