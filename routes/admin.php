@@ -152,6 +152,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     
         Route::get('day-appointments',[HospitalAppointmentsController::class,'getDayAppointments'])->name('day-appointments');
         Route::post('ajax-getday-appointments',[HospitalAppointmentsController::class,'ajaxGetDayAppointments'])->name('ajax-getday-appointments');
+        Route::post('ajax-getyear-appointments',[HospitalAppointmentsController::class,'ajaxGetYearAppointments'])->name('ajax-getyear-appointments');
     
         Route::get('hotel-appointments',[HotelAppointmentsController::class,'getHotelAppointments'])->name('hotel-appointments');
         Route::get('get-hotel-schedules',[HotelAppointmentsController::class,'getHotelSchedules'])->name('get-hotel-schedules');

@@ -23,13 +23,13 @@
                                     <input class="form-control me-auto border-0" type="text" id='search' placeholder="Search here">
                                     <button type="button" class="btn btn_back waves-effect waves-light w-xl" onclick=" getVets()">Search</button>
                                     <button type="button" class="btn btn_back waves-effect waves-light w-md" id="searchReset">Reset</button>
-                                </div
+                                </div>
                             </form>
                         </div>
                         <div class="btn_group">
                             <div class="d-flex justify-content-end mb-3">
                                 <a href="{{ route('vet.create') }}"
-                                    class="btn btn_back waves-effect waves-light w-md">Add</a>
+                                    class="btn btn_back waves-effect waves-light w-md">Create Vet</a>
                             </div>
                         </div>
                     </div>

@@ -15,13 +15,13 @@
                 </td>
                 <td>
                     <a href="{{ route('vet.view', $vete) }}"
-                        class="px-3 text-primary"><i
-                            class="uil uil-eye font-size-18"></i></a>
+                        class="px-3  btn btn-app"><i
+                            class="uil uil-eye font-size-18 text-primary"></i> View</a>
                 </td>
                 <td>
                     <a href="{{ route('vet.edit', $vete) }}"
-                        class="px-3 text-primary"><i
-                            class="uil uil-pen green font-size-18"></i></a>
+                        class="px-3  btn btn-app"><i
+                            class="uil uil-pen green font-size-18"></i>Edit</a>
                 </td>
 
             </tr>

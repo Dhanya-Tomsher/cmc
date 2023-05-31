@@ -19,7 +19,7 @@
                     <div class="search_warpper w-60">
                     </div>
                     <div class="btn_group">
-                        <a href="{{ route('form.create') }}"   class="btn btn_back waves-effect waves-light">Add New Form</a>
+                        <a href="{{ route('form.create') }}"   class="btn btn_back waves-effect waves-light">Create New Form</a>
                     </div>
                 </div>
             </div>
@@ -55,9 +55,9 @@
                                         </td>
                                         <td> {{ $form->created_at->format('Y-m-d') }} </td>
                                         <td class="text-center">
-                                            <a href="{{ route('form.view',$form) }}" class="px-3 text-primary"  title="View form data"><i class="uil uil-eye font-size-18"></i></a>
-                                            <a href="{{ route('form.edit',$form) }}" class="px-3 text-primary"  title="Edit form data"><i class="uil uil-pen green font-size-18"></i></a>
-                                            <a href="#" class="px-3 text-primary" onclick="deleteForm('{{$form->id}}')" title="Delete form"><i class="uil uil-trash required font-size-18"></i></a>
+                                            <a href="{{ route('form.view',$form) }}" class="px-2 btn btn-app"  title="View form data"><i class="uil uil-eye font-size-18 text-primary"></i>View</a>
+                                            <a href="{{ route('form.edit',$form) }}" class="px-2 btn btn-app"  title="Edit form data"><i class="uil uil-pen green font-size-18"></i>Edit</a>
+                                            <a href="#" class="px-2 btn btn-app" onclick="deleteForm('{{$form->id}}')" title="Delete form"><i class="uil uil-trash required font-size-18"></i>Delete</a>
                                         </td>
                                     </tr>
                                     @endforeach

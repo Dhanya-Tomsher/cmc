@@ -30,18 +30,33 @@ body{
     box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
 }
 
-.btn.btn-primary{
+/* .btn.btn-primary{
     background-color: #c6c06f;
     border-color: #c6c06f;
     color: #ffffff;
     padding: 15px;
-}
+} */
+  .btn.btn-primary{
+      background-color: #fcf8c4;
+      border-color: #000000;
+      color: #000000;
+      padding: 15px;
+      font-weight: 500;
+  }
 
-.btn.btn_back{
+/* .btn.btn_back{
     background-color: #c6c06f;
     border-color: #c6c06f;
     color: #ffffff;
     padding: 15px;
+} */
+
+.btn.btn_back {
+  background-color: #fcf8c4;
+  border-color: #000000;
+  color: #000000;
+  padding: 15px;
+  font-weight: 500;
 }
 
 h5.text-primary{
@@ -248,8 +263,11 @@ margin-right: 10px;
 }
 
 .data_none{
-  background-color: #e52310!important;
-  color: #ffffff!important;
+  /* background-color: #e52310!important;
+  color: #ffffff!important; */
+  background-color: #ffffff!important;
+  color: #000000!important;
+  border: 1px solid #afafaf !important;
 }
 
 .nodata_warpper {
@@ -302,11 +320,12 @@ label.form-check-label {
 
 /* Jisha Styles Start */
 .fc-button-primary{
-  background-color: #c6c06f !important;
-  border-color: #c6c06f !important;
-  color: #ffffff !important;
+  background-color: #fcf8c4 !important;
+  border-color: #000000 !important;
+  color: #000000 !important;
   padding: 15px !important;
   text-transform: capitalize !important;
+  font-weight: 500 !important;
 }
 
 .form-check-input:disabled~.form-check-label, .form-check-input[disabled]~.form-check-label {
@@ -541,6 +560,21 @@ table td.highlighted {
     font-weight: 700;
     text-align: center;
 }
+.f-20{
+  font-size: 20px !important;
+}
+
+.btn.btn-app>.fa,.btn.btn-app>.glyphicon,.btn.btn-app>.uil{
+  font-size:22px;
+  display:block;
+}
+.btn.btn-app {
+  position: relative;
+  -webkit-box-shadow: none;
+  text-align: center;
+  font-size: 13px;
+}
+
 @media print {
     body * {
         visibility:hidden;

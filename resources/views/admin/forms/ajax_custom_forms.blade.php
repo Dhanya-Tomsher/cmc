@@ -20,8 +20,8 @@
                 </td> -->
                 <td> {{ $cform->created_at->format('Y-m-d') }} </td>
                 <td class="text-center">
-                    <a href="{{ route('custom-form.view',$cform->id) }}" class="px-3 text-primary"  title="View form data"><i class="uil uil-eye font-size-18"></i></a>
-                    <a href="#" class="px-3 text-primary" onclick="deleteCustomForm('{{$cform->id}}')" title="Delete form"><i class="uil uil-trash required font-size-18"></i></a>
+                    <a href="{{ route('custom-form.view',$cform->id) }}" class="px-2 btn btn-app"  title="View form data"><i class="uil uil-eye font-size-18 text-primary"></i>View</a>
+                    <a href="#" class="px-2 btn btn-app" onclick="deleteCustomForm('{{$cform->id}}')" title="Delete form"><i class="uil uil-trash required font-size-18"></i>Delete</a>
                 </td>
             </tr>
             @endforeach

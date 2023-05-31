@@ -2,7 +2,7 @@
         <div class="d-flex justify-content-between">
             <h5>Vitals</h5>
             @if($transfer_date == '')
-            <a href="#" data-bs-toggle="modal" data-bs-target=".med_history" class="btn btn_back waves-effect waves-light">Add</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target=".med_history" class="btn btn_back waves-effect waves-light">Add New</a>
             @endif
         </div>
 
@@ -64,14 +64,14 @@
                                 <input class="form-control" type="text" placeholder="Enter Blood Pressure" id="blood_pressure" name="blood_pressure">
                             </div>
 
-                            <div class="col-md-6 mb-2">
+                            <!-- <div class="col-md-6 mb-2">
                                 <label for="address" class="col-form-label pt-0">Report Date</label>
                                 <div class="input-group" id="datepicker1">
                                     <input type="text" name="report_date" id="report_date"  class="form-control date-picker"  placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
                                         data-date-container="#datepicker1" data-provide="datepicker"  data-date-autoclose="true"  value="">
                                     <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="col-md-12 mt-3 text-center">
                                 <input type="hidden" name="cat_id" value="{{$cat_id}}">
@@ -80,7 +80,7 @@
 
 
                             <div class="col-md-12 mt-3 text-center">
-                                <a href="#" class="btn btn-primary waves-effect waves-light w-lg" onclick="addMedicalHistory()">Add</a>
+                                <a href="#" class="btn btn-primary waves-effect waves-light w-lg" onclick="addMedicalHistory()">Save</a>
                             </div>
                         </div>
                     </form>

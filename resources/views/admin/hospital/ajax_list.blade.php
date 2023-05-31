@@ -20,10 +20,10 @@
                 @endif
             </td>
             <td>
-                <a href="#" class="px-2 text-primary" onclick="viewAppointment({{$app->id}})" title="View Appointment"><i class="uil uil-eye font-size-18"></i></a>
-                <a href="#" class="px-2 text-primary" onclick="editAppointment({{$app->id}})" title="Edit Appointment"><i class="uil uil-pen green font-size-18"></i></a>
-                <a href="#" class="px-2 text-primary" onclick="deleteAppointment({{$app->id}})" title="Delete Appointment"><i class="uil uil-trash required font-size-18"></i></a>
-                <a href="{{ route('get-hospital-invoice',$app->id) }}" class="px-2 text-primary" title="Invoice" ><i class="uil uil-invoice  font-size-18"></i></a>
+                <a href="#" class="px-1 btn btn-app" onclick="viewAppointment({{$app->id}})" title="View Appointment"><i class="uil uil-eye font-size-18 text-primary"></i>View</a>
+                <a href="#" class="px-1 btn btn-app" onclick="editAppointment({{$app->id}})" title="Edit Appointment"><i class="uil uil-pen green font-size-18"></i>Edit</a>
+                <a href="#" class="px-1 btn btn-app" onclick="deleteAppointment({{$app->id}})" title="Delete Appointment"><i class="uil uil-trash required font-size-18"></i>Delete</a>
+                <a href="{{ route('get-hospital-invoice',$app->id) }}" class="px-1 btn btn-app" title="Invoice" ><i class="uil uil-invoice  font-size-18 text-primary"></i>Invoice</a>
             </td>
         </tr>
         @php $i++; @endphp

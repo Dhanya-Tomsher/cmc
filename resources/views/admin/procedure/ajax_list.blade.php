@@ -12,8 +12,8 @@
                 @endif
             </td>
             <td>
-                <a href="#" class="px-3 text-primary" onclick="editProdcedure({{$pro}});"><i class="uil uil-pen green font-size-18"></i></a>
-                <a href="#" onclick="deleteProdcedure('{{$pro->id}}');" class="px-3 text-primary"><i class="uil uil-trash required font-size-18"></i></a>
+                <a href="#" class="px-2 btn btn-app" onclick="editProdcedure({{$pro}});"><i class="uil uil-pen green font-size-18 text-primary"></i>View</a>
+                <a href="#" onclick="deleteProdcedure('{{$pro->id}}');" class="px-2 btn btn-app"><i class="uil uil-trash required font-size-18"></i>Delete</a>
             </td>
         </tr>
         @endforeach

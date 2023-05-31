@@ -175,7 +175,7 @@
             border-style: solid;
             border-width: 2px;
         }
-        body,.card-body { background-color: #fcf7bd !important; }
+        body,.card-body { background-color: #fdfad6 !important; }
        
     </style> 
 </head> 

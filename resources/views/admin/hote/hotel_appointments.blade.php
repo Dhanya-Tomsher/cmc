@@ -497,36 +497,40 @@
 
 <style>
     .select2-selection__rendered {
-    line-height: 51px !important;
-}
-.select2-container .select2-selection--single {
-    height: 55px !important;
-}
-.select2-selection__arrow {
-    height: 54px !important;
-}
-.table td.fit,  .table th.fit {
-    white-space: nowrap;
-}
-.table-bordered {
-    border: 1px solid #cbcaca;
-}
-.table th:first-child {
-  position: sticky;
-  left: 0;
-  color: #373737;
-  width: 0% !important;
-  background: #ffffff;
-}
-table {
-  width: 100%;
-}
-.table td{
-    cursor: pointer;
-}
-.fc .fc-highlight {
-    background: rgb(36 147 170 / 30%) !important;
-}
+        line-height: 51px !important;
+    }
+    .select2-container .select2-selection--single {
+        height: 55px !important;
+    }
+    .select2-selection__arrow {
+        height: 54px !important;
+    }
+    .table td.fit,  .table th.fit {
+        white-space: nowrap;
+    }
+    .table-bordered {
+        border: 1px solid #cbcaca;
+    }
+    .table th:first-child {
+    position: sticky;
+    left: 0;
+    color: #373737;
+    width: 0% !important;
+    background: #ffffff;
+    }
+    table {
+    width: 100%;
+    }
+    .table td{
+        cursor: pointer;
+    }
+    .fc .fc-highlight {
+        background: rgb(36 147 170 / 30%) !important;
+    }
+    .fc-event{
+        font-size: 18px;
+        padding: 7%;
+    }
     </style>
 @endpush
 
