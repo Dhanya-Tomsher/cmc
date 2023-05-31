@@ -214,20 +214,20 @@
                                                 <td class="text-center">{{ $cat->gender }}</td>
                                                 <td  class="text-center">
                                                     @php  
-                                                        $transfer_status = (Helper::getCatCaretakerLatestStatus($cat->id,$caretaker[0]->id) == 1) ? '<span class="badge bg-soft-danger font-size-12 text-uppercase">Transferred</span>' : '<span class="badge bg-soft-success font-size-12 text-uppercase">Owned</span>';
+                                                        $transfer_status = (Helper::getCatCaretakerLatestStatus($cat->id,$caretaker[0]->id) == 1) ? '<a href="#"><span class="badge bg-soft-danger font-size-12 text-uppercase">Transferred</span></a>' : '';
                                                     @endphp
                                                     {!! $transfer_status !!}
                                                 </td>
                                                 <td class="text-center">
-                                                    <a href="{{ route('caretaker.cat.view', $cat) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Profile" class="px-2 "><i class="uil uil-eye"></i></a>
+                                                    <a href="{{ route('caretaker.cat.view', $cat) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Profile" class="px-1 btn btn-app"><i class="uil uil-eye"></i>View</a>
                                                     
-                                                    <a href="{{ route('cat.journal',['cat' => $cat->id, 'care_id' => $caretaker[0]->id]) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Journal" class="px-2 "><i class="uil uil-history"></i></a>
+                                                    <a href="{{ route('cat.journal',['cat' => $cat->id, 'care_id' => $caretaker[0]->id]) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Journal" class="px-1 btn btn-app"><i class="uil uil-file"></i>Journal</a>
                                                     
-                                                    <a href="{{ route('hospital-appointments') }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Hospital" class="px-2 "><i class="uil uil-hospital"></i></a>
+                                                    <a href="{{ route('hospital-appointments') }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Hospital" class="px-1 btn btn-app"><i class="uil uil-hospital"></i>Hospital</a>
                                                     
-                                                    <a href="{{ route('hotel-appointments') }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Hotel" class="px-2"><i class="uil uil-building"></i></a>
+                                                    <a href="{{ route('hotel-appointments') }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Hotel" class="px-1 btn btn-app"><i class="uil uil-building"></i>Hotel</a>
                                                     
-                                                    <a href="{{ route('cat.edit', $cat) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" data-bs-title="Transfer Profile" class="px-2"><i class="uil uil-arrow-right"></i></a>
+                                                    <a href="{{ route('cat.edit', $cat) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" data-bs-title="Transfer Profile" class="px-1 btn btn-app"><i class="uil uil-arrow-right"></i>Transfer</a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -244,6 +244,10 @@
 @endsection
 @push('header')
 <link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}" />
+<style>
+
+
+</style>
 @endpush
 
 @push('scripts')

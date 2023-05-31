@@ -24,8 +24,8 @@
                 @endif
             </td> -->
             <td>
-                <a href="{{ route('cat.view', $cate) }}" class="px-3 text-primary"><i  class="uil uil-eye font-size-18"></i></a>
-                <a href="{{ route('cat.edit', $cate) }}" class="px-3 text-primary"><i class="uil uil-pen green font-size-18"></i></a>
+                <a href="{{ route('cat.view', $cate) }}" class="px-3 btn btn-app"><i  class="uil uil-eye font-size-18 text-primary"></i>View</a>
+                <a href="{{ route('cat.edit', $cate) }}" class="px-3 btn btn-app"><i class="uil uil-pen green font-size-18"></i>Edit</a>
                 <!-- <a href="#" class="px-3 text-danger"><i class="uil uil-trash-alt font-size-18"></i></a> -->
             </td>
         </tr>

@@ -72,7 +72,7 @@
 
             <li>
                 <a href="{{ route('vet.index') }}" class=" waves-effect">
-                    <i class="mdi mdi-stethoscope"></i>
+                    <i class="uil-user"></i>
                     <span>Manage Vets </span>
                 </a>
             </li>

@@ -514,4 +514,11 @@ class HospitalAppointmentsController extends Controller
             'payment_confirmation' => $request->status
         ]);
     }
+
+    public function ajaxGetYearAppointments(Request $request){
+        $date = $request->date; 
+        
+        $viewData = view('admin.hospital.year_appointment', compact('date'))->render();
+        return $viewData;
+    }
 }

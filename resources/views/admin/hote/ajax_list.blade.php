@@ -20,10 +20,10 @@
                 </td>
                 
                 <td>
-                    <a href="#" class="px-2 text-primary" onclick="viewBooking({{$app->id}})" title="View Booking"><i class="uil uil-eye font-size-18"></i></a>
-                    <a href="#" class="px-2 text-primary" onclick="editBooking({{$app->id}})" title="Edit Booking"><i class="uil uil-pen green font-size-18"></i></a>
-                    <a href="#" class="px-2 text-primary" onclick="deleteBooking({{$app->id}})" title="Delete Booking"><i class="uil uil-trash required font-size-18"></i></a>
-                    <a href="{{ route('get-hotel-invoice',$app->id) }}" class="px-2 text-primary" title="Invoice" ><i class="uil uil-invoice  font-size-18"></i></a>
+                    <a href="#" class="px-1 btn btn-app" onclick="viewBooking({{$app->id}})" title="View Booking"><i class="uil uil-eye font-size-18 text-primary"></i>View</a>
+                    <a href="#" class="px-1 btn btn-app" onclick="editBooking({{$app->id}})" title="Edit Booking"><i class="uil uil-pen green font-size-18"></i>Edit</a>
+                    <a href="#" class="px-1 btn btn-app" onclick="deleteBooking({{$app->id}})" title="Delete Booking"><i class="uil uil-trash required font-size-18"></i>Delete</a>
+                    <a href="{{ route('get-hotel-invoice',$app->id) }}" class="px-1 btn btn-app" title="Invoice" ><i class="uil uil-invoice  font-size-18 text-primary"></i>Invoice</a>
                 </td>
             </tr>
             @php $i++; @endphp

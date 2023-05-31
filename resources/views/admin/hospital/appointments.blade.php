@@ -32,6 +32,7 @@
                             <div class="card-body">
                                 <div id="appointment_calendar"></div>
                                 <div id="day_appointment" style="display:none;"></div>
+                                <div id="year_appointment" style="display:none;"></div>
                             </div>
                         </div>
                     </div> <!-- end col -->
@@ -608,22 +609,35 @@
                return true;
             }
         },
-        multiMonthMaxColumns:1,
+        // multiMonthMaxColumns:1,
         eventColor: '#ff0000',
+        customButtons: {
+            customYear: {
+                text: 'Year',
+                click: function() {
+                    getYearCalendar();
+                }
+            },
+            customDay: {
+                text: 'Day',
+                click: function() {
+                    var d = new Date();
+                    var month = d.getMonth()+1;
+                    var day = d.getDate();
+
+                    var today = d.getFullYear() + '-' +((''+month).length<2 ? '0' : '') + month + '-' + ((''+day).length<2 ? '0' : '') + day;
+                    getDayCalendar(today);
+                }
+            }
+        },
         headerToolbar: {
             left: 'prev,next',
             center: 'title',
-            right: 'dayGridMonth,multiMonthYear'
+            right: 'customYear,dayGridMonth,customDay'
         },
           
         editable: false,
         droppable: false, // this allows things to be dropped onto the calendar
-        // dayRender: function (date, cell) {
-        //     var today = new Date();
-        //     if (date.getDate() === today.getDate()) {
-        //         cell.css("background-color", "red");
-        //     }
-        // },
         dateClick: function(info) {
             var selectedDate =  info.dateStr;
             var str = info.dayEl;
@@ -1046,12 +1060,30 @@
             },
             success: function( response ) {
                 $('#appointment_calendar').css('display','none'); 
+                $('#year_appointment').css('display','none'); 
                 $('#day_appointment').html(response);
                 $('#day_appointment').css('display','block');
 
                 // $(".vetselect").selectable();
                 sort();
 
+            }
+        });
+    }
+
+    function getYearCalendar(){
+        var selectedDate = '';
+        $.ajax({
+            url: '{{ route("ajax-getyear-appointments") }}',
+            type: "POST",
+            data:  { 
+                date: selectedDate
+            },
+            success: function( response ) {
+                $('#appointment_calendar').css('display','none'); 
+                $('#day_appointment').css('display','none'); 
+                $('#year_appointment').html(response);
+                $('#year_appointment').css('display','block');
             }
         });
     }
@@ -1074,6 +1106,7 @@
     function reloadCalendar(date){ 
         $('#appointment_calendar').css('display','block'); 
         $('#day_appointment').html('');
+        $('#year_appointment').html('');
         var date = moment(date, "YYYY-MM-DD");
             
         calendar.render();

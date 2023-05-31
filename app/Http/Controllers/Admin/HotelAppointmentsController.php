@@ -88,7 +88,7 @@ class HotelAppointmentsController extends Controller
         $result = [];
 		$params['start'] = date('Y-m-d',strtotime($request->get('start')));
 		$params['end'] = date('Y-m-d',strtotime($request->get('end')));
-        $rooms = Hotelrooms::where('room_status', 1)->get()->pluck('room_number','id')->toArray();
+        $rooms = Hotelrooms::where('room_status', 1)->orderBy('room_number','ASC')->get()->pluck('room_number','id')->toArray();
         $roomsCount = count($rooms);
         
         $betweenDates = Helper::getDatesBetween2Dates($params['start'], $params['end']);

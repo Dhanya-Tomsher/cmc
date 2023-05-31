@@ -3,9 +3,9 @@
             <h5>{{ $title }}</h5>
             @if($transfer_date == '')
                 @if($type != 'prescriptions')
-                    <a href="#"  class="btn btn_back waves-effect waves-light" onclick="showAddModal();">Add</a>
+                    <a href="#"  class="btn btn_back waves-effect waves-light" onclick="showAddModal();">Add New</a>
                 @else
-                <a href="#"  class="btn btn_back waves-effect waves-light" onclick="showPrescriptionAddModal();">Add</a>
+                <a href="#"  class="btn btn_back waves-effect waves-light" onclick="showPrescriptionAddModal();">Add New</a>
                 @endif
             @endif
         </div>
@@ -87,21 +87,21 @@
                                 <input class="form-control" type="file" placeholder="Enter Remarks" accept=".jpg,.jpeg,.png,.bmp,.gif,.doc,.docx,.txt,.pdf" name="files[]" multiple  id="files">
                             </div>
 
-                            <div class="col-md-12 mb-2">
+                            <!-- <div class="col-md-12 mb-2">
                                 <label for="address" class="col-form-label">Report Date</label>
                                 <div class="input-group" id="datepicker1">
                                     <input type="text" name="report_date" id="report_date"  class="form-control date-picker"  placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
                                         data-date-container="#datepicker1" data-provide="datepicker"  data-date-autoclose="true"  value="">
                                     <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="col-md-12 mt-3 text-center">
                                 <input type="hidden" name="cat_id" value="{{$cat_id}}">
                                 <input type="hidden" name="type" value="{{$type}}">
                             </div>
                             <div class="col-md-12 mt-3 text-center">
-                                <a href="#" class="btn btn-primary waves-effect waves-light w-lg" onclick="addJournalDetails('{{ $title }}','{{$type}}')">Add</a>
+                                <a href="#" class="btn btn-primary waves-effect waves-light w-lg" onclick="addJournalDetails('{{ $title }}','{{$type}}')">Save</a>
                             </div>
                         </div>
                     </form>
@@ -132,21 +132,21 @@
                                 <textarea class="form-control" type="text" placeholder="Enter Remarks" name="prescription_content" id="prescription_content"> </textarea>
                             </div>
             
-                            <div class="col-md-12 mb-2">
+                            <!-- <div class="col-md-12 mb-2">
                                 <label for="address" class="col-form-label">Date</label>
                                 <div class="input-group" id="datepicker2">
                                     <input type="text" name="pre_date" id="pre_date"  class="form-control date-picker"  placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
                                         data-date-container="#datepicker2" data-provide="datepicker"  data-date-autoclose="true"  value="">
                                     <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="col-md-12 mt-3 text-center">
                                 <input type="hidden" name="cat_id" value="{{$cat_id}}">
                                 <input type="hidden" name="type" value="{{$type}}">
                             </div>
                             <div class="col-md-12 mt-3 text-center">
-                                <a href="#" class="btn btn-primary waves-effect waves-light w-lg" onclick="addJournalPrescriptionDetails('{{ $title }}','{{$type}}')">Add</a>
+                                <a href="#" class="btn btn-primary waves-effect waves-light w-lg" onclick="addJournalPrescriptionDetails('{{ $title }}','{{$type}}')">Save</a>
                             </div>
                         </div>
                     </form>

@@ -14,9 +14,9 @@
                 @endif
             </td>
             <td>
-                <a href="{{ route('hrooms.view', $room) }}" class="px-3 text-primary"><i class="uil uil-eye font-size-18"></i></a>
-                <a href="{{ route('hrooms.edit', $room) }}" class="px-3 text-primary"><i class="uil uil-pen green font-size-18"></i></a>
-                <a href="#" onclick="deleteRoom('{{$room->id}}');" class="px-3 text-primary"><i class="uil uil-trash required font-size-18"></i></a>
+                <a href="{{ route('hrooms.view', $room) }}" class="px-2 btn btn-app"><i class="uil uil-eye font-size-18 text-primary"></i> View</a>
+                <a href="{{ route('hrooms.edit', $room) }}" class="px-2 btn btn-app"><i class="uil uil-pen green font-size-18"></i>Edit</a>
+                <a href="#" onclick="deleteRoom('{{$room->id}}');" class="px-2 btn btn-app"><i class="uil uil-trash required font-size-18"></i>Delete</a>
             </td>
         </tr>
         @endforeach
