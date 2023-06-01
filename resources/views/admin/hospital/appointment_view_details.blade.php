@@ -89,11 +89,11 @@
                     <div class="d-flex align-items-center">
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio" {{ $hosp[0]->is_passport_no == "1" ? 'checked' : '' }} disabled class="form-check-input" value="show">
-                            <label class="form-check-label" for="PassportYes">Yes</label>
+                            <label class="form-check-label mt-1" for="PassportYes">Yes</label>
                         </div>
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio" {{ $hosp[0]->is_passport_no == "0" ? 'checked' : '' }} disabled class="form-check-input" value="hide">
-                            <label class="form-check-label" for="PassportNo">No</label>
+                            <label class="form-check-label mt-1" for="PassportNo">No</label>
                         </div>
                         <input class="form-control" type="text" style="{{ $hosp[0]->is_passport_no == "0" ? 'display:none;' : '' }}" value="{{ $hosp[0]->passport_number }}" readonly>
                     </div>
@@ -105,11 +105,11 @@
                     <div class="d-flex align-items-center">
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio" {{ $hosp[0]->is_emirates_id == "1" ? 'checked' : '' }} disabled class="form-check-input" value="show">
-                            <label class="form-check-label" for="EmiratesYes">Yes</label>
+                            <label class="form-check-label mt-1" for="EmiratesYes">Yes</label>
                         </div>
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio" {{ $hosp[0]->is_emirates_id == "0" ? 'checked' : '' }} disabled class="form-check-input" value="hide">
-                            <label class="form-check-label" for="EmiratesNo">No</label>
+                            <label class="form-check-label mt-1" for="EmiratesNo">No</label>
                         </div>
                         <input class="form-control" type="text" value="{{ $hosp[0]->emirates_id_number }}" style=" {{ $hosp[0]->is_emirates_id == "0" ? 'display:none;' : '' }}" readonly>
                     </div>
@@ -143,11 +143,11 @@
                     <div class="d-flex h-50 align-items-center border-bottom-1">
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio" {{ $hosp[0]->gender == "Male" ? 'checked' : '' }}  disabled  value="Male"  class="form-check-input" value="hide">
-                            <label class="form-check-label" for="GenderMale">Male</label>
+                            <label class="form-check-label mt-1" for="GenderMale">Male</label>
                         </div>
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio" {{ $hosp[0]->gender == "Female" ? 'checked' : '' }}  disabled  value="Female" class="form-check-input" value="show">
-                            <label class="form-check-label"  for="GenderFemale">Female</label>
+                            <label class="form-check-label mt-1"  for="GenderFemale">Female</label>
                         </div>
                     </div>
                 </div>
@@ -158,15 +158,15 @@
                     <div class="d-flex align-items-center">
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio" {{ $hosp[0]->pregnant == "1" ? 'checked' : '' }} value="1"  disabled class="form-check-input">
-                            <label class="form-check-label" for="PregnantYes">Yes</label>
+                            <label class="form-check-label mt-1" for="PregnantYes">Yes</label>
                         </div>
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio" {{ $hosp[0]->pregnant == "0" ? 'checked' : '' }} value="0"  disabled class="form-check-input">
-                            <label class="form-check-label" for="PregnantNo">No</label>
+                            <label class="form-check-label mt-1" for="PregnantNo">No</label>
                         </div>
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio"  {{ $hosp[0]->pregnant == "2" ? 'checked' : '' }} value="2"  disabled class="form-check-input">
-                            <label class="form-check-label"  for="PregnantUnknown">Unknown</label>
+                            <label class="form-check-label mt-1"  for="PregnantUnknown">Unknown</label>
                         </div>
                     </div>
                 </div>
@@ -177,25 +177,25 @@
                     <div class="d-flex align-items-center">
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio"  {{ $hosp[0]->blood_type == "a" ? 'checked' : '' }} value="a" disabled class="form-check-input">
-                            <label class="form-check-label" for="bloodA">A</label>
+                            <label class="form-check-label mt-1" for="bloodA">A</label>
                         </div>
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio"  {{ $hosp[0]->blood_type == "b" ? 'checked' : '' }} value="b" disabled class="form-check-input">
-                            <label class="form-check-label" for="bloodB">B</label>
+                            <label class="form-check-label mt-1" for="bloodB">B</label>
                         </div>
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio"  {{ $hosp[0]->blood_type == "ab" ? 'checked' : '' }} value="ab" disabled class="form-check-input">
-                            <label class="form-check-label" for="bloodAB">AB</label>
+                            <label class="form-check-label mt-1" for="bloodAB">AB</label>
                         </div>
 
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio"  {{ $hosp[0]->blood_type == "mic" ? 'checked' : '' }} value="mic" disabled class="form-check-input">
-                            <label class="form-check-label" for="bloodMic">mic</label>
+                            <label class="form-check-label mt-1" for="bloodMic">mic</label>
                         </div>
 
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio"  {{ $hosp[0]->blood_type == "unknown" ? 'checked' : '' }} value="unknown" disabled class="form-check-input" >
-                            <label class="form-check-label" for="bloodUnknown">Default</label>
+                            <label class="form-check-label mt-1" for="bloodUnknown">Unknown</label>
                         </div>
                     </div>
                 </div>
@@ -205,15 +205,15 @@
                     <div class="d-flex align-items-center">
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio" id="virusYes" value="1" name="virusstatus" {{ $hosp[0]->virus == "1" ? 'checked' : '' }} disabled class="form-check-input">
-                            <label class="form-check-label" for="virusYes">Yes</label>
+                            <label class="form-check-label mt-1" for="virusYes">Yes</label>
                         </div>
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio" id="virusNo" value="0" name="virusstatus" {{ $hosp[0]->virus == "0" ? 'checked' : '' }} disabled class="form-check-input">
-                            <label class="form-check-label" for="virusNo">No</label>
+                            <label class="form-check-label mt-1" for="virusNo">No</label>
                         </div>
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio" id="virusUnknown" value="2" {{ $hosp[0]->virus == "2" ? 'checked' : '' }} disabled name="virusstatus" class="form-check-input">
-                            <label class="form-check-label" for="virusUnknown">Unknown</label>
+                            <label class="form-check-label mt-1" for="virusUnknown">Unknown</label>
                         </div>
                     </div>
                 </div>
@@ -223,11 +223,11 @@
                     <div class="d-flex align-items-center">
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio"  {{ $hosp[0]->neutered == "1" ? 'checked' : '' }} value="1" disabled class="form-check-input">
-                            <label class="form-check-label" for="NeuteredYes">Yes</label>
+                            <label class="form-check-label mt-1" for="NeuteredYes">Yes</label>
                         </div>
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio"  {{ $hosp[0]->neutered == "0" ? 'checked' : '' }} value="0"  disabled class="form-check-input">
-                            <label class="form-check-label" for="NeuteredNo">No</label>
+                            <label class="form-check-label mt-1" for="NeuteredNo">No</label>
                         </div>
                     </div>
                 </div>
@@ -237,11 +237,11 @@
                     <div class="d-flex align-items-center">
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio"  {{ $hosp[0]->neutered_with_us == "1" ? 'checked' : '' }} value="1" disabled class="form-check-input">
-                            <label class="form-check-label" for="NeuteredWithYes">Yes</label>
+                            <label class="form-check-label mt-1" for="NeuteredWithYes">Yes</label>
                         </div>
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio" {{ $hosp[0]->neutered_with_us == "0" ? 'checked' : '' }} value="0" disabled class="form-check-input">
-                            <label class="form-check-label"  for="NeuteredWithNo">No</label>
+                            <label class="form-check-label mt-1"  for="NeuteredWithNo">No</label>
                         </div>
                     </div>
                 </div>
@@ -252,11 +252,11 @@
                     <div class="d-flex align-items-center">
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio" {{ $hosp[0]->spayed == "1" ? 'checked' : '' }} value="1" disabled class="form-check-input">
-                            <label class="form-check-label" for="SpayedYes">Yes</label>
+                            <label class="form-check-label mt-1" for="SpayedYes">Yes</label>
                         </div>
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio" {{ $hosp[0]->spayed == "0" ? 'checked' : '' }} value="0" disabled class="form-check-input" >
-                            <label class="form-check-label" for="SpayedNo">No</label>
+                            <label class="form-check-label mt-1" for="SpayedNo">No</label>
                         </div>
                     </div>
                 </div>
@@ -267,11 +267,11 @@
                     <div class="d-flex align-items-center">
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio" {{ $hosp[0]->castrated == "1" ? 'checked' : '' }} value="1" disabled class="form-check-input">
-                            <label class="form-check-label" for="CastratedYes">Yes</label>
+                            <label class="form-check-label mt-1" for="CastratedYes">Yes</label>
                         </div>
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio" {{ $hosp[0]->castrated == "0" ? 'checked' : '' }} value="0" disabled class="form-check-input">
-                            <label class="form-check-label" for="CastratedNo">No</label>
+                            <label class="form-check-label mt-1" for="CastratedNo">No</label>
                         </div>
                     </div>
                 </div>
@@ -291,15 +291,15 @@
                     <div class="d-flex align-items-center">
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio" id="behaviourGreen" value="1" {{ $hosp[0]->behaviour == "1" ? 'checked' : '' }} disabled name="behaviour" class="form-check-input" >
-                            <label class="form-check-label" for="behaviourGreen">Green</label>
+                            <label class="form-check-label mt-1" for="behaviourGreen">Green</label>
                         </div>
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio" id="behaviourOrange" value="2" {{ $hosp[0]->behaviour == "2" ? 'checked' : '' }}  disabled name="behaviour" class="form-check-input">
-                            <label class="form-check-label" for="behaviourOrange">Orange</label>
+                            <label class="form-check-label mt-1" for="behaviourOrange">Orange</label>
                         </div>
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio" id="behaviourRed" value="3" {{ $hosp[0]->behaviour == "3" ? 'checked' : '' }}  disabled name="behaviour" class="form-check-input" >
-                            <label class="form-check-label" for="behaviourRed">Red</label>
+                            <label class="form-check-label mt-1" for="behaviourRed">Red</label>
                         </div>
                     </div>
                 </div>
@@ -314,29 +314,33 @@
                     <input type="text" class="form-control" value="{{ $hosp[0]->cat_emirate }}" readonly  rows="1"/>
                 </div>
 
-                <div class="col-md-4">
-                    <label for="email" class="col-form-label">Origin / History</label>
-                    <input type="text" class="form-control" rows="1" readonly value="{{ $hosp[0]->origin }}"/>
-                </div>
+                
 
                 <div class="col-md-4">
                     <label for="phone" class="col-form-label">Microchip Number</label>
                     <input class="form-control" type="text" value="{{ $hosp[0]->microchip_number }}" readonly >
                 </div>
+              
 
                 <div class="col-md-4 align-self-end">
                     <label for="emirates-id" class="col-form-label d-block">Dead / Alive</label>
                     <div class="d-flex align-items-center">
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio" {{ $hosp[0]->dead_alive == "1" ? 'checked' : '' }} value="1" disabled class="form-check-input">
-                            <label class="form-check-label" for="Alive">Alive</label>
+                            <label class="form-check-label mt-1" for="Alive">Alive</label>
                         </div>
                         <div class="custom-radio form-check form-check-inline">
                             <input type="radio" {{ $hosp[0]->dead_alive == "0" ? 'checked' : '' }} value="0" disabled class="form-check-input">
-                            <label class="form-check-label" for="Dead">Dead </label>
+                            <label class="form-check-label mt-1" for="Dead">Dead </label>
                         </div>
                     </div>
                 </div>
+
+                <div class="col-md-8">
+                    <label for="email" class="col-form-label">Origin / History</label>
+                    <textarea  class="form-control" rows="4" readonly >{{ $hosp[0]->origin }} </textarea>
+                </div>
+
             </div>
         </div>
         <div class="tab-pane active" id="navtabs-appointmentview" role="tabpanel">

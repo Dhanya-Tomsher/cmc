@@ -26,7 +26,7 @@ use App\Http\Controllers\Admin\FormsController;
 
 Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::get('custom-signature/{cid}', [FormsController::class, 'customSignature'])->name('custom-signature');
-
+    Route::get('dashboard-counts', [DashboardController::class, 'countsApi'])->name('dashboard-counts');
 
     Route::namespace('Auth')->group(function () {
         Route::get('/', [AuthenticatedSessionController::class, 'create'])->name('login');
@@ -195,7 +195,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
         Route::get('custom-form/view/{cid}', [FormsController::class, 'viewCustom'])->name('custom-form.view');
         Route::post('signaturepad',[FormsController::class, 'signatureUpload'])->name('signaturepad.upload');
     
-        Route::get('dashboard-counts', [DashboardController::class, 'countsApi'])->name('dashboard-counts');
+        
     
         Route::get('cats-count', [DashboardController::class, 'catsCountApi'])->name('cats-count');
         Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');

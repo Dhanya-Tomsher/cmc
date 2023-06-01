@@ -85,25 +85,25 @@
                                         <div class="d-flex align-items-center">
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="BloodA" disabled {{ $cat[0]->blood_type == "a" ? 'checked' : '' }} value="a" name="blood_type" class="form-check-input">
-                                                <label class="form-check-label" for="BloodA">A</label>
+                                                <label class="form-check-label mt-1" for="BloodA">A</label>
                                             </div>
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="BloodB" disabled {{ $cat[0]->blood_type == "b" ? 'checked' : '' }} value="b" name="blood_type" class="form-check-input">
-                                                <label class="form-check-label" for="BloodB">B</label>
+                                                <label class="form-check-label mt-1" for="BloodB">B</label>
                                             </div>
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="BloodAB" disabled {{ $cat[0]->blood_type == "ab" ? 'checked' : '' }} value="ab" name="blood_type" class="form-check-input">
-                                                <label class="form-check-label" for="BloodAB">AB</label>
+                                                <label class="form-check-label mt-1" for="BloodAB">AB</label>
                                             </div>
 
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="BloodMic" disabled {{ $cat[0]->blood_type == "mic" ? 'checked' : '' }} value="mic" name="blood_type" class="form-check-input">
-                                                <label class="form-check-label" for="BloodMic">mic</label>
+                                                <label class="form-check-label mt-1" for="BloodMic">mic</label>
                                             </div>
 
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="BloodUnknown" disabled {{ $cat[0]->blood_type == "unknown" ? 'checked' : '' }} value="unknown" name="blood_type" class="form-check-input">
-                                                <label class="form-check-label" for="BloodUnknown">Default</label>
+                                                <label class="form-check-label mt-1" for="BloodUnknown">Unknown</label>
                                             </div>
                                         </div>
                                     </div>
@@ -113,15 +113,15 @@
                                         <div class="d-flex align-items-center">
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="virusYes" value="1" name="virusstatus" disabled {{ $cat[0]->virus == "1" ? 'checked' : '' }} class="form-check-input">
-                                                <label class="form-check-label" for="virusYes">Yes</label>
+                                                <label class="form-check-label mt-1" for="virusYes">Yes</label>
                                             </div>
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="virusNo" value="0" name="virusstatus" disabled {{ $cat[0]->virus == "0" ? 'checked' : '' }} class="form-check-input">
-                                                <label class="form-check-label" for="virusNo">No</label>
+                                                <label class="form-check-label mt-1" for="virusNo">No</label>
                                             </div>
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="virusUnknown" value="2" disabled {{ $cat[0]->virus == "2" ? 'checked' : '' }} name="virusstatus" class="form-check-input">
-                                                <label class="form-check-label" for="virusUnknown">Unknown</label>
+                                                <label class="form-check-label mt-1" for="virusUnknown">Unknown</label>
                                             </div>
                                         </div>
                                     </div>
@@ -131,11 +131,11 @@
                                         <div class="d-flex h-50 align-items-center border-bottom-1">
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="GenderMale" disabled {{ $cat[0]->gender == "Male" ? 'checked' : '' }}  value="Male" name="gender" class="form-check-input" value="hide" >
-                                                <label class="form-check-label" for="GenderMale">Male</label>
+                                                <label class="form-check-label mt-1" for="GenderMale">Male</label>
                                             </div>
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="GenderFemale" disabled {{ $cat[0]->gender == "Female" ? 'checked' : '' }} value="Female" name="gender" class="form-check-input" value="show">
-                                                <label class="form-check-label" for="GenderFemale">Female</label>
+                                                <label class="form-check-label mt-1" for="GenderFemale">Female</label>
                                             </div>
                                         </div>
                                     </div>
@@ -145,11 +145,11 @@
                                         <div class="d-flex align-items-center">
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="NeuteredYes" disabled value="1" {{ $cat[0]->neutered == "1" ? 'checked' : '' }}  name="neutered" class="form-check-input">
-                                                <label class="form-check-label" for="NeuteredYes">Yes</label>
+                                                <label class="form-check-label mt-1" for="NeuteredYes">Yes</label>
                                             </div>
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="NeuteredNo" disabled value="0" {{ $cat[0]->neutered == "0" ? 'checked' : '' }} name="neutered" class="form-check-input">
-                                                <label class="form-check-label" for="NeuteredNo">No</label>
+                                                <label class="form-check-label mt-1" for="NeuteredNo">No</label>
                                             </div>
                                         </div>
                                     </div>
@@ -159,11 +159,11 @@
                                         <div class="d-flex align-items-center">
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="NeuteredWithYes" disabled value="1" {{ $cat[0]->neutered_with_us == "1" ? 'checked' : '' }}  name="neutered_with_us" class="form-check-input">
-                                                <label class="form-check-label" for="NeuteredWithYes">Yes</label>
+                                                <label class="form-check-label mt-1" for="NeuteredWithYes">Yes</label>
                                             </div>
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="NeuteredWithNo" disabled value="0" {{ $cat[0]->neutered_with_us == "0" ? 'checked' : '' }}   name="neutered_with_us" class="form-check-input">
-                                                <label class="form-check-label" for="NeuteredWithNo">No</label>
+                                                <label class="form-check-label mt-1" for="NeuteredWithNo">No</label>
                                             </div>
                                         </div>
                                     </div>
@@ -173,11 +173,11 @@
                                         <div class="d-flex align-items-center">
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="SpayedYes" disabled value="1" {{ $cat[0]->spayed == "1" ? 'checked' : '' }} name="spayed" class="form-check-input">
-                                                <label class="form-check-label" for="SpayedYes">Yes</label>
+                                                <label class="form-check-label mt-1" for="SpayedYes">Yes</label>
                                             </div>
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="SpayedNo" disabled  value="0" {{ $cat[0]->spayed == "0" ? 'checked' : '' }} name="spayed" class="form-check-input">
-                                                <label class="form-check-label" for="SpayedNo">No</label>
+                                                <label class="form-check-label mt-1" for="SpayedNo">No</label>
                                             </div>
                                         </div>
                                     </div>
@@ -187,11 +187,11 @@
                                         <div class="d-flex align-items-center">
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="CastratedYes" disabled value="1" {{ $cat[0]->castrated == "1" ? 'checked' : '' }}  name="castrated" class="form-check-input">
-                                                <label class="form-check-label" for="CastratedYes">Yes</label>
+                                                <label class="form-check-label mt-1" for="CastratedYes">Yes</label>
                                             </div>
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="CastratedNo" disabled value="0" {{ $cat[0]->castrated == "0" ? 'checked' : '' }}  name="castrated" class="form-check-input">
-                                                <label class="form-check-label" for="CastratedNo">No</label>
+                                                <label class="form-check-label mt-1" for="CastratedNo">No</label>
                                             </div>
                                         </div>
                                     </div>
@@ -201,15 +201,15 @@
                                         <div class="d-flex align-items-center">
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="PregnantYes" disabled {{ $cat[0]->pregnant == "1" ? 'checked' : '' }} value="1" name="pregnantstatus" class="form-check-input">
-                                                <label class="form-check-label" for="PregnantYes">Yes</label>
+                                                <label class="form-check-label mt-1" for="PregnantYes">Yes</label>
                                             </div>
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="PregnantNo" disabled {{ $cat[0]->pregnant == "0" ? 'checked' : '' }} value="0" name="pregnantstatus" class="form-check-input">
-                                                <label class="form-check-label" for="PregnantNo">No</label>
+                                                <label class="form-check-label mt-1" for="PregnantNo">No</label>
                                             </div>
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="PregnantUnknown" disabled {{ $cat[0]->pregnant == "2" ? 'checked' : '' }} value="2" name="pregnantstatus" class="form-check-input">
-                                                <label class="form-check-label" for="PregnantUnknown">Unknown</label>
+                                                <label class="form-check-label mt-1" for="PregnantUnknown">Unknown</label>
                                             </div>
                                         </div>
                                     </div>
@@ -229,15 +229,15 @@
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="behaviourGreen" value="1" disabled {{ $cat[0]->behaviour == "1" ? 'checked' : '' }}  name="behaviour" class="form-check-input" >
-                                                    <label class="form-check-label" for="behaviourGreen">Green</label>
+                                                    <label class="form-check-label mt-1" for="behaviourGreen">Green</label>
                                                 </div>
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="behaviourOrange" value="2" disabled {{ $cat[0]->behaviour == "2" ? 'checked' : '' }}  name="behaviour" class="form-check-input">
-                                                    <label class="form-check-label" for="behaviourOrange">Orange</label>
+                                                    <label class="form-check-label mt-1" for="behaviourOrange">Orange</label>
                                                 </div>
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="behaviourRed" value="3" disabled {{ $cat[0]->behaviour == "3" ? 'checked' : '' }}  name="behaviour" class="form-check-input" >
-                                                    <label class="form-check-label" for="behaviourRed">Red</label>
+                                                    <label class="form-check-label mt-1" for="behaviourRed">Red</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -252,11 +252,7 @@
                                         <input type="text" class="form-control" value="{{ $cat[0]->emirate }}" readonly>
                                     </div>
 
-                                    <div class="col-md-6">
-                                        <label for="email" class="col-form-label">Origin / History</label>
-                                        <input type="text" value="{{ $cat[0]->origin }}" name="origin" readonly class="form-control" placeholder="Enter Origin / History">
-                                    </div>
-
+                                    
                                     <div class="col-md-6">
                                         <label for="phone" class="col-form-label">Microchip Number</label>
                                         <input class="form-control" type="text" value="{{ $cat[0]->microchip_number }}" readonly  id="microchip_number">
@@ -267,14 +263,20 @@
                                         <div class="d-flex align-items-center">
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="Alive" disabled value="1" {{ $cat[0]->dead_alive == "1" ? 'checked' : '' }} name="dead_alive" class="form-check-input" checked>
-                                                <label class="form-check-label" for="Alive">Alive</label>
+                                                <label class="form-check-label mt-1" for="Alive">Alive</label>
                                             </div>
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="Dead" disabled value="0" {{ $cat[0]->dead_alive == "0" ? 'checked' : '' }} name="dead_alive"  class="form-check-input">
-                                                <label class="form-check-label" for="Dead">Dead </label>
+                                                <label class="form-check-label mt-1" for="Dead">Dead </label>
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="col-md-12">
+                                        <label for="email" class="col-form-label">Origin / History</label>
+                                        <textarea type="text" rows="4" name="origin" readonly class="form-control" placeholder="Enter Origin / History">{{ $cat[0]->origin }}</textarea>
+                                    </div>
+
 
                                     <!-- <div class="col-md-6">
                                         <label for="phone" class="col-form-label">Status</label>

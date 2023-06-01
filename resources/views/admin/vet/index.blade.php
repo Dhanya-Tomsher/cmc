@@ -50,9 +50,8 @@
                                             <th>Email</th>
                                             <th>Phone Number</th>
                                             <th>Whatsapp</th>
-                                            <th>Status</th>
-                                            <th>View</th>
-                                            <th>Action</th>
+                                            <!-- <th>Status</th> -->
+                                            <th class="text-center">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="vetDetails">
