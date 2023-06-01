@@ -582,6 +582,17 @@ table td.highlighted {
     #pre-content-data-new, #pre-content-data-new * {
         visibility:visible;
     }
+    #print-area-new, #print-area-new * {
+        visibility:visible;
+    }
+    #print-area-new {
+      position:absolute;
+      left:0;
+      top:0;
+      width: 100%;
+      height: 100%;
+      background-color: #fcf7bd !important;
+  }
     #pre-content-data-new {
         position:absolute;
         left:0;
@@ -592,6 +603,12 @@ table td.highlighted {
     }
     .col-md-4{
       width: 33% !important;
+    }
+    .col-md-6{
+      width: 50% !important;
+    }
+    .text-sm-end{
+      text-align:right!important;
     }
     @page { margin: 0; }
     body  { margin: 1.6cm; }

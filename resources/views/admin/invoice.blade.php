@@ -35,7 +35,15 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body" id="print-area">
+                            <div class="col-md-12 text-center" style="">
+                                <img src="{{asset('assets/images/logo.png') }}" style="width:200px;">
+                                    <br>
+                                <span> Cats Medical Center Veterinary Clinic L.L.C. </span><br>
+                                <span><i class="fa fa-map-marker-alt">  Al Murooj complex, downtown Dubai, UAE.</i></span><br>
+                                <span>  <i class="fa fa-mobile-alt"></i>&nbsp;&nbsp;04 320 4204, <i class="fab fa-whatsapp" style="color: green"></i> 04 320 4204</span>
+                            </div>
+
                             <div class="invoice-title">
                                 <h4 class="float-end font-size-16">Invoice #INV{{$invoice[0]->id}} 
                                     @if($invoice[0]->payment_confirmation == 1)
@@ -58,7 +66,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="text-muted text-sm-end">
+                                    <div class="text-muted float-end">
                                         <div>
                                             <h5 class="font-size-16 mb-1">Invoice No:</h5>
                                             <p>#INV{{$invoice[0]->id}}</p>
@@ -141,7 +149,7 @@
                                 </div>
                                 <div class="d-print-none mt-4">
                                     <div class="float-end">
-                                        <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light me-1"><i class="fa fa-print"></i></a>
+                                        <a href="#" onclick="printElement(`print-area`)" class="btn btn-success waves-effect waves-light me-1"><i class="fa fa-print"></i></a>
                                     </div>
                                     <div class="float-end">
                                         <a href="{{ route('generate-pdf',['id' => $invoice[0]->id, 'type' => $invoice[0]->booking_type])}}" target="_blank" class="btn btn-danger waves-effect waves-light me-1">Generate Pdf <i class="fa fa-file-pdf"></i></a>
@@ -218,6 +226,25 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+    function printElement(elem)
+    {
+        var  node = document.getElementById("print-area");
+        var domClone = node.cloneNode(true);
+
+        var $printSection = document.getElementById("print-area-new");
+
+        if (!$printSection) {
+            var $printSection = document.createElement("div");
+            $printSection.id = "print-area-new";
+            document.body.appendChild($printSection);
+        }
+  
+        $printSection.innerHTML = "";
+        $printSection.appendChild(domClone);
+        window.print();
+        $printSection.innerHTML = "";
+    }
 
     function editInvoice(type,id){
         $('#updateInvoice').modal('show');

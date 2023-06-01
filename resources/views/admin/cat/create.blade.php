@@ -97,25 +97,25 @@
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="BloodA" value="a" name="blood_type"  class="form-check-input">
-                                                    <label class="form-check-label" for="BloodA">A</label>
+                                                    <label class="form-check-label mt-1" for="BloodA">A</label>
                                                 </div>
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="BloodB" value="b" name="blood_type" class="form-check-input">
-                                                    <label class="form-check-label" for="BloodB">B</label>
+                                                    <label class="form-check-label mt-1" for="BloodB">B</label>
                                                 </div>
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="BloodAB" value="ab" name="blood_type" class="form-check-input">
-                                                    <label class="form-check-label" for="BloodAB">AB</label>
+                                                    <label class="form-check-label mt-1" for="BloodAB">AB</label>
                                                 </div>
 
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="BloodMic" value="mic" name="blood_type" class="form-check-input">
-                                                    <label class="form-check-label" for="BloodMic">mic</label>
+                                                    <label class="form-check-label mt-1" for="BloodMic">mic</label>
                                                 </div>
 
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="BloodUnknown" value="unknown" name="blood_type"  class="form-check-input" checked>
-                                                    <label class="form-check-label" for="BloodUnknown">Default</label>
+                                                    <label class="form-check-label mt-1" for="BloodUnknown">Unknown</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -125,15 +125,15 @@
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="virusYes" value="1" name="virusstatus" class="form-check-input">
-                                                    <label class="form-check-label" for="virusYes">Yes</label>
+                                                    <label class="form-check-label mt-1" for="virusYes">Yes</label>
                                                 </div>
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="virusNo" value="0" name="virusstatus" class="form-check-input">
-                                                    <label class="form-check-label" for="virusNo">No</label>
+                                                    <label class="form-check-label mt-1" for="virusNo">No</label>
                                                 </div>
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="virusUnknown" value="2"  name="virusstatus" class="form-check-input" checked>
-                                                    <label class="form-check-label" for="virusUnknown">Unknown</label>
+                                                    <label class="form-check-label mt-1" for="virusUnknown">Unknown</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -143,11 +143,11 @@
                                             <div class="d-flex h-50 align-items-center border-bottom-1">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="GenderMale" value="Male" name="gender" class="form-check-input" value="hide" checked>
-                                                    <label class="form-check-label" for="GenderMale">Male</label>
+                                                    <label class="form-check-label mt-1" for="GenderMale">Male</label>
                                                 </div>
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="GenderFemale" value="Female" name="gender" class="form-check-input" value="show">
-                                                    <label class="form-check-label" for="GenderFemale">Female</label>
+                                                    <label class="form-check-label mt-1" for="GenderFemale">Female</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -157,11 +157,11 @@
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="NeuteredYes" value="1" name="neutered" class="form-check-input">
-                                                    <label class="form-check-label" for="NeuteredYes">Yes</label>
+                                                    <label class="form-check-label mt-1" for="NeuteredYes">Yes</label>
                                                 </div>
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="NeuteredNo" value="0" name="neutered" class="form-check-input" checked>
-                                                    <label class="form-check-label" for="NeuteredNo">No</label>
+                                                    <label class="form-check-label mt-1" for="NeuteredNo">No</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -171,11 +171,11 @@
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="NeuteredWithYes" value="1" name="neutered_with_us" class="form-check-input">
-                                                    <label class="form-check-label" for="NeuteredWithYes">Yes</label>
+                                                    <label class="form-check-label mt-1" for="NeuteredWithYes">Yes</label>
                                                 </div>
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="NeuteredWithNo" value="0"  name="neutered_with_us" class="form-check-input" checked>
-                                                    <label class="form-check-label" for="NeuteredWithNo">No</label>
+                                                    <label class="form-check-label mt-1" for="NeuteredWithNo">No</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -185,11 +185,11 @@
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="SpayedYes" value="1" name="spayed" class="form-check-input">
-                                                    <label class="form-check-label" for="SpayedYes">Yes</label>
+                                                    <label class="form-check-label mt-1" for="SpayedYes">Yes</label>
                                                 </div>
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="SpayedNo" value="0" name="spayed" class="form-check-input" checked>
-                                                    <label class="form-check-label" for="SpayedNo">No</label>
+                                                    <label class="form-check-label mt-1" for="SpayedNo">No</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -199,11 +199,11 @@
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="CastratedYes" value="1" name="castrated" class="form-check-input">
-                                                    <label class="form-check-label" for="CastratedYes">Yes</label>
+                                                    <label class="form-check-label mt-1" for="CastratedYes">Yes</label>
                                                 </div>
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="CastratedNo" value="0" name="castrated" class="form-check-input" checked>
-                                                    <label class="form-check-label" for="CastratedNo">No</label>
+                                                    <label class="form-check-label mt-1" for="CastratedNo">No</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -212,15 +212,15 @@
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="PregnantYes" value="1" name="pregnantstatus" class="form-check-input">
-                                                    <label class="form-check-label" for="PregnantYes">Yes</label>
+                                                    <label class="form-check-label mt-1" for="PregnantYes">Yes</label>
                                                 </div>
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="PregnantNo" value="0" name="pregnantstatus" class="form-check-input">
-                                                    <label class="form-check-label" for="PregnantNo">No</label>
+                                                    <label class="form-check-label mt-1" for="PregnantNo">No</label>
                                                 </div>
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="PregnantUnknown" value="2"  name="pregnantstatus" class="form-check-input" checked>
-                                                    <label class="form-check-label"
+                                                    <label class="form-check-label mt-1"
                                                         for="PregnantUnknown">Unknown</label>
                                                 </div>
                                             </div>
@@ -241,15 +241,15 @@
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="behaviourGreen" value="1" name="behaviour" class="form-check-input" checked>
-                                                    <label class="form-check-label" for="behaviourGreen">Green</label>
+                                                    <label class="form-check-label mt-1" for="behaviourGreen">Green</label>
                                                 </div>
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="behaviourOrange" value="2" name="behaviour" class="form-check-input">
-                                                    <label class="form-check-label" for="behaviourOrange">Orange</label>
+                                                    <label class="form-check-label mt-1" for="behaviourOrange">Orange</label>
                                                 </div>
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="behaviourRed" value="3"  name="behaviour" class="form-check-input" >
-                                                    <label class="form-check-label" for="behaviourRed">Red</label>
+                                                    <label class="form-check-label mt-1" for="behaviourRed">Red</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -278,10 +278,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-md-6">
-                                            <label for="email" class="col-form-label">Origin / History<span class="required">*</span></label>
-                                            <input type="text" name="origin" class="form-control" placeholder="Enter Origin / History">
-                                        </div>
+                                       
 
                                         <div class="col-md-6">
                                             <label for="phone" class="col-form-label">Microchip Number<span class="required">*</span></label>
@@ -293,14 +290,19 @@
                                             <div class="d-flex align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="Alive" value="1" name="dead_alive" class="form-check-input" checked>
-                                                    <label class="form-check-label" for="Alive">Alive</label>
+                                                    <label class="form-check-label mt-1" for="Alive">Alive</label>
                                                 </div>
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="Dead" value="0" name="dead_alive" class="form-check-input">
-                                                    <label class="form-check-label" for="Dead">Dead </label>
+                                                    <label class="form-check-label mt-1" for="Dead">Dead </label>
                                                 </div>
 
                                             </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label for="email" class="col-form-label">Origin / History<span class="required">*</span></label>
+                                            <textarea name="origin" class="form-control" placeholder="Enter Origin / History"></textarea>
                                         </div>
                                         <div class="col-md-12 align-self-end mt-5">
                                             <div class="">

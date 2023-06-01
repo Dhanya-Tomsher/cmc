@@ -186,7 +186,7 @@
                                         <span id="to_error" class="error" style="display:none;"> To time is required </span>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <!-- <div class="col-md-4">
                                         <label for="country" class="col-form-label">Status</label>
                                         <select class="form-select form-control" name="status">
                                             <option {{ $vet->status == 'published' ? 'selected' : '' }} value="published">
@@ -195,7 +195,7 @@
                                             <option {{ $vet->status == 'draft' ? 'selected' : '' }} value="draft">Draft
                                             </option>
                                         </select>
-                                    </div>
+                                    </div> -->
 
                                     <div class="col-md-4 align-self-end mt-3">
                                         <div class="">
