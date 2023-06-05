@@ -21,7 +21,7 @@
 
                 </div>
                 <div class="d-flex align-items-center justify-content-between mb-3">
-                    <a onclick="window.location=document.referrer;" href="javascript:void" class="btn btn_back waves-effect waves-light"> <i class="uil-angle-left-b"></i> Back</a>
+                    <a href="{{ route('hrooms.index') }}" class="btn btn_back waves-effect waves-light"> <i class="uil-angle-left-b"></i> Back</a>
                 </div>
             </div>
         </div>

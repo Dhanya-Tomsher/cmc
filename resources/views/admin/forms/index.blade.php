@@ -107,15 +107,24 @@
                     type: "POST",
                     data: { id:id },
                     success: function( response ) {
-                        $('#appid_'+id).css('background','#f9a8a8');
-                        $('#appid_'+id).fadeOut(900,function(){
-                            $(this).remove();
-                        });
-                        Swal.fire(
-                            'Deleted successfully',
-                            '',
-                            'success'
-                        );
+                        if(response == 1){
+                            $('#appid_'+id).css('background','#f9a8a8');
+                            $('#appid_'+id).fadeOut(900,function(){
+                                $(this).remove();
+                            });
+                            Swal.fire(
+                                'Deleted successfully',
+                                '',
+                                'success'
+                            );
+                        }else{
+                            Swal.fire(
+                                '',
+                                'Deletion is not possible. Customer forms already generated.',
+                                'error'
+                            );
+                        }
+                        
                     }
                 });
             } 
