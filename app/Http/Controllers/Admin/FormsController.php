@@ -26,7 +26,13 @@ class FormsController extends Controller
    
     public function delete(Request $request)
     {
-        Forms::where('id',$request->id)->delete();
+        $checkAssigned = CustomForms::where('form_id',$request->id)->count();
+        if($checkAssigned == 0){
+            Forms::where('id',$request->id)->delete();
+            echo 1;
+        }else{
+            echo 0;
+        }
     }
  
     public function store(Request $request)
@@ -118,6 +124,11 @@ class FormsController extends Controller
     }
     public function customFormDelete(Request $request)
     {
+        $check = CustomForms::where('id',$request->id)->get();
+        $presentImage = $check[0]->signature_url;
+        if($presentImage != '' && File::exists(public_path($presentImage))){
+            unlink(public_path($presentImage));
+        }
         CustomForms::where('id',$request->id)->delete();
     }
 

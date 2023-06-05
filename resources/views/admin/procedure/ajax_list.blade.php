@@ -12,7 +12,7 @@
                 @endif
             </td>
             <td>
-                <a href="#" class="px-2 btn btn-app" onclick="editProdcedure({{$pro}});"><i class="uil uil-pen green font-size-18 text-primary"></i>View</a>
+                <a href="#" class="px-2 btn btn-app" onclick="editProdcedure({{$pro}});"><i class="uil uil-pen green font-size-18 text-primary"></i>Edit</a>
                 <a href="#" onclick="deleteProdcedure('{{$pro->id}}');" class="px-2 btn btn-app"><i class="uil uil-trash required font-size-18"></i>Delete</a>
             </td>
         </tr>
