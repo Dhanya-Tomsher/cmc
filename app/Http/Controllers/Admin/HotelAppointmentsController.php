@@ -141,6 +141,8 @@ class HotelAppointmentsController extends Controller
         $rooms = [];
         if($startDate != '' && $endDate != ''){
             $dates = Helper::getDatesBetween2Dates($startDate, $endDate);
+            $availableRooms[] = Hotelrooms::where('room_status', 1)
+                                ->orderBy('room_number','ASC')->get()->pluck('id')->toArray();
             foreach($dates as $date){
                 $availableRooms[]  = Hotelrooms::where('room_status', 1)
                                     ->whereNotIN('id', DB::table('hotel_appointments')->whereRaw('"'.$date.'" between start_date and end_date')->get()->pluck('room_number'))
@@ -289,6 +291,8 @@ class HotelAppointmentsController extends Controller
         $rooms = [];
         if($startDate != '' && $endDate != ''){
             $dates = Helper::getDatesBetween2Dates($startDate, $endDate);
+            $availableRooms[] = Hotelrooms::where('room_status', 1)
+                                ->orderBy('room_number','ASC')->get()->pluck('id')->toArray();
             foreach($dates as $date){
                 $availableRooms[]  = Hotelrooms::where('room_status', 1)
                                     ->whereNotIN('id', DB::table('hotel_appointments')->whereRaw('"'.$date.'" between start_date and end_date')->get()->pluck('room_number'))
