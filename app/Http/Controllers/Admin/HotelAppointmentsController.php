@@ -146,8 +146,8 @@ class HotelAppointmentsController extends Controller
                                     ->orderBy('room_number','ASC')->get()->pluck('id')->toArray();
             }
             
-            // $inter = array_intersect(...$availableRooms);
-            $inter = call_user_func_array('array_intersect', $availableRooms);
+            $inter = array_intersect(...$availableRooms);
+            // $inter = call_user_func_array('array_intersect', $availableRooms);
             $rooms  = Hotelrooms::select('id','room_number','amount')
                                     ->where('room_status', 1)
                                     ->whereIN('id', $inter)
