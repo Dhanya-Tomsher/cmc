@@ -73,7 +73,7 @@ class InvoiceController extends Controller
             'net' => $request->net, 
             'vat' => $request->vat, 
             'net_vat' => $request->net_vat, 
-            'service_charge' => $request->service_charge, 
+            'service_charge' => ($request->service_charge) ? $request->service_charge : 0, 
             'total' => $request->total, 
             'updated_at' => date('Y-m-d H:i:s')
         ]);

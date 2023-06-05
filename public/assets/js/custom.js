@@ -64,6 +64,15 @@ $(document).ready(function(){
 
     
 });
+
+    function getNextYear(date){
+        var oneYearFromNow = new Date(date);
+        return (oneYearFromNow.getFullYear() + 1);
+    }
+    function getPreviousYear(date){
+        var oneYearFromNow = new Date(date);
+        return (oneYearFromNow.getFullYear() - 1);
+    }
     function getPreviousDay(date){
         var date = new Date(date);
         date.setDate(date.getDate() - 1);

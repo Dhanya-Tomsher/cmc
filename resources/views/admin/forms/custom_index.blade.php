@@ -183,7 +183,6 @@
                     type: "POST",
                     data: { id:id },
                     success: function( response ) {
-                        console.log('#appid_'+id);
                         $('#appid_'+id).css('background','#f9a8a8');
                         $('#appid_'+id).fadeOut(900,function(){
                             $(this).remove();

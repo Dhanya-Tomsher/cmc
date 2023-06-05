@@ -53,6 +53,7 @@
                         <div class="card" id="external-events">
                             <div class="card-body">
                                 <div id="vet_schedule_calendar"></div>
+                                <div id="year_appointment" style="display:none;"></div>
                             </div>
                         </div>
                     </div> <!-- end col -->
@@ -66,14 +67,20 @@
 @endsection
 
 @push('header')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.2/main.css">
+<link rel="stylesheet" href="{{ asset('assets/css/fullcalendar/main.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/libs/select2/css/select2.min.css') }}" />
+<style>
+   
+    .year_colum{
+        font-weight : 700;
+    }
+</style>
 @endpush
 
 @push('scripts')
 <script src="{{ asset('assets/libs/select2/js/select2.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.2/main.js"></script>
+<script src="{{ asset('assets/js/fullcalendar/main.js') }}"></script>
 <script>
     $('#vet_id').select2({
         placeholder: 'Select Vet',
@@ -98,11 +105,24 @@
             calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 events: url,
-                aspectRatio: 1.75,
+                // aspectRatio: 1.75,
+                
+                customButtons: {
+                    customYear: {
+                        text: 'Year',
+                        click: function() {
+                            var date = new Date();
+                            var month = date.getMonth()+1;
+                            month = (month.length<2 ? '0' : '') + month;
+                            var year = date.getFullYear();
+                            getYearCalendar(month, year);
+                        }
+                    }
+                },
                 headerToolbar: {
                     left: 'prev,next',
                     center: 'title',
-                    right: ''
+                    right: 'customYear,dayGridMonth'
                 },
                 eventBackgroundColor:'#fff',
                 textColor: 'black',
@@ -145,7 +165,15 @@
             });
 
             calendar.render();
+           
         }
+
+        function reloadCalendarFirst(date){ 
+            $('#vet_schedule_calendar').css('display','block'); 
+            $('#year_appointment').html('');
+            calendar.gotoDate(date);
+        }
+       
         function addItem(value){
             var idx = $.inArray(value, selectedDatesForRemove);
             if (idx !== -1) {
@@ -209,12 +237,43 @@
             selectedDatesForAdd = [];
             selectedDatesForRemove = [];
             vet_id = $(this).val();
+            $('#vet_schedule_calendar').css('display','block'); 
+            $('#year_appointment').html('');
             calendar.destroy();
             loadCalendar();
         });
+        
+        
+       
     });
     
-   
+    function reloadCalendar(date){ 
+        $('#vet_schedule_calendar').css('display','block'); 
+        $('#year_appointment').html('');
+        calendar.gotoDate(date);
+    }
+
+    function nextYear(date){
+        var nextYear = getNextYear(date);
+        getYearCalendar('01',nextYear);
+    }
+    function previousYear(date){
+        var preYear = getPreviousYear(date);
+        getYearCalendar('01',preYear);
+    }
+    function getYearCalendar(month, year){
+            var selectedDate = '';
+            $.ajax({
+                url: '{{ route("ajax-getyear-schedules") }}',
+                type: "POST",
+                data:  { "_token": "{{ csrf_token() }}", "month": month, "year" : year, "vet_id":vet_id},
+                success: function( response ) {
+                    $('#vet_schedule_calendar').css('display','none'); 
+                    $('#year_appointment').html(response);
+                    $('#year_appointment').css('display','block');
+                }
+            });
+        }
     
 </script>
 @endpush

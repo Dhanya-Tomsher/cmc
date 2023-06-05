@@ -18,15 +18,15 @@
         <div class="fc-toolbar-chunk">
             <div class="fc-button-group fc-button-group-custom">
                 <button class="fc-prev-button  fc-prev-button-custom fc-button fc-button-primary"
-                    onclick="getYearCalendar()" id="y_view" type="button" aria-label="prev">
+                    onclick="getYearCalendar(`{{date('m')}}`,`{{date('Y')}}`)" id="y_view" type="button" aria-label="prev">
                     Year
                 </button>
                 <button class="fc-prev-button  fc-prev-button-custom fc-button fc-button-primary"
-                    onclick="reloadCalendar('{{ $date }}')" id="month_view" type="button" aria-label="prev">
+                    onclick="reloadCalendar(`{{ date('Y-m-d') }}`)" id="month_view" type="button" aria-label="prev">
                     Month
                 </button>
                 <button class="fc-prev-button  fc-prev-button-custom fc-button fc-button-primary"
-                    onclick="getDayCalendar('{{ $date }}')" id="month_view" type="button" aria-label="prev">
+                    onclick="getDayCalendar(`{{ date('Y-m-d') }}`)" id="month_view" type="button" aria-label="prev">
                     Day
                 </button>
             </div>

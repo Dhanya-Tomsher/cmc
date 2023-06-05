@@ -31,6 +31,7 @@
                         <div class="card" id="external-events">
                             <div class="card-body">
                                 <div id="hotel_appointment_calendar"></div>
+                                <div id="year_appointment" style="display:none;"></div>
                             </div>
                         </div>
                     </div> <!-- end col -->
@@ -532,6 +533,9 @@
         font-size: 18px;
         padding: 7%;
     }
+    .year_colum{
+        font-weight : 700;
+    }
     </style>
 @endpush
 
@@ -569,11 +573,23 @@
                return true;
             }
         },
+        customButtons: {
+            customYear: {
+                text: 'Year',
+                click: function() {
+                    var date = new Date();
+                    var month = date.getMonth()+1;
+                    month = (month.length<2 ? '0' : '') + month;
+                    var year = date.getFullYear();
+                    getYearCalendar(month, year);
+                }
+            }
+        },
         eventColor: '#ff0000',
         headerToolbar: {
             left: 'prev,next',
             center: 'title',
-            right: ''
+            right: 'customYear,dayGridMonth'
         },
         
         editable: false,
@@ -581,8 +597,6 @@
         select: function(start, end, jsEvent, view) {   
             startDate = start.startStr;
             endDate = getPreviousDay(start.endStr);
-
-            console.log(startDate);
             if( $("td[data-date='"+startDate+"']").find('.fc-event').hasClass('fully-booked')){
                 Swal.fire(
                 '',
@@ -983,21 +997,35 @@
         $('#navtabs-cat-details,#navtabs-appointment').css('display','none');
     });
 
-    function getDayCalendar(selectedDate){
+
+    function reloadCalendar(date){ 
+        $('#hotel_appointment_calendar').css('display','block'); 
+        $('#year_appointment').html('');
+        calendar.gotoDate(date);
+    }
+
+    function getYearCalendar(month, year){
+        var selectedDate = '';
         $.ajax({
-            url: '{{ route("ajax-getday-appointments") }}',
+            url: '{{ route("ajax-getyear-hotelAppointments") }}',
             type: "POST",
-            data:  { 
-                date: selectedDate
-            },
+            data:  { "_token": "{{ csrf_token() }}","month": month, "year" : year},
             success: function( response ) {
                 $('#hotel_appointment_calendar').css('display','none'); 
-                $('#day_appointment').html(response);
-                $('#day_appointment').css('display','block');
+                $('#year_appointment').html(response);
+                $('#year_appointment').css('display','block');
             }
         });
     }
-   
+
+    function nextYear(date){
+        var nextYear = getNextYear(date);
+        getYearCalendar('01',nextYear);
+    }
+    function previousYear(date){
+        var preYear = getPreviousYear(date);
+        getYearCalendar('01',preYear);
+    }
     
 // });
    

@@ -16,6 +16,9 @@ use App\Http\Requests\UpdateHotelAppointmentsRequest;
 use Illuminate\Http\Request;
 use Helper;
 use DB;
+use DateTime;
+use DateInterval;
+use DatePeriod;
 
 class HotelAppointmentsController extends Controller
 {
@@ -164,14 +167,16 @@ class HotelAppointmentsController extends Controller
             'caretaker_comment' => $request->remarks,
             'payment_type' => $request->payment_type
         ]);
-
+        $vat = ($request->price/100) * 5;  // 5% VAT calculation
+        $total = $request->price + $vat;
         $data = array(
             'booking_id' => $hotel->id,
             'booking_type' => 'hotel_booking',
             'price' => $request->price, 
             'net' => $request->price, 
-            'net_vat' => $request->price, 
-            'total' => $request->price, 
+            'vat' => $vat,
+            'net_vat' => $total, 
+            'total' => $total, 
             'invoice_date' => date('Y-m-d')
         );
         Invoices::create($data);
@@ -320,4 +325,44 @@ class HotelAppointmentsController extends Controller
             'payment_confirmation' => $request->status
         ]);
     }
+
+    public function ajaxGetYearHotelAppointments(Request $request){
+        $month = $request->month; 
+        $year = $request->year; 
+
+        $date = $year.'-'.$month.'-01';
+        $newYear = date("Y",strtotime ( '+1 year' , strtotime ( $date ) ));
+        $newMonth = date("m",strtotime ( '+1 month' , strtotime ( $date ) ));
+        
+        $startMonthWord = ($year == date('Y') && $month == date('m') ) ?  date("M",strtotime ($date)) : 'Jan';
+        $endMonthWord = ($year == date('Y') && $month == date('m') ) ?  date("M",strtotime ($date)) : 'Dec';
+
+        if(($year == date('Y') && $month == date('m') )){
+            $start    = (new DateTime($year.'-'.$month.'-01'));
+            $end      = (new DateTime($newYear.'-'.$newMonth.'-01'));
+        }else{
+            $start    = (new DateTime($year.'-01-01'));
+            $end      = (new DateTime($year.'-12-31'));
+            $newYear = $year;
+        }
+        
+        $interval = DateInterval::createFromDateString('1 month');
+        $period   = new DatePeriod($start, $interval, $end);
+        $result = [];
+        $i = 0;
+        foreach ($period as $dt) {
+           
+            $vetnames = '';
+            $rooms = Hotelrooms::where('room_status', 1)->orderBy('room_number','ASC')->get()->pluck('room_number','id')->toArray();   
+            $result[$i]['rooms'] = implode('<br>',array_unique($rooms));
+            $result[$i]['year'] = $dt->format("Y");
+            $result[$i]['month'] = $dt->format("m");
+            $result[$i]['name'] = $dt->format("M-Y");
+            $i++; 
+        }
+
+        $viewData = view('admin.hote.year_appointment', compact('month','startMonthWord','endMonthWord','year','newYear','result'))->render();
+        return $viewData;
+    }
+
 }

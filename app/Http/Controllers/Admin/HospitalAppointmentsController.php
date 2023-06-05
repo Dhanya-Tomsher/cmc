@@ -20,6 +20,8 @@ use App\Models\HospitalAppointments;
 use DB;
 use DateTime;
 use Helper;
+use DateInterval;
+use DatePeriod;
 
 
 class HospitalAppointmentsController extends Controller
@@ -208,14 +210,16 @@ class HospitalAppointmentsController extends Controller
                     'reason' => $request->remarks,
                     'payment_type' => $request->payment_type
                 ]);
-
+                $vat = ($request->price/100) * 5;  // 5% VAT calculation
+                $total = $request->price + $vat;
                 $data[] = array(
                     'booking_id' => $hosp->id,
                     'booking_type' => 'hospital_appointment',
                     'price' => $request->price, 
                     'net' => $request->price, 
-                    'net_vat' => $request->price, 
-                    'total' => $request->price, 
+                    'vat' => $vat,
+                    'net_vat' => $total, 
+                    'total' => $total, 
                     'invoice_date' => date('Y-m-d'),
                     'created_at' => date('Y-m-d H:i:s'),
                     'updated_at' => date('Y-m-d H:i:s')
@@ -387,7 +391,7 @@ class HospitalAppointmentsController extends Controller
             }
         }
         $hosp = $query->orderBy('hospital_appointments.id','DESC')
-        ->get(['hospital_appointments.payment_confirmation','hospital_appointments.created_at','procedures.name as procedure_name','hospital_appointments.id','hospital_appointments.date_appointment','hospital_appointments.time_appointment','vets.name','cats.cat_id','caretakers.customer_id','caretakers.name as caretaker_name','cats.name as cat_name']);
+        ->get(['hospital_appointments.payment_confirmation','vets.is_deleted as vet_deleted','hospital_appointments.created_at','procedures.name as procedure_name','hospital_appointments.id','hospital_appointments.date_appointment','hospital_appointments.time_appointment','vets.name','cats.cat_id','caretakers.customer_id','caretakers.name as caretaker_name','cats.name as cat_name']);
      
         $viewData = view('admin.hospital.ajax_list', compact('hosp'))->render();
 
@@ -441,6 +445,7 @@ class HospitalAppointmentsController extends Controller
                             ->leftJoin('vetschedules as vs','vs.vet_id','=','vets.id')
                             ->where('vets.status', 'published')
                             ->where('vs.date', $hosp[0]->date_appointment)
+                            ->where('vets.is_deleted',0)
                             ->orderBy('vets.name','ASC')
                             ->get();
         
@@ -458,6 +463,7 @@ class HospitalAppointmentsController extends Controller
                             ->leftJoin('vetschedules as vs','vs.vet_id','=','vets.id')
                             ->where('vets.status', 'published')
                             ->where('vs.date', $request->date)
+                            ->where('vets.is_deleted',0)
                             ->orderBy('vets.name','ASC')
                             ->get();
         return json_encode($vets);
@@ -516,9 +522,80 @@ class HospitalAppointmentsController extends Controller
     }
 
     public function ajaxGetYearAppointments(Request $request){
-        $date = $request->date; 
+        $month = $request->month; 
+        $year = $request->year; 
+
+        $date = $year.'-'.$month.'-01';
+        $newYear = date("Y",strtotime ( '+1 year' , strtotime ( $date ) ));
+        $newMonth = date("m",strtotime ( '+1 month' , strtotime ( $date ) ));
         
-        $viewData = view('admin.hospital.year_appointment', compact('date'))->render();
+        $startMonthWord = ($year == date('Y') && $month == date('m') ) ?  date("M",strtotime ($date)) : 'Jan';
+        $endMonthWord = ($year == date('Y') && $month == date('m') ) ?  date("M",strtotime ($date)) : 'Dec';
+
+        if(($year == date('Y') && $month == date('m') )){
+            $start    = (new DateTime($year.'-'.$month.'-01'));
+            $end      = (new DateTime($newYear.'-'.$newMonth.'-01'));
+        }else{
+            $start    = (new DateTime($year.'-01-01'));
+            $end      = (new DateTime($year.'-12-31'));
+            $newYear = $year;
+        }
+        
+        $interval = DateInterval::createFromDateString('1 month');
+        $period   = new DatePeriod($start, $interval, $end);
+        $result = [];
+        $i = 0;
+        foreach ($period as $dt) {
+           
+            $vetnames = '';
+           
+            $vets = Vetschedule::selectRaw('GROUP_CONCAT(vets.name) as vet_name,YEAR(vetschedules.date) as year, MONTH(vetschedules.date) as month')
+                            ->leftJoin('vets','vetschedules.vet_id','=','vets.id')
+                            ->where('vetschedules.status', 'published')
+                            ->where('vets.status', 'published')
+                            ->whereYear('vetschedules.date',$dt->format("Y"))
+                            ->whereMonth('vetschedules.date',$dt->format("m"))
+                            ->groupBy('year','month')
+                            ->get();
+                          
+            if(isset($vets[0])){
+                $vetnames =  ($vets[0]) ? $vets[0]['vet_name'] : '';
+            }         
+            $vetnames = explode(',',$vetnames);     
+            $result[$i]['vet'] = implode('<br>',array_unique($vetnames));
+            $result[$i]['year'] = $dt->format("Y");
+            $result[$i]['month'] = $dt->format("m");
+            $result[$i]['name'] = $dt->format("M-Y");
+            $i++; 
+        }
+
+        $viewData = view('admin.hospital.year_appointment', compact('month','startMonthWord','endMonthWord','year','newYear','result'))->render();
         return $viewData;
+    }
+
+    public function getScheduledVets(Request $request, $vet_id =NULL){
+        $result = [];
+		$params['start'] = date('Y-m-d',strtotime($request->get('start')));
+		$params['end'] = date('Y-m-d',strtotime($request->get('end')));
+        $schedules = Vetschedule::getVetSchedulesByDates($params);
+		
+        if($schedules){
+            $i=0;
+            foreach($schedules as $data){
+                $date = $data->date;
+				$color = $this->getSlotAvailabiltyColor($date,$data->vet_ids,$data->vet_name);
+				$response = json_decode($color);
+				
+                $result[$i]['title'] = implode(' <br> ',$response->vetNames);
+                $result[$i]['start'] = $date;
+                $result[$i]['end'] = $date;
+                $result[$i]['display'] = 'background';
+				$result[$i]['allDay'] = true;
+				$result[$i]['className'] = ($response->count != 0) ? 'scheduled' : 'fully-booked';
+                $i++;
+            }
+        }
+	
+        return response()->json($result);
     }
 }

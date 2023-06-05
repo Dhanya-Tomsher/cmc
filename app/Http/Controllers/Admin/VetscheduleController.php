@@ -7,6 +7,9 @@ use App\Models\Vetschedule;
 use App\Models\VetShifts;
 use App\Models\HospitalAppointments;
 use DB;
+use DateTime;
+use DateInterval;
+use DatePeriod;
 
 class VetScheduleController extends Controller
 {
@@ -174,4 +177,50 @@ public function index(Request $request)
 										->count();
 		return $count;
 	}
+
+	public function ajaxGetYearSchedules(Request $request){
+        $month = $request->month; 
+        $year = $request->year; 
+
+        $date = $year.'-'.$month.'-01';
+        $newYear = date("Y",strtotime ( '+1 year' , strtotime ( $date ) ));
+        $newMonth = date("m",strtotime ( '+1 month' , strtotime ( $date ) ));
+        
+        $startMonthWord = ($year == date('Y') && $month == date('m') ) ?  date("M",strtotime ($date)) : 'Jan';
+        $endMonthWord = ($year == date('Y') && $month == date('m') ) ?  date("M",strtotime ($date)) : 'Dec';
+
+        if(($year == date('Y') && $month == date('m') )){
+            $start    = (new DateTime($year.'-'.$month.'-01'));
+            $end      = (new DateTime($newYear.'-'.$newMonth.'-01'));
+        }else{
+            $start    = (new DateTime($year.'-01-01'));
+            $end      = (new DateTime($year.'-12-31'));
+            $newYear = $year;
+        }
+        
+        $interval = DateInterval::createFromDateString('1 month');
+        $period   = new DatePeriod($start, $interval, $end);
+        $result = [];
+        $i = 0;
+        foreach ($period as $dt) {
+           
+            $vetnames = '';
+           
+            $vets =  Vetschedule::select("date")
+								->where('status', 'published')
+								->whereYear('date',$dt->format("Y"))
+                            	->whereMonth('date',$dt->format("m"))
+								->where('vet_id',$request->vet_id)
+								->get();
+										        
+            $result[$i]['vet'] = (isset($vets[0])) ? 1 : 0 ;
+            $result[$i]['year'] = $dt->format("Y");
+            $result[$i]['month'] = $dt->format("m");
+            $result[$i]['name'] = $dt->format("M-Y");
+            $i++; 
+        }
+
+        $viewData = view('admin.vet.year_schedule', compact('month','startMonthWord','endMonthWord','year','newYear','result'))->render();
+        return $viewData;
+    }
 }	
