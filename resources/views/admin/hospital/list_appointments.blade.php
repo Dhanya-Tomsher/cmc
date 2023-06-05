@@ -628,7 +628,7 @@
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes!'
         }).then(function(result) {
-            console.log(result);
+           
             if (result.isConfirmed) {
                 var data = []
                 $.ajaxSetup({
@@ -641,7 +641,6 @@
                     type: "POST",
                     data: { id:id },
                     success: function( response ) {
-                        console.log('#appid_'+id);
                         $('#appid_'+id).css('background','#f9a8a8');
                         $('#appid_'+id).fadeOut(900,function(){
                             $(this).remove();
@@ -760,7 +759,6 @@
                     $.each(returnedData, function(index, value) {
                         var selected = '';
                         if($.inArray($.trim(value), slot) != -1){
-                            console.log('inarray slot='+value);
                             selected = "selected='selected'";
                         }
                         html += '<option value="'+value+'" '+selected+'>'+value+'</option>';
@@ -1119,7 +1117,7 @@
                         }else{
                             html = '<a class="payment_confirmed" onclick="changePaymentStatus('+id+',0);"><i class="fas fa-check"></i></a>';
                         }
-                        console.log(html);
+                    
                         $('#payment_'+id).html(html);
                         
                         Swal.fire(

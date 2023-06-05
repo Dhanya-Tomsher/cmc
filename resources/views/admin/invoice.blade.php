@@ -190,7 +190,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label class="col-form-label">Net + VAT</label>
-                                        <input class="form-control" type="text"  id="net_vat" name="net_vat" value="{{$invoice[0]->net_vat}}" placeholder="Net + VAT">
+                                        <input class="form-control" readonly type="text"  id="net_vat" name="net_vat" value="{{$invoice[0]->net_vat}}" placeholder="Net + VAT">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="col-form-label">Service Charge</label>
@@ -251,47 +251,71 @@
     }
 
     $('#price').on('input', function() {
-        var price = parseInt($(this).val());
-        var vat = parseInt($('#vat').val());
-        var service = parseInt($('#service_charge').val());
+        var price = parseFloat($(this).val());
+        var vat = parseFloat($('#vat').val());
+        var service = parseFloat($('#service_charge').val());
+        service = service ? service :0;
+        var net_vat = price+vat;
+        net_vat = (net_vat) ? net_vat : 0;
 
-        $('#net_vat').val(price+vat);
-        $('#net').val(price);
-        $('#total').val(price+vat+service);
+        var total = price+vat+service;
+        total = (total) ? total :0;
+
+        $('#net_vat').val(net_vat);
+        $('#net').val((price) ? price : 0);
+        $('#total').val(total);
     });
 
     $('#vat').on('input', function() {
-        var vat = parseInt($(this).val());
-        var net = parseInt($('#net').val());
-        var service = parseInt($('#service_charge').val());
+        var vat = parseFloat($(this).val());
+        var net = parseFloat($('#net').val());
+        var service = parseFloat($('#service_charge').val());
+        service = service ? service :0;
+        var net_vat = net+vat;
+        net_vat = (net_vat) ? net_vat : 0;
 
-        $('#net_vat').val(net+vat);
-        $('#total').val(net+vat+service);
+        var total = net+vat+service;
+        total = (total) ? total :0;
+
+        $('#net_vat').val(net_vat);
+        $('#total').val(total);
     });
 
     $('#net').on('input', function() {
-        var net = parseInt($(this).val());
-        var vat = parseInt($('#vat').val());
-        var service = parseInt($('#service_charge').val());
+        var net = parseFloat($(this).val());
+        var vat = parseFloat($('#vat').val());
+        var service = parseFloat($('#service_charge').val());
+        service = service ? service :0;
+        var net_vat = net+vat;
+        net_vat = (net_vat) ? net_vat : 0;
 
-        $('#net_vat').val(net+vat);
-        $('#total').val(net+vat+service);
+        var total = net+vat+service;
+        total = (total) ? total :0;
+
+        $('#net_vat').val(net_vat);
+        $('#total').val(total);
     });
 
     $('#service_charge').on('input', function() {
-        var service = parseInt($(this).val());
-        var net_vat = parseInt($('#net_vat').val());
+        var service = parseFloat($(this).val());
+        var net_vat = parseFloat($('#net_vat').val());
+        service = service ? service :0;
+        var total = net_vat+service;
+        total = (total) ? total :0;
 
-        $('#total').val(net_vat+service);
+        $('#total').val(total);
     });
 
 
     $("#invoiceUpdate").validate({
         rules: {
             price: "required",
+            vat: "required",
+            net_vat: "required",
+            net: "required",
         },
         messages: {
-            price: "Please enter price"
+            
         },
         submitHandler: function(e) { 
             var data = new FormData($('#invoiceUpdate')[0]);

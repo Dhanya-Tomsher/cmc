@@ -576,6 +576,9 @@
         color: #9e9304 !important;
         text-transform: uppercase !important;
     }
+    .year_colum{
+        font-weight : 700;
+    }
 
     </style>
 @endpush
@@ -620,7 +623,11 @@
             customYear: {
                 text: 'Year',
                 click: function() {
-                    getYearCalendar();
+                    var date = new Date();
+                    var month = date.getMonth()+1;
+                    month = (month.length<2 ? '0' : '') + month;
+                    var year = date.getFullYear();
+                    getYearCalendar(month, year);
                 }
             },
             customDay: {
@@ -943,14 +950,11 @@
             success: function( response ) {
                 var html='';
                 var returnedData = JSON.parse(response);
-                console.log(slot);
-                console.log(returnedData);
                 $.each(returnedData, function(index, value) {
                     var selected = '';
-                    console.log(value);
+                    
                     if($.inArray($.trim(value), slot) != -1){
-                        console.log('inarray slot='+value);
-                        selected = "selected='selected'";
+                       selected = "selected='selected'";
                     }
                     html += '<option value="'+value+'" '+selected+'>'+value+'</option>';
                 });  
@@ -1076,14 +1080,12 @@
         });
     }
 
-    function getYearCalendar(){
+    function getYearCalendar(month, year){
         var selectedDate = '';
         $.ajax({
             url: '{{ route("ajax-getyear-appointments") }}',
             type: "POST",
-            data:  { 
-                date: selectedDate
-            },
+            data:  { "month": month, "year" : year},
             success: function( response ) {
                 $('#appointment_calendar').css('display','none'); 
                 $('#day_appointment').css('display','none'); 
@@ -1112,9 +1114,9 @@
         $('#appointment_calendar').css('display','block'); 
         $('#day_appointment').html('');
         $('#year_appointment').html('');
-        var date = moment(date, "YYYY-MM-DD");
-            
-        calendar.render();
+        // var date = moment(date, "YYYY-MM-DD");
+        // $("#appointment_calendar").fullCalendar( 'gotoDate', date );
+        calendar.gotoDate(date);
     }
 
     function nextDay(date){
@@ -1124,6 +1126,15 @@
     function previousDay(date){
         var preDay = getPreviousDay(date);
         getDayCalendar(preDay);
+    }
+
+    function nextYear(date){
+        var nextYear = getNextYear(date);
+        getYearCalendar('01',nextYear);
+    }
+    function previousYear(date){
+        var preYear = getPreviousYear(date);
+        getYearCalendar('01',preYear);
     }
     
 

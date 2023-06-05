@@ -35,7 +35,7 @@
                         <div class="card-body py-4">
                             <form action="#">
                                 <div class="row mb-3">
-                                    <div class="col-6">
+                                    <div class="col-10">
                                         <div class="avatar-upload caretaker_dp">
                                             <div class="avatar-preview">
                                                 <div id="imagePreview"
@@ -43,6 +43,9 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="col-2 text-center p-2">
+                                        <a class="btn btn-danger waves-effect waves-light w-xl me-2 p-3" onclick="delete_Vet('{{ $vet[0]->id }}');" id="deleteVet">Delete Vet</a>
                                     </div>
                                 </div>
 
@@ -153,4 +156,48 @@
     </div>
 @endsection
 @push('header')
+@endpush
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function delete_Vet(id){
+        var el = this;
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you want to delete this Vet?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!'
+        }).then(function(result) {
+            if (result.isConfirmed) {
+                var data = []
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: "{{ route('vet.delete')}}",
+                    type: "POST",
+                    data: { id:id },
+                    success: function( response ) {
+                    
+                        Swal.fire(
+                            'Deleted successfully',
+                            '',
+                            'success'
+                        );
+                        setTimeout(function() {
+                            window.location.href = "{{ route('vet.index')}}";
+                        }, 2000);
+                    }
+                });
+            } 
+            
+        })
+    }
+</script>
 @endpush

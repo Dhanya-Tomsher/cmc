@@ -23,7 +23,7 @@ use App\Http\Controllers\Admin\FormsController;
 //     return redirect()->route('login');
 // });
 
-
+Route::get('/', [AuthenticatedSessionController::class, 'create'])->name('login');
 Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::get('custom-signature/{cid}', [FormsController::class, 'customSignature'])->name('custom-signature');
     Route::get('dashboard-counts', [DashboardController::class, 'countsApi'])->name('dashboard-counts');
@@ -130,6 +130,8 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
         Route::get('get-vet-schedules/{vet_id}',[VetscheduleController::class,'getVetSchedules'])->name('get-vet-schedule');
         Route::post('save-vet-schedule',[VetscheduleController::class,'saveVetSchedule'])->name('save-vet-schedule');
         Route::post('vet.list', [VetController::class, 'getVetList'])->name('vet.list');
+        Route::post('vet/delete', [VetController::class, 'delete'])->name('vet.delete');
+        Route::post('ajax-getyear-schedules',[VetscheduleController::class,'ajaxGetYearSchedules'])->name('ajax-getyear-schedules');
     
         Route::get('hospital-appointments',[HospitalAppointmentsController::class,'getAppointments'])->name('hospital-appointments');
         Route::get('caretaker-search',[HospitalAppointmentsController::class,'searchCaretaker'])->name('ajax-autocomplete-caretaker-search');
@@ -162,6 +164,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
         Route::post('booking.edit', [HotelAppointmentsController::class, 'editBookings'])->name('booking.edit');
         Route::post('get-available-edit-rooms',[HotelAppointmentsController::class,'getAvailableEditRooms'])->name('get-available-edit-rooms');
         Route::post('hotel-payment-status',[HotelAppointmentsController::class,'changePaymentStatus'])->name('hotel-payment-status');
+        Route::post('ajax-getyear-hotelAppointments',[HotelAppointmentsController::class,'ajaxGetYearHotelAppointments'])->name('ajax-getyear-hotelAppointments');
 
         Route::get('manage-hospital-appointments',[HospitalAppointmentsController::class,'manageHospitalAppointments'])->name('manage-hospital-appointments');
         // Route::get('appointment/list', [HospitalAppointmentsController::class, 'getAppointmentList'])->name('appointment.list');

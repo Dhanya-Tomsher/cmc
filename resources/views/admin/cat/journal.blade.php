@@ -220,7 +220,7 @@
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes!'
         }).then(function(result) {
-            console.log(result);
+           
             if (result.isConfirmed) {
                 var data = []
                 $.ajax({
@@ -354,7 +354,7 @@
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes!'
         }).then(function(result) {
-            console.log(result);
+           
             if (result.isConfirmed) {
                 var data = []
                 $.ajax({
@@ -363,7 +363,7 @@
                     data: { jid:jid },
                     success: function( response ) {
                         var resData = JSON.parse(response);
-                        console.log(resData);
+                        
                         $('#dataid_'+jid).css('background','#f9a8a8');
                         $('#dataid_'+jid).fadeOut(900,function(){
                             $(this).remove();
@@ -417,7 +417,7 @@
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes!'
         }).then(function(result) {
-            console.log(result);
+           
             if (result.isConfirmed) {
                 var data = []
                 $.ajax({
@@ -450,8 +450,6 @@
         var html = '';
         $.each(result, function(index1, value1) {
             var fileExt =  value1.substr( (value1.lastIndexOf('.') +1) );
-          
-            console.log(fileExt);
             switch(fileExt) {
                 case 'jpg':
                 case 'jpeg':
@@ -633,7 +631,7 @@
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes!'
         }).then(function(result) {
-            console.log(result);
+          
             if (result.isConfirmed) {
                 var data = []
                 $.ajax({

@@ -214,7 +214,7 @@
                                                 <td class="text-center">{{ $cat->gender }}</td>
                                                 <td  class="text-center">
                                                     @php  
-                                                        $transfer_status = (Helper::getCatCaretakerLatestStatus($cat->id,$caretaker[0]->id) == 1) ? '<a href=""><span class="badge bg-soft-danger font-size-12 text-uppercase">Transferred</span></a>' : '';
+                                                        $transfer_status = (Helper::getCatCaretakerLatestStatus($cat->id,$caretaker[0]->id) == 1) ? '<span class="badge bg-soft-danger font-size-12 text-uppercase">Transferred</span>' : '';
                                                     @endphp
                                                     {!! $transfer_status !!}
                                                 </td>

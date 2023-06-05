@@ -184,7 +184,7 @@ class VetController extends Controller
     }
     public function getVetList(Request $request){
         $search = $request->search;
-        $query  = Vet::select('id','name', 'email', 'phone_number', 'whatsapp_number', 'status');
+        $query  = Vet::select('id','name', 'email', 'phone_number', 'whatsapp_number', 'status')->where('is_deleted',0);
         if($search){  
             $query->Where(function ($query) use ($search) {
                 $query->orWhere('name', 'LIKE', '%'.$search . '%')
@@ -197,6 +197,16 @@ class VetController extends Controller
         $viewData = view('admin.vet.ajax_list', compact('vet'))->render();
 
         return $viewData;
+    }
+
+    public function delete(Request $request){
+        $vet = Vet::find($request->id);
+        $vet->is_deleted = 1;
+        $vet->save();
+
+        $bookingDates = HospitalAppointments::where('date_appointment' ,'>',date('Y-m-d'))->pluck('date_appointment')->toArray();
+       
+        $vetSchedules = VetSchedule::where('date' ,'>',date('Y-m-d'))->whereNotIn('date',$bookingDates)->delete();
     }
    
 }

@@ -175,7 +175,8 @@
             border-style: solid;
             border-width: 2px;
         }
-        body,.card-body { background-color: #fdfad6 !important; }
+        body,.card-body {     background-color: #fbf5b6;
+    background-image: linear-gradient(#FAF39F, white); }
        
     </style> 
 </head> 

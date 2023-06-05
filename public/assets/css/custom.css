@@ -497,6 +497,9 @@ table td.highlighted {
     font-size: 20px !important;
     font-weight: 700 !important;
 }
+.f-18{
+  font-size: 18px !important;
+}
 .w-100{
   width: 100% !important;
 }
@@ -574,7 +577,28 @@ table td.highlighted {
   text-align: center;
   font-size: 13px;
 }
+.year_warpper{
 
+  display: flex;
+flex-wrap: wrap;
+justify-content: flex-start;
+border: 1px solid #9b9a9a;
+background-color: #fff;
+padding: 15px;
+
+}
+.year_warpper .year_colum{
+  background-color: #fff;
+min-height: 225px;
+flex-basis: 20%;
+border: 1px solid #efeeee;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-wrap: wrap;
+flex-direction: column;
+
+}
 @media print {
     body * {
         visibility:hidden;

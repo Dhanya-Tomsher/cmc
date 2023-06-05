@@ -5,7 +5,7 @@
             <td>{{ $i }} </td>
             <td>{{ $app->date_appointment }} </td>
             <td>{{ $app->time_appointment }} </td>
-            <td>{{ $app->name }} </td>
+            <td>{!! ($app->vet_deleted == 1) ? '<span class="required"><b>'.$app->name.'</b></span>' : $app->name !!} </td>
             <td>{{ $app->caretaker_name }} </td>
             <!-- <td>{{ $app->customer_id }} </td> -->
             <td>{{ $app->cat_name }} </td>

@@ -20,6 +20,7 @@ class Vet extends Model
     public static function getActiveVets(){
         $vets = Vet::select("id","name")
                     ->where('status', 'published')
+                    ->where('is_deleted',0)
                     ->orderBy('name','ASC')
                     ->get();
 
