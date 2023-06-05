@@ -141,8 +141,7 @@ class HotelAppointmentsController extends Controller
         $rooms = [];
         if($startDate != '' && $endDate != ''){
             $dates = Helper::getDatesBetween2Dates($startDate, $endDate);
-            $availableRooms[] = Hotelrooms::where('room_status', 1)
-                                ->orderBy('room_number','ASC')->get()->pluck('id')->toArray();
+           
             foreach($dates as $date){
                 $availableRooms[]  = Hotelrooms::where('room_status', 1)
                                     ->whereNotIN('id', DB::table('hotel_appointments')->whereRaw('"'.$date.'" between start_date and end_date')->get()->pluck('room_number'))
@@ -150,7 +149,12 @@ class HotelAppointmentsController extends Controller
             }
             
             // $inter = array_intersect(...$availableRooms);
-            $inter = call_user_func_array('array_intersect', $availableRooms);
+            
+            if(count($availableRooms) >1){
+                $inter = call_user_func_array('array_intersect', $availableRooms);
+            }else{
+                $inter = $availableRooms[0];
+            }
             $rooms  = Hotelrooms::select('id','room_number','amount')
                                     ->where('room_status', 1)
                                     ->whereIN('id', $inter)
@@ -291,8 +295,6 @@ class HotelAppointmentsController extends Controller
         $rooms = [];
         if($startDate != '' && $endDate != ''){
             $dates = Helper::getDatesBetween2Dates($startDate, $endDate);
-            $availableRooms[] = Hotelrooms::where('room_status', 1)
-                                ->orderBy('room_number','ASC')->get()->pluck('id')->toArray();
             foreach($dates as $date){
                 $availableRooms[]  = Hotelrooms::where('room_status', 1)
                                     ->whereNotIN('id', DB::table('hotel_appointments')->whereRaw('"'.$date.'" between start_date and end_date')->get()->pluck('room_number'))
@@ -300,7 +302,12 @@ class HotelAppointmentsController extends Controller
             }
             
             // $inter = array_intersect(...$availableRooms);
-            $inter = call_user_func_array('array_intersect', $availableRooms);
+            
+            if(count($availableRooms) >1){
+                $inter = call_user_func_array('array_intersect', $availableRooms);
+            }else{
+                $inter = $availableRooms[0];
+            }
             if( $editStart == $startDate && $editEnd == $endDate){
                 array_unshift($inter , $request->editRoom);
             }
