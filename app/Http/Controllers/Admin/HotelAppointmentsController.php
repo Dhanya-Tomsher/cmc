@@ -137,7 +137,8 @@ class HotelAppointmentsController extends Controller
     public function getAvailableRooms(Request $request){
         $startDate = $request->startDate;
         $endDate = $request->endDate;
-        $availableRooms = $rooms = [];
+        $availableRooms = array();
+        $rooms = [];
         if($startDate != '' && $endDate != ''){
             $dates = Helper::getDatesBetween2Dates($startDate, $endDate);
             foreach($dates as $date){
@@ -146,8 +147,8 @@ class HotelAppointmentsController extends Controller
                                     ->orderBy('room_number','ASC')->get()->pluck('id')->toArray();
             }
             
-            $inter = array_intersect(...$availableRooms);
-            // $inter = call_user_func_array('array_intersect', $availableRooms);
+            // $inter = array_intersect(...$availableRooms);
+            $inter = call_user_func_array('array_intersect', $availableRooms);
             $rooms  = Hotelrooms::select('id','room_number','amount')
                                     ->where('room_status', 1)
                                     ->whereIN('id', $inter)
@@ -284,7 +285,8 @@ class HotelAppointmentsController extends Controller
         $editStart = $request->editStart;
         $editEnd = $request->editEnd;
         
-        $availableRooms = $rooms = [];
+        $availableRooms = array();
+        $rooms = [];
         if($startDate != '' && $endDate != ''){
             $dates = Helper::getDatesBetween2Dates($startDate, $endDate);
             foreach($dates as $date){
@@ -293,8 +295,8 @@ class HotelAppointmentsController extends Controller
                                     ->orderBy('room_number','ASC')->get()->pluck('id')->toArray();
             }
             
-            $inter = array_intersect(...$availableRooms);
-           
+            // $inter = array_intersect(...$availableRooms);
+            $inter = call_user_func_array('array_intersect', $availableRooms);
             if( $editStart == $startDate && $editEnd == $endDate){
                 array_unshift($inter , $request->editRoom);
             }
