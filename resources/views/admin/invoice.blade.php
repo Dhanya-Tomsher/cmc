@@ -252,17 +252,41 @@
 
     $('#price').on('input', function() {
         var price = parseFloat($(this).val());
-        var vat = parseFloat($('#vat').val());
+    
         var service = parseFloat($('#service_charge').val());
         service = service ? service :0;
-        var net_vat = price+vat;
+
+        price = (price) ? price : 0
+        var newVat = (price != 0) ? (price/100)*5 : 0;
+
+        var net_vat = price+newVat;
         net_vat = (net_vat) ? net_vat : 0;
 
-        var total = price+vat+service;
+        var total = price+newVat+service;
         total = (total) ? total :0;
 
         $('#net_vat').val(net_vat);
-        $('#net').val((price) ? price : 0);
+        $('#net').val(price);
+        $('#vat').val(newVat);
+        $('#total').val(total);
+    });
+
+    $('#net').on('input', function() {
+        var net = parseFloat($(this).val());
+        var service = parseFloat($('#service_charge').val());
+        service = service ? service :0;
+        
+        net = (net) ? net : 0
+        var newVat = (net != 0) ? (net/100)*5 : 0;
+
+        var net_vat = net+newVat;
+        net_vat = (net_vat) ? net_vat : 0;
+
+        var total = net+newVat+service;
+        total = (total) ? total :0;
+        
+        $('#vat').val(newVat);
+        $('#net_vat').val(net_vat);
         $('#total').val(total);
     });
 
@@ -281,20 +305,7 @@
         $('#total').val(total);
     });
 
-    $('#net').on('input', function() {
-        var net = parseFloat($(this).val());
-        var vat = parseFloat($('#vat').val());
-        var service = parseFloat($('#service_charge').val());
-        service = service ? service :0;
-        var net_vat = net+vat;
-        net_vat = (net_vat) ? net_vat : 0;
-
-        var total = net+vat+service;
-        total = (total) ? total :0;
-
-        $('#net_vat').val(net_vat);
-        $('#total').val(total);
-    });
+    
 
     $('#service_charge').on('input', function() {
         var service = parseFloat($(this).val());
