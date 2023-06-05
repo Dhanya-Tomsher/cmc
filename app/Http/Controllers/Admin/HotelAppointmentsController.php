@@ -107,7 +107,7 @@ class HotelAppointmentsController extends Controller
                 $result[$i]['end'] = $bdate;
                 $result[$i]['display'] = 'background';
                 $result[$i]['allDay'] = true;
-                $result[$i]['className'] = ($response->count != 0) ? 'scheduled' : '';
+                $result[$i]['className'] = ($response->count != 0) ? 'scheduled' : 'fully-booked';
                 $i++;
             }
         }
