@@ -40,6 +40,10 @@
         width: 100% !important;
         height: auto;
     }
+    .main-content{
+        margin-left: 0;
+        margin-bottom : 300px;
+    }
     </style>
 </head>
 
@@ -51,7 +55,7 @@
     <div id="layout-wrapper">
 
         {{-- Main Content Start --}}
-        <div class="main-content" style="margin: 2% 10% 2%;">
+        <div class="main-content" style="padding:10%;">
             <div class="">
                 <div class="container-fluid">
 
