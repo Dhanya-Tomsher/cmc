@@ -12,7 +12,6 @@ use App\Models\Tabs;
 use DB;
 use Validator;
 use File;
-use Storage;
 
 class FormsController extends Controller
 {
@@ -147,22 +146,26 @@ class FormsController extends Controller
 
     public function signatureUpload(Request $request)
     {
-	    $image_parts = explode(";base64,", $request->signature); 
+	    $folderPath = public_path('storage/signatures/');
+        if(!File::isDirectory($folderPath)){
+            File::makeDirectory($folderPath, 0777, true, true);
+        }  
+	  
+	    $image_parts = explode(";base64,", $request->signature);
+	        
 	    $image_type_aux = explode("image/", $image_parts[0]);
+	      
 	    $image_type = $image_type_aux[1];
+	      
 	    $image_base64 = base64_decode($image_parts[1]);
+	      
+	     
         $filename = uniqid() . '.'.$image_type;
-        $imageUrl = '';
-        
-        $name = Storage::disk('public')->putFileAs(
-            'signatures',
-            $image_base64,
-            $filename
-        );
-        $imageUrl = Storage::url($name);
-        
+        $file = $folderPath . $filename;
+	    file_put_contents($file, $image_base64);
+
         $form = CustomForms::find($request->cid);
-        $form->signature_url = $imageUrl;
+        $form->signature_url = 'storage/signatures/'.$filename;
         $form->signed_date = date('Y-m-d');
         $form->signed_status = 1;
         $form->save();
