@@ -41,7 +41,7 @@
         height: auto;
     }
     .main-content{
-        margin-left: 0;
+        margin-left: 0 !important;
         margin-bottom : 300px;
     }
     </style>
@@ -55,21 +55,29 @@
     <div id="layout-wrapper">
 
         {{-- Main Content Start --}}
-        <div class="main-content" style="padding:10%;">
+        <div class="main-content" style="padding:4%;">
             <div class="">
                 <div class="container-fluid">
 
                     <div class="row">
+                        
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body py-4">
+                                    <div class="col-sm-12 text-center" style="">
+                                        <img src="{{asset('assets/images/logo.png') }}" style="width:200px;">
+                                            <br>
+                                        <span> Cats Medical Center Veterinary Clinic L.L.C. </span><br>
+                                        <span><i class="fa fa-map-marker-alt"> Location : Al Murooj complex, downtown Dubai, UAE.</i></span><br>
+                                        <span>Contact :  <i class="fa fa-mobile-alt"></i>&nbsp;&nbsp;04 320 4204, <i class="fab fa-whatsapp" style="color: green"></i> 04 320 4204</span>
+                                    </div>
                                     @if(isset($form[0]))
                                         @if(session()->has('success'))
                                         <div class="col-md-6 offset-md-3 alert alert-success">
                                             {{ session()->get('success') }}
                                         </div>
                                         @endif
-                                        <div class="row">
+                                        <div class="row" style="margin-top: 3%;">
                                             <div class="col-md-8 offset-md-2 border">
                                                 <div class="col-md-12 text-center">
                                                     <h3>{{$form[0]['form_title']}}</h3>

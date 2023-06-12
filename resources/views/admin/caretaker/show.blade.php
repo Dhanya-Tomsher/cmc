@@ -210,7 +210,7 @@
                                                     <a href="{{ route('caretaker.cat.view', $cat) }}"><img class="rounded-circle avatar-md" alt="200x200" src="{{ asset($cat->image_url) }} " data-holder-rendered="true"> </a>
                                                 @endif
                                                 </td>
-                                                <td class="text-center">{{ $cat->cat_id }}</td>
+                                                <td class="text-center">{{ $cat->catID }}</td>
                                                 <td class="text-center">{{ $cat->gender }}</td>
                                                 <td  class="text-center">
                                                     @php  

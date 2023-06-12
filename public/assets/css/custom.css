@@ -456,6 +456,13 @@ background: white !important;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
+.ml-1{
+  margin-left: 1%;
+}
+.div-center{
+  margin: auto;
+  text-align: center;
+}
 .vet-name{
   font-size: 16px !important;
 }
@@ -599,6 +606,15 @@ flex-wrap: wrap;
 flex-direction: column;
 
 }
+.mt-10{
+  margin-top: 10% !important;
+}
+.mt-20{
+  margin-top: 20% !important;
+}
+.padding-invoice{
+  padding: 0.4rem 0.75rem !important;
+}
 @media print {
     body * {
         visibility:hidden;
@@ -629,6 +645,9 @@ flex-direction: column;
       width: 33% !important;
     }
     .col-md-6{
+      width: 50% !important;
+    }
+    .col-sm-6{
       width: 50% !important;
     }
     .text-sm-end{

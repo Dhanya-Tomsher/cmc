@@ -24,9 +24,13 @@ use App\Http\Controllers\Admin\FormsController;
 // });
 
 Route::get('/', [AuthenticatedSessionController::class, 'create'])->name('login');
+
 Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::get('custom-signature/{cid}', [FormsController::class, 'customSignature'])->name('custom-signature');
     Route::get('dashboard-counts', [DashboardController::class, 'countsApi'])->name('dashboard-counts');
+    Route::get('signature/{tab}', [FormsController::class, 'signatureTab'])->name('signature');
+    // Route::get('get-tab-view', [FormsController::class, 'getTabData'])->name('get-tab-view');
+
 
     Route::namespace('Auth')->group(function () {
         Route::get('/', [AuthenticatedSessionController::class, 'create'])->name('login');
@@ -42,6 +46,12 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
         Route::get('dashboard-cat-search',[DashboardController::class,'searchCat'])->name('dashboard-cat-search');
         Route::post('dashboard-caretaker-list', [DashboardController::class, 'getCaretakerList'])->name('dashboard-caretaker-list');
         
+        Route::get('users', [HomeController::class, 'users'])->name('users');
+        Route::get('user/create', [HomeController::class, 'create'])->name('user.create');
+        Route::post('users/store', [HomeController::class, 'store'])->name('users.store');
+        Route::get('users/edit/{user}', [HomeController::class, 'edit'])->name('user.edit');
+        Route::post('user/delete', [HomeController::class, 'delete'])->name('user.delete');
+
         Route::get('caretaker', [CaretakerController::class, 'index'])->name('caretaker.index');
         Route::get('caretaker/create', [CaretakerController::class, 'create'])->name('caretaker.create');
         Route::get('caretaker/view/{caretaker}', [CaretakerController::class, 'view'])->name('caretaker.view');
@@ -79,11 +89,13 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
 
         Route::get('invoice', [InvoiceController::class, 'index'])->name('invoice.index');
         Route::get('invoice/create', [InvoiceController::class, 'create'])->name('invoice.create');
-        Route::get('invoice/view', [InvoiceController::class, 'view'])->name('invoice.view');
-        Route::get('invoice/edit', [InvoiceController::class, 'edit'])->name('invoice.edit');
+        Route::get('invoice/view/{id}', [InvoiceController::class, 'view'])->name('invoice.view');
+        Route::get('invoice/edit/{id}', [InvoiceController::class, 'edit'])->name('invoice.edit');
         Route::get('invoice/search', [InvoiceController::class, 'search'])->name('invoice.search');
         Route::post('invoice/store', [InvoiceController::class, 'store'])->name('invoice.store');
         Route::post('invoice/update', [InvoiceController::class, 'update'])->name('invoice.update');
+        Route::get('/invoice-generatepdf/{id}', [InvoiceController::class, 'generateCustomInvoicePDF'])->name('generate-custom-pdf');
+        Route::post('invoice/delete', [InvoiceController::class, 'delete'])->name('invoice.delete');
     
         Route::get('get-hospital-invoice/{invoice}', [InvoiceController::class, 'getHospitalInvoiceDetails'])->name('get-hospital-invoice');
         Route::post('update-invoice-data', [InvoiceController::class, 'updateInvoice'])->name('update-invoice-data');
@@ -197,8 +209,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
         Route::post('custom-form.delete', [FormsController::class, 'customFormDelete'])->name('custom-form.delete');
         Route::get('custom-form/view/{cid}', [FormsController::class, 'viewCustom'])->name('custom-form.view');
         Route::post('signaturepad',[FormsController::class, 'signatureUpload'])->name('signaturepad.upload');
-    
-        
+        Route::post('update-tab-link',[FormsController::class, 'updateTabLink'])->name('update-tab-link');
     
         Route::get('cats-count', [DashboardController::class, 'catsCountApi'])->name('cats-count');
         Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');

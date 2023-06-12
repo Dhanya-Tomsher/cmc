@@ -69,29 +69,29 @@
 
             </li>
 
-
             <li>
-                <a href="{{ route('vet.index') }}" class=" waves-effect">
-                    <i class="uil-user"></i>
-                    <span>Manage Vets </span>
-                </a>
-            </li>
-
-            <li>
-                <a href="{{ route('vet.schedule') }}" class=" waves-effect">
-                    <i class="uil-calendar-alt"></i>
-                    <span>Vets Work Schedule </span>
-                </a>
-            </li>
-
-            
-            <!-- <li>
                 <a href="{{ route('invoice.index') }}" class=" waves-effect">
                     <i class="uil-invoice"></i>
-                    <span>Invoice </span>
+                    <span>Custom Invoices </span>
                 </a>
-            </li> -->
+            </li>
 
+            @if (Auth::user()->user_type == 'admin')
+                <li>
+                    <a href="{{ route('vet.index') }}" class=" waves-effect">
+                        <i class="uil-user"></i>
+                        <span>Manage Vets </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('vet.schedule') }}" class=" waves-effect">
+                        <i class="uil-calendar-alt"></i>
+                        <span>Vets Work Schedule </span>
+                    </a>
+                </li>
+            @endif
+            
             <li>
                 <a href="{{ route('caretaker.index') }}" class=" waves-effect">
                     <i class="uil-users-alt"></i>
@@ -129,7 +129,14 @@
                     <li><a href="{{ route('custom-forms') }}">Customer Forms </a></li>
                 </ul>
             </li>
-
+            @if (Auth::user()->user_type == 'admin')
+                <li>
+                    <a href="{{ route('users') }}" class=" waves-effect">
+                        <i class="uil-user"></i>
+                        <span>User Management </span>
+                    </a>
+                </li>
+            @endif
         </ul>
     </div>
     <!-- Sidebar -->

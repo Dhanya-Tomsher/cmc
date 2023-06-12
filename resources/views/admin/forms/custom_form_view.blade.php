@@ -26,9 +26,11 @@
                     <div class="search_warpper w-60">
                         <a onclick="window.location=document.referrer;" href="javascript:void" class="btn btn_back waves-effect waves-light"> <i class="uil-angle-left-b"></i> Back</a>
                     </div>
-                    <div class="btn_group">
-                        <a href="{{ route('custom-signature',$form[0]['id']) }}" target="_blank" class="btn btn_back waves-effect waves-light">Get Customer Signature Form</a>
-                    </div>
+                    @if($form[0]['signed_status'] == 0)
+                        <div class="btn_group">
+                            <a href="#" class="btn btn_back waves-effect waves-light" onclick="sendToTab()">Send Customer Signature Form</a>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -99,6 +101,42 @@
             </div> <!-- end col-->
         </div> <!-- end row-->
     </div> <!-- container-fluid -->
+
+    <!-- Add New Event MODAL --> 
+    <div class="modal fade bs-example-modal-lg" id="sendTabModal" tabindex="-1">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myExtraLargeModalLabel">Send To Tab</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body" id="appointment_details">
+                    <form id="tabUpdate" method="post" >
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input class="form-control" type="hidden"  id="form_id" name="form_id" value="{{$form[0]['id']}}"  >
+                                <label class="col-form-label">Select Tab</label>
+                                <select class="form-control" name="tab" id="tab">
+                                    <option value=""> Select a Tab </option>
+                                    <option value="tab_1"> Tab 1</option>
+                                    <option value="tab_2"> Tab 2</option>
+                                    <option value="tab_3"> Tab 3</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12 text-center mt-5 text-end">
+                                <input type="submit" class="btn btn-primary waves-effect waves-light w-xl me-2" id="create_appoinment" value="Send To Tab"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div> <!-- end modal dialog-->
+    </div>
+    <!-- end modal-->
+
+
+
 </div>
 @endsection
 @push('header')
@@ -119,13 +157,51 @@
 @push('scripts')
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
 <script src="{{ asset('assets/js/jquery.signature.js') }}"></script>
-
+<script src="{{ asset('assets/js/jquery.validate.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     var sig = $('#sig').signature({syncField: '#signature64', syncFormat: 'PNG'});
     $('#clear').click(function(e) {
         e.preventDefault();
         sig.signature('clear');
         $("#signature").val('');
+    });
+
+    function sendToTab(){
+        $('#sendTabModal').modal('show');
+    }
+
+    $("#tabUpdate").validate({
+        rules: {
+            tab: "required",
+        },
+        messages: {
+            
+        },
+        submitHandler: function(e) { 
+            var data = new FormData($('#tabUpdate')[0]);
+            $.ajax({
+                url: "{{ route('update-tab-link')}}",
+                type: "POST",
+                data: data,
+                processData: false,
+                contentType: false,
+                success: function( response ) {
+                    Swal.fire(
+                        '',
+                        'Link send successfully!',
+                        'success'
+                    );
+                    $("#sendTabModal").modal('hide');
+                }
+            });
+        }
     });
 </script>
 @endpush

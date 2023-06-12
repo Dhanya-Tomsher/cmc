@@ -39,13 +39,13 @@ class CaretakerController extends Controller
         $query  = Caretaker::select('caretakers.*','care_country.name as care_country')
                     ->leftJoin('countries as care_country','care_country.id', '=', 'caretakers.home_country')
                     ->where('caretakers.id', '=', $caretaker)->get();
-            
-        $catsQuery  = Cat::select('cat_caretakers.cat_id',DB::raw('cats.*'))
+          
+        $catsQuery  = Cat::select('cat_caretakers.cat_id',DB::raw('cats.*,cats.cat_id as catID'))
                     ->leftJoin('cat_caretakers','cat_caretakers.cat_id', '=', 'cats.id')
                     // ->where('cat_caretakers.transfer_status', 0)
                     ->where('cat_caretakers.caretaker_id', $caretaker)
-                    ->orderBy('cats.id','DESC')
                     ->groupBy('cat_caretakers.cat_id')
+                    ->orderBy('cats.id','ASC')
                     ->get();
 
         return view('admin.caretaker.show')->with([
