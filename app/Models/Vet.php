@@ -26,4 +26,14 @@ class Vet extends Model
 
         return $vets;
     }
+
+    public static function getVetName($id){
+        $vets = Vet::select("name")
+                    ->where('status', 'published')
+                    ->where('is_deleted',0)
+                    ->where('id',$id)
+                    ->get();
+
+        return $vets;
+    }
 }

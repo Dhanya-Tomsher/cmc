@@ -84,17 +84,17 @@
                                 <h5 class="font-size-15">Summary</h5>
 
                                 <div class="table-responsive">
-                                    <table class="table table-nowrap table-centered mb-0">
+                                    <table class="table table-centered mb-0">
                                         <thead>
                                             <tr>
                                                 <th style="width: 70px;">No.</th>
                                                 <th>Ptld</th>
                                                 <th>Service</th>
-                                                <th>Price</th>
-                                                <th>Net</th>
-                                                <th>VAT</th>
-                                                <th>Net+Vat</th>
-                                                <th>Service Charge</th>
+                                                <th class="text-center">Price</th>
+                                                <th class="text-center">Net</th>
+                                                <th class="text-center">VAT</th>
+                                                <th class="text-center">Net+Vat</th>
+                                                <th class="text-center">Service Charge</th>
                                                 <th class="text-end" style="width: 120px;">Total</th>
                                             </tr>
                                         </thead>
@@ -105,42 +105,42 @@
                                                 <td>
                                                     <h5 class="font-size-15 mb-1">{{$invoice[0]->service}}</h5>
                                                 </td>
-                                                <td>{{$invoice[0]->price}}</td>
-                                                <td>{{$invoice[0]->net}}</td>
-                                                <td>{{$invoice[0]->vat}}</td>
-                                                <td>{{$invoice[0]->net_vat}}</td>
-                                                <td>{{$invoice[0]->service_charge}}</td>
+                                                <td class="text-center">{{$invoice[0]->price}}</td>
+                                                <td class="text-center">{{$invoice[0]->net}}</td>
+                                                <td class="text-center">{{$invoice[0]->vat}}</td>
+                                                <td class="text-center">{{$invoice[0]->net_vat}}</td>
+                                                <td class="text-center">{{$invoice[0]->service_charge}}</td>
 
                                                 <td class="text-end">{{$invoice[0]->total}}</td>
                                             </tr>
 
                                             <tr>
-                                                <th scope="row" colspan="8" class="text-end">Sub Total :</th>
-                                                <td class="text-end">{{$invoice[0]->total}}</td>
+                                                <th scope="row" colspan="8" class="text-end padding-invoice">Sub Total :</th>
+                                                <td class="text-end padding-invoice">{{$invoice[0]->total}}</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row" colspan="8" class="border-0 text-end">
+                                                <th scope="row" colspan="8" class="border-0 text-end padding-invoice">
                                                     Net :</th>
-                                                <td class="border-0 text-end">{{$invoice[0]->net}}</td>
+                                                <td class="border-0 text-end padding-invoice">{{$invoice[0]->net}}</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row" colspan="8" class="border-0 text-end">
+                                                <th scope="row" colspan="8" class="border-0 text-end padding-invoice">
                                                     VAT :</th>
-                                                <td class="border-0 text-end">{{$invoice[0]->vat}}</td>
+                                                <td class="border-0 text-end padding-invoice">{{$invoice[0]->vat}}</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row" colspan="8" class="border-0 text-end">
+                                                <th scope="row" colspan="8" class="border-0 text-end padding-invoice">
                                                     Service Amount :</th>
-                                                <td class="border-0 text-end">{{$invoice[0]->service_charge}}</td>
+                                                <td class="border-0 text-end padding-invoice">{{$invoice[0]->service_charge}}</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row" colspan="8" class="border-0 text-end">
+                                                <th scope="row" colspan="8" class="border-0 text-end padding-invoice">
                                                     Net +VAT+Service Amount :</th>
-                                                <td class="border-0 text-end">{{$invoice[0]->total}}</td>
+                                                <td class="border-0 text-end padding-invoice">{{$invoice[0]->total}}</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row" colspan="8" class="border-0 text-end">Total :</th>
-                                                <td class="border-0 text-end">
+                                                <th scope="row" colspan="8" class="border-0 text-end padding-invoice">Total :</th>
+                                                <td class="border-0 text-end padding-invoice">
                                                     <h4 class="m-0">{{$invoice[0]->total}}</h4>
                                                 </td>
                                             </tr>
@@ -214,6 +214,14 @@
 @endsection
 @push('header')
 <link rel="stylesheet" href="{{ asset('assets/libs/select2/css/select2.min.css') }}" />
+<style>
+    @media print {
+         @page { margin: 4% !important; }
+         .invoice-title{
+            display : none;
+         }
+    }
+</style>
 @endpush
 
 @push('scripts')

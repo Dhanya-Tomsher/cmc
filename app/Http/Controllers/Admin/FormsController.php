@@ -8,6 +8,7 @@ use App\Models\Forms;
 use App\Models\CustomForms;  
 use App\Models\Caretaker;  
 use App\Models\HospitalAppointments; 
+use App\Models\Tabs;
 use DB;
 use Validator;
 use File;
@@ -169,6 +170,7 @@ class FormsController extends Controller
         $form->signed_status = 1;
         $form->save();
 
+        Tabs::where('tab_type',$request->tab)->update(['customer_form_id' => NULL]);
 	    return back()->with('success', 'Signature updated successfully');
     }
     public function customSignature(Request $request)
@@ -183,6 +185,36 @@ class FormsController extends Controller
         return view('admin.forms.customer_signature', compact('form'));
     }
     
+    public function signatureTab(Request $request){
+        $tab = Tabs::where('tab_type', $request->tab)->get();
+
+        if(isset($tab[0]) && $tab[0]->customer_form_id != NULL){
+            $form  = CustomForms::select('custom_forms.*','care.name as caretaker_name','cats.name as cat_name','for.form_title','for.form_content')
+                                ->leftJoin('caretakers as care','custom_forms.caretaker_id','=','care.id')
+                                ->leftJoin('cats','custom_forms.cat_id','=','cats.id')
+                                ->leftJoin('forms as for','custom_forms.form_id','=','for.id')
+                                ->where('custom_forms.id',$tab[0]->customer_form_id)
+                                ->where('custom_forms.status', 1)
+                                ->get();
+        }else{
+            $form = array();
+        }                 
+        return view('admin.forms.signature_tab_view', compact('tab','form'));
+    }
+
+    public function updateTabLink(Request $request){
+        $check = Tabs::where('tab_type',$request->tab)->get();
+        if(isset($check[0])){
+            $tab = Tabs::where('tab_type',$request->tab)->update(['customer_form_id' => $request->form_id]);
+        }else{
+            $tab = new Tabs;
+            $tab->tab_type = $request->tab;
+            $tab->customer_form_id = $request->form_id;
+            $tab->save();
+        }
+        
+    }
+   
 }
 
 
