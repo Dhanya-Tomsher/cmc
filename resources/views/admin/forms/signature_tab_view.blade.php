@@ -108,7 +108,7 @@
                                                     style="display:none;" @endif>
                                                     <label class="col-form-label"><b>Signature</b></label>
                                                     @if($form[0]['signed_status'] == 1 && $form[0]['signature_url'] != '')
-                                                    <img src="{{ asset($form[0]['signature_url']) }}" class="w-80" />
+                                                    <img src="{{ public_path($form[0]['signature_url']) }}" class="w-80" />
                                                     @endif
                                                 </div>
                                                 <div class="col-md-7" @if($form[0]['signed_status']==1)
