@@ -107,7 +107,7 @@
         <div class="modal-dialog modal-md modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myExtraLargeModalLabel">Send To Tab</h5>
+                    <h5 class="modal-title" id="myExtraLargeModalLabel">Send To Tablet</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
@@ -116,16 +116,16 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <input class="form-control" type="hidden"  id="form_id" name="form_id" value="{{$form[0]['id']}}"  >
-                                <label class="col-form-label">Select Tab</label>
+                                <label class="col-form-label">Select Tablet</label>
                                 <select class="form-control" name="tab" id="tab">
-                                    <option value=""> Select a Tab </option>
-                                    <option value="tab_1"> Tab 1</option>
-                                    <option value="tab_2"> Tab 2</option>
-                                    <option value="tab_3"> Tab 3</option>
+                                    <option value=""> Select a Tablet </option>
+                                    <option value="tablet_1"> Tablet 1</option>
+                                    <option value="tablet_2"> Tablet 2</option>
+                                    <option value="tablet_3"> Tablet 3</option>
                                 </select>
                             </div>
                             <div class="col-md-12 text-center mt-5 text-end">
-                                <input type="submit" class="btn btn-primary waves-effect waves-light w-xl me-2" id="create_appoinment" value="Send To Tab"/>
+                                <input type="submit" class="btn btn-primary waves-effect waves-light w-xl me-2" id="create_appoinment" value="Send To Tablet"/>
                             </div>
                         </div>
                     </form>
