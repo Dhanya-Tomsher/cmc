@@ -24,13 +24,13 @@
     }
 
     .cont-text p {
-        font-size: 60px;
+        font-size: 65px;
         padding: 0;
         margin: 0;
     }
 
     .cont-text span {
-        font-size: 60px;
+        font-size: 65px;
     }
     </style>
 </head>
@@ -42,14 +42,14 @@
 
         <div class="row">
             <div class="container" style="display: flex; justify-content: center">
-                <a class="navbar-brand" href="https://tomsher.co/CMC" style="padding-top: 50px; padding-bottom: 200px;">
+                <a class="navbar-brand" href="https://tomsher.co/CMC" style="padding-top: 80px; padding-bottom: 180px;">
                     <img src="{{ asset('assets/images/logo.png') }}" style="max-width: 104%" />
                 </a>
             </div>
             <!-- /navbar -->
         </div>
 
-        <div class="row" style="display: flex; justify-content: space-around">
+        <div class="row" style="display: flex; justify-content: space-evenly">
             <div class="col-xm-9 cont-text">
                 <p>Total no. of neutered cats &nbsp;</p>
             </div>
@@ -57,7 +57,7 @@
                 <span>{{ $countNeutered }}</span>
             </div>
         </div>
-        <div class="row" style="display: flex; justify-content: space-around; margin: 30px 0;">
+        <div class="row" style="display: flex; justify-content: space-evenly; margin: 80px 0;">
             <div class="col-xm-9 cont-text">
                 <p>Total no. of spayed females
                 </p>
@@ -66,7 +66,7 @@
                 <span>{{ $countSpayed }}</span>
             </div>
         </div>
-        <div class="row" style="display: flex; justify-content: space-around">
+        <div class="row" style="display: flex; justify-content: space-evenly">
             <div class="col-xm-9 cont-text">
                 <p>Total no. of castrated males</p>
             </div>
@@ -76,16 +76,14 @@
         </div>
     </div>
     <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/metismenu/metisMenu.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/node-waves/waves.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/waypoints/lib/jquery.waypoints.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/jquery.counterup/jquery.counterup.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('assets/js/pages/dashboard.init.js') }}"></script>
-    <script src="{{ asset('assets/js/pages/materialdesign.init.js') }}"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
+
+    <script type="text/javascript">
+        setInterval(function(){
+             window.location.reload();
+        }, 10000);
+    </script>
 </body>
 
 </html>
