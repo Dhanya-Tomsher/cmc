@@ -146,7 +146,7 @@ class FormsController extends Controller
 
     public function signatureUpload(Request $request)
     {
-	    $folderPath = public_path('storage/signatures/');
+	    $folderPath = public_path('assets/signatures/');
         if(!File::isDirectory($folderPath)){
             File::makeDirectory($folderPath, 0777, true, true);
         }  
@@ -165,7 +165,7 @@ class FormsController extends Controller
 	    file_put_contents($file, $image_base64);
 
         $form = CustomForms::find($request->cid);
-        $form->signature_url = 'storage/signatures/'.$filename;
+        $form->signature_url = 'assets/signatures/'.$filename;
         $form->signed_date = date('Y-m-d');
         $form->signed_status = 1;
         $form->save();
