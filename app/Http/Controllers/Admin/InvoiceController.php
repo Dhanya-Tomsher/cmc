@@ -95,7 +95,7 @@ class InvoiceController extends Controller
                 CustomInvoiceDetails::insert($insert_data);
             } 
         }
-        return back()->with('status', 'Invoice Creted!');
+        return back()->with('status', 'Invoice Created!');
     }
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
     {

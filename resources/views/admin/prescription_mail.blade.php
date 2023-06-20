@@ -4,13 +4,13 @@
     <title>Cats Medical Center Veterinary Clinic L.L.C.</title>
 </head>
 <body>
-    <p>{{ $body }}</p>
+    <p>{!! $body !!}</p>
      
     <p>
-        Thank you
-        <h5> Cats Medical Center Veterinary Clinic L.L.C. </h5>
-        <h6><i class="fa fa-map-marker-alt"> Location : Al Murooj complex, downtown Dubai, UAE.</i></h6>
-        <h6>Contact :  <i class="fa fa-mobile-alt"></i>&nbsp;&nbsp;04 320 4204 ,<i class="fab fa-whatsapp" style="color: green"></i> 04 320 4204</h6>
+        Thank you,<br><br>
+        <span> Cats Medical Center Veterinary Clinic L.L.C. </span><br>
+        <span><i class="fa fa-map-marker-alt"></i> Location : Al Murooj complex, downtown Dubai, UAE.</span><br>
+        <span>Contact :  <i class="fa fa-mobile-alt"></i>&nbsp;&nbsp;04 320 4204 ,<i class="fab fa-whatsapp" style="color: green"></i> 04 320 4204</span>
     </p>
 </body>
 </html>

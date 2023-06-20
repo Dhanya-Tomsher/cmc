@@ -158,8 +158,8 @@
         html = `<tr class="tr_`+number+`">
                     <td style="display:flex;">
                         <div class="col-md-6 col-sm-6">
-                            <label for="Name" class="col-form-label"><b>Procedure</b> <span class="required">*</span></label>
-                            <input class="form-control procedure_field" name="procedure[]" value="{{ old('procedure') }}" type="text" placeholder="Enter Procedure" data-id="`+number+`" id="procedure_`+number+`">
+                            <label for="Name" class="col-form-label"><b>Service</b> <span class="required">*</span></label>
+                            <input class="form-control procedure_field" name="procedure[]" value="{{ old('procedure') }}" type="text" placeholder="Enter Service" data-id="`+number+`" id="procedure_`+number+`">
                         </div>
                         <div class="col-md-2 col-sm-2 ml-1">
                             <label for="Name" class="col-form-label"><b>Quantity</b> <span class="required">*</span></label>
