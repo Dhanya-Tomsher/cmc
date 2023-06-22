@@ -38,7 +38,7 @@
 <body>
 
     <div class="container-fluid pt-3"
-        style="background-color: #faf39f !important;background-image: linear-gradient(#faf39f, white);">
+        style="background-color: #faf39f !important;background-image: linear-gradient(#c7c176, white);">
 
         <div class="row">
             <div class="container" style="display: flex; justify-content: center">
