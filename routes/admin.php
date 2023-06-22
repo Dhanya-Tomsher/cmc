@@ -27,7 +27,7 @@ Route::get('/', [AuthenticatedSessionController::class, 'create'])->name('login'
 
 Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::get('custom-signature/{cid}', [FormsController::class, 'customSignature'])->name('custom-signature');
-    Route::get('dashboard-counts', [DashboardController::class, 'countsApi'])->name('dashboard-counts');
+    Route::get('led', [DashboardController::class, 'countsApi'])->name('led');
     Route::get('signature/{tab}', [FormsController::class, 'signatureTab'])->name('signature');
     // Route::get('get-tab-view', [FormsController::class, 'getTabData'])->name('get-tab-view');
 
