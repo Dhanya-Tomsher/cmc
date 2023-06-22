@@ -37,13 +37,12 @@
 
 <body>
 
-    <div class="container-fluid pt-3"
-        style="background-color: #faf39f !important;background-image: linear-gradient(#c7c176, white);">
+    <div class="container-fluid pt-3" style="background: linear-gradient(180deg, rgba(255,241,65,1) 0%, rgba(236,229,144,1) 64%, rgba(255,255,255,1) 96%);">
 
         <div class="row">
             <div class="container" style="display: flex; justify-content: center">
                 <a class="navbar-brand" href="https://tomsher.co/CMC" style="padding-top: 80px; padding-bottom: 180px;">
-                    <img src="{{ asset('assets/images/logo.png') }}" style="max-width: 104%" />
+                    <img src="{{ asset('assets/images/logo.png') }}" style="max-width: 104%;width:700px;" />
                 </a>
             </div>
             <!-- /navbar -->
