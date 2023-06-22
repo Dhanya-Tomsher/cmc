@@ -25,8 +25,8 @@
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
                                 <div class="mb-3">
-                                    <label class="form-label" for="username">Username</label>
-                                    <input type="text" class="form-control" id="email" name="email" placeholder="Enter username">
+                                    <label class="form-label" for="username">Email</label>
+                                    <input type="text" class="form-control" id="email" name="email" placeholder="Enter email">
                                    
                                 </div>
         
