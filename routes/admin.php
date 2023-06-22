@@ -29,6 +29,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::get('custom-signature/{cid}', [FormsController::class, 'customSignature'])->name('custom-signature');
     Route::get('led', [DashboardController::class, 'countsApi'])->name('led');
     Route::get('signature/{tab}', [FormsController::class, 'signatureTab'])->name('signature');
+    Route::post('signaturepad',[FormsController::class, 'signatureUpload'])->name('signaturepad.upload');
     // Route::get('get-tab-view', [FormsController::class, 'getTabData'])->name('get-tab-view');
 
 
@@ -208,7 +209,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
         Route::post('custom-forms-list', [FormsController::class, 'customFormsListing'])->name('custom-forms-list');
         Route::post('custom-form.delete', [FormsController::class, 'customFormDelete'])->name('custom-form.delete');
         Route::get('custom-form/view/{cid}', [FormsController::class, 'viewCustom'])->name('custom-form.view');
-        Route::post('signaturepad',[FormsController::class, 'signatureUpload'])->name('signaturepad.upload');
+        
         Route::post('update-tab-link',[FormsController::class, 'updateTabLink'])->name('update-tab-link');
     
         Route::get('cats-count', [DashboardController::class, 'catsCountApi'])->name('cats-count');
