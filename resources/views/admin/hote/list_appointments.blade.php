@@ -593,7 +593,7 @@
             }
         });
     });
-
+    let alreadyIds = [];
     function getCatData(cid){
         var editCat = $('#editcatId').val();
         $.ajax({
@@ -609,10 +609,11 @@
                 });  
 
                 $('#search_cat').html(cats_html);
-                console.log(editCat);
-                var catArray = editCat.split(',');
-                console.log(catArray);
                 
+                var catArray = editCat.split(',');
+                // console.log(catArray);
+                alreadyIds = catArray;
+                // console.log(alreadyIds);
                 $.each(catArray, function(indexc, valuec) {
                     $("#search_cat").val(valuec).trigger('select2:select');
                 });  
@@ -627,17 +628,34 @@
     //     // $('#cat_id'+id).remove();
     //     // $('#editcatId').val($('#search_cat').val());
     // })
+
     $("#search_cat").on('select2:unselect', function(e) {
         var id = e.params.data.id;
         $('#cat_id'+id).remove();
         $('#editcatId').val($('#search_cat').val());
     })
-    
+    function getDifference(a, b) {
+        return a.filter(element => {
+            return !b.includes(element);
+        });
+    }
     $("#search_cat").on("select2:select", function(e) {
-        
+        var currentIds = $(this).val();
+        var current = getDifference(currentIds,alreadyIds);
+      
+        console.log('current ===========');
+        console.log(current);
+        if(current != ''){
+            var id = current.toString();
+        }else{
+            var obj = $("#search_cat").select2('data');
+            var id = obj[obj.length-1].id;
+        }
+        console.log(current.toString())
+
         var obj = $("#search_cat").select2('data');
-        console.log(obj);
-        var id = obj[obj.length-1].id;
+        // console.log(obj);
+        alreadyIds = currentIds;
         // var id = e.params.data.id;
         $.ajax({
             url: "{{ route('get-cat')}}",
