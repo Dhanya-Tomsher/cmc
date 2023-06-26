@@ -397,6 +397,11 @@ class CatController extends Controller
                     $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date, $transfer_date);
                     $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title','transfer_date'))->render();
                 break;
+            case 'allergies':
+                    $title = 'Allergies';
+                    $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date, $transfer_date);
+                    $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title','transfer_date'))->render();
+                break;
             case 'hospitalization':
                 $title = 'Hospitalization';
                 $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date, $transfer_date);

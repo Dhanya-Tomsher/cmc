@@ -217,8 +217,13 @@
 <link rel="stylesheet" href="{{ asset('assets/libs/select2/css/select2.min.css') }}" />
 <style>
     @media print {
-         @page { margin: 4% !important; }
-         .invoice-title{
+        @page { 
+            margin-left: 1cm !important; 
+            margin-right: 1cm !important; 
+            margin-top:0cm !important;
+            margin-bottom:0cm !important;
+        }
+        .invoice-title{
             display : none;
          }
     }

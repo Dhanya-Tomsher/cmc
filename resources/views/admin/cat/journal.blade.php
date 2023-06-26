@@ -43,10 +43,12 @@
                 <div class="card mb-0">
                     <div class="card-body">
                         <div class="nav flex-column nav-pills menus" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-
+                        
                             <a class="nav-link mb-2 journalMenus {{ isset($counts['vital']) ? 'data_active' : 'data_none' }}" id="vital" onclick="getJournalData('vital','{{ $cat->id }}', '{{ $transfer_date }}')" role="button">Vitals</a>
 
                             <a class="nav-link mb-2 journalMenus {{ isset($counts['med_history']) ? 'data_active' : 'data_none' }}" id="med_history" onclick="getJournalData('med_history','{{ $cat->id }}', '{{ $transfer_date }}')" role="button">Medical History</a>
+
+                            <a class="nav-link mb-2 journalMenus {{ isset($counts['allergies']) ? 'data_active' : 'data_none' }}" id="allergies" onclick="getJournalData('allergies','{{ $cat->id }}', '{{ $transfer_date }}')" role="button">Allergies</a>
 
                             <a class="nav-link mb-2 journalMenus {{ isset($counts['dental']) ? 'data_active' : 'data_none' }}" id="dental"  onclick="getJournalData('dental','{{ $cat->id }}', '{{ $transfer_date }}')" role="button">Dental</a>
 

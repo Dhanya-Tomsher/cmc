@@ -123,223 +123,37 @@
         </div>
         <div class="tab-pane" id="navtabs-cat-details-view" role="tabpanel">
             <div class="row">
-                <div class="col-md-4">
-                    <label for="example-text-input" class="col-form-label">Cat ID</label>
-                    <input class="form-control" type="text" value="{{ $hotel[0]->cat_id }}" readonly>
-                </div>
-
-                <div class="col-md-4">
-                    <label for="Name" class="col-form-label">Name</label>
-                    <input class="form-control" type="text" readonly value="{{ $hotel[0]->cat_name }}">
-                </div>
-
-                <div class="col-md-4">
-                    <label for="address" class="col-form-label">Date of Birth</label>
-                    <input class="form-control" type="text" readonly value="{{ $hotel[0]->date_birth }}">
-                </div>
-
-                <div class="col-md-4">
-                    <label for="emirates-id" class="col-form-label d-block">Gender</label>
-                    <div class="d-flex h-50 align-items-center border-bottom-1">
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio" {{ $hotel[0]->gender == "Male" ? 'checked' : '' }}  disabled  value="Male"  class="form-check-input" value="hide">
-                            <label class="form-check-label mt-1" for="GenderMale">Male</label>
+                @if(isset($hotel[0]['cats']))
+                    @foreach($hotel[0]['cats'] as $hotelCats)
+                        <div class="col-md-4" id="cat_id">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title mb-4">{{$hotelCats['name']}}</h4>
+                                    <div class="col-md-12 d-flex">
+                                        <div class="col-md-6">Cat ID</div>
+                                        <div class="col-md-6">: {{$hotelCats['cat_id']}}</div>
+                                    </div>
+                                    <div class="col-md-12 d-flex">
+                                        <div class="col-md-6">Date of Birth</div>
+                                        <div class="col-md-6">: {{$hotelCats['date_birth']}}</div>
+                                    </div>
+                                    <div class="col-md-12 d-flex">
+                                        <div class="col-md-6">Gender</div>
+                                        <div class="col-md-6">: {{$hotelCats['gender']}}</div>
+                                    </div>
+                                    <div class="col-md-12 d-flex">
+                                        <div class="col-md-6">Blood Type</div>
+                                        <div class="col-md-6 uppercase">: {{$hotelCats['blood_type']}}</div>
+                                    </div>
+                                    <div class="col-md-12 d-flex">
+                                        <div class="col-md-6">Microchip Number</div>
+                                        <div class="col-md-6">: {{$hotelCats['microchip_number']}}</div>
+                                    </div>
+                                </div><!-- end card-body-->
+                            </div> <!-- end card-->
                         </div>
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio" {{ $hotel[0]->gender == "Female" ? 'checked' : '' }}  disabled  value="Female" class="form-check-input" value="show">
-                            <label class="form-check-label mt-1"  for="GenderFemale">Female</label>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-md-4 input4 {{ $hotel[0]->gender == "Male" ?  "hide" : '' }}" id="pregnant-div">
-                    <label for="emirates-id" class="col-form-label d-block">Pregnant /  Not</label>
-                    <div class="d-flex align-items-center">
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio" {{ $hotel[0]->pregnant == "1" ? 'checked' : '' }} value="1"  disabled class="form-check-input">
-                            <label class="form-check-label mt-1" for="PregnantYes">Yes</label>
-                        </div>
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio" {{ $hotel[0]->pregnant == "0" ? 'checked' : '' }} value="0"  disabled class="form-check-input">
-                            <label class="form-check-label mt-1" for="PregnantNo">No</label>
-                        </div>
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio"  {{ $hotel[0]->pregnant == "2" ? 'checked' : '' }} value="2"  disabled class="form-check-input">
-                            <label class="form-check-label mt-1"  for="PregnantUnknown">Unknown</label>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-md-4">
-                    <label for="emirates-id" class="col-form-label d-block">Blood Type</label>
-                    <div class="d-flex align-items-center">
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio"  {{ $hotel[0]->blood_type == "a" ? 'checked' : '' }} value="a" disabled class="form-check-input">
-                            <label class="form-check-label mt-1" for="bloodA">A</label>
-                        </div>
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio"  {{ $hotel[0]->blood_type == "b" ? 'checked' : '' }} value="b" disabled class="form-check-input">
-                            <label class="form-check-label mt-1" for="bloodB">B</label>
-                        </div>
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio"  {{ $hotel[0]->blood_type == "ab" ? 'checked' : '' }} value="ab" disabled class="form-check-input">
-                            <label class="form-check-label mt-1" for="bloodAB">AB</label>
-                        </div>
-
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio"  {{ $hotel[0]->blood_type == "mic" ? 'checked' : '' }} value="mic" disabled class="form-check-input">
-                            <label class="form-check-label mt-1" for="bloodMic">mic</label>
-                        </div>
-
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio"  {{ $hotel[0]->blood_type == "unknown" ? 'checked' : '' }} value="unknown" disabled class="form-check-input" >
-                            <label class="form-check-label mt-1" for="bloodUnknown">Unknown</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 input4" >
-                    <label for="emirates-id" class="col-form-label d-block">Virus</label>
-                    <div class="d-flex align-items-center">
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio" id="virusYes" value="1" name="virusstatus" {{ $hotel[0]->virus == "1" ? 'checked' : '' }} disabled class="form-check-input">
-                            <label class="form-check-label mt-1" for="virusYes">Yes</label>
-                        </div>
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio" id="virusNo" value="0" name="virusstatus" {{ $hotel[0]->virus == "0" ? 'checked' : '' }} disabled class="form-check-input">
-                            <label class="form-check-label mt-1" for="virusNo">No</label>
-                        </div>
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio" id="virusUnknown" value="2" {{ $hotel[0]->virus == "2" ? 'checked' : '' }} disabled name="virusstatus" class="form-check-input">
-                            <label class="form-check-label mt-1" for="virusUnknown">Unknown</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 input4" id="neutered-div">
-                    <label for="emirates-id" class="col-form-label d-block">Neutered</label>
-                    <div class="d-flex align-items-center">
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio"  {{ $hotel[0]->neutered == "1" ? 'checked' : '' }} value="1" disabled class="form-check-input">
-                            <label class="form-check-label mt-1" for="NeuteredYes">Yes</label>
-                        </div>
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio"  {{ $hotel[0]->neutered == "0" ? 'checked' : '' }} value="0"  disabled class="form-check-input">
-                            <label class="form-check-label mt-1" for="NeuteredNo">No</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 input4"  id="neutered-with-us-div">
-                    <label for="emirates-id" class="col-form-label d-block">Neutered  with Us</label>
-                    <div class="d-flex align-items-center">
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio"  {{ $hotel[0]->neutered_with_us == "1" ? 'checked' : '' }} value="1" disabled class="form-check-input">
-                            <label class="form-check-label mt-1" for="NeuteredWithYes">Yes</label>
-                        </div>
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio" {{ $hotel[0]->neutered_with_us == "0" ? 'checked' : '' }} value="0" disabled class="form-check-input">
-                            <label class="form-check-label mt-1"  for="NeuteredWithNo">No</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 input4 {{ $hotel[0]->gender == "Male" ?  "hide" : '' }}" id="spayed-div">
-                    <label for="emirates-id"
-                        class="col-form-label d-block">Spayed</label>
-                    <div class="d-flex align-items-center">
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio" {{ $hotel[0]->spayed == "1" ? 'checked' : '' }} value="1" disabled class="form-check-input">
-                            <label class="form-check-label mt-1" for="SpayedYes">Yes</label>
-                        </div>
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio" {{ $hotel[0]->spayed == "0" ? 'checked' : '' }} value="0" disabled class="form-check-input" >
-                            <label class="form-check-label mt-1" for="SpayedNo">No</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 {{ $hotel[0]->gender == "Female" ?  "hide" : '' }}"  id="castrated-div">
-                    <label for="emirates-id"
-                        class="col-form-label d-block">Castrated</label>
-                    <div class="d-flex align-items-center">
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio" {{ $hotel[0]->castrated == "1" ? 'checked' : '' }} value="1" disabled class="form-check-input">
-                            <label class="form-check-label mt-1" for="CastratedYes">Yes</label>
-                        </div>
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio" {{ $hotel[0]->castrated == "0" ? 'checked' : '' }} value="0" disabled class="form-check-input">
-                            <label class="form-check-label mt-1" for="CastratedNo">No</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <label for="FurColor" class="col-form-label">Fur / Color</label>
-                    <input type="text" class="form-control" readonly value="{{  $hotel[0]->fur_color }}" rows="1"/>
-                </div>
-
-                <div class="col-md-4">
-                    <label for="EyeColor" class="col-form-label">Eye Color</label>
-                    <input type="text" class="form-control" readonly  value="{{ $hotel[0]->eye_color }}" rows="1"/>
-                </div>
-
-                <div class="col-md-4" id="behaviour-div">
-                    <label for="emirates-id" class="col-form-label d-block">Behaviour</label>
-                    <div class="d-flex align-items-center">
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio" id="behaviourGreen" value="1" {{ $hotel[0]->behaviour == "1" ? 'checked' : '' }} disabled name="behaviour" class="form-check-input" >
-                            <label class="form-check-label mt-1" for="behaviourGreen">Green</label>
-                        </div>
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio" id="behaviourOrange" value="2" {{ $hotel[0]->behaviour == "2" ? 'checked' : '' }}  disabled name="behaviour" class="form-check-input">
-                            <label class="form-check-label mt-1" for="behaviourOrange">Orange</label>
-                        </div>
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio" id="behaviourRed" value="3" {{ $hotel[0]->behaviour == "3" ? 'checked' : '' }}  disabled name="behaviour" class="form-check-input" >
-                            <label class="form-check-label mt-1" for="behaviourRed">Red</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <label for="country" class="col-form-label">Place of Origin</label>
-                    <input type="text" class="form-control" value="{{ $hotel[0]->cat_country }}"readonly  rows="1"/>
-                </div>
-
-                <div class="col-md-4">
-                    <label for="country" class="col-form-label">State</label>
-                    <input type="text" class="form-control" value="{{ $hotel[0]->cat_state }}" readonly  rows="1"/>
-                </div>
-
-                
-
-                <div class="col-md-4">
-                    <label for="phone" class="col-form-label">Microchip Number</label>
-                    <input class="form-control" type="text" value="{{ $hotel[0]->microchip_number }}" readonly >
-                </div>
-
-                <div class="col-md-4 align-self-end">
-                    <label for="emirates-id" class="col-form-label d-block">Dead / Alive</label>
-                    <div class="d-flex align-items-center">
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio" {{ $hotel[0]->dead_alive == "1" ? 'checked' : '' }} value="1" disabled class="form-check-input">
-                            <label class="form-check-label mt-1" for="Alive">Alive</label>
-                        </div>
-                        <div class="custom-radio form-check form-check-inline">
-                            <input type="radio" {{ $hotel[0]->dead_alive == "0" ? 'checked' : '' }} value="0" disabled class="form-check-input">
-                            <label class="form-check-label mt-1" for="Dead">Dead </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-8">
-                    <label for="email" class="col-form-label">Origin / History</label>
-                    <textarea class="form-control" rows="4" readonly >{{ $hotel[0]->origin }} </textarea>
-                </div>
-
+                    @endforeach
+                @endif
             </div>
         </div>
         <div class="tab-pane active" id="navtabs-appointment-view" role="tabpanel">

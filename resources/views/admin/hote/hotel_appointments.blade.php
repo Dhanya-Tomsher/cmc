@@ -121,11 +121,11 @@
 
                                             <div class="col-md-4">
                                                 <label for="country" class="col-form-label">Home Country</label>
-                                                <input class="form-control" type="text"  placeholder="Whatsapp Number" readonly id="country" name="country" >
+                                                <input class="form-control" type="text"  placeholder="Home Country" readonly id="country" name="country" >
                                             </div>
                                             <div class="col-md-4">
-                                                <label for="country" class="col-form-label">Emirate</label>
-                                                <input class="form-control" type="text"  placeholder="Emirate" readonly id="emirate" name="emirate" >
+                                                <label for="country" class="col-form-label">State</label>
+                                                <input class="form-control" type="text"  placeholder="State" readonly id="emirate" name="emirate" >
                                             </div>
 
                                             <div class="col-md-4">
@@ -197,227 +197,8 @@
                                             </select>
                                             <!-- <button  class="btn btn-primary waves-effect waves-light w-xl">Search Cat</button> -->
                                         </div>
-                                        
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <label for="example-text-input" class="col-form-label">Cat ID</label>
-                                                <input class="form-control" type="text" value="" placeholder="Cat ID"  readonly id="cat_id" name="cat_id">
-                                            </div>
-
-                                            <div class="col-md-4">
-                                                <label for="Name" class="col-form-label">Name</label>
-                                                <input class="form-control" type="text" readonly placeholder="Name" id="cat_name" name="cat_name">
-                                            </div>
-
-                                            <div class="col-md-4">
-                                                <label for="address" class="col-form-label">Date of Birth</label>
-                                                <div class="input-group" id="datepicker1">
-                                                    <input type="text" class="form-control" placeholder="dd mm, yyyy" data-date-format="dd M, yyyy" id="date_of_birth"
-                                                    readonly data-date-container="#datepicker1" data-provide="datepicker" data-date-autoclose="true" name="date_of_birth">
-                                                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-4">
-                                                <label for="emirates-id" class="col-form-label d-block">Gender</label>
-                                                <div class="d-flex h-50 align-items-center border-bottom-1">
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="cat_gender" name="GenderName" disabled  value="Male"  class="form-check-input" value="hide" checked>
-                                                        <label class="form-check-label mt-1" for="GenderMale">Male</label>
-                                                    </div>
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="cat_gender" name="GenderName" disabled  value="Female" class="form-check-input" value="show">
-                                                        <label class="form-check-label mt-1"  for="GenderFemale">Female</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="col-md-4 input4" style="display: none;" id="pregnant-div">
-                                                <label for="emirates-id" class="col-form-label d-block">Pregnant /  Not</label>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="PregnantYes" name="pregnantstatus"  value="1"  disabled class="form-check-input">
-                                                        <label class="form-check-label mt-1" for="PregnantYes">Yes</label>
-                                                    </div>
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="PregnantNo" name="pregnantstatus"  value="0"  disabled class="form-check-input">
-                                                        <label class="form-check-label mt-1" for="PregnantNo">No</label>
-                                                    </div>
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="PregnantUnknown"  name="pregnantstatus"  value="2"  disabled class="form-check-input" checked>
-                                                        <label class="form-check-label mt-1"  for="PregnantUnknown">Unknown</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="col-md-4">
-                                                <label for="emirates-id" class="col-form-label d-block">Blood Type</label>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="bloodA" name="bloodtype"  value="a" disabled class="form-check-input">
-                                                        <label class="form-check-label mt-1" for="bloodA">A</label>
-                                                    </div>
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="bloodB" name="bloodtype"  value="b" disabled class="form-check-input">
-                                                        <label class="form-check-label mt-1" for="bloodB">B</label>
-                                                    </div>
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="bloodAB" name="bloodtype"  value="ab" disabled class="form-check-input">
-                                                        <label class="form-check-label mt-1" for="bloodAB">AB</label>
-                                                    </div>
-
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="bloodMic" name="bloodtype"  value="mic" disabled class="form-check-input">
-                                                        <label class="form-check-label mt-1" for="bloodMic">mic</label>
-                                                    </div>
-
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="bloodUnknown" name="bloodtype"  value="unknown" disabled class="form-check-input" checked>
-                                                        <label class="form-check-label mt-1" for="bloodUnknown">Unknown</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-4 input4" >
-                                                <label for="emirates-id" class="col-form-label d-block">Virus</label>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="virusYes" value="1" name="virusstatus" disabled class="form-check-input">
-                                                        <label class="form-check-label mt-1" for="virusYes">Yes</label>
-                                                    </div>
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="virusNo" value="0" name="virusstatus" disabled class="form-check-input">
-                                                        <label class="form-check-label mt-1" for="virusNo">No</label>
-                                                    </div>
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="virusUnknown" value="2" disabled name="virusstatus" class="form-check-input">
-                                                        <label class="form-check-label mt-1" for="virusUnknown">Unknown</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-4 input4" id="neutered-div">
-                                                <label for="emirates-id" class="col-form-label d-block">Neutered</label>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="NeuteredYes" name="NeuteredStatus"  value="1" disabled class="form-check-input">
-                                                        <label class="form-check-label mt-1" for="NeuteredYes">Yes</label>
-                                                    </div>
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="NeuteredNo" name="NeuteredStatus"  value="0"  disabled class="form-check-input" checked>
-                                                        <label class="form-check-label mt-1" for="NeuteredNo">No</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-4 input4"  id="neutered-with-us-div">
-                                                <label for="emirates-id" class="col-form-label d-block">Neutered  with Us</label>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="NeuteredWithYes" name="neuteredwith" value="1" disabled class="form-check-input">
-                                                        <label class="form-check-label mt-1" for="NeuteredWithYes">Yes</label>
-                                                    </div>
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="NeuteredWithNo" name="neuteredwith" value="0" disabled class="form-check-input" checked>
-                                                        <label class="form-check-label mt-1"  for="NeuteredWithNo">No</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-4 input4" style="display: none;"  id="spayed-div">
-                                                <label for="emirates-id"
-                                                    class="col-form-label d-block">Spayed</label>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="SpayedYes" name="spayedstatus" value="1" disabled class="form-check-input">
-                                                        <label class="form-check-label mt-1" for="SpayedYes">Yes</label>
-                                                    </div>
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="SpayedNo" name="spayedstatus" value="0" disabled class="form-check-input" checked>
-                                                        <label class="form-check-label mt-1" for="SpayedNo">No</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-4" id="castrated-div">
-                                                <label for="emirates-id"
-                                                    class="col-form-label d-block">Castrated</label>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="CastratedYes" name="castratedstatus" value="1" disabled class="form-check-input">
-                                                        <label class="form-check-label mt-1" for="CastratedYes">Yes</label>
-                                                    </div>
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="CastratedNo" name="castratedstatus" value="0" disabled class="form-check-input" checked>
-                                                        <label class="form-check-label mt-1" for="CastratedNo">No</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-4">
-                                                <label for="FurColor" class="col-form-label">Fur / Color</label>
-                                                <input type="text" class="form-control" id="fur_color" name="fur_color" readonly placeholder="Fur / Color" rows="1"/>
-                                            </div>
-
-                                            <div class="col-md-4">
-                                                <label for="EyeColor" class="col-form-label">Eye Color</label>
-                                                <input type="text" class="form-control" id="eye_color" name="eye_color" readonly placeholder="Eye Color" rows="1"/>
-                                            </div>
-
-                                            <div class="col-md-4" id="behaviour-div">
-                                                <label for="emirates-id" class="col-form-label d-block">Behaviour</label>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="behaviourGreen" value="1" disabled name="behaviour" class="form-check-input" checked>
-                                                        <label class="form-check-label mt-1" for="behaviourGreen">Green</label>
-                                                    </div>
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="behaviourOrange" value="2" disabled name="behaviour" class="form-check-input">
-                                                        <label class="form-check-label mt-1" for="behaviourOrange">Orange</label>
-                                                    </div>
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="behaviourRed" value="3" disabled name="behaviour" class="form-check-input" >
-                                                        <label class="form-check-label mt-1" for="behaviourRed">Red</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-4">
-                                                <label for="country" class="col-form-label">Place of Origin</label>
-                                                <input type="text" class="form-control" id="place_of_origin" name="place_of_origin" placeholder="Place of Origin" readonly  rows="1"/>
-                                            </div>
-
-                                            <div class="col-md-4">
-                                                <label for="country" class="col-form-label">Emirate</label>
-                                                <input type="text" class="form-control" id="cat_emirate" name="cat_emirate" placeholder="Emirate" readonly  rows="1"/>
-                                            </div>
-
-                                            <div class="col-md-4">
-                                                <label for="phone" class="col-form-label">Microchip Number</label>
-                                                <input class="form-control" type="text" placeholder="Microchip Number" readonly id="microchip" name="microchip">
-                                            </div>
-
-                                            <div class="col-md-4 align-self-end">
-                                                <label for="emirates-id" class="col-form-label d-block">Dead / Alive</label>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="alive" name="deadalive" value="1" disabled class="form-check-input" checked>
-                                                        <label class="form-check-label mt-1" for="Alive">Alive</label>
-                                                    </div>
-                                                    <div class="custom-radio form-check form-check-inline">
-                                                        <input type="radio" id="dead" name="deadalive" value="0" disabled class="form-check-input">
-                                                        <label class="form-check-label mt-1" for="Dead">Dead </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-8">
-                                                <label for="email" class="col-form-label">Origin / History</label>
-                                                <textarea class="form-control" rows="4" id="cat_origin" name="cat_origin" readonly placeholder="Origin / History"> </textarea>
-                                            </div>
-
+                                        <div class="row" id="catDetails">
+                                            
                                         </div>
                                     </div>
                                     <div class="tab-pane" id="navtabs-appointment" role="tabpanel">
@@ -523,6 +304,9 @@
     table {
     width: 100%;
     }
+    .uppercase{
+        text-transform : uppercase;
+    }
     .table td{
         cursor: pointer;
     }
@@ -535,6 +319,14 @@
     }
     .year_colum{
         font-weight : 700;
+    }
+
+    .card {
+        margin-bottom: 0;
+        margin-top: 1.25rem;
+    }
+    .modal-content{
+        min-height: 700px;
     }
     </style>
 @endpush
@@ -681,6 +473,7 @@
     $('#search_cat').select2({
         placeholder: 'Search by : Cat Name, Cat ID',
         dropdownParent: $('#createAppointmentModal'),
+        multiple:true,
         width: 'resolve', // need to override the changed default
         allowClear: true,
         ajax: {
@@ -728,6 +521,7 @@
         $('#castrated-div').css('display','block');
         $("#appointment_tab").removeAttr('data-bs-toggle');
         $("#search_cat").val('').trigger('change') ;
+        $('#catDetails').html('');
         var id = $(this).val();
        
         $.ajax({
@@ -744,7 +538,7 @@
                     $('#phone').val(returnedData[0].phone_number);
                     $('#whatsapp').val(returnedData[0].whatsapp_number);
                     $('#country').val(returnedData[0].country);
-                    $('#emirate').val(returnedData[0].emirate);
+                    $('#emirate').val(returnedData[0].state);
                     $('#work_place').val(returnedData[0].work_place);
                     $('#work_address').val(returnedData[0].work_address);
                     $('#position').val(returnedData[0].position);
@@ -779,8 +573,14 @@
         });
     });
 
-    $("#search_cat").on("change", function () { 
-        var id = $(this).val();
+    $("#search_cat").on('select2:unselect', function(e) {
+        var id = e.params.data.id;
+        $('#cat_id'+id).remove();
+        $('#catId').val($('#search_cat').val());
+    })
+
+    $("#search_cat").on('select2:select', function(e) {
+        var id = e.params.data.id;
         $.ajax({
             url: "{{ route('get-cat')}}",
             type: "POST",
@@ -788,41 +588,37 @@
             success: function( response ) {
                 var returnedData = JSON.parse(response);
                 if(returnedData[0]){
-                    $('#cat_id').val(returnedData[0].cat_id);
-                    $('#cat_name').val(returnedData[0].name);
-                    $('#date_of_birth').val(returnedData[0].date_birth);
-                    $('#fur_color').val(returnedData[0].fur_color);
-                    $('#eye_color').val(returnedData[0].eye_color);
-                    $('#place_of_origin').val(returnedData[0].country);
-                    $('#cat_emirate').val(returnedData[0].emirate);
-                    $('#cat_origin').val(returnedData[0].origin);
-                    $('#microchip').val(returnedData[0].microchip_number);
-                    
-                    $('#catId').val(returnedData[0].id);
-                    
-                    $("input[name=bloodtype][value=" + returnedData[0].blood_type + "]").prop('checked', true);
-                    $("input[name=GenderName][value=" + returnedData[0].gender + "]").prop('checked', true);
-                    $("input[name=pregnantstatus][value=" + returnedData[0].pregnant + "]").prop('checked', true);
-                    $("input[name=NeuteredStatus][value=" + returnedData[0].neutered + "]").prop('checked', true);
-                    $("input[name=neuteredwith][value=" + returnedData[0].neutered_with_us + "]").prop('checked', true);
-                    $("input[name=spayedstatus][value=" + returnedData[0].spayed + "]").prop('checked', true);
-                    $("input[name=castratedstatus][value=" + returnedData[0].castrated + "]").prop('checked', true);
-                    $("input[name=deadalive][value=" + returnedData[0].dead_alive + "]").prop('checked', true);
-                    $("input[name=behaviour][value=" + returnedData[0].behaviour + "]").prop('checked', true);
-                    $("input[name=virusstatus][value=" + returnedData[0].virus + "]").prop('checked', true);
-
-                    if(returnedData[0].gender == 'Female'){
-                        $('#pregnant-div,#spayed-div').css('display','block');
-                        $('#castrated-div').css('display','none');
-                    }else{
-                        $('#pregnant-div,#spayed-div').css('display','none');
-                        $('#castrated-div').css('display','block');
-                    }
+                    $('#catId').val($('#search_cat').val());
+                    var html = `<div class="col-md-4" id="cat_id`+id+`">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title mb-4">`+returnedData[0].name+`</h4>
+                                        <div class="col-md-12 d-flex">
+                                            <div class="col-md-6">Cat ID</div>
+                                            <div class="col-md-6">: `+returnedData[0].cat_id+`</div>
+                                        </div>
+                                        <div class="col-md-12 d-flex">
+                                            <div class="col-md-6">Date of Birth</div>
+                                            <div class="col-md-6">: `+returnedData[0].date_birth+`</div>
+                                        </div>
+                                        <div class="col-md-12 d-flex">
+                                            <div class="col-md-6">Gender</div>
+                                            <div class="col-md-6">: `+returnedData[0].gender+`</div>
+                                        </div>
+                                        <div class="col-md-12 d-flex">
+                                            <div class="col-md-6">Blood Type</div>
+                                            <div class="col-md-6 uppercase">: `+returnedData[0].blood_type+`</div>
+                                        </div>
+                                        <div class="col-md-12 d-flex">
+                                            <div class="col-md-6">Microchip Number</div>
+                                            <div class="col-md-6">: `+returnedData[0].microchip_number+`</div>
+                                        </div>
+                                    </div><!-- end card-body-->
+                                </div> <!-- end card-->
+                            </div>`;
+                    $('#catDetails').append(html);
                     $("#appointment_tab").attr('data-bs-toggle','tab');
                 }else{
-                    $('#cat_id,#cat_name,#date_of_birth, #fur_color,#eye_color,#place_of_origin,#cat_emirate,#cat_origin,#microchip,#catId ').val('');
-                    $('#pregnant-div,#spayed-div').css('display','none');
-                    $('#castrated-div').css('display','block');
                     $("#appointment_tab").removeAttr('data-bs-toggle');
                 }
             }
@@ -850,7 +646,7 @@
     });
     $("#appointment_tab").on("click", function (e) { 
         var caretaker_id =  $('#caretaker_id').val();
-        var cat_id =  $('#catId').val();
+        var cat_id =  $('#search_cat').val();
         if(cat_id =='' && caretaker_id == ''){
             Swal.fire(
                 '',
@@ -975,6 +771,7 @@
     function resetForm(){
         $('#appointment')[0].reset();
         $("#search_cat").val('').trigger('change') ;
+        $('#catDetails').html('');
         $("#rooms").val('').trigger('change') ;
         $("#search_caretaker").val('').trigger('change') ;
         $('#caretaker_id,#customer_id,#name, #address,#email,#phone,#whatsapp,#country,#emirate,#work_place,#work_address,#position,#work_number,#visa_type,#passport_no,#emirates_id ').val('');
