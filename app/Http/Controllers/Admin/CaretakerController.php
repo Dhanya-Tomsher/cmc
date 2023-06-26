@@ -15,6 +15,7 @@ use Str;
 use File;
 use Validator;
 use DB;
+use Helper;
 
 class CaretakerController extends Controller
 {
@@ -30,14 +31,17 @@ class CaretakerController extends Controller
     }
     public function create()
     {
-        $countries = Country::all();
-        return view('admin.caretaker.create', compact('countries'));
+        $maxId = Caretaker::max('id');
+        $careId = ($maxId + 1);
+        $countries = Country::orderByRaw('name="United Arab Emirates" DESC')->orderBy('name','ASC')->get();
+        return view('admin.caretaker.create', compact('countries','careId'));
     }
 
     public function view($caretaker)
     {
-        $query  = Caretaker::select('caretakers.*','care_country.name as care_country')
+        $query  = Caretaker::select('caretakers.*','care_country.name as care_country',"states.name as state")
                     ->leftJoin('countries as care_country','care_country.id', '=', 'caretakers.home_country')
+                    ->leftJoin('states','states.id', '=', 'caretakers.state_id')
                     ->where('caretakers.id', '=', $caretaker)->get();
           
         $catsQuery  = Cat::select('cat_caretakers.cat_id',DB::raw('cats.*,cats.cat_id as catID'))
@@ -56,11 +60,13 @@ class CaretakerController extends Controller
 
     public function catView($cat)
     {
-        $query  = Cat::select('cats.*','care_country.name as care_country','cat_country.name as cat_country','ct.name as caretaker_name','cc.caretaker_id', 'ct.emirates_id_number','ct.name as caretaker_name', 'ct.customer_id', 'ct.email', 'ct.address', 'ct.phone_number', 'ct.whatsapp_number', 'ct.home_country', 'ct.emirate as caretaker_emirate', 'ct.work_place', 'ct.work_address', 'ct.position', 'ct.work_contact_number', 'ct.passport_number', 'ct.visa_status', 'ct.number_of_registered_cats', 'ct.image_url as caretaker_image')
+        $query  = Cat::select('cats.*','care_country.name as care_country','cat_country.name as cat_country','ct.name as caretaker_name','cc.caretaker_id', 'ct.emirates_id_number','ct.name as caretaker_name', 'ct.customer_id', 'ct.email', 'ct.address', 'ct.phone_number', 'ct.whatsapp_number', 'ct.home_country', 'careState.name as caretaker_state','catState.name as cat_state', 'ct.work_place', 'ct.work_address', 'ct.position', 'ct.work_contact_number', 'ct.passport_number', 'ct.visa_status', 'ct.number_of_registered_cats', 'ct.image_url as caretaker_image')
                     ->leftJoin('cat_caretakers as cc','cc.cat_id', '=', 'cats.id')
                     ->leftJoin('caretakers as ct','cc.caretaker_id','=','ct.id')
                     ->leftJoin('countries as care_country','care_country.id', '=', 'ct.home_country')
                     ->leftJoin('countries as cat_country','cat_country.id', '=', 'cats.place_of_origin')
+                    ->leftJoin('states as careState','careState.id', '=', 'ct.state_id')
+                    ->leftJoin('states as catState','catState.id', '=', 'cats.state_id')
                     ->where('cats.id', '=', $cat)
                     ->where('cc.transfer_status', 0)->get();
                     
@@ -71,10 +77,12 @@ class CaretakerController extends Controller
 
     public function edit(Caretaker $caretaker)
     {
-        $countries = Country::all();
+        $countries = Country::orderByRaw('name="United Arab Emirates" DESC')->orderBy('name','ASC')->get();
+        $states = Helper::getStates($caretaker->home_country);
         return view('admin.caretaker.edit')->with([
             'caretaker' => $caretaker,
-            'countries' => $countries
+            'countries' => $countries,
+            'states' => $states
         ]);
     }
     public function update(Request $request, Caretaker $caretaker)
@@ -113,7 +121,7 @@ class CaretakerController extends Controller
             'phone_number' => $request->phone_number,
             'whatsapp_number' => $request->whatsapp_number,
             'home_country' => $request->home_country,
-            'emirate' => $request->emirate,
+            'state_id' => $request->emirate,
             'work_place' => $request->work_place,
             'work_address' => $request->work_address,
             'position' => $request->position,
@@ -157,7 +165,7 @@ class CaretakerController extends Controller
             'phone_number' => $request->phone_number,
             'whatsapp_number' => $request->whatsapp_number,
             'home_country' => $request->home_country,
-            'emirate' => $request->emirate,
+            'state_id' => $request->emirate,
             'work_place' => $request->work_place,
             'work_address' => $request->work_address,
             'position' => $request->position,

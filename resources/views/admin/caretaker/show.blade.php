@@ -79,8 +79,8 @@
                                         <input type="text" class="form-control" value="{{ $caretaker[0]->care_country }}" readonly>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="country" class="col-form-label">Emirate</label>
-                                        <input type="text" class="form-control" value="{{ $caretaker[0]->emirate }}" readonly>
+                                        <label for="country" class="col-form-label">State</label>
+                                        <input type="text" class="form-control" value="{{ $caretaker[0]->state }}" readonly>
                                     </div>
 
                                     <div class="col-md-4">

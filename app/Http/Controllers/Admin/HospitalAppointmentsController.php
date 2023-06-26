@@ -127,8 +127,9 @@ class HospitalAppointmentsController extends Controller
 
     public function getCaretakerDetails(Request $request){
         $id = $request->id;
-        $caretakers = Caretaker::select("caretakers.*","countries.name as country")
+        $caretakers = Caretaker::select("caretakers.*","countries.name as country","states.name as state")
                             ->leftJoin('countries','countries.id', '=', 'caretakers.home_country')
+                            ->leftJoin('states','states.id', '=', 'caretakers.state_id')
                             ->where('caretakers.is_blacklist',0)
                             ->where('caretakers.status', 'published')
                             ->where('caretakers.id', $id)
@@ -165,8 +166,9 @@ class HospitalAppointmentsController extends Controller
 
     public function getCatDetails(Request $request){
         $id = $request->id;
-        $cat = Cat::select("cats.*","countries.name as country")
+        $cat = Cat::select("cats.*","countries.name as country","states.name as state")
                     ->leftJoin('countries','countries.id', '=', 'cats.place_of_origin')
+                    ->leftJoin('states','states.id', '=', 'cats.state_id')
                     ->where('cats.status', 'published')
                     ->where('cats.id', $id)
                     ->get();
@@ -406,10 +408,12 @@ class HospitalAppointmentsController extends Controller
                                 ->leftJoin('procedures as pro','hospital_appointments.procedure_id','=','pro.id')
                                 ->leftJoin('countries as care_country','care_country.id', '=', 'care.home_country')
                                 ->leftJoin('countries as cat_country','cat_country.id', '=', 'cats.place_of_origin')
+                                ->leftJoin('states as careState','careState.id', '=', 'care.state_id')
+                                ->leftJoin('states as catState','catState.id', '=', 'cats.state_id')
                                 ->where('hospital_appointments.id', $app_id)
                                 ->get(['care_country.name as care_country','cat_country.name as cat_country','hospital_appointments.created_at','pro.price','pro.name as procedure_name','hospital_appointments.id',
                                 'hospital_appointments.payment_type','hospital_appointments.reason','hospital_appointments.date_appointment','hospital_appointments.time_appointment','vets.name as vet_name','cats.cat_id',
-                                'care.*','care.work_place as caretaker_work_place','care.name as caretaker_name','cats.name as cat_name','cats.*', 'care.emirate as caretaker_emirate','cats.emirate as cat_emirate']);                 
+                                'care.*','care.work_place as caretaker_work_place','care.name as caretaker_name','cats.name as cat_name','cats.*', 'careState.name as caretaker_state','catState.name as cat_state']);                 
         $viewData = view('admin.hospital.appointment_view_details', compact('hosp'))->render();
 
         return $viewData;

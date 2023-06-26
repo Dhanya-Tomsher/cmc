@@ -92,24 +92,18 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label for="country" class="col-form-label">Home Country</label>
-                                        <select class="form-select form-control" name="home_country">
-                                            <option value="0" selected disabled>Select</option>
+                                        <select class="form-select form-control select2" name="home_country" id="home_country">
+                                            <option value="" selected disabled>Select</option>
                                             @foreach ($countries as $item)
-                                                <option {{ old('home_country') == $item->id ? 'selected' : '' }} value="{{ $item->id }}">{{ $item->name }}</option>
+                                                <option  value="{{ $item->id }}">{{ $item->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="country" class="col-form-label">Emirate</label>
-                                        <select class="form-select form-control" name="emirate">
-                                            <option value="0" selected disabled>Select</option>
-                                            <option {{ old('emirate') == 'Abu Dhabi' ? 'selected' : '' }} value="Abu Dhabi">Abu Dhabi</option>
-                                            <option {{ old('emirate') == 'Dubai' ? 'selected' : '' }} value="Dubai">Dubai</option>
-                                            <option {{ old('emirate') == 'Sharjah' ? 'selected' : '' }} value="Sharjah">Sharjah</option>
-                                            <option {{ old('emirate') == 'Ajman' ? 'selected' : '' }} value="Ajman">Ajman</option>
-                                            <option {{ old('emirate') == 'Umm Al Quwain' ? 'selected' : '' }} value="Umm Al Quwain">Umm Al Quwain</option>
-                                            <option {{ old('emirate') == 'Ras Al Khaimah' ? 'selected' : '' }} value="Ras Al Khaimah">Ras Al Khaimah</option>
-                                            <option {{ old('emirate') == 'Fujairah' ? 'selected' : '' }} value="Fujairah">Fujairah</option>
+                                        <label for="country" class="col-form-label">State</label>
+                                        <select class="form-select form-control select2" name="emirate" id="state">
+                                            <option value="" selected disabled>Select</option>
+                                            
                                         </select>
                                     </div>
                                     <div class="col-md-4">
@@ -201,8 +195,38 @@
     </div>
 @endsection
 @push('header')
+<link rel="stylesheet" href="{{ asset('assets/libs/select2/css/select2.min.css') }}" />
 @endpush
 
-@push('footer')
+@push('scripts')
+<script src="{{ asset('assets/libs/select2/js/select2.min.js') }}"></script>
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
+    $(document).on('select2:open', () => {
+        document.querySelector('.select2-search__field').focus();
+    });
+    $('.select2').select2({
+        placeholder: 'Select',
+        // dropdownParent: $('#createAppointmentModal'),
+        width: 'resolve', // need to override the changed default
+        allowClear: true,
+    });
+
+    $(document).on('change','#home_country', function(e){
+        var country_id = $(this).val();
+        $.ajax({
+                url: "{{ route('get-states')}}",
+                type: "POST",
+                data: {'country_id' : country_id},
+                success: function( response ) {
+                   $('#state').html(response);
+                }
+            });
+    })
+</script>
 @endpush

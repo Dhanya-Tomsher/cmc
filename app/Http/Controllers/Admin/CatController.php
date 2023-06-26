@@ -20,6 +20,7 @@ use Storage;
 use File;
 use PDF;
 use Mail;
+use Helper;
 
 class CatController extends Controller
 {
@@ -32,9 +33,11 @@ class CatController extends Controller
     }
     public function create()
     {
-        $countries = Country::all();
+        $maxId = Cat::max('id');
+        $catId = 'C'.($maxId + 1);
+        $countries = Country::orderByRaw('name="United Arab Emirates" DESC')->orderBy('name','ASC')->get();
         $caretakers = Caretaker::where('is_blacklist',0)->orderBy('name','ASC')->get();
-        return view('admin.cat.create', compact('countries','caretakers'));
+        return view('admin.cat.create', compact('countries','caretakers','catId'));
     }
     public function search()
     {
@@ -73,7 +76,7 @@ class CatController extends Controller
             'fur_color' => $request->fur_color,
             'eye_color' => $request->eye_color,
             'place_of_origin' => $request->place_of_origin,
-            'emirate' => $request->emirate,
+            'state_id' => $request->emirate,
             'origin' => $request->origin,
             'microchip_number' => $request->microchip_number,
             'dead_alive' => $request->dead_alive,   
@@ -98,11 +101,13 @@ class CatController extends Controller
     }
     public function view(cat $cat)
     {
-        $query  = Cat::select('cats.*','care_country.name as care_country','cat_country.name as cat_country','ct.name as caretaker_name','cc.caretaker_id', 'ct.emirates_id_number','ct.name as caretaker_name', 'ct.customer_id', 'ct.email', 'ct.address', 'ct.phone_number', 'ct.whatsapp_number', 'ct.home_country', 'ct.emirate as caretaker_emirate', 'ct.work_place', 'ct.work_address', 'ct.position', 'ct.work_contact_number', 'ct.passport_number', 'ct.visa_status', 'ct.number_of_registered_cats', 'ct.image_url as caretaker_image')
+        $query  = Cat::select('cats.*','cat_state.name as catState','care_state.name as careState','care_country.name as care_country','cat_country.name as cat_country','ct.name as caretaker_name','cc.caretaker_id', 'ct.emirates_id_number','ct.name as caretaker_name', 'ct.customer_id', 'ct.email', 'ct.address', 'ct.phone_number', 'ct.whatsapp_number', 'ct.home_country', 'ct.work_place', 'ct.work_address', 'ct.position', 'ct.work_contact_number', 'ct.passport_number', 'ct.visa_status', 'ct.number_of_registered_cats', 'ct.image_url as caretaker_image')
                     ->leftJoin('cat_caretakers as cc','cc.cat_id', '=', 'cats.id')
                     ->leftJoin('caretakers as ct','cc.caretaker_id','=','ct.id')
                     ->leftJoin('countries as care_country','care_country.id', '=', 'ct.home_country')
                     ->leftJoin('countries as cat_country','cat_country.id', '=', 'cats.place_of_origin')
+                    ->leftJoin('states as care_state','care_state.id', '=', 'ct.state_id')
+                    ->leftJoin('states as cat_state','cat_state.id', '=', 'cats.state_id')
                     ->where('cats.id', '=', $cat->id)
                     ->where('cc.transfer_status', 0)
                     ->get();
@@ -117,14 +122,16 @@ class CatController extends Controller
                     ->leftJoin('cat_caretakers','cat_caretakers.cat_id', '=', 'cats.id')
                     ->where('cats.id', '=', $cat->id)
                     ->where('cat_caretakers.transfer_status', 0)->get();
-        $countries = Country::all();
+        $countries = Country::orderByRaw('name="United Arab Emirates" DESC')->orderBy('name','ASC')->get();
         $presentCaretaker = Caretaker::select('id','name')->where('id',$query[0]->caretaker_id)->where('is_blacklist',1)->get()->toArray();
         $caretakers = Caretaker::select('id','name')->orderBy('name','ASC')->where('is_blacklist',0)->get()->toArray();
         $editCaretakers = array_merge($presentCaretaker, $caretakers);
+        $states = Helper::getStates($cat->place_of_origin);
         return view('admin.cat.edit')->with([
             'cat' => $query,
             'countries' => $countries,
-            'caretakers' => $editCaretakers
+            'caretakers' => $editCaretakers,
+            'states' => $states
         ]);
     }
     public function store(StoreCatRequest $request)
@@ -155,7 +162,7 @@ class CatController extends Controller
             'fur_color' => $request->fur_color,
             'eye_color' => $request->eye_color,
             'place_of_origin' => $request->place_of_origin,
-            'emirate' => $request->emirate,
+            'state_id' => $request->emirate,
             'origin' => $request->origin,
             'microchip_number' => $request->microchip_number,
             'dead_alive' => $request->dead_alive,

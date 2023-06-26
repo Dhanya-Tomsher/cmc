@@ -81,15 +81,11 @@
 
                                     <div class="col-md-4">
                                         <label for="country" class="col-form-label">Home Country</label>
-                                        <select disabled class="form-select form-control">
-                                            <option>{{ $vet[0]->country }}</option>
-                                        </select>
+                                        <input type="text" class="form-control" value="{{ $vet[0]->country }}" disabled>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="country" class="col-form-label">Emirate</label>
-                                        <select disabled class="form-select form-control">
-                                            <option>{{ $vet[0]->emirate }}</option>
-                                        </select>
+                                        <label for="country" class="col-form-label">State</label>
+                                        <input type="text" class="form-control" value="{{ $vet[0]->state }}" disabled>
                                     </div>
 
                                     <div class="col-md-4">

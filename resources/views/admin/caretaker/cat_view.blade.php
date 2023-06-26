@@ -246,8 +246,8 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <label for="country" class="col-form-label">Emirate</label>
-                                        <input type="text" class="form-control" value="{{ $cat[0]->emirate }}" readonly>
+                                        <label for="country" class="col-form-label">State</label>
+                                        <input type="text" class="form-control" value="{{ $cat[0]->cat_state }}" readonly>
                                     </div>
 
                                     <div class="col-md-6">
@@ -352,8 +352,8 @@
 
 
                                                 <div class="col-md-6">
-                                                    <label for="Emirate" class="col-form-label">Emirate</label>
-                                                    <input class="form-control" type="text" value="{{ $cat[0]->caretaker_emirate }}" readonly id="Emirate">
+                                                    <label for="State" class="col-form-label">State</label>
+                                                    <input class="form-control" type="text" value="{{ $cat[0]->caretaker_state }}" readonly id="Emirate">
                                                 </div>
 
                                                 <div class="col-md-6">

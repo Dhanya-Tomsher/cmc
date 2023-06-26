@@ -28,7 +28,7 @@ class VetController extends Controller
     }
     public function create()
     {
-        $countries = Country::all();
+        $countries = Country::orderByRaw('name="United Arab Emirates" DESC')->orderBy('name','ASC')->get();
         $timeSlots = Helper::hoursRange( 0, 86400, 60 * 30, 'h:i a' );
         return view('admin.vet.create')->with([
             'countries' => $countries,
@@ -118,8 +118,9 @@ class VetController extends Controller
 
     public function view(Vet $vet)
     {
-        $vetResult = Vet::select("vets.*","countries.name as country")
+        $vetResult = Vet::select("vets.*","countries.name as country","states.name as state")
                     ->leftJoin('countries','countries.id', '=', 'vets.home_country')
+                    ->leftJoin('states','states.id', '=', 'vets.state_id')
                     ->where('vets.id', $vet->id)
                     ->get();
         $image = $vet->getImage();
@@ -130,12 +131,14 @@ class VetController extends Controller
     }
     public function edit(Vet $vet)
     {
-        $countries = Country::all();
+        $countries = Country::orderByRaw('name="United Arab Emirates" DESC')->orderBy('name','ASC')->get();
         $timeSlots = Helper::hoursRange( 0, 86400, 60 * 30, 'h:i a' );
+        $states = Helper::getStates($vet->home_country);
         return view('admin.vet.edit')->with([
             'vet' => $vet,
             'countries' => $countries,
-            'timeSlots' => $timeSlots
+            'timeSlots' => $timeSlots,
+            'states' => $states
         ]);
     }
 
@@ -162,7 +165,7 @@ class VetController extends Controller
             'phone_number' => $request->phone_number,
             'whatsapp_number' => $request->whatsapp_number,
             'home_country' => $request->home_country,
-            'emirate' => $request->emirate,
+            'state_id' => $request->emirate,
             'gender' => $request->gender,
             'color_name' => $request->color_name,
             'color_code' => $request->color_code,

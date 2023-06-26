@@ -75,7 +75,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <label for="example-text-input" class="col-form-label">Cat ID<span class="required">*</span></label>
-                                            <input class="form-control" name="cat_id" placeholder="Enter Cat ID" type="text" id="cat_id" value="{{ old('cat_id') }}">
+                                            <input class="form-control" readonly name="cat_id" placeholder="Enter Cat ID" type="text" id="cat_id" value="{{ $catId }}">
                                         </div>
 
                                         <div class="col-md-6">
@@ -256,8 +256,8 @@
 
                                         <div class="col-md-6">
                                             <label for="country" class="col-form-label">Place of Origin<span class="required">*</span></label>
-                                            <select class="form-select form-control" name="place_of_origin">
-                                                <option value="0" selected disabled>Select</option>
+                                            <select class="form-select form-control select2" name="place_of_origin" id="home_country">
+                                                <option value="" selected disabled>Select</option>
                                                 @foreach ($countries as $item)
                                                     <option {{ old('home_country') == $item->id ? 'selected' : '' }} value="{{ $item->id }}">{{ $item->name }}</option>
                                                 @endforeach
@@ -265,16 +265,9 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="country" class="col-form-label">Emirate<span class="required">*</span></label>
-                                            <select class="form-select form-control" name="emirate">
-                                                <option value="0" selected disabled>Select</option>
-                                                <option {{ old('emirate') == 'Abu Dhabi' ? 'selected' : '' }} value="Abu Dhabi">Abu Dhabi</option>
-                                                <option {{ old('emirate') == 'Dubai' ? 'selected' : '' }} value="Dubai">Dubai</option>
-                                                <option {{ old('emirate') == 'Sharjah' ? 'selected' : '' }} value="Sharjah">Sharjah</option>
-                                                <option {{ old('emirate') == 'Ajman' ? 'selected' : '' }} value="Ajman">Ajman</option>
-                                                <option {{ old('emirate') == 'Umm Al Quwain' ? 'selected' : '' }} value="Umm Al Quwain">Umm Al Quwain</option>
-                                                <option {{ old('emirate') == 'Ras Al Khaimah' ? 'selected' : '' }} value="Ras Al Khaimah">Ras Al Khaimah</option>
-                                                <option {{ old('emirate') == 'Fujairah' ? 'selected' : '' }} value="Fujairah">Fujairah</option>
+                                            <label for="country" class="col-form-label">State<span class="required">*</span></label>
+                                            <select class="form-select form-control select2" name="emirate" id="state">
+                                                
                                             </select>
                                         </div>
 
@@ -343,6 +336,26 @@
     $(document).on('select2:open', () => {
         document.querySelector('.select2-search__field').focus();
     });
+
+    $('.select2').select2({
+        placeholder: 'Select',
+        // dropdownParent: $('#createAppointmentModal'),
+        width: 'resolve', // need to override the changed default
+        allowClear: true,
+    });
+
+    $(document).on('change','#home_country', function(e){
+        var country_id = $(this).val();
+        $.ajax({
+                url: "{{ route('get-states')}}",
+                type: "POST",
+                data: {'country_id' : country_id},
+                success: function( response ) {
+                   $('#state').html(response);
+                }
+            });
+    })
+
      $( "#date_birth" ).datepicker({
         format: 'yyyy-mm-dd',
     });
@@ -397,7 +410,7 @@
             fur_color: "Fur/color is required",
             eye_color: "Eye color is required",
             place_of_origin: "Place of origin is required",
-            emirate: "Emirate is required",
+            emirate: "State is required",
             origin: "Origin / History is required",
             microchip_number: "Microchip number is required",
             image_url: {
@@ -426,12 +439,16 @@
                         'Cat details added successfully!',
                         'success'
                     );
+                    var catid = ($('#cat_id').val()).replace('C','');
                     $("#createCat")[0].reset();
                     $('#pregnant-div,#spayed-div').css('display','none');
                     $('#castrated-div').css('display','block');
                     $("#caretaker_id").val('').trigger('change') ;
+                    $("#home_country").val('').trigger('change') ;
+                    $("#state").val('').trigger('change') ;
                     $('#imagePreview').css('background-image',"url('')");
                     $('#imagePreview').css('background-image',"url('{{ asset('assets/images/cat_plc.jpg') }}')");
+                    $('#cat_id').val('C'+(parseInt(catid) +1));
                 }
             });
         }

@@ -77,7 +77,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <label for="example-text-input" class="col-form-label">Cat ID<span class="required">*</span></label>
-                                            <input class="form-control" value="{{ $cat[0]->cat_id }}" name="cat_id" id="cat_id" type="text" id="example-text-input">
+                                            <input class="form-control" readonly value="{{ $cat[0]->cat_id }}" name="cat_id" id="cat_id" type="text" id="example-text-input">
                                         </div>
 
                                         <div class="col-md-6">
@@ -257,8 +257,8 @@
 
                                         <div class="col-md-6">
                                             <label for="country" class="col-form-label">Place of Origin<span class="required">*</span></label>
-                                            <select class="form-select form-control" name="place_of_origin">
-                                                <option value="0" selected disabled>Select</option>
+                                            <select class="form-select form-control select2" name="place_of_origin" id="home_country">
+                                                <option value="" selected disabled>Select</option>
                                                 @foreach ($countries as $item)
                                                     <option {{ $cat[0]->place_of_origin == $item->id ? 'selected' : '' }} value="{{ $item->id }}">{{ $item->name }}</option>
                                                 @endforeach
@@ -266,16 +266,12 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="country" class="col-form-label">Emirate<span class="required">*</span></label>
-                                            <select class="form-select form-control" name="emirate">
-                                                <option value="0" selected disabled>Select</option>
-                                                <option {{ $cat[0]->emirate == 'Abu Dhabi' ? 'selected' : '' }} value="Abu Dhabi">Abu Dhabi</option>
-                                                <option {{ $cat[0]->emirate == 'Dubai' ? 'selected' : '' }} value="Dubai">Dubai</option>
-                                                <option {{ $cat[0]->emirate == 'Sharjah' ? 'selected' : '' }} value="Sharjah">Sharjah</option>
-                                                <option {{ $cat[0]->emirate == 'Ajman' ? 'selected' : '' }} value="Ajman">Ajman</option>
-                                                <option {{ $cat[0]->emirate == 'Umm Al Quwain' ? 'selected' : '' }} value="Umm Al Quwain">Umm Al Quwain</option>
-                                                <option {{ $cat[0]->emirate == 'Ras Al Khaimah' ? 'selected' : '' }} value="Ras Al Khaimah">Ras Al Khaimah</option>
-                                                <option {{ $cat[0]->emirate == 'Fujairah' ? 'selected' : '' }} value="Fujairah">Fujairah</option>
+                                            <label for="country" class="col-form-label">State<span class="required">*</span></label>
+                                            <select class="form-select form-control select2" name="emirate"  id="state">
+                                                @foreach ($states as $st)
+                                                    <option {{ $cat[0]->state_id == $st->id ? 'selected' : '' }}
+                                                        value="{{ $st->id }}">{{ $st->name }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
 
@@ -342,6 +338,25 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+    $('.select2').select2({
+        placeholder: 'Select',
+        // dropdownParent: $('#createAppointmentModal'),
+        width: 'resolve', // need to override the changed default
+        allowClear: true,
+    });
+
+    $(document).on('change','#home_country', function(e){
+        var country_id = $(this).val();
+        $.ajax({
+                url: "{{ route('get-states')}}",
+                type: "POST",
+                data: {'country_id' : country_id},
+                success: function( response ) {
+                   $('#state').html(response);
+                }
+            });
+    })
         
     $('input[name="gender"]').on('click',function(){
         if($(this).val() == 'Female'){
@@ -408,7 +423,7 @@
             fur_color: "Fur/color is required",
             eye_color: "Eye color is required",
             place_of_origin: "Place of origin is required",
-            emirate: "Emirate is required",
+            emirate: "State is required",
             origin: "Origin / History is required",
             microchip_number: "Microchip number is required",
             image_url: {
