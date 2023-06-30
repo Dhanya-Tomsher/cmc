@@ -247,14 +247,19 @@
                                             <thead>
                                                 <tr class="tr-border">
                                                     <!-- <th class="text-left" style="width:30px;">No.</th> -->
+                                                    @if($type == 'hospital')
                                                     <th class="text-left" style="width:60px;" >Ptld</th>
                                                     <th class="text-left" style="width:180px;word-wrap:break-word;" >Service</th>
+                                                    @else
+                                                    <th class="text-left" style="width:180px;word-wrap:break-word;" >Ptld</th>
+                                                    <th class="text-left" style="width:60px;word-wrap:break-word;" >Room</th>
+                                                    @endif
                                                     <th class="text-center" style="width:50px;" >Price</th>
                                                     <th class="text-center" style="width:50px;" >Net</th>
                                                     <th class="text-center" style="width:50px;" >VAT</th>
                                                     <th class="text-center" style="width:60px;" >Net+Vat</th>
                                                     <th class="text-center" style="width:120px;" >Service Charge</th>
-                                                    <th class="text-end" style="width:40px;" >Total</th>
+                                                    <th class="text-end" style="width:50px;" >Total</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -277,7 +282,7 @@
                                                 
                                                 <tr>
                                                     <!-- <th class="text-left"> 01</th> -->
-                                                    <td class="text-left"> {{$cat_id }} </td>
+                                                    <td class="text-left"> {{$cat_ids }} </td>
                                                     <td class="text-left"> {{$service }}  </td>
                                                     <td class="text-center"> {{$price }}</td>
                                                     <td class="text-center"> {{$net }}</td>
@@ -333,7 +338,8 @@
                                                 <tr>
                                                     <th scope="row" colspan="7" class="border-0 text-right">Total :</th>
                                                     <td class="border-0 text-right">
-                                                        <h4 class="m-0">{{$total  }}</h4>
+                                                    
+                                                    <h4 class="m-0"><span style="font-size:13px;float:left;margin-top:2px;margin-left:2px;">AED</span>{{$total  }}</h4>
                                                     </td>
                                                 </tr>
                                             </tbody>

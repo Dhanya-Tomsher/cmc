@@ -243,7 +243,7 @@
                                                     <th class="text-center" style="width:50px;" >VAT</th>
                                                     <th class="text-center" style="width:60px;" >Net+Vat</th>
                                                     <th class="text-center" style="width:120px;" >Service Charge</th>
-                                                    <th class="text-end" style="width:40px;" >Total</th>
+                                                    <th class="text-end" style="width:60px;" >Total</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -325,7 +325,7 @@
                                                 <tr>
                                                     <th scope="row" colspan="8" class="border-0 text-right">Total :</th>
                                                     <td class="border-0 text-right">
-                                                        <h4 class="m-0">{{$total  }}</h4>
+                                                        <h4 class="m-0"><span style="font-size:13px;float:left;margin-top:3px;margin-left:2px;">AED</span>{{$total  }}</h4>
                                                     </td>
                                                 </tr>
                                             </tbody>

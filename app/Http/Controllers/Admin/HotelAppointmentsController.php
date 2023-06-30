@@ -357,8 +357,9 @@ class HotelAppointmentsController extends Controller
     }
 
     public function updateHotelBooking(Request $request){
+        $cats = explode(',',$request->editcatId);
         $hotel = HotelAppointments::find($request->appointment_id)->update([
-            'cat_id' => $request->catId,
+            // 'cat_id' => $request->catId,
             'caretaker_id' => $request->caretaker_id,
             'room_number' => $request->rooms,
             'start_date' => $request->start_date,
@@ -366,6 +367,20 @@ class HotelAppointmentsController extends Controller
             'caretaker_comment' => $request->remarks,
             'payment_type' => $request->payment_type
         ]);
+
+        HotelBookingCats::where('booking_id',$request->appointment_id)->delete();
+        $catData = [];
+        if(!empty($cats)){
+            foreach($cats as $key => $cat){
+                $catData[] = [
+                                'booking_id' => $request->appointment_id,
+                                'cat_id' => $cat,
+                                'created_at' => date('Y-m-d H:i:s')
+                            ];
+            }
+        }
+       
+        HotelBookingCats::insert($catData);
     }
 
     public function changePaymentStatus(Request $request){

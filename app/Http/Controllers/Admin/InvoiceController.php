@@ -142,25 +142,30 @@ class InvoiceController extends Controller
                         ->leftJoin('procedures as pro','ha.procedure_id','=','pro.id')
                         ->where('invoices.booking_id',$request->invoice)
                         ->where('invoices.booking_type','hospital_appointment')
-                        ->get(['ha.payment_confirmation','pro.name as service','c.cat_id','ct.customer_id','ct.name as caretaker_name','ct.address','ct.email','ct.phone_number','invoices.*']);
+                        ->get(['ha.payment_confirmation','pro.name as service','c.cat_id','c.cat_id as cat_ids','ct.customer_id','ct.name as caretaker_name','ct.address','ct.email','ct.phone_number','invoices.*']);
      
         return view('admin.invoice')->with([
-            'invoice' => $query
+            'invoice' => $query,
+            'type' => 'hospital'
         ]);
     }
 
     public function getHotelInvoiceDetails(Request $request){
        
         $query = Invoices::leftJoin('hotel_appointments as ha','invoices.booking_id','=','ha.id')
+                        ->leftJoin('hotel_booking_cats as hbc','hbc.booking_id','=','ha.id')
                         ->leftJoin('caretakers as ct','ha.caretaker_id','=','ct.id')
-                        ->leftJoin('cats as c','ha.cat_id','=','c.id')
+                        ->leftJoin('cats as c','hbc.cat_id','=','c.id')
                         ->leftJoin('hotelrooms as room','ha.room_number','=','room.id')
                         ->where('invoices.booking_id',$request->invoice)
                         ->where('invoices.booking_type','hotel_booking')
-                        ->get(['ha.payment_confirmation','room.room_number as service','c.cat_id','ct.customer_id','ct.name as caretaker_name','ct.address','ct.email','ct.phone_number','invoices.*']);
+                        ->select('ha.payment_confirmation','room.room_number as service','c.cat_id','ct.customer_id','ct.name as caretaker_name','ct.address','ct.email','ct.phone_number','invoices.*')
+                        ->selectRaw("GROUP_CONCAT(`c`.`id` SEPARATOR ', ')  as cat_ids")
+                        ->get();
      
         return view('admin.invoice')->with([
-            'invoice' => $query
+            'invoice' => $query,
+            'type' => 'hotel'
         ]);
     }
 
@@ -185,15 +190,20 @@ class InvoiceController extends Controller
                             ->leftJoin('procedures as pro','ha.procedure_id','=','pro.id')
                             ->where('invoices.id',$request->id)
                             ->where('invoices.booking_type','hospital_appointment')
-                            ->get(['ha.payment_confirmation','pro.name as service','c.cat_id','ct.customer_id','ct.name as caretaker_name','ct.address','ct.email','ct.phone_number','invoices.*'])->toArray();
+                            ->get(['ha.payment_confirmation','pro.name as service','c.cat_id','c.cat_id as cat_ids','ct.customer_id','ct.name as caretaker_name','ct.address','ct.email','ct.phone_number','invoices.*'])->toArray();
+        $invoice[0]['type'] = 'hospital';
         }else{
             $invoice = Invoices::leftJoin('hotel_appointments as ha','invoices.booking_id','=','ha.id')
+                        ->leftJoin('hotel_booking_cats as hbc','hbc.booking_id','=','ha.id')
                         ->leftJoin('caretakers as ct','ha.caretaker_id','=','ct.id')
-                        ->leftJoin('cats as c','ha.cat_id','=','c.id')
+                        ->leftJoin('cats as c','hbc.cat_id','=','c.id')
                         ->leftJoin('hotelrooms as room','ha.room_number','=','room.id')
                         ->where('invoices.id',$request->id)
                         ->where('invoices.booking_type','hotel_booking')
-                        ->get(['ha.payment_confirmation','room.room_number as service','c.cat_id','ct.customer_id','ct.name as caretaker_name','ct.address','ct.email','ct.phone_number','invoices.*'])->toArray(); 
+                        ->select('ha.payment_confirmation','room.room_number as service','c.cat_id','ct.customer_id','ct.name as caretaker_name','ct.address','ct.email','ct.phone_number','invoices.*')
+                        ->selectRaw("GROUP_CONCAT(`c`.`id` SEPARATOR ', ')  as cat_ids")
+                        ->get()->toArray();
+            $invoice[0]['type'] = 'hotel'; 
         }
       
        $invoice[0]['imagePath'] = public_path('assets/images/logo.png');

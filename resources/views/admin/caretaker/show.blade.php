@@ -228,6 +228,8 @@
                                                     <a href="{{ route('hotel-appointments') }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Hotel" class="px-1 btn btn-app"><i class="uil uil-building"></i>Hotel</a>
                                                     
                                                     <a href="{{ route('cat.edit', $cat) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" data-bs-title="Transfer Profile" class="px-1 btn btn-app"><i class="uil uil-arrow-right"></i>Transfer</a>
+                                                
+                                                    <a href="{{ route('custom-forms') }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" data-bs-title="Forms" class="px-1 btn btn-app"><i class="uil uil-file-alt"></i>Forms</a>
                                                 </td>
                                             </tr>
                                         @endforeach

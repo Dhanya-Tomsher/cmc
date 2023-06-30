@@ -284,7 +284,8 @@
                                                     <input class="form-control" type="hidden"  id="appointment_id" name="appointment_id">
                                                     <input class="form-control" type="hidden"  id="caretaker_id" name="caretaker_id">
                                                     <input class="form-control" type="hidden"  id="catId" name="catId">
-                                                    <input class="form-control" type="text"  id="editcatId" name="editcatId">
+                                                    <input class="form-control" type="hidden"  id="editcatId" name="editcatId">
+                                                    
                                                     <input type="hidden" name="edit_from" id="edit_from" value="">
                                                     <input type="hidden" name="edit_to" id="edit_to" value="">
                                                     <input type="hidden" name="edit_room_id" id="edit_room_id" value="">
@@ -368,8 +369,11 @@
         width: 'resolve', // need to override the changed default
     });
     getBookings(); 
-
+    let alreadyIds = [];
+   
     function editBooking(app_id){
+        alreadyIds = [];
+        $('#catDetails').html('');
         $.ajax({
             url: "{{ route('booking.edit')}}",
             type: "POST",
@@ -406,7 +410,6 @@
                 
                 $('#catId').val(result.appointment[0].cat_id);
                 $('#editcatId').val(result_hotel_cats);
-                
                 
                 $("#rooms").val(result.appointment[0].room_number).trigger('change');
                
@@ -593,7 +596,7 @@
             }
         });
     });
-    let alreadyIds = [];
+    
     function getCatData(cid){
         var editCat = $('#editcatId').val();
         $.ajax({
@@ -612,7 +615,7 @@
                 
                 var catArray = editCat.split(',');
                 // console.log(catArray);
-                alreadyIds = catArray;
+                
                 // console.log(alreadyIds);
                 $.each(catArray, function(indexc, valuec) {
                     $("#search_cat").val(valuec).trigger('select2:select');
@@ -632,7 +635,12 @@
     $("#search_cat").on('select2:unselect', function(e) {
         var id = e.params.data.id;
         $('#cat_id'+id).remove();
-        $('#editcatId').val($('#search_cat').val());
+        
+        var idx = $.inArray(id, alreadyIds);
+        if (idx !== -1) {
+            alreadyIds.splice(idx, 1);
+        } 
+        $('#editcatId').val(alreadyIds);
     })
     function getDifference(a, b) {
         return a.filter(element => {
@@ -640,22 +648,20 @@
         });
     }
     $("#search_cat").on("select2:select", function(e) {
-        var currentIds = $(this).val();
+        var currentIds = $("#search_cat").select2('val');
         var current = getDifference(currentIds,alreadyIds);
-      
-        console.log('current ===========');
-        console.log(current);
         if(current != ''){
             var id = current.toString();
         }else{
             var obj = $("#search_cat").select2('data');
             var id = obj[obj.length-1].id;
         }
-        console.log(current.toString())
 
-        var obj = $("#search_cat").select2('data');
-        // console.log(obj);
-        alreadyIds = currentIds;
+        if(alreadyIds.indexOf(id) == -1){  
+            alreadyIds.push(id);
+        }  
+        $('#editcatId').val(alreadyIds);
+       
         // var id = e.params.data.id;
         $.ajax({
             url: "{{ route('get-cat')}}",
@@ -723,7 +729,7 @@
     });
     $("#appointment_tab").on("click", function (e) { 
         var caretaker_id =  $('#caretaker_id').val();
-        var cat_id =  $('#catId').val();
+        var cat_id =  $('#search_cat').val();
         if(cat_id =='' && caretaker_id == ''){
             Swal.fire(
                 '',
