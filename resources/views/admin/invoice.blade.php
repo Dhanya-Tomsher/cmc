@@ -7,12 +7,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
-                        <h4 class="mb-0">Invoice Detail</h4>
+                        <h4 class="mb-0">@if($type == 'hospital') Hospital @else Hotel @endif Invoice Detail</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Invoice Detail</li>
+                                <li class="breadcrumb-item active">@if($type == 'hospital') Hospital @else Hotel @endif Invoice Detail</li>
                             </ol>
                         </div>
                     </div>
@@ -90,7 +90,7 @@
                                             <tr>
                                                 <th style="width: 70px;">No.</th>
                                                 <th>Ptld</th>
-                                                <th>Service</th>
+                                                <th>@if($type == 'hospital') Service @else Room @endif</th>
                                                 <th class="text-center">Price</th>
                                                 <th class="text-center">Net</th>
                                                 <th class="text-center">VAT</th>
@@ -102,7 +102,7 @@
                                         <tbody>
                                             <tr>
                                                 <th scope="row">01</th>
-                                                <td>{{$invoice[0]->cat_id}} </td>
+                                                <td>{{$invoice[0]->cat_ids}} </td>
                                                 <td>
                                                     <h5 class="font-size-15 mb-1">{{$invoice[0]->service}}</h5>
                                                 </td>
@@ -142,7 +142,7 @@
                                             <tr>
                                                 <th scope="row" colspan="8" class="border-0 text-end padding-invoice">Total :</th>
                                                 <td class="border-0 text-end padding-invoice">
-                                                    <h4 class="m-0">{{$invoice[0]->total}}</h4>
+                                                    <h4 class="m-0"><span style="font-size:18px;margin-top:2px;margin-left:2px;">AED &nbsp;</span>{{$invoice[0]->total}}</h4>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -216,9 +216,17 @@
 @push('header')
 <link rel="stylesheet" href="{{ asset('assets/libs/select2/css/select2.min.css') }}" />
 <style>
+     #print-area{
+        padding-left: 25px;
+    padding-right: 25px;
+    }
     @media print {
-         @page { margin: 4% !important; }
-         .invoice-title{
+        #header{display:none;}
+        #footer{display:none;}
+        @page { 
+            padding: 4% !important; 
+        }
+        .invoice-title{
             display : none;
          }
     }

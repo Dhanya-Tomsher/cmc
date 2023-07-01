@@ -6,6 +6,7 @@ Use App\Http\Controllers\Controller;
 Use App\Models\Caretaker;
 Use App\Models\Cat;
 Use App\Models\Vet;
+Use App\Models\States;
 use Illuminate\Http\Request;
 use Spatie\Searchable\Search;
 
@@ -125,6 +126,16 @@ class DashboardController extends Controller
         $data['castrated']  = Cat::where('gender','Male')->where('castrated',1)->count();
 
         return json_encode(array('status'=>'success','data'=>$data));
+    }
+
+    public function getStates(Request $request){
+        $states = States::select("name","id")->where("country_id",$request->country_id)->orderBy('name')->get();
+        
+        $options = "<option value=''>Select </option>";
+        foreach($states as $key=>$value){
+            $options .= '<option value="'.$value->id.'">'.ucfirst($value->name).'</option>';
+        }
+        return $options;
     }
 }
 

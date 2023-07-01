@@ -174,11 +174,11 @@
 
                                     <div class="col-md-4">
                                         <label for="country" class="col-form-label">Home Country</label>
-                                        <input class="form-control" type="text"  placeholder="Whatsapp Number" readonly id="country" name="country" >
+                                        <input class="form-control" type="text"  placeholder="Home Country" readonly id="country" name="country" >
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="country" class="col-form-label">Emirate</label>
-                                        <input class="form-control" type="text"  placeholder="Emirate" readonly id="emirate" name="emirate" >
+                                        <label for="country" class="col-form-label">State</label>
+                                        <input class="form-control" type="text"  placeholder="State" readonly id="emirate" name="emirate" >
                                     </div>
 
                                     <div class="col-md-4">
@@ -442,8 +442,8 @@
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label for="country" class="col-form-label">Emirate</label>
-                                        <input type="text" class="form-control" id="cat_emirate" name="cat_emirate" placeholder="Emirate" readonly  rows="1"/>
+                                        <label for="country" class="col-form-label">State</label>
+                                        <input type="text" class="form-control" id="cat_emirate" name="cat_emirate" placeholder="State" readonly  rows="1"/>
                                     </div>
 
                                     
@@ -817,7 +817,7 @@
                     $('#phone').val(returnedData[0].phone_number);
                     $('#whatsapp').val(returnedData[0].whatsapp_number);
                     $('#country').val(returnedData[0].country);
-                    $('#emirate').val(returnedData[0].emirate);
+                    $('#emirate').val(returnedData[0].state);
                     $('#work_place').val(returnedData[0].work_place);
                     $('#work_address').val(returnedData[0].work_address);
                     $('#position').val(returnedData[0].position);
@@ -887,7 +887,7 @@
                     $('#fur_color').val(returnedData[0].fur_color);
                     $('#eye_color').val(returnedData[0].eye_color);
                     $('#place_of_origin').val(returnedData[0].country);
-                    $('#cat_emirate').val(returnedData[0].emirate);
+                    $('#cat_emirate').val(returnedData[0].state);
                     $('#cat_origin').val(returnedData[0].origin);
                     $('#microchip').val(returnedData[0].microchip_number);
                     

@@ -9,6 +9,7 @@ use App\Models\Hotelrooms;
 use App\Models\Caretaker;
 use App\Models\Cat;
 use App\Models\Invoices;
+use App\Models\HotelBookingCats;
 use App\Http\Requests\StoreHotelAppointmentRequest;
 use App\Http\Requests\StoreHotelAppointmentsRequest;
 use App\Http\Requests\UpdateHotelAppointmentRequest;
@@ -165,8 +166,9 @@ class HotelAppointmentsController extends Controller
     }
    
     public function saveHotelBooking(Request $request){
+        $cats = explode(',',$request->catId);
+
         $hotel = HotelAppointments::create([
-            'cat_id' => $request->catId,
             'caretaker_id' => $request->caretaker_id,
             'room_number' => $request->rooms,
             'start_date' => $request->from_date,
@@ -174,6 +176,19 @@ class HotelAppointmentsController extends Controller
             'caretaker_comment' => $request->remarks,
             'payment_type' => $request->payment_type
         ]);
+        $catData = [];
+        if(!empty($cats)){
+            foreach($cats as $key => $cat){
+                $catData[] = [
+                                'booking_id' => $hotel->id,
+                                'cat_id' => $cat,
+                                'created_at' => date('Y-m-d H:i:s')
+                            ];
+            }
+        }
+       
+        HotelBookingCats::insert($catData);
+
         $vat = ($request->price/100) * 5;  // 5% VAT calculation
         $total = $request->price + $vat;
         $data = array(
@@ -198,18 +213,21 @@ class HotelAppointmentsController extends Controller
         $search = $request->search;
         $from_date = $request->from_date;
         $to_date = $request->to_date;
-
-        $query  = HotelAppointments::leftJoin('caretakers','hotel_appointments.caretaker_id','=','caretakers.id')
-                                        ->leftJoin('cats','hotel_appointments.cat_id','=','cats.id')
+        // DB::enableQueryLog();
+        $query  = HotelAppointments::leftJoin('hotel_booking_cats as hbc','hbc.booking_id','=','hotel_appointments.id')
+                                    ->leftJoin('hotel_booking_cats as hbcFilter','hbcFilter.booking_id','=','hotel_appointments.id')
+                                        ->leftJoin('caretakers','hotel_appointments.caretaker_id','=','caretakers.id')
+                                        ->leftJoin('cats','hbc.cat_id','=','cats.id')
+                                        ->leftJoin('cats as bookCat','hbcFilter.cat_id','=','bookCat.id')
                                         ->leftJoin('hotelrooms','hotel_appointments.room_number','=','hotelrooms.id');
 
         if($search){  
             $query->where(function ($query) use ($search) {
                 $query->orWhere('hotelrooms.room_number', 'LIKE', $search . '%')
-                        ->orWhere('cats.cat_id', 'LIKE', $search . '%')
+                        ->orWhere('bookCat.cat_id', 'LIKE', $search . '%')
                         ->orWhere('caretakers.customer_id', 'LIKE', $search . '%')
                         ->orWhere('caretakers.name', 'LIKE', $search . '%')
-                        ->orWhere('cats.name', 'LIKE', $search . '%');
+                        ->orWhere('bookCat.name', 'LIKE', $search . '%');
             });                    
         }
         if($from_date != '' || $to_date != ''){
@@ -225,8 +243,11 @@ class HotelAppointmentsController extends Controller
         }
 
         $bookings = $query->orderBy('hotel_appointments.id','DESC')
-        ->get(['hotel_appointments.payment_confirmation','hotel_appointments.created_at','hotelrooms.room_number as room_no','hotel_appointments.id','hotel_appointments.start_date','hotel_appointments.end_date','cats.cat_id','caretakers.customer_id','caretakers.name as caretaker_name','cats.name as cat_name']);
-       
+        ->groupBy('hotel_appointments.id')
+        ->select('hotel_appointments.payment_confirmation','hotel_appointments.created_at','hotelrooms.room_number as room_no','hotel_appointments.id','hotel_appointments.start_date','hotel_appointments.end_date','cats.cat_id','caretakers.customer_id','caretakers.name as caretaker_name')
+        ->selectRaw("GROUP_CONCAT(DISTINCT(`cats`.`name`) SEPARATOR ', ')  as cat_name")
+        ->get();
+        //    dd(DB::getQueryLog());
         $viewData = view('admin.hote.ajax_list', compact('bookings'))->render();
 
         return $viewData;
@@ -242,15 +263,28 @@ class HotelAppointmentsController extends Controller
     function getBookingDetails(Request $request){
         $app_id = $request->id;
        
-        $hotel  = HotelAppointments::leftJoin('caretakers as care','hotel_appointments.caretaker_id','=','care.id')
-                                ->leftJoin('cats','hotel_appointments.cat_id','=','cats.id')
+        $hotel  = HotelAppointments::leftJoin('hotel_booking_cats as hbc','hbc.booking_id','=','hotel_appointments.id')
+                                ->leftJoin('caretakers as care','hotel_appointments.caretaker_id','=','care.id')
                                 ->leftJoin('hotelrooms as room','hotel_appointments.room_number','=','room.id')
                                 ->leftJoin('countries as care_country','care_country.id', '=', 'care.home_country')
-                                ->leftJoin('countries as cat_country','cat_country.id', '=', 'cats.place_of_origin')
+                                ->leftJoin('states as careState','careState.id', '=', 'care.state_id')
+                                ->leftJoin('cats','hbc.cat_id','=','cats.id')
                                 ->where('hotel_appointments.id', $app_id)
-                                ->get(['care_country.name as care_country','cat_country.name as cat_country','hotel_appointments.created_at','room.amount','room.room_number as room_no','hotel_appointments.id',
-                                'hotel_appointments.payment_confirmation','hotel_appointments.caretaker_comment','hotel_appointments.payment_type','hotel_appointments.room_number','hotel_appointments.start_date','hotel_appointments.end_date','cats.cat_id',
-                                'care.*','care.work_place as caretaker_work_place','care.name as caretaker_name','cats.name as cat_name','cats.*', 'care.emirate as caretaker_emirate','cats.emirate as cat_emirate']);                 
+                                ->select('care_country.name as care_country','hotel_appointments.created_at','room.amount','room.room_number as room_no','hotel_appointments.id',
+                                'hotel_appointments.payment_confirmation','hotel_appointments.caretaker_comment','hotel_appointments.payment_type','hotel_appointments.room_number','hotel_appointments.start_date','hotel_appointments.end_date',
+                                'care.*','care.work_place as caretaker_work_place','care.name as caretaker_name','careState.name as caretaker_state')
+                                ->selectRaw("GROUP_CONCAT(`cats`.`id` SEPARATOR ', ')  as cat_ids")
+                                ->get();   
+       
+        if(isset($hotel[0])){
+            $cats = explode(',',$hotel[0]->cat_ids);
+            $catDetails = Cat::leftJoin('states','states.id', '=', 'cats.state_id')
+                            ->leftJoin('countries','countries.id', '=', 'cats.place_of_origin')
+                            ->whereIn('cats.id',$cats)
+                            ->select('cats.*','countries.name as country','states.name as state')
+                            ->get();
+            $hotel[0]['cats'] = $catDetails;
+        }
        
         $viewData = view('admin.hote.booking_view_details', compact('hotel'))->render();
 
@@ -259,8 +293,9 @@ class HotelAppointmentsController extends Controller
 
     function editBookings(Request $request){
         $app_id = $request->id;
-        $hotel  = HotelAppointments::where('hotel_appointments.id', $app_id)->get(['hotel_appointments.*']);                 
-
+        $hotel  = HotelAppointments::where('hotel_appointments.id', $app_id)->get(['hotel_appointments.*']); 
+        $hotel_cats = HotelBookingCats::where('booking_id', $app_id)->get()->pluck('cat_id')->toArray();       
+        
         $caretakers = Caretaker::select("id","name","customer_id")
                             ->where('status', 'published')
                             ->where('is_blacklist',0)
@@ -281,7 +316,7 @@ class HotelAppointmentsController extends Controller
                             ->get();
         
 
-       return json_encode(array('appointment' => $hotel , 'caretakers' => $caretakers,'cats' => $cats, 'rooms' => $rooms));
+       return json_encode(array('appointment' => $hotel , 'caretakers' => $caretakers,'cats' => $cats, 'rooms' => $rooms, 'hotel_cats' => $hotel_cats));
     }
 
     public function getAvailableEditRooms(Request $request){
@@ -322,8 +357,9 @@ class HotelAppointmentsController extends Controller
     }
 
     public function updateHotelBooking(Request $request){
+        $cats = explode(',',$request->editcatId);
         $hotel = HotelAppointments::find($request->appointment_id)->update([
-            'cat_id' => $request->catId,
+            // 'cat_id' => $request->catId,
             'caretaker_id' => $request->caretaker_id,
             'room_number' => $request->rooms,
             'start_date' => $request->start_date,
@@ -331,6 +367,20 @@ class HotelAppointmentsController extends Controller
             'caretaker_comment' => $request->remarks,
             'payment_type' => $request->payment_type
         ]);
+
+        HotelBookingCats::where('booking_id',$request->appointment_id)->delete();
+        $catData = [];
+        if(!empty($cats)){
+            foreach($cats as $key => $cat){
+                $catData[] = [
+                                'booking_id' => $request->appointment_id,
+                                'cat_id' => $cat,
+                                'created_at' => date('Y-m-d H:i:s')
+                            ];
+            }
+        }
+       
+        HotelBookingCats::insert($catData);
     }
 
     public function changePaymentStatus(Request $request){

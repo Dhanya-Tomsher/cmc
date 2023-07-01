@@ -59,8 +59,8 @@
                     <input class="form-control" type="text" value="{{ $hosp[0]->care_country }}" readonly>
                 </div>
                 <div class="col-md-4">
-                    <label for="country" class="col-form-label">Emirate</label>
-                    <input class="form-control" type="text" value="{{ $hosp[0]->caretaker_emirate }}" readonly>
+                    <label for="country" class="col-form-label">State</label>
+                    <input class="form-control" type="text" value="{{ $hosp[0]->caretaker_state }}" readonly>
                 </div>
 
                 <div class="col-md-4">
@@ -310,8 +310,8 @@
                 </div>
 
                 <div class="col-md-4">
-                    <label for="country" class="col-form-label">Emirate</label>
-                    <input type="text" class="form-control" value="{{ $hosp[0]->cat_emirate }}" readonly  rows="1"/>
+                    <label for="country" class="col-form-label">State</label>
+                    <input type="text" class="form-control" value="{{ $hosp[0]->cat_state }}" readonly  rows="1"/>
                 </div>
 
                 

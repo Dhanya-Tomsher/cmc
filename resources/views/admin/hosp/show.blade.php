@@ -94,7 +94,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <label for="country" class="col-form-label">Emirate</label>
+                                                    <label for="country" class="col-form-label">State</label>
                                                     <select class="form-select form-control">
                                                         <option>Select</option>
                                                         <option>Dubai</option>

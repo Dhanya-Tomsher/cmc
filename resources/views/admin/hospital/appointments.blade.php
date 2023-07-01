@@ -1,4 +1,4 @@
-@extends('admin.layouts.app', ['body_class' => '', 'title' => 'Hospital Appointments'])
+@extends('admin.layouts.app', ['body_class' => '', 'title' => 'Hospital Schedule'])
 @section('content')
 <div class="page-content">
     <div class="container-fluid">
@@ -6,12 +6,12 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-flex align-items-center justify-content-between">
-                    <h4 class="mb-0">Hospital Appointments </h4>
+                    <h4 class="mb-0">Hospital Schedule </h4>
 
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Hospital Appointments</li>
+                            <li class="breadcrumb-item active">Hospital Schedule</li>
                         </ol>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                     <div class="modal-dialog modal-xl modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="myExtraLargeModalLabel">Create Hospital Appointments </h5>
+                                <h5 class="modal-title" id="myExtraLargeModalLabel">Create Hospital Appointment </h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                                 </button>
                             </div>
@@ -122,11 +122,11 @@
 
                                             <div class="col-md-4">
                                                 <label for="country" class="col-form-label">Home Country</label>
-                                                <input class="form-control" type="text"  placeholder="Whatsapp Number" readonly id="country" name="country" >
+                                                <input class="form-control" type="text"  placeholder="Home Country" readonly id="country" name="country" >
                                             </div>
                                             <div class="col-md-4">
-                                                <label for="country" class="col-form-label">Emirate</label>
-                                                <input class="form-control" type="text"  placeholder="Emirate" readonly id="emirate" name="emirate" >
+                                                <label for="country" class="col-form-label">State</label>
+                                                <input class="form-control" type="text"  placeholder="State" readonly id="emirate" name="emirate" >
                                             </div>
 
                                             <div class="col-md-4">
@@ -391,8 +391,8 @@
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label for="country" class="col-form-label">Emirate</label>
-                                                <input type="text" class="form-control" id="cat_emirate" name="cat_emirate" placeholder="Emirate" readonly  rows="1"/>
+                                                <label for="country" class="col-form-label">State</label>
+                                                <input type="text" class="form-control" id="cat_emirate" name="cat_emirate" placeholder="State" readonly  rows="1"/>
                                             </div>
 
                                            
@@ -801,7 +801,7 @@
                     $('#phone').val(returnedData[0].phone_number);
                     $('#whatsapp').val(returnedData[0].whatsapp_number);
                     $('#country').val(returnedData[0].country);
-                    $('#emirate').val(returnedData[0].emirate);
+                    $('#emirate').val(returnedData[0].state);
                     $('#work_place').val(returnedData[0].work_place);
                     $('#work_address').val(returnedData[0].work_address);
                     $('#position').val(returnedData[0].position);
@@ -851,7 +851,7 @@
                     $('#fur_color').val(returnedData[0].fur_color);
                     $('#eye_color').val(returnedData[0].eye_color);
                     $('#place_of_origin').val(returnedData[0].country);
-                    $('#cat_emirate').val(returnedData[0].emirate);
+                    $('#cat_emirate').val(returnedData[0].state);
                     $('#cat_origin').val(returnedData[0].origin);
                     $('#microchip').val(returnedData[0].microchip_number);
                     

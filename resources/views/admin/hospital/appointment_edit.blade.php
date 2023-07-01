@@ -65,11 +65,11 @@
 
                 <div class="col-md-4">
                     <label for="country" class="col-form-label">Home Country</label>
-                    <input class="form-control" type="text"  placeholder="Whatsapp Number" readonly id="country" name="country" >
+                    <input class="form-control" type="text"  placeholder="Home Country" readonly id="country" name="country" >
                 </div>
                 <div class="col-md-4">
-                    <label for="country" class="col-form-label">Emirate</label>
-                    <input class="form-control" type="text"  placeholder="Emirate" readonly id="emirate" name="emirate" >
+                    <label for="country" class="col-form-label">State</label>
+                    <input class="form-control" type="text"  placeholder="State" readonly id="emirate" name="emirate" >
                 </div>
 
                 <div class="col-md-4">
@@ -334,8 +334,8 @@
                 </div>
 
                 <div class="col-md-4">
-                    <label for="country" class="col-form-label">Emirate</label>
-                    <input type="text" class="form-control" id="cat_emirate" name="cat_emirate" placeholder="Emirate" readonly  rows="1"/>
+                    <label for="country" class="col-form-label">State</label>
+                    <input type="text" class="form-control" id="cat_emirate" name="cat_emirate" placeholder="State" readonly  rows="1"/>
                 </div>
 
                

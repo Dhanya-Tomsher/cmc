@@ -4,6 +4,7 @@ namespace App\Helpers;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use App\Models\CatCaretakers; 
+use App\Models\States; 
 use DateTime;
 use DatePeriod;
 use DateInterval;
@@ -130,5 +131,20 @@ class Helper
         foreach ($routes as $route) {
             if (Route::currentRouteName() == $route) return $output;
         }
+    }
+
+    public static function getStatesOptions($country_id){
+        $states = States::select("name","id")->where("country_id",$country_id)->orderBy('name')->get();
+        
+        $options = "<option value=''>Select </option>";
+        foreach($states as $key=>$value){
+            $options .= '<option value="'.$value->id.'">'.ucfirst($value->name).'</option>';
+        }
+        return $options;
+    }
+
+    public static function getStates($country_id){
+        $states = States::select("name","id")->where("country_id",$country_id)->orderBy('name')->get();
+        return $states;
     }
 }

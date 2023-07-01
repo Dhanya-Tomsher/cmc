@@ -77,7 +77,7 @@
                                                 <th class="text-center">VAT</th>
                                                 <th class="text-center">Net+Vat</th>
                                                 <th class="text-center">Service Charge</th>
-                                                <th class="text-end" style="width: 120px;">Total</th>
+                                                <th class="text-end " style="width: 120px;">Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -124,8 +124,8 @@
                                             </tr>
                                             <tr>
                                                 <th scope="row" colspan="8" class="border-0 text-end padding-invoice">Total :</th>
-                                                <td class="border-0 text-end padding-invoice">
-                                                    <h4 class="m-0">{{$invoice[0]->total}}</h4>
+                                                <td class="border-0 text-end total padding-invoice">
+                                                    <h4 class="m-0" id="currency" ><span style="font-size:16px;margin-top:4px;margin-left:2px;">AED &nbsp;</span>{{$invoice[0]->total}}</h4>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -151,9 +151,26 @@
 @push('header')
 <link rel="stylesheet" href="{{ asset('assets/libs/select2/css/select2.min.css') }}" />
 <style>
-    @media print {
-         @page { margin: 4% !important; }
+    #print-area{
+        padding-left: 25px;
+    padding-right: 25px;
     }
+    @media print {
+        #header{display:none;}
+        #footer{display:none;}
+        @page { 
+            padding: 4% !important; 
+        }
+        #currency{
+            font-size:18px !important;
+            margin-top:6px !important;
+        }
+        .total{
+           
+            display:contents !important;
+        }
+    }
+    
 </style>
 @endpush
 

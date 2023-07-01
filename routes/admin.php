@@ -213,6 +213,9 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
         Route::post('update-tab-link',[FormsController::class, 'updateTabLink'])->name('update-tab-link');
     
         Route::get('cats-count', [DashboardController::class, 'catsCountApi'])->name('cats-count');
+
+        Route::post('states', [DashboardController::class, 'getStates'])->name('get-states');
+
         Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
     });   
 });

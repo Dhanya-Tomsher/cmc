@@ -79,8 +79,8 @@
                                         <input type="text" class="form-control" value="{{ $caretaker[0]->care_country }}" readonly>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="country" class="col-form-label">Emirate</label>
-                                        <input type="text" class="form-control" value="{{ $caretaker[0]->emirate }}" readonly>
+                                        <label for="country" class="col-form-label">State</label>
+                                        <input type="text" class="form-control" value="{{ $caretaker[0]->state }}" readonly>
                                     </div>
 
                                     <div class="col-md-4">
@@ -228,6 +228,8 @@
                                                     <a href="{{ route('hotel-appointments') }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Hotel" class="px-1 btn btn-app"><i class="uil uil-building"></i>Hotel</a>
                                                     
                                                     <a href="{{ route('cat.edit', $cat) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" data-bs-title="Transfer Profile" class="px-1 btn btn-app"><i class="uil uil-arrow-right"></i>Transfer</a>
+                                                
+                                                    <a href="{{ route('custom-forms') }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" data-bs-title="Forms" class="px-1 btn btn-app"><i class="uil uil-file-alt"></i>Forms</a>
                                                 </td>
                                             </tr>
                                         @endforeach

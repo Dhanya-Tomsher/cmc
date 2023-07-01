@@ -55,6 +55,11 @@
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-body">
+                                        @if(session()->has('status'))
+                                            <div class="alert alert-success">
+                                                {{ session()->get('status') }}
+                                            </div>
+                                        @endif
                                         <div class="table-responsive">
                                             <table class="table table-centered table-nowrap mb-0" id="caretakerTable">
                                                 <thead class="table-light">
