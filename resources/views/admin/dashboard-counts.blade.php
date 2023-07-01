@@ -32,6 +32,9 @@
     .cont-text span {
         font-size: 65px;
     }
+    .col-xm-9.cont-text{
+    flex-basis: 40%;
+  }
     </style>
 </head>
 

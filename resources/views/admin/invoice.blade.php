@@ -36,8 +36,8 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body" id="print-area">
-                            <div class="col-md-12 text-center" style="">
-                                <img src="{{asset('assets/images/logo.png') }}" style="width:200px;">
+                            <div class="col-md-12 text-center" id="headerImage">
+                                <img src="{{asset('assets/images/logo.png') }}" style="width:200px;" id="catsLogo">
                                     <br>
                                 <span> Cats Medical Center Veterinary Clinic L.L.C. </span><br>
                                 <span><i class="fa fa-map-marker-alt"></i>  Al Murooj complex, downtown Dubai, UAE.</span><br>
@@ -58,7 +58,7 @@
                             <hr class="my-4">
 
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-5">
                                     <div class="text-muted">
                                         <h5 class="font-size-15 mb-2">{{$invoice[0]->caretaker_name}}</h5>
                                         <p class="mb-1">{{$invoice[0]->address}}</p>
@@ -66,7 +66,10 @@
                                         <p>{{$invoice[0]->phone_number}}</p>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-2 text-center">
+                                    <h5 class=" mb-1">Invoice</h5>
+                                </div>
+                                <div class="col-sm-5">
                                     <div class="text-muted float-end">
                                         <div>
                                             <h5 class="font-size-16 mb-1">Invoice No:</h5>
@@ -89,60 +92,73 @@
                                         <thead>
                                             <tr>
                                                 <th style="width: 70px;">No.</th>
-                                                <th>Ptld</th>
-                                                <th>@if($type == 'hospital') Service @else Room @endif</th>
-                                                <th class="text-center">Price</th>
-                                                <th class="text-center">Net</th>
-                                                <th class="text-center">VAT</th>
-                                                <th class="text-center">Net+Vat</th>
-                                                <th class="text-center">Service Charge</th>
-                                                <th class="text-end" style="width: 120px;">Total</th>
+                                                @if($type == 'hospital')
+                                                    <th class="text-left" style="width:70px;" >Ptld</th>
+                                                    <th class="text-left" style="width: 450px;word-wrap:break-word;" >Service</th>
+                                                @else
+                                                    <th class="text-left" style="width:250px;word-wrap:break-word;" >Ptld</th>
+                                                    <th class="text-center" style="width:180px;word-wrap:break-word;" >Room</th>
+                                                @endif
+                                                
+                                                <th class="text-center" style="width: 100px;">Price</th>
+                                                <th class="text-center" style="width: 100px;">Net</th>
+                                                <!-- <th class="text-center">VAT</th>
+                                                <th class="text-center">Net+Vat</th> -->
+                                                <th class="text-center service_charge" style="width: 150px;">Service Charge</th>
+                                                <th class="text-end totalPrice" style="width: 150px;">Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <th scope="row">01</th>
                                                 <td>{{$invoice[0]->cat_ids}} </td>
-                                                <td>
-                                                    <h5 class="font-size-15 mb-1">{{$invoice[0]->service}}</h5>
-                                                </td>
+                                                @if($type == 'hospital')
+                                                    <td>
+                                                        <h5 class="font-size-15 mb-1">{{$invoice[0]->service}}</h5>
+                                                    </td>
+                                                @else
+                                                    <td class="text-center">
+                                                        <h5 class="font-size-15 mb-1">{{$invoice[0]->service}}</h5>
+                                                    </td>
+                                                @endif
+                                               
                                                 <td class="text-center">{{$invoice[0]->price}}</td>
                                                 <td class="text-center">{{$invoice[0]->net}}</td>
-                                                <td class="text-center">{{$invoice[0]->vat}}</td>
-                                                <td class="text-center">{{$invoice[0]->net_vat}}</td>
+                                                <!-- <td class="text-center">{{$invoice[0]->vat}}</td>
+                                                <td class="text-center">{{$invoice[0]->net_vat}}</td> -->
                                                 <td class="text-center">{{$invoice[0]->service_charge}}</td>
 
-                                                <td class="text-end">{{$invoice[0]->total}}</td>
+                                                <td class="text-end">{{$invoice[0]->net + $invoice[0]->service_charge}}</td>
                                             </tr>
 
                                             <tr>
-                                                <th scope="row" colspan="8" class="text-end padding-invoice">Sub Total :</th>
-                                                <td class="text-end padding-invoice">{{$invoice[0]->total}}</td>
+                                                <th scope="row" colspan="6" class="text-end padding-invoice">Sub Total :</th>
+                                                <td class="text-end padding-invoice">{{$invoice[0]->net + $invoice[0]->service_charge}}</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row" colspan="8" class="border-0 text-end padding-invoice">
+                                                <th scope="row" colspan="6" class="border-0 text-end padding-invoice">
                                                     Net :</th>
                                                 <td class="border-0 text-end padding-invoice">{{$invoice[0]->net}}</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row" colspan="8" class="border-0 text-end padding-invoice">
+                                                <th scope="row" colspan="6" class="border-0 text-end padding-invoice">
                                                     VAT :</th>
                                                 <td class="border-0 text-end padding-invoice">{{$invoice[0]->vat}}</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row" colspan="8" class="border-0 text-end padding-invoice">
+                                                <th scope="row" colspan="6" class="border-0 text-end padding-invoice">
                                                     Service Amount :</th>
                                                 <td class="border-0 text-end padding-invoice">{{$invoice[0]->service_charge}}</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row" colspan="8" class="border-0 text-end padding-invoice">
+                                                <th scope="row" colspan="6" class="border-0 text-end padding-invoice">
                                                     Net +VAT+Service Amount :</th>
                                                 <td class="border-0 text-end padding-invoice">{{$invoice[0]->total}}</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row" colspan="8" class="border-0 text-end padding-invoice">Total :</th>
+                                                <th scope="row" colspan="6" class="border-0 text-end padding-invoice">Total :</th>
                                                 <td class="border-0 text-end padding-invoice">
-                                                    <h4 class="m-0"><span style="font-size:18px;margin-top:2px;">AED &nbsp;</span>{{$invoice[0]->total}}</h4>
+                                                    <h5 class="m-0"><span style="font-size:16px;margin-top:2px;">AED &nbsp;</span>{{$invoice[0]->total}}</h5>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -217,8 +233,8 @@
 <link rel="stylesheet" href="{{ asset('assets/libs/select2/css/select2.min.css') }}" />
 <style>
      #print-area{
-        padding-left: 25px;
-        padding-right: 25px;
+        padding-left: 60px;
+        padding-right: 60px;
     }
     @media print {
         #header{display:none;}
@@ -229,7 +245,46 @@
         .invoice-title{
             display : none;
          }
+         .service_charge{
+            width:230px !important;
+         }
+         .totalPrice{
+            width:175px !important;
+         }
+         body {
+            background-color: white !important;
+            -webkit-print-color-adjust: exact;
+        }
+        #catsLogo{
+            margin-top: 5px;
+        }
+        #headerImage{
+            /* Background pattern from Toptal Subtle Patterns */
+            background-image: url("{{ asset('assets/images/backlogo.png') }}");
+            height: 140px;
+            width: 100%;
+            padding: 1%;
+            background-size: contain;
+        }
     }
+    #headerImage{
+            /* Background pattern from Toptal Subtle Patterns */
+            background-image: url("{{ asset('assets/images/backlogo.png') }}");
+            height: 140px;
+            width: 100%;
+            padding: 1%;
+            background-size: contain;
+        }
+    
+    #print-area-new{
+        background-color: white !important;
+    }
+    #print-area{
+        background-color: white !important;
+    }
+    .invoice-title{
+            margin-top: 6px;
+         }
 </style>
 @endpush
 

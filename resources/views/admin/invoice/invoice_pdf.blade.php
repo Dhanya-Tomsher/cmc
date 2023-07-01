@@ -175,9 +175,19 @@
             border-style: solid;
             border-width: 2px;
         }
-        body,.card-body {     background-color: #fbf5b6;
-    background-image: linear-gradient(#FAF39F, white); }
-       
+        /* body,.card-body {     background-color: #fbf5b6;
+    background-image: linear-gradient(#FAF39F, white); } */
+    #headerImage{
+            /* Background pattern from Toptal Subtle Patterns */
+            background-image: url("{{$backlogo}}");
+            height: 120px;
+            width: 100%;
+            padding: 1%;
+            background-size: contain;
+        }
+        #catsLogo{
+            margin-top: 5px;
+        }
     </style> 
 </head> 
 <body>
@@ -187,10 +197,10 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
-                            <div class="card-body">
+                            <div class="card-body" style="padding-left: 60px; padding-right: 60px;">
 
-                                <div class="col-md-12 text-center" style="">
-                                    <img src="{{ $imagePath }}" style="width:200px;">
+                                <div class="col-md-12 text-center" id="headerImage">
+                                    <img src="{{ $imagePath }}" style="width:200px;" id="catsLogo">
                                         <br>
                                     <span> Cats Medical Center Veterinary Clinic L.L.C. </span><br>
                                     <span><i class="fa fa-map-marker-alt"> Location : Al Murooj complex, downtown Dubai, UAE.</i></span><br>
@@ -199,25 +209,28 @@
                                 </div>
 
                                 <div class="row">
-                                    <table class="table table-nowrap table-centered mb-0">
+                                    <table class="table  table-centered mb-0">
                                         <tbody>
                                             <tr>
-                                                <td>
+                                                <td style="width:40% !important;vertical-align: middle !important;">
                                                     <div class="">
-                                                        <h5 class="font-size-15 mb-2">Cat Name: {{$cat_name}}</h5>
+                                                        <h5 class="font-size-15 mb-0">Cat Name: {{$cat_name}}</h5>
                                                     </div>
                                                 </td>
-                                                <td>
+                                                <td style="width:20% !important;text-align: center; padding: 0 !important; vertical-align: middle !important;">
+                                                    <h5 class="mb-0" style="font-size:18px;">Invoice</h5>
+                                                </td>
+                                                <td style="width:40% !important;text-align: center; padding: 0 !important; vertical-align: middle !important;">
                                                     <div class=" text-sm-end">
                                                         <div>
                                                             <h5 class="font-size-16 mb-1">Invoice No:</h5>
-                                                            <p >
+                                                            <span >
                                                                 #CINV{{$id }}
-                                                            </p>
+                                                            </span>
                                                         </div>
-                                                        <div class="mt-4">
+                                                        <div class="mt-0">
                                                             <h5 class="font-size-16 mb-1">Invoice Date:</h5>
-                                                            <p>{{$invoice_date }} </p>
+                                                            <span>{{$invoice_date }} </span>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -237,32 +250,33 @@
                                                     <!-- <th class="text-left" style="width:30px;">No.</th> -->
                                                     <th class="text-left" style="width:60px;" >No.</th>
                                                     <th class="text-left" style="width:180px;word-wrap:break-word;" >Service</th>
-                                                    <th class="text-center" style="width:50px;" >Quantity</th>
-                                                    <th class="text-center" style="width:50px;" >Price</th>
-                                                    <th class="text-center" style="width:50px;" >Net</th>
-                                                    <th class="text-center" style="width:50px;" >VAT</th>
-                                                    <th class="text-center" style="width:60px;" >Net+Vat</th>
-                                                    <th class="text-center" style="width:120px;" >Service Charge</th>
-                                                    <th class="text-end" style="width:60px;" >Total</th>
+                                                    <th class="text-center" style="width:40px;" >Quantity</th>
+                                                    <th class="text-center" style="width:40px;" >Price</th>
+                                                    <th class="text-center" style="width:40px;" >Net</th>
+                                                    <!-- <th class="text-center" style="width:50px;" >VAT</th>
+                                                    <th class="text-center" style="width:60px;" >Net+Vat</th> -->
+                                                    <th class="text-center" style="width:100px;" >Service Charge</th>
+                                                    <th class="text-end" style="width:80px;" >Total</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <!-- <tr>
-                                                    <th scope="row" colspan="8"  class="text-right"></th>
+                                                    <th scope="row" colspan="6"  class="text-right"></th>
                                                     <td class="text-right"></td>
                                                 </tr>
                                                 <tr>
-                                                    <th scope="row" colspan="8"  class="text-right"></th>
+                                                    <th scope="row" colspan="6"  class="text-right"></th>
                                                     <td class="text-right"></td>
                                                 </tr> -->
                                                 <!-- <tr>
-                                                    <th scope="row" colspan="8"  class="text-right"></th>
+                                                    <th scope="row" colspan="6"  class="text-right"></th>
                                                     <td class="text-right"></td>
                                                 </tr>
                                                 <tr>
-                                                    <th scope="row" colspan="8"  class="text-right"></th>
+                                                    <th scope="row" colspan="6"  class="text-right"></th>
                                                     <td class="text-right"></td>
                                                 </tr> -->
+                                                @php $subTotal = 0; @endphp
                                                 @foreach($details as $invDet)
                                                 <tr style="line-height: 2;">
                                                     <th class="text-left">{{ $loop->iteration }}</th>
@@ -272,60 +286,60 @@
                                                     <td class="text-center">{{$invDet['quantity']}}</td>
                                                     <td class="text-center">{{$invDet['unit_price']}}</td>
                                                     <td class="text-center">{{$invDet['net']}}</td>
-                                                    <td class="text-center">{{$invDet['vat']}}</td>
-                                                    <td class="text-center">{{$invDet['net_vat']}}</td>
+                                                    <!-- <td class="text-center">{{$invDet['vat']}}</td>
+                                                    <td class="text-center">{{$invDet['net_vat']}}</td> -->
                                                     <td class="text-center">{{$invDet['service_charge']}}</td>
 
-                                                    <td class="text-end">{{$invDet['total']}}</td>
+                                                    <td class="text-end">{{$invDet['net'] + $invDet['service_charge']}}</td>
                                                 </tr>
-
+                                                @php  $subTotal = $subTotal + ($invDet['net'] + $invDet['service_charge']); @endphp
                                                 @endforeach
                                                 
                                                 <tr>
-                                                    <th scope="row" colspan="8"  class="text-right"></th>
+                                                    <th scope="row" colspan="6"  class="text-right"></th>
                                                     <td class="text-right"></td>
                                                 </tr>
                                                 <tr>
-                                                    <th scope="row" colspan="8"  class="text-right"></th>
+                                                    <th scope="row" colspan="6"  class="text-right"></th>
                                                     <td class="text-right"></td>
                                                 </tr>
                                                 <!-- <tr>
-                                                    <th scope="row" colspan="8"  class="text-right"></th>
+                                                    <th scope="row" colspan="6"  class="text-right"></th>
                                                     <td class="text-right"></td>
                                                 </tr>
                                                 <tr>
-                                                    <th scope="row" colspan="8"  class="text-right"></th>
+                                                    <th scope="row" colspan="6"  class="text-right"></th>
                                                     <td class="text-right"></td>
                                                 </tr> -->
                                                 
                                                 <tr style="margin-top:10px;">
-                                                    <th scope="row" colspan="8"  class="text-right">Sub Total :</th>
-                                                    <td class="text-right">{{$total }}</td>
+                                                    <th scope="row" colspan="6"  class="text-right">Sub Total :</th>
+                                                    <td class="text-right">{{$subTotal }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th scope="row" colspan="8" class="border-0 text-right">
+                                                    <th scope="row" colspan="6" class="border-0 text-right">
                                                         Net :</th>
                                                     <td class="border-0 text-right">{{$net }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th scope="row" colspan="8" class="border-0 text-right">
+                                                    <th scope="row" colspan="6" class="border-0 text-right">
                                                         VAT :</th>
                                                     <td class="border-0 text-right">{{$vat }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th scope="row" colspan="8" class="border-0 text-right">
+                                                    <th scope="row" colspan="6" class="border-0 text-right">
                                                         Service Amount :</th>
                                                     <td class="border-0 text-right">{{$service_charge }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th scope="row" colspan="8" class="border-0 text-right">
+                                                    <th scope="row" colspan="6" class="border-0 text-right">
                                                         Net +VAT+Service Amount :</th>
                                                     <td class="border-0 text-right">{{$total }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th scope="row" colspan="8" class="border-0 text-right">Total :</th>
+                                                    <th scope="row" colspan="6" class="border-0 text-right">Total :</th>
                                                     <td class="border-0 text-right">
-                                                        <h4 class="m-0"><span style="font-size:13px;float:left;margin-top:3px;margin-left:2px;">AED</span>{{$total  }}</h4>
+                                                        <h3 class="m-0"><span style="font-size:16px;float:left;margin-top:3px;margin-left:6px;">AED</span>{{$total  }}</h3>
                                                     </td>
                                                 </tr>
                                             </tbody>

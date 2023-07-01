@@ -206,7 +206,8 @@ class InvoiceController extends Controller
             $invoice[0]['type'] = 'hotel'; 
         }
       
-       $invoice[0]['imagePath'] = public_path('assets/images/logo.png');
+        $invoice[0]['imagePath'] = public_path('assets/images/logo.png');
+        $invoice[0]['backlogo'] = public_path('assets/images/backlogo.png');
         $pdf = PDF::loadView('admin.invoice_pdf', $invoice[0]);
         return $pdf->stream('invoice.pdf',array('Attachment'=>0));
     }
@@ -217,6 +218,7 @@ class InvoiceController extends Controller
         $invoice[0]['details'] = CustomInvoiceDetails::where('custom_invoice_id',$request->id)->get()->toArray();
       
         $invoice[0]['imagePath'] = public_path('assets/images/logo.png');
+        $invoice[0]['backlogo'] = public_path('assets/images/backlogo.png');
 
         $pdf = PDF::loadView('admin.invoice.invoice_pdf', $invoice[0]);
         return $pdf->stream('invoice.pdf',array('Attachment'=>0));
