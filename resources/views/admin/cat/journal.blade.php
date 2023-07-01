@@ -451,6 +451,8 @@
         var result = files.split(',');
         var html = '';
         $.each(result, function(index1, value1) {
+            var fileUrl = '{{ asset("") }}'+value1.substring(1);
+            
             var fileExt =  value1.substr( (value1.lastIndexOf('.') +1) );
             switch(fileExt) {
                 case 'jpg':
@@ -458,17 +460,17 @@
                 case 'png':
                 case 'bmp':
                 case 'gif':
-                    html += ' <div class="column"> <img src="'+value1+'"  style="width:80%;height: 80%;" onclick="myFunction(`'+value1+'`,`image`);"> </div>'; // There's was a typo in the example where
+                    html += ' <div class="column"> <img src="'+fileUrl+'"  style="width:80%;height: 80%;" onclick="myFunction(`'+fileUrl+'`,`image`);"> </div>'; // There's was a typo in the example where
                 break;                         // the alert ended with pdf instead of gif.
                 case 'pdf':
-                    html += ' <div class="column"><img src="{{ asset("assets/images/PDF_file_icon.png") }}"  style="width:80%;height: 80%;" onclick="myFunction(`'+value1+'`,`pdf`);"></div>'; 
+                    html += ' <div class="column"><img src="{{ asset("assets/images/PDF_file_icon.png") }}"  style="width:80%;height: 80%;" onclick="myFunction(`'+fileUrl+'`,`pdf`);"></div>'; 
                 break;
                 case 'doc':
                 case 'docx':
-                    html += ' <div class="column"> <a href="'+value1+'" target="_blank" > <img src="{{ asset("assets/images/word_file_icon.png") }}"  style="width:80%;height: 80%;" > </a> </div>';
+                    html += ' <div class="column"> <a href="'+fileUrl+'" target="_blank" > <img src="{{ asset("assets/images/word_file_icon.png") }}"  style="width:80%;height: 80%;" > </a> </div>';
                 break;  
                 case 'txt':
-                html += ' <div class="column"><img src="{{ asset("assets/images/txt-icon.png") }}"  style="width:80%;height: 80%;" onclick="myFunction(`'+value1+'`,`txt`);"></div>'; 
+                html += ' <div class="column"><img src="{{ asset("assets/images/txt-icon.png") }}"  style="width:80%;height: 80%;" onclick="myFunction(`'+fileUrl+'`,`txt`);"></div>'; 
                 break;  
                 default:
 
