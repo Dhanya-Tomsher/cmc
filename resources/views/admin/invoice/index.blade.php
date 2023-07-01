@@ -64,7 +64,7 @@
                                         @foreach ($invoice as $invoicee)
                                         <tr id="appid_{{$invoicee->id}}">
                                         
-                                            <td>01 </td>
+                                            <td>{{ $loop->iteration }} </td>
                                             <td>{{ $invoicee->cat_name }} </td>
                                             <td>{{ $invoicee->vet_name }} </td>
                                             <td>{{ $invoicee->invoice_note }} </td>
