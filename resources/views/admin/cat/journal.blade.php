@@ -158,6 +158,25 @@
         height: 280px;
     }
     .control-label .text-info { display:inline-block; }
+
+    #pre-content-data{
+        background-color: white !important;
+        padding-left :60px;
+        padding-right :60px;
+    }
+    #pre-content-data-new{
+        background-color: white !important;
+    }
+    .card-body{
+        background-color: white !important;
+    }
+    #headerImage{
+            /* Background pattern from Toptal Subtle Patterns */
+            background-image: url("{{ asset('assets/images/backlogo.png') }}");
+            /* height: 140px; */
+            width: 100%;
+            background-size: contain;
+        }
 </style>
 @endpush
 
@@ -588,6 +607,7 @@
             $('#attribute_'+type).remove();
         });
     }
+  
 
     function printElement(elem)
     {

@@ -29,8 +29,8 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body" id="print-area">
-                            <div class="col-md-12 text-center" style="">
-                                <img src="{{asset('assets/images/logo.png') }}" style="width:200px;">
+                            <div class="col-md-12 text-center"  id="headerImage">
+                                <img src="{{asset('assets/images/logo.png') }}" style="width:200px;" id="catsLogo">
                                     <br>
                                 <span> Cats Medical Center Veterinary Clinic L.L.C. </span><br>
                                 <span><i class="fa fa-map-marker-alt">  Al Murooj complex, downtown Dubai, UAE.</i></span><br>
@@ -40,14 +40,17 @@
                             <hr class="my-4">
 
                             <div class="row">
-                                <div class="col-sm-6" style="margin: auto;">
+                                <div class="col-sm-5" style="margin: auto;">
                                     <div class="text-muted">
                                         <h5 class="font-size-16 mb-1">Cat Name: {{$invoice[0]->cat_name}}</h5>
                                         <p></p>
                                         
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-2 text-center">
+                                    <h5 class=" mb-1">Invoice</h5>
+                                </div>
+                                <div class="col-sm-5">
                                     <div class="text-muted float-end">
                                         <div>
                                             <h5 class="font-size-16 mb-1">Invoice No:</h5>
@@ -62,7 +65,7 @@
                             </div>
 
 
-                            <div class="py-2">
+                            <div class="py-0">
                                 <h5 class="font-size-15">Summary</h5>
 
                                 <div class="table-responsive">
@@ -70,17 +73,18 @@
                                     <thead>
                                             <tr>
                                                 <th style="width: 70px;">No.</th>
-                                                <th class="w-30">Service</th>
+                                                <th class="w-30 " style="word-wrap:break-word;">Service</th>
                                                 <th class="text-center">Quantity</th>
                                                 <th class="text-center">Price</th>
                                                 <th class="text-center">Net</th>
-                                                <th class="text-center">VAT</th>
-                                                <th class="text-center">Net+Vat</th>
-                                                <th class="text-center">Service Charge</th>
-                                                <th class="text-end " style="width: 120px;">Total</th>
+                                                <!-- <th class="text-center">VAT</th>
+                                                <th class="text-center">Net+Vat</th> -->
+                                                <th class="text-center"  style="width: 200px;">Service Charge</th>
+                                                <th class="text-end totalAmount" style="width: 150px;">Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @php $subTotal = 0; @endphp
                                             @foreach($invoice[0]->custom_invoice_details as $invDet)
                                             <tr>
                                                 <th scope="row">{{ $loop->iteration }}</th>
@@ -90,42 +94,43 @@
                                                 <td class="text-center">{{$invDet->quantity}}</td>
                                                 <td class="text-center">{{$invDet->unit_price}}</td>
                                                 <td class="text-center">{{$invDet->net}}</td>
-                                                <td class="text-center">{{$invDet->vat}}</td>
-                                                <td class="text-center">{{$invDet->net_vat}}</td>
+                                                <!-- <td class="text-center">{{$invDet->vat}}</td>
+                                                <td class="text-center">{{$invDet->net_vat}}</td> -->
                                                 <td class="text-center">{{$invDet->service_charge}}</td>
 
-                                                <td class="text-end">{{$invDet->total}}</td>
+                                                <td class="text-end">{{$invDet->net + $invDet->service_charge}}</td>
                                             </tr>
+                                            @php  $subTotal = $subTotal + ($invDet->net + $invDet->service_charge); @endphp
 
                                             @endforeach
                                             <tr>
-                                                <th scope="row" colspan="8" class="text-end padding-invoice">Sub Total :</th>
-                                                <td class="text-end padding-invoice">{{$invoice[0]->total}}</td>
+                                                <th scope="row" colspan="6" class="text-end padding-invoice">Sub Total :</th>
+                                                <td class="text-end padding-invoice">{{ $subTotal }}</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row" colspan="8" class="border-0 text-end padding-invoice">
+                                                <th scope="row" colspan="6" class="border-0 text-end padding-invoice">
                                                     Net :</th>
                                                 <td class="border-0 text-end padding-invoice">{{$invoice[0]->net}}</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row" colspan="8" class="border-0 text-end padding-invoice">
+                                                <th scope="row" colspan="6" class="border-0 text-end padding-invoice">
                                                     VAT :</th>
                                                 <td class="border-0 text-end padding-invoice">{{$invoice[0]->vat}}</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row" colspan="8" class="border-0 text-end padding-invoice">
+                                                <th scope="row" colspan="6" class="border-0 text-end padding-invoice">
                                                     Service Amount :</th>
                                                 <td class="border-0 text-end padding-invoice">{{$invoice[0]->service_charge}}</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row" colspan="8" class="border-0 text-end padding-invoice">
+                                                <th scope="row" colspan="6" class="border-0 text-end padding-invoice">
                                                     Net +VAT+Service Amount :</th>
                                                 <td class="border-0 text-end padding-invoice">{{$invoice[0]->total}}</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row" colspan="8" class="border-0 text-end padding-invoice">Total :</th>
+                                                <th scope="row" colspan="6" class="border-0 text-end padding-invoice">Total :</th>
                                                 <td class="border-0 text-end total padding-invoice">
-                                                    <h4 class="m-0" id="currency" ><span style="font-size:16px;margin-top:4px;">AED &nbsp;</span>{{$invoice[0]->total}}</h4>
+                                                    <h4 class="m-0" id="currency" ><span style="font-size:15px;margin-top:2px;">AED </span>{{$invoice[0]->total}}</h4>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -152,8 +157,8 @@
 <link rel="stylesheet" href="{{ asset('assets/libs/select2/css/select2.min.css') }}" />
 <style>
     #print-area{
-        padding-left: 25px;
-    padding-right: 25px;
+        padding-left: 60px;
+        padding-right: 60px;
     }
     @media print {
         #header{display:none;}
@@ -162,13 +167,49 @@
             padding: 4% !important; 
         }
         #currency{
-            font-size:18px !important;
+            font-size:20px !important;
             margin-top:6px !important;
         }
         .total{
            
             display:contents !important;
         }
+       /* .totalAmount{
+        width:200px !important;
+       } */
+       .table-centered td, .table-centered th {
+            vertical-align: top;
+        }
+        body {
+            background-color: white !important;
+            -webkit-print-color-adjust: exact;
+        }
+        #catsLogo{
+            margin-top: 5px;
+        }
+        #headerImage{
+            /* Background pattern from Toptal Subtle Patterns */
+            background-image: url("{{ asset('assets/images/backlogo.png') }}");
+            height: 140px;
+            width: 100%;
+            padding: 1%;
+            background-size: contain;
+        }
+    }
+    #headerImage{
+        
+            background-image: url("{{ asset('assets/images/backlogo.png') }}");
+            height: 140px;
+            width: 100%;
+            padding: 1%;
+            background-size: contain;
+        }
+    
+    #print-area-new{
+        background-color: white !important;
+    }
+    #print-area{
+        background-color: white !important;
     }
     
 </style>

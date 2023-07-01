@@ -734,7 +734,7 @@ class CatController extends Controller
                                     ->get()->toArray();
                                     
         $journal[0]['imagePath'] = public_path('assets/images/logo.png');
-        
+        $journal[0]['backlogo'] = public_path('assets/images/backlogo.png');
         $pdf = PDF::loadView('admin.journal.pdf_prescription', $journal[0]);
         $pdf->render();
         $output = $pdf->output();

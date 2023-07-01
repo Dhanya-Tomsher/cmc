@@ -4,8 +4,8 @@
                 <div class="card-body py-4">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="col-md-12 text-center">
-                                <img src="{{ asset('assets/images/logo.png') }}" style="width:200px;">
+                            <div class="col-md-12 text-center" id="headerImage">
+                                <img src="{{ asset('assets/images/logo.png') }}" style="width:200px; margin-top: 10px;">
                                     <br>
                                 <span> Cats Medical Center Veterinary Clinic L.L.C. </span><br>
                                 <span><i class="fa fa-map-marker-alt"> Al Murooj complex, downtown Dubai, UAE.</i></span><br>
@@ -24,12 +24,15 @@
                                     </div>
                                 
                                 </div>
+                            </div>
+                           
+                            <div class="col-md-12 " style="margin-top: 4rem!important;">
                                 <hr style="border-top: 1px solid #655a5ac7;">
                                 <h4 class="text-center" style="font-size:16px;font-weight:700;">Prescription </h4>
-                            </div>
-                            <div class="col-md-12 " style="padding: 0.5rem 5rem!important;">
-                                <span style="font-size:15px;font-weight:600;"> {{ $journal[0]['heading'] }} </span>
-                                <p>{!!$journal[0]['remarks'] !!}</p>
+                                <div style="padding:1rem 1rem;">
+                                    <span style="font-size:15px;font-weight:600;"> {{ $journal[0]['heading'] }} </span>
+                                    <p>{!!$journal[0]['remarks'] !!}</p>
+                                </div>
                             </div>
                             
                         </div>
