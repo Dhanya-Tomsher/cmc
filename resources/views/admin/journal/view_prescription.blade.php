@@ -12,9 +12,13 @@
                                 <span>  <i class="fa fa-mobile-alt"></i>&nbsp;&nbsp;04 320 4204 &nbsp;&nbsp;<i class="fab fa-whatsapp" style="color: green"></i>&nbsp;&nbsp;04 320 4204</span><br>
                                 <span>TRN: 100527270100003 </span>
                                 
-                                <div class="col-md-12 d-flex mt-4">
+                               
+                            </div>
+                           
+                            <div class="col-md-12 " style="margin-top: 4rem!important;">
+                                <div class="col-md-12 d-flex">
                                     <div class="col-md-4 ">
-                                        <label class="col-form-label"><b>Cat ID : </b></label> {{ ($journal[0]['catId']) ? $journal[0]['catId']  : '' }}
+                                        <label class="col-form-label" style=" margin-left: 30px;"><b>Cat ID : </b></label> {{ ($journal[0]['catId']) ? $journal[0]['catId']  : '' }}
                                     </div>
                                     <div class="col-md-4 ">
                                         <label class="col-form-label"><b>Cat Name : </b></label> {{ ($journal[0]['cat_name']) ? $journal[0]['cat_name']  : '' }}
@@ -24,9 +28,6 @@
                                     </div>
                                 
                                 </div>
-                            </div>
-                           
-                            <div class="col-md-12 " style="margin-top: 4rem!important;">
                                 <hr style="border-top: 1px solid #655a5ac7;">
                                 <h4 class="text-center" style="font-size:16px;font-weight:700;">Prescription </h4>
                                 <div style="padding:1rem 1rem;">
