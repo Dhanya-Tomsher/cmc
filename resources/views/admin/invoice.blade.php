@@ -142,7 +142,7 @@
                                             <tr>
                                                 <th scope="row" colspan="8" class="border-0 text-end padding-invoice">Total :</th>
                                                 <td class="border-0 text-end padding-invoice">
-                                                    <h4 class="m-0"><span style="font-size:18px;margin-top:2px;margin-left:2px;">AED &nbsp;</span>{{$invoice[0]->total}}</h4>
+                                                    <h4 class="m-0"><span style="font-size:18px;margin-top:2px;">AED &nbsp;</span>{{$invoice[0]->total}}</h4>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -218,7 +218,7 @@
 <style>
      #print-area{
         padding-left: 25px;
-    padding-right: 25px;
+        padding-right: 25px;
     }
     @media print {
         #header{display:none;}

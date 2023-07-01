@@ -125,7 +125,7 @@
                                             <tr>
                                                 <th scope="row" colspan="8" class="border-0 text-end padding-invoice">Total :</th>
                                                 <td class="border-0 text-end total padding-invoice">
-                                                    <h4 class="m-0" id="currency" ><span style="font-size:16px;margin-top:4px;margin-left:2px;">AED &nbsp;</span>{{$invoice[0]->total}}</h4>
+                                                    <h4 class="m-0" id="currency" ><span style="font-size:16px;margin-top:4px;">AED &nbsp;</span>{{$invoice[0]->total}}</h4>
                                                 </td>
                                             </tr>
                                         </tbody>
