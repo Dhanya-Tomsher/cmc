@@ -33,7 +33,7 @@
         font-size: 65px;
     }
     .col-xm-9.cont-text{
-    flex-basis: 40%;
+    flex-basis: 50%;
   }
     </style>
 </head>
