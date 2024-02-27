@@ -76,10 +76,40 @@ class FormsController extends Controller
 
     public function customFormsList(Request $request)
     {
+        $request->session()->put('last_url', url()->full());
         $caretakers = Caretaker::where('status','published')->where('is_blacklist',0)->orderBy('name','ASC')->get();
         $forms = Forms::where('status',1)->orderBy('form_title', 'ASC')->get();
 
-        return view('admin.forms.custom_index')->with(['caretakers' => $caretakers, 'forms' => $forms]);
+        $search = $request->has('search') ? $request->search : '';
+        $from_date = $request->has('from_date') ? $request->from_date : '';
+        $to_date = $request->has('to_date') ?  $request->to_date : '';
+
+        $query  = CustomForms::select('custom_forms.*','care.name as caretaker_name','cats.name as cat_name','for.form_title')
+                            ->leftJoin('caretakers as care','custom_forms.caretaker_id','=','care.id')
+                            ->leftJoin('cats','custom_forms.cat_id','=','cats.id')
+                            ->leftJoin('forms as for','custom_forms.form_id','=','for.id');
+        if($search){  
+            $query->where(function ($query) use ($search) {
+                $query->orWhere('for.form_title', 'LIKE','%' . $search . '%')
+                        ->orWhere('cats.cat_id', 'LIKE', '%' .$search . '%')
+                        ->orWhere('care.customer_id', 'LIKE', '%' .$search . '%')
+                        ->orWhere('care.name', 'LIKE', '%' .$search . '%')
+                        ->orWhere('cats.name', 'LIKE', '%' .$search . '%');
+            });                    
+        }
+        if($from_date != '' || $to_date != ''){
+            if($from_date != '' && $to_date != ''){
+                $query->whereDate('for.created_at', '>=', $from_date)
+                ->whereDate('for.created_at',   '<=', $to_date);
+            }elseif($from_date == '' && $to_date != ''){
+                $query->whereDate('for.created_at', '=', $to_date);
+            }elseif($from_date != '' && $to_date == ''){
+                $query->whereDate('for.created_at', '=', $from_date);
+            }
+        }
+        $custom_forms = $query->orderBy('custom_forms.id','DESC')->paginate(5);
+
+        return view('admin.forms.custom_index')->with(['caretakers' => $caretakers, 'forms' => $forms, 'custom_forms' => $custom_forms]);
     }
 
     public function generateCustomForm(Request $request)

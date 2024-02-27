@@ -17,9 +17,21 @@ class InvoiceController extends Controller
     public function index(Request $request)
     {
         $request->session()->put('last_url', url()->full());
-        $invoice  = CustomInvoices::orderBy('id','DESC')->paginate(2);
+
+        $search = $request->has('name') ? $request->name : '';
+
+        $query  = CustomInvoices::orderBy('id','DESC');
+           
+        if($search){  
+            $query->Where(function ($query) use ($search) {
+                $query->orWhere('vet_name', 'LIKE', '%'.$search . '%')
+                        ->orWhere('cat_name', 'LIKE', '%'.$search . '%')
+                        ->orWhere('invoice_note', 'LIKE', '%'.$search . '%');
+            });                    
+        }
+        $invoice  = $query->paginate(10);
         return view('admin.invoice.index')->with([
-            'invoice' => $invoice,
+            'invoice' => $invoice,'search'=>$search
         ]);
     }
    

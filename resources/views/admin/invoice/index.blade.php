@@ -19,10 +19,11 @@
 
                     <div class="d-flex justify-content-between mb-3">
                         <div class="search_warpper w-50">
-                            <form>
+                            <form action="" autocomplete="off">
                                 <div class="hstack gap-2">
-                                    <!-- <input class="form-control me-auto border-0" type="search" placeholder="Search here">
-                                    <button type="button" class="btn btn_back waves-effect waves-light w-xl">Search</button> -->
+                                    <input class="form-control me-auto border-0" name="name"  value="{{$search}}" type="text" placeholder="Search here">
+                                    <button type="submit" class="btn btn_back waves-effect waves-light w-xl">Search</button>
+                                    <a href="{{ route('invoice.index') }}" class="btn btn_back waves-effect waves-light w-md" id="searchReset">Reset</a>
                                 </div>
                             </form>
                         </div>

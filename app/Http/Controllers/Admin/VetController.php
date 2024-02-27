@@ -21,9 +21,25 @@ class VetController extends Controller
 {
     public function index(Request $request)
     {
-        $vet  = Vet::all();
+        $request->session()->put('last_url', url()->full());
+
+        $search = $request->has('name') ? $request->name : '';
+
+        $query  = Vet::select('id','name', 'email', 'phone_number', 'whatsapp_number', 'status')->where('is_deleted',0);
+           
+        if($search){  
+            $query->Where(function ($query) use ($search) {
+                $query->orWhere('name', 'LIKE', '%'.$search . '%')
+                        ->orWhere('email', 'LIKE', '%'.$search . '%')
+                        ->orWhere('whatsapp_number', 'LIKE', '%'.$search . '%')
+                        ->orWhere('address', 'LIKE', '%'.$search . '%')
+                        ->orWhere('phone_number', 'LIKE', '%'.$search . '%');
+            });                    
+        }
+        $vet  = $query->orderBy('id','DESC')->paginate(10);
         return view('admin.vet.index')->with([
             'vet' => $vet,
+            'search' => $search
         ]);
     }
     public function create()

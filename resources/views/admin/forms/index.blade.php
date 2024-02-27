@@ -34,26 +34,26 @@
                             <table class="table table-centered table-nowrap mb-0">
                                 <thead class="table-light">
                                     <tr>
-                                        <th>No</th>
+                                        <th class="text-center">No</th>
                                         <th class="w-50">Form Name</th>
-                                        <th>Status</th>
-                                        <th>Created At</th>
+                                        <th class="text-center">Status</th>
+                                        <th class="text-center">Created At</th>
                                         <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($forms as $form)
                                     <tr id="appid_{{$form->id}}">
-                                        <td> {{ $loop->iteration }} </td>
+                                        <td class="text-center"> {{ $loop->iteration }} </td>
                                         <td> {{ $form->form_title }} </td>
-                                        <td>
+                                        <td class="text-center">
                                             @if($form->status == 1)
                                                 <div class="badge bg-soft-success font-size-12">Enabled</div>
                                             @else
                                                 <div class="badge bg-soft-danger font-size-12">Disabled</div>
                                             @endif
                                         </td>
-                                        <td> {{ $form->created_at->format('Y-m-d') }} </td>
+                                        <td class="text-center"> {{ $form->created_at->format('Y-m-d') }} </td>
                                         <td class="text-center">
                                             <a href="{{ route('form.view',$form) }}" class="px-2 btn btn-app"  title="View form data"><i class="uil uil-eye font-size-18 text-primary"></i>View</a>
                                             <a href="{{ route('form.edit',$form) }}" class="px-2 btn btn-app"  title="Edit form data"><i class="uil uil-pen green font-size-18"></i>Edit</a>
