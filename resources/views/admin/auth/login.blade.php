@@ -22,19 +22,23 @@
                             <h5 class="text-primary">Account Login</h5>
                         </div>
                         <div class="mt-4">
-                            <form method="POST" action="{{ route('adminlogin') }}">
-
+                            <form method="POST" action="{{ route('login') }}">
+                                @csrf
                                 <div class="mb-3">
-                                    <label class="form-label" for="username">Username</label>
-                                    <input type="text" class="form-control" id="username" placeholder="Enter username">
+                                    <label class="form-label" for="username">Email</label>
+                                    <input type="text" class="form-control" id="email" name="email" placeholder="Enter email">
+                                   
                                 </div>
         
                                 <div class="mb-3">
                                     <label class="form-label" for="userpassword">Password</label>
-                                    <input type="password" class="form-control" id="userpassword" placeholder="Enter password">
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
                                 </div>
                                 
                                 <div class="mt-3 text-start">
+                                    @error('email')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                 <button class="btn btn-primary w-sm waves-effect waves-light" type="submit">LOGIN</button>
                                 </div>
 

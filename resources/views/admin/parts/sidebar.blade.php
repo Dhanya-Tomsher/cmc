@@ -39,63 +39,104 @@
             </li>
 
             <li>
-                <a href="#" class=" waves-effect">
-                    <i class="uil-window-section"></i>
+                <a href="{{ route('hospital-appointments') }}" class=" waves-effect">
+                    <i class="uil-hospital"></i>
+                    <span>Hospital Schedule </span>
+                </a>
+
+            </li>
+
+            <li>
+                <a href="{{ route('manage-hospital-appointments') }}" class=" waves-effect">
+                    <i class="uil-hospital"></i>
                     <span>Hospital Appointments </span>
                 </a>
 
             </li>
 
             <li>
-                <a href="#" class=" waves-effect">
-                    <i class="uil-comments-alt"></i>
-                    <span>Hotel Appointments </span>
-                </a>
-            </li>
-
-
-            <li>
-                <a href="{{ route('vet.index') }}" class=" waves-effect">
-                    <i class="uil-comments-alt"></i>
-                    <span>Manage Vets </span>
+                <a href="{{ route('hotel-appointments') }}" class=" waves-effect">
+                    <i class="uil-building"></i>
+                    <span>Hotel Schedule </span>
                 </a>
             </li>
 
             <li>
-                <a href="{{ route('vet.schedule') }}" class=" waves-effect">
-                    <i class="uil-comments-alt"></i>
-                    <span>Vets Schedule </span>
+                <a href="{{ route('manage-hotel-bookings') }}" class=" waves-effect">
+                    <i class="uil-building"></i>
+                    <span>Hotel Bookings </span>
                 </a>
+
             </li>
 
-            
             <li>
                 <a href="{{ route('invoice.index') }}" class=" waves-effect">
-                    <i class="uil-comments-alt"></i>
-                    <span>Invoice </span>
+                    <i class="uil-invoice"></i>
+                    <span>Custom Invoices </span>
+                </a>
+            </li>
+
+            @if (Auth::user()->user_type == 'admin')
+                <li>
+                    <a href="{{ route('vet.index') }}" class=" waves-effect">
+                        <i class="uil-user"></i>
+                        <span>Manage Vets </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('vet.schedule') }}" class=" waves-effect">
+                        <i class="uil-calendar-alt"></i>
+                        <span>Vets Work Schedule </span>
+                    </a>
+                </li>
+            @endif
+            
+            <li>
+                <a href="{{ route('caretaker.index') }}" class=" waves-effect">
+                    <i class="uil-users-alt"></i>
+                    <span>Caretakers </span>
                 </a>
             </li>
 
             <li>
                 <a href="{{ route('cat.index') }}" class=" waves-effect">
-                    <i class="uil-comments-alt"></i>
+                    <i class="uil-github-alt"></i>
                     <span>Cats </span>
                 </a>
             </li>
-            <li>
-                <a href="{{ route('caretaker.index') }}" class=" waves-effect">
-                    <i class="uil-comments-alt"></i>
-                    <span>Caretaker </span>
-                </a>
-            </li>
+            
             <li>
                 <a href="{{ route('hrooms.index') }}" class=" waves-effect">
-                    <i class="uil-comments-alt"></i>
+                    <i class="uil-building"></i>
                     <span>Rooms </span>
                 </a>
             </li>
-            
+            <li>
+                <a href="{{ route('procedure.index') }}" class=" waves-effect">
+                    <i class="uil-medical-square"></i>
+                    <span>Procedures </span>
+                </a>
+            </li>
 
+            
+            <li>
+                <a href="#" class="has-arrow waves-effect">
+                    <i class="uil-file"></i> <span>Forms</span>
+                </a>
+                <ul class="sub-menu" aria-expanded="false">
+                    <li><a href="{{ route('forms.index') }}">Create Forms</a></li>
+                    <li><a href="{{ route('custom-forms') }}">Customer Forms </a></li>
+                </ul>
+            </li>
+            @if (Auth::user()->user_type == 'admin')
+                <li>
+                    <a href="{{ route('users') }}" class=" waves-effect">
+                        <i class="uil-user"></i>
+                        <span>User Management </span>
+                    </a>
+                </li>
+            @endif
         </ul>
     </div>
     <!-- Sidebar -->

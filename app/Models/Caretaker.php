@@ -4,9 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Storage;
+use Str;
 
 class Caretaker extends Model
 {
     use HasFactory;
-    protected $fillable = ['name'];
+    protected $guarded  = ['id'];
+
+    public function getImage()
+    {
+        return Storage::url(Str::replace('/storage/', '', $this->image_url));
+    }
 }
