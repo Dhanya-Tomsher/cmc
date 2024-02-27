@@ -16,7 +16,8 @@ class InvoiceController extends Controller
 {
     public function index(Request $request)
     {
-        $invoice  = CustomInvoices::orderBy('id','DESC')->get();
+        $request->session()->put('last_url', url()->full());
+        $invoice  = CustomInvoices::orderBy('id','DESC')->paginate(2);
         return view('admin.invoice.index')->with([
             'invoice' => $invoice,
         ]);

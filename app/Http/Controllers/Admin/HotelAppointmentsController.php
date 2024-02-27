@@ -204,9 +204,52 @@ class HotelAppointmentsController extends Controller
         Invoices::create($data);
 
     }
-    public function manageHotelBookings(){
-        
-        return view('admin.hote.list_appointments');
+    public function manageHotelBookings(Request $request){
+        $search = $request->has('search') ? $request->search : '';
+        $from_date = $request->has('from_date') ? $request->from_date : '';
+        $to_date = $request->has('to_date') ?  $request->to_date : '';
+
+        $request->session()->put('last_url', url()->full());
+        // DB::enableQueryLog();
+        $query  = HotelAppointments::leftJoin('hotel_booking_cats as hbc','hbc.booking_id','=','hotel_appointments.id')
+                                    ->leftJoin('hotel_booking_cats as hbcFilter','hbcFilter.booking_id','=','hotel_appointments.id')
+                                        ->leftJoin('caretakers','hotel_appointments.caretaker_id','=','caretakers.id')
+                                        ->leftJoin('cats','hbc.cat_id','=','cats.id')
+                                        ->leftJoin('cats as bookCat','hbcFilter.cat_id','=','bookCat.id')
+                                        ->leftJoin('hotelrooms','hotel_appointments.room_number','=','hotelrooms.id');
+
+        if($search){  
+            $query->where(function ($query) use ($search) {
+                $query->orWhere('hotelrooms.room_number', 'LIKE', $search . '%')
+                        ->orWhere('bookCat.cat_id', 'LIKE', $search . '%')
+                        ->orWhere('caretakers.customer_id', 'LIKE', $search . '%')
+                        ->orWhere('caretakers.name', 'LIKE', $search . '%')
+                        ->orWhere('bookCat.name', 'LIKE', $search . '%');
+            });                    
+        }
+        if($from_date != '' || $to_date != ''){
+            $query->where(function ($query) use ($from_date,$to_date) {
+                if($from_date != '' && $to_date != ''){
+                    $query->whereRaw("start_date <=  '$to_date' AND end_date >= '$from_date'");
+                }elseif($from_date == '' && $to_date != ''){
+                    $query->whereRaw("start_date <=  '$to_date' AND end_date >= '$to_date'");
+                }elseif($from_date != '' && $to_date == ''){
+                    $query->whereRaw("start_date <=  '$from_date' AND end_date >= '$from_date'");
+                }
+            });   
+        }
+
+        $bookings = $query->orderBy('hotel_appointments.id','DESC')
+        ->groupBy('hotel_appointments.id')
+        ->select('hotel_appointments.payment_confirmation','hotel_appointments.created_at','hotelrooms.room_number as room_no','hotel_appointments.id','hotel_appointments.start_date','hotel_appointments.end_date','cats.cat_id','caretakers.customer_id','caretakers.name as caretaker_name')
+        ->selectRaw("GROUP_CONCAT(DISTINCT(`cats`.`name`) SEPARATOR ', ')  as cat_name")
+        ->paginate(10);
+        return view('admin.hote.list_appointments')-> with([
+            'bookings' => $bookings,
+            'search' => $search,
+            'from_date' => $from_date,
+            'to_date' => $to_date
+        ]);
     }
 
     public function getBookingList(Request $request){

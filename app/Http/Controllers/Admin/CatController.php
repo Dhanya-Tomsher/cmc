@@ -26,9 +26,26 @@ class CatController extends Controller
 {
     public function index(Request $request)
     {
-        $cat  = Cat::orderBy('name','ASC')->get();
+        $request->session()->put('last_url', url()->full());
+
+        $search = $request->has('search') ? $request->search : '';
+        // DB::enableQueryLog();
+        $query  = Cat::leftJoin('cat_caretakers','cat_caretakers.cat_id', '=', 'cats.id')
+                        ->leftJoin('caretakers','cat_caretakers.caretaker_id','=','caretakers.id')
+                        ->where('cat_caretakers.transfer_status', 0);
+        if($search){  
+            $query->Where(function ($query) use ($search) {
+                $query->orWhere('cats.gender', 'LIKE', $search . '%')
+                        ->orWhere('cats.cat_id', 'LIKE', $search . '%')
+                        ->orWhere('caretakers.customer_id', 'LIKE', $search . '%')
+                        ->orWhere('caretakers.name', 'LIKE', $search . '%')
+                        ->orWhere('cats.name', 'LIKE', $search . '%');
+            });                    
+        }
+        $cats = $query->orderBy('cats.id','DESC')
+                    ->select(['cats.created_at','cats.id','cats.status','cats.gender','cats.cat_id','caretakers.customer_id','caretakers.name as caretaker_name','cats.name as cat_name','cats.image_url'])->paginate(10);
         return view('admin.cat.index')->with([
-            'cat' => $cat,
+            'cats' => $cats, 'search' => $search
         ]);
     }
     public function create()
@@ -419,6 +436,11 @@ class CatController extends Controller
                 break;
             case 'laser':
                 $title = 'Laser';
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date, $transfer_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title','transfer_date'))->render();
+                break;
+            case 'therapy':
+                $title = 'Therapy';
                 $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date, $transfer_date);
                 $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title','transfer_date'))->render();
                 break;

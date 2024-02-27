@@ -60,32 +60,46 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    @if ($invoice)
-                                        @foreach ($invoice as $invoicee)
-                                        <tr id="appid_{{$invoicee->id}}">
-                                        
-                                            <td>{{ $loop->iteration }} </td>
-                                            <td>{{ $invoicee->cat_name }} </td>
-                                            <td>{{ $invoicee->vet_name }} </td>
-                                            <td>{{ $invoicee->invoice_note }} </td>
-                                            <td>{{ $invoicee->net }} </td>
-                                            <td>{{ $invoicee->vat }} </td>
-                                            <td>{{ $invoicee->service_charge }} </td>
-                                            <td>{{ $invoicee->total }} </td>
-                                            <td>{{ $invoicee->invoice_date }} </td>
-                                            <td class="text-center">
-                                                <a href="{{ route('invoice.view', $invoicee->id) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-eye"></i>View</a>
-                                                <a href="{{ route('invoice.edit', $invoicee->id) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-pen"></i>Edit</a>
-                                                <a href="#" onclick="deleteInvoice('{{$invoicee->id}}')" data-bs-toggle="tooltip" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-trash"></i>Delete</a>
-                                            </td>
+                                    @if (isset($invoice[0]))
+                                        @foreach ($invoice as $key => $invoicee)
+                                            <tr id="appid_{{$invoicee->id}}">
+                                            
+                                                <td>{{ $key + 1 + ($invoice->currentPage() - 1) * $invoice->perPage() }} </td>
+                                                <td>{{ $invoicee->cat_name }} </td>
+                                                <td>{{ $invoicee->vet_name }} </td>
+                                                <td>{{ $invoicee->invoice_note }} </td>
+                                                <td>{{ $invoicee->net }} </td>
+                                                <td>{{ $invoicee->vat }} </td>
+                                                <td>{{ $invoicee->service_charge }} </td>
+                                                <td>{{ $invoicee->total }} </td>
+                                                <td>{{ $invoicee->invoice_date }} </td>
+                                                <td class="text-center">
+                                                    <a href="{{ route('invoice.view', $invoicee->id) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-eye"></i>View</a>
+                                                    <a href="{{ route('invoice.edit', $invoicee->id) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-pen"></i>Edit</a>
+                                                    <a href="#" onclick="deleteInvoice('{{$invoicee->id}}')" data-bs-toggle="tooltip" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-trash"></i>Delete</a>
+                                                </td>
 
-                                        </tr>
+                                            </tr>
 
                                         @endforeach
-                                        @endif  
+                                    @else
+                                        <tr>
+                                            <td colspan="10" class="text-center">
+                                                <div class="atbd-empty__image">
+            
+                                                    <img src="{{ asset('assets/images/1.svg')}}" alt="Admin Empty">
+            
+                                                </div>
+                                                No data found.
+                                            </td>
+                                        </tr>
+                                    @endif  
                                     
                                     </tbody>
                                 </table>
+                                <div class="pagination mt-3">
+                                    {{ $invoice->appends(request()->input())->links('pagination::bootstrap-5') }}
+                                </div>
                             </div>
                             <!-- end table-responsive -->
                         </div>
@@ -98,14 +112,14 @@
     </div>
 @endsection
 @push('header')
-<link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}" />
+
 <style>
 
 </style>
 @endpush
 
 @push('scripts')
-<script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script >
 
@@ -114,7 +128,7 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    $('#invoiceTable').DataTable(); 
+    // $('#invoiceTable').DataTable(); 
     function deleteInvoice(id){
         var el = this;
         

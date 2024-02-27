@@ -17,7 +17,7 @@
 
                 </div>
                 <div class="d-flex align-items-center justify-content-between mb-3">
-                    <a onclick="window.location=document.referrer;" href="javascript:void" class="btn btn_back waves-effect waves-light mt-3"> <i
+                    <a href="{{ Session::has('last_url') ? Session::get('last_url') : route('cat.index') }}" href="javascript:void" class="btn btn_back waves-effect waves-light mt-3"> <i
                             class="uil-angle-left-b"></i> Back</a>
                     <div class="btn_group">
                         <!-- <a href="hospital_appointments.html" class="btn btn_back waves-effect waves-light me-2"> Create

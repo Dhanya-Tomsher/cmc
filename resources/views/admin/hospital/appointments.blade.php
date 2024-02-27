@@ -48,7 +48,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="myExtraLargeModalLabel">Create Hospital Appointment </h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                <button type="button" class="btn-close" id="closeModal" data-bs-dismiss="modal" aria-label="Close">
                                 </button>
                             </div>
                             <div class="modal-body">
@@ -594,6 +594,11 @@
 
 <script>
 // $(document).ready(function() {
+
+    $('#closeModal').on('click', function(){
+        $(".vetselect").find('.ui-selected').removeClass('ui-selected');
+    });
+   
     $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

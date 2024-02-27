@@ -19,7 +19,7 @@
                   
                     <div class="d-flex align-items-center justify-content-between mb-3">
                         
-                        <a href="{{ route('invoice.index') }}" class="btn btn_back waves-effect waves-light">  <i class="uil-angle-left-b"></i> Back</a>
+                        <a href="{{ Session::has('last_url') ? Session::get('last_url') : route('invoice.index') }}" class="btn btn_back waves-effect waves-light">  <i class="uil-angle-left-b"></i> Back</a>
                     </div>
                 </div>
             </div>

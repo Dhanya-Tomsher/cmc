@@ -16,12 +16,12 @@
                             </ol>
                         </div>
                     </div>
-                  
+                    
                     <div class="d-flex align-items-center justify-content-between mb-3">
                         @if($invoice[0]->booking_type == 'hospital_appointment')
-                            <a href="{{ route('manage-hospital-appointments') }}" class="btn btn_back waves-effect waves-light">  <i class="uil-angle-left-b"></i> Back</a>
+                            <a href="{{ Session::has('last_url') ? Session::get('last_url') : route('manage-hospital-appointments') }}" class="btn btn_back waves-effect waves-light">  <i class="uil-angle-left-b"></i> Back</a>
                         @else
-                            <a href="{{ route('manage-hotel-bookings') }}" class="btn btn_back waves-effect waves-light">  <i class="uil-angle-left-b"></i> Back</a>
+                            <a href="{{ Session::has('last_url') ? Session::get('last_url') : route('manage-hotel-bookings') }}" class="btn btn_back waves-effect waves-light">  <i class="uil-angle-left-b"></i> Back</a>
                         @endif
                        
                         <div class="btn_group">
