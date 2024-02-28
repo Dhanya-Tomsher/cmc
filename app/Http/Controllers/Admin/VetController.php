@@ -55,8 +55,10 @@ class VetController extends Controller
     public function schedule()
     {
         $vets = Vet::getActiveVets();
+        $timeSlots = Helper::hoursRange( 0, 86400, 60 * 30, 'h:i a' );
         return view('admin.vet.schedule')->with([
             'vets' => $vets,
+            'timeSlots' => $timeSlots
         ]);
     }
     public function search()

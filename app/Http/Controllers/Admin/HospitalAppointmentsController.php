@@ -266,7 +266,18 @@ class HospitalAppointmentsController extends Controller
     public function getSelectedSlots(Request $request){
         $date = $request->date;
         $vet_id = $request->vet_id;
-        $allSlots  = VetShifts::getVetDateShiftsByVet($date, $vet_id);
+        $allSlots  = [];
+
+        $slots = Vetschedule::where('vet_id', $vet_id)->where('date', $date)
+								->select('available_from','available_to')
+								->get()->toArray();
+
+		if($slots){
+			foreach($slots as $sl){
+				$allSlots = Helper::getTimeSlotHrMIn('30', $sl['available_from'], $sl['available_to']);
+			}
+        }
+
         $bookedSlots = HospitalAppointments::select('time_appointment')
                                     ->whereDate('date_appointment', $date)
                                     ->where('vet_id',$vet_id)
@@ -297,7 +308,14 @@ class HospitalAppointmentsController extends Controller
     public function ajaxGetDayAppointments(Request $request){
         $date = $request->date; 
         $vets = Vetschedule::getVetsByDatesScheduled($date);
-        $vetSlots = VetShifts::getVetDateShifts($date);
+        // $vetSlots = VetShifts::getVetDateShifts($date);
+        $vetSlots = [];
+        if($vets){
+			foreach($vets as $sl){
+				$vetSlots[$sl['id']] = Helper::getTimeSlotHrMIn('30', $sl['available_from'], $sl['available_to']);
+			}
+		}
+
         $timeslots = Helper::getTimeSlotHrMIn(30,env('SLOT_FROM_TIME'),env('SLOT_TO_TIME'));
         $vetBookings = HospitalAppointments::leftJoin('vets','vets.id', '=', 'hospital_appointments.vet_id')
                                         ->leftJoin('caretakers','hospital_appointments.caretaker_id','=','caretakers.id')
@@ -312,6 +330,9 @@ class HospitalAppointmentsController extends Controller
                 $details[$booking->time_appointment]['cat'] = $booking->cat_name;
             }
         }
+
+        // print_r($vetBooks);
+        // die;
         
         $viewData = view('admin.hospital.day_appointment', compact('vets','timeslots','vetBooks','date','vetSlots','details'))->render();
         return $viewData;

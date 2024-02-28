@@ -13,7 +13,7 @@ class Vetschedule extends Model
 
     public static function getVetSchedules($params){
        
-        $vets = Vetschedule::select("date")
+        $vets = Vetschedule::select("date","available_from","available_to")
                     ->where('status', 'published')
                     ->whereDate('date','>=' ,$params['start'])
                     ->whereDate('date','<=' ,$params['end'])
@@ -37,7 +37,7 @@ class Vetschedule extends Model
         return $vets;
     }
     public static function getVetsByDatesScheduled($date){
-        $vets = Vetschedule::select('vets.name','vets.id')
+        $vets = Vetschedule::select('vets.name','vets.id','vetschedules.date','vetschedules.available_from','vetschedules.available_to')
                 ->leftJoin('vets','vetschedules.vet_id','=','vets.id')
                 ->where('vets.status', 'published')
                 ->whereDate('vetschedules.date','=' ,$date)
