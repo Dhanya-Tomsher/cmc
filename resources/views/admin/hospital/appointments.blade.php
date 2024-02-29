@@ -79,7 +79,7 @@
                                 <!-- Tab panes -->
                                 <div class="tab-content py-3 text-muted">
                                     <div class="tab-pane active" id="navtabs-care-taker" role="tabpanel">
-                                        <h4 class="card-title mb-2">Search Caretaker</h4>
+                                        <label class="card-title mb-2">Search Caretaker<span class="required">*</span></label>
                                        
                                         <div class="hstack gap-3">
                                             <select class="form-control me-auto" placeholder="Search by : Reg No, Name, Mobile Number, ED"
@@ -189,7 +189,7 @@
                                     </div>
                                     <div class="tab-pane" id="navtabs-cat-details" role="tabpanel">
 
-                                        <h4 class="card-title mb-2">Search Cat</h4>
+                                        <label class="card-title mb-2">Search Cat<span class="required">*</span></label>
                                        
                                         <div class="hstack gap-3">
                                             <select class="form-control me-auto" placeholder="Search by : Name, Id"
@@ -432,7 +432,7 @@
                                                 <div class="col-md-4">
                                                     <input class="form-control" type="hidden"  id="caretaker_id" name="caretaker_id">
                                                     <input class="form-control" type="hidden"  id="catId" name="catId">
-                                                    <label for="country" class="col-form-label">Procedure</label>
+                                                    <label for="country" class="col-form-label">Procedure<span class="required">*</span></label>
                                                     <select class="form-select form-control select2" id="procedure" name="procedure" style="width:100%;">
                                                         <option value="">Select Procedure</option>
                                                         @if($procedures)
@@ -471,7 +471,7 @@
                                                 </div>
 
                                                 <div class="col-md-4">
-                                                    <label for="address" class="col-form-label">Select Time</label>
+                                                    <label for="address" class="col-form-label">Select Time<span class="required">*</span></label>
                                                     <div class="input-group">
                                                         <select class="form-select form-control select2"  id="appointment_time" name="appointment_time[]" multiple="multiple" style="width:100%;">
                                                             

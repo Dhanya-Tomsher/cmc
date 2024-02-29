@@ -116,7 +116,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <input class="form-control" type="hidden"  id="form_id" name="form_id" value="{{$form[0]['id']}}"  >
-                                <label class="col-form-label">Select Tablet</label>
+                                <label class="col-form-label">Select Tablet<span class="required">*</span></label>
                                 <select class="form-control" name="tab" id="tab">
                                     <option value=""> Select a Tablet </option>
                                     <option value="tablet_1"> Tablet 1</option>

@@ -41,7 +41,7 @@
                         @if($cat[0])
                         <div class="card">
                             <div class="card-body py-4">
-                                <form name="cat_update" id="updateCat" action="{{ route('cat.update', $cat[0]->id) }}" enctype="multipart/form-data" method="POST">
+                                <form name="cat_update" id="updateCat" action="{{ route('cat.update', $cat[0]->id) }}" enctype="multipart/form-data" method="POST" autocomplete="off">
                                     @csrf
                                     <div class="row mb-3">
                                         <div class="col-6">

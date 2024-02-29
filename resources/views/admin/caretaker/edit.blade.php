@@ -50,7 +50,7 @@
                                 </div>
                             @endif
                             <form name="frm" id="createCaretaker" action="{{ route('caretaker.update', $caretaker) }}"
-                                enctype="multipart/form-data" method="POST">
+                                enctype="multipart/form-data" method="POST" autocomplete="off">
                                 @csrf
 
                                 <div class="row mb-3">
@@ -82,7 +82,7 @@
                                         <input type="hidden" name="careId" value="{{ $caretaker->id }}">
                                         <input type="hidden" name="image_url" value="{{ $caretaker->image_url }}">
                                         <label for="example-text-input" class="col-form-label">Customer ID<span
-                                                class="error">*</span></label>
+                                                class="required">*</span></label>
                                         <input class="form-control" type="text" readonly name="customer_id"
                                             placeholder="Enter Customer ID"
                                             value="{{ old('customer_id', $caretaker->customer_id) }}"
@@ -92,21 +92,20 @@
 
                                     <div class="col-md-4">
                                         <label for="Name" class="col-form-label">Name<span
-                                                class="error">*</span></label>
-                                        <input class="form-control" name="name"
-                                            value="{{ old('name', $caretaker->name) }}" type="text"
-                                            placeholder="Enter Name" id="Name">
+                                            class="required">*</span></label>
+                                        <input class="form-control" name="name" value="{{ old('name', $caretaker->name) }}" type="text" placeholder="Enter Name" id="Name" autocomplete="off">
 
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label for="address" class="col-form-label">Address</label>
+                                        <label for="address" class="col-form-label">Address<span
+                                            class="required">*</span></label>
                                         <textarea name="address" class="form-control" placeholder="Enter address" rows="2">{{ $caretaker->address }}</textarea>
                                     </div>
 
                                     <div class="col-md-4">
                                         <label for="email" class="col-form-label">Email ID<span
-                                                class="error">*</span></label>
+                                            class="required">*</span></label>
                                         <input class="form-control" name="email"
                                             value="{{ old('email', $caretaker->email) }}" type="email"
                                             placeholder="Enter Email ID" id="Email">
@@ -114,21 +113,24 @@
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label for="phone" class="col-form-label">Phone Number</label>
+                                        <label for="phone" class="col-form-label">Phone Number<span
+                                            class="required">*</span></label>
                                         <input class="form-control" name="phone_number"
                                             value="{{ $caretaker->phone_number }}" type="text"
                                             placeholder="Enter Phone Number" id="phone">
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label for="whatsapp" class="col-form-label">Whatsapp Number</label>
+                                        <label for="whatsapp" class="col-form-label">Whatsapp Number<span
+                                            class="required">*</span></label>
                                         <input class="form-control" name="whatsapp_number"
                                             value="{{ $caretaker->whatsapp_number }}" type="text"
                                             placeholder="Enter Whatsapp Number" id="whatsapp">
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label for="country" class="col-form-label">Home Country</label>
+                                        <label for="country" class="col-form-label">Home Country<span
+                                            class="required">*</span></label>
                                         <select class="form-select form-control select2" name="home_country"
                                             id="home_country">
                                             <option value="" selected disabled>Select</option>
@@ -139,7 +141,8 @@
                                         </select>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="country" class="col-form-label">State</label>
+                                        <label for="country" class="col-form-label">State<span
+                                            class="required">*</span></label>
                                         <select class="form-select form-control select2" name="emirate" id="state">
                                             @foreach ($states as $st)
                                                 <option {{ $caretaker->state_id == $st->id ? 'selected' : '' }}
@@ -149,34 +152,39 @@
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label class="col-form-label">Work Place</label>
+                                        <label class="col-form-label">Work Place<span
+                                            class="required">*</span></label>
                                         <input class="form-control" name="work_place"
                                             value="{{ $caretaker->work_place }}" type="text"
                                             placeholder="Enter Work Place">
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label class="col-form-label">Work Address</label>
+                                        <label class="col-form-label">Work Address<span
+                                            class="required">*</span></label>
                                         <input class="form-control" name="work_address"
                                             value="{{ $caretaker->work_address }}" type="text"
                                             placeholder="Enter Work Address">
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label class="col-form-label">Position</label>
+                                        <label class="col-form-label">Position<span
+                                            class="required">*</span></label>
                                         <input class="form-control" name="position" value="{{ $caretaker->position }}"
                                             type="text" placeholder="Enter Position">
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label for="work-number" class="col-form-label">Work Contact Number</label>
+                                        <label for="work-number" class="col-form-label">Work Contact Number<span
+                                            class="required">*</span></label>
                                         <input class="form-control" name="work_contact_number"
                                             value="{{ $caretaker->work_contact_number }}" type="text"
                                             placeholder="Enter Work Contact Number" id="work-number">
                                     </div>
 
                                     <div class="col-md-4 passport_input align-items-center" id="myRadioGroup">
-                                        <label for="emirates-id" class="col-form-label d-block">Passport No</label>
+                                        <label for="emirates-id" class="col-form-label d-block">Passport No<span
+                                            class="required">*</span></label>
                                         <div class="d-flex align-items-center">
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="PassportYes"
@@ -197,7 +205,8 @@
                                     </div>
 
                                     <div class="col-md-4 passport_input align-items-center" id="input3">
-                                        <label for="emirates-id" class="col-form-label d-block">Emirates ID</label>
+                                        <label for="emirates-id" class="col-form-label d-block">Emirates ID<span
+                                            class="required">*</span></label>
                                         <div class="d-flex align-items-center">
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="EmiratesYes" name="is_emirates_id"
@@ -222,7 +231,8 @@
 
 
                                     <div class="col-md-4">
-                                        <label for="country" class="col-form-label">Visa Status</label>
+                                        <label for="country" class="col-form-label">Visa Status<span
+                                            class="required">*</span></label>
                                         <select class="form-select form-control" name="visa_status">
                                             <option value="">Select</option>
                                             <option value="Residence Visa"
@@ -243,7 +253,8 @@
                                                         </select>
                                                     </div> -->
                                     <div class="col-md-4">
-                                        <label for="emirates-id" class="col-form-label d-block">BlackList Status</label>
+                                        <label for="emirates-id" class="col-form-label d-block">BlackList Status<span
+                                            class="required">*</span></label>
                                         <div class="d-flex align-items-center">
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="blacklistYes"

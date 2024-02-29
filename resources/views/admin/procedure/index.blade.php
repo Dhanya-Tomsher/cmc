@@ -140,7 +140,8 @@
                                     </div>
 
                                     <div class="col-md-12">
-                                        <label for="email" class="col-form-label">Price</label>
+                                        <label for="email" class="col-form-label">Price<span
+                                            class="required">*</span></label>
                                         <input class="form-control" name="price" type="text" value=""
                                             placeholder="Enter Price" id="price">
                                     </div>
@@ -204,6 +205,11 @@
         }
 
         function createProcedure() {
+            $('#createForm')[0].reset();
+            $('.error').html('');
+            $('#procedure').removeClass('error');
+            $('#price').removeClass('error');
+            $('#pro_id').val('');
             $('#action_type').val('create');
             $('#createProcedure').modal('show');
         }
@@ -214,10 +220,12 @@
 
         $("#createForm").validate({
             rules: {
-                procedure: "required"
+                procedure: "required",
+                price: "required"
             },
             messages: {
-                procedure: "Please enter a procedure"
+                procedure: "Please enter a procedure",
+                price: "Please enter price"
             },
             submitHandler: function(e) {
 
@@ -254,6 +262,7 @@
             $('#createForm')[0].reset();
             $('.error').html('');
             $('#procedure').removeClass('error');
+            $('#price').removeClass('error');
 
             $('#pro_id').val(procedure.id);
             $('#procedure').val(procedure.name);

@@ -552,6 +552,9 @@ table td.highlighted {
 .w-40{
   width: 40% !important;
 }
+.w-41{
+  width: 41% !important;
+}
 .payment_confirmed{
     color: green !important;
     font-size: 20px !important;

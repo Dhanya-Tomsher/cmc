@@ -110,10 +110,10 @@
                             </button>
                         </div>
                         <div class="modal-body" id="form_generate">
-                            <form id="form_generateForm" method="post" >
+                            <form id="form_generateForm" method="post" autocomplete="off">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <label class="col-form-label">Caretaker</label>
+                                        <label class="col-form-label">Caretaker<span class="required">*</span></label>
                                         <select class="form-control me-auto select2" class="form-control" id="caretaker_id" name="caretaker_id" style="width:100% !important;">
                                             <option value="" selected>Select Caretaker</option>
                                             @foreach($caretakers as $care)
@@ -122,13 +122,13 @@
                                         </select>
                                     </div>
                                     <div class="col-md-12">
-                                        <label class="col-form-label">Cat</label>
+                                        <label class="col-form-label">Cat<span class="required">*</span></label>
                                         <select class="form-control me-auto select2" class="form-control" id="cat_id" name="cat_id" style="width:100% !important;">
                                             <option value="" selected>Select Cat</option>
                                         </select>
                                     </div>
                                     <div class="col-md-12">
-                                        <label class="col-form-label">Form Type</label>
+                                        <label class="col-form-label">Form Type<span class="required">*</span></label>
                                         <select class="form-control me-auto select2" class="form-control" id="form_id" name="form_id" style="width:100% !important;" >
                                             <option value="" selected>Select Form Type</option>
                                             @foreach($forms as $form)

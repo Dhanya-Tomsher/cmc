@@ -137,7 +137,8 @@
                                     </div>
 
                                     <div class="col-md-12">
-                                        <label for="email" class="col-form-label">Price</label>
+                                        <label for="email" class="col-form-label">Price<span
+                                            class="required">*</span></label>
                                         <input class="form-control" name="price" type="text" value=""
                                             placeholder="Enter Price" id="price">
                                     </div>
@@ -183,6 +184,11 @@
         });
        
         function createService() {
+            $('#createForm')[0].reset();
+            $('.error').html('');
+            $('#service').removeClass('error');
+            $('#price').removeClass('error');
+            $('#pro_id').val('');
             $('#action_type').val('create');
             $('#createService').modal('show');
         }
@@ -193,10 +199,12 @@
 
         $("#createForm").validate({
             rules: {
-                service: "required"
+                service: "required",
+                price: "required"
             },
             messages: {
-                service: "Please enter a service"
+                service: "Please enter a service",
+                price: "Please enter price"
             },
             submitHandler: function(e) {
                 var data = new FormData($('#createForm')[0]);
@@ -232,6 +240,7 @@
             $('#createForm')[0].reset();
             $('.error').html('');
             $('#service').removeClass('error');
+            $('#price').removeClass('error');
 
             $('#pro_id').val(service.id);
             $('#service').val(service.name);
@@ -241,54 +250,6 @@
             $('#createService').modal('show');
         }
 
-        function deleteProdcedure(service) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Do you want to delete this service?",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes!'
-            }).then(function(result) {
-                if (result.isConfirmed) {
-                    var data = []
-
-                    $.ajax({
-                        url: "{{ route('service.delete') }}",
-                        type: "POST",
-                        data: {
-                            service: service
-                        },
-                        success: function(response) {
-                            var result = JSON.parse(response);
-                            if (result.status == 1) {
-                                $('#proid_' + service).css('background', '#f9a8a8');
-                                $('#proid_' + service).fadeOut(900, function() {
-                                    $(this).remove();
-                                });
-                                Swal.fire(
-                                    'Deleted successfully',
-                                    '',
-                                    'success'
-                                );
-                            } else {
-                                Swal.fire(
-                                    '',
-                                    result.msg,
-                                    'error'
-                                );
-                            }
-
-                            setTimeout(function() {
-                                window.location.reload();
-                            }, 3000);
-
-                        }
-                    });
-                }
-
-            })
-        }
+      
     </script>
 @endpush

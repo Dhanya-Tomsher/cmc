@@ -203,7 +203,7 @@
                             <!-- Tab panes -->
                             <div class="tab-content py-3 text-muted">
                                 <div class="tab-pane active" id="navtabs-care-taker" role="tabpanel">
-                                    <h4 class="card-title mb-2">Search Caretaker</h4>
+                                    <label class="card-title mb-2">Search Caretaker<span class="required">*</span></label>
                                     <input class="form-control" type="hidden" id="editcatId" name="editcatId">
                                     <div class="hstack gap-3">
                                         <select class="form-control me-auto"
@@ -333,7 +333,7 @@
                                 </div>
                                 <div class="tab-pane" id="navtabs-cat-details" role="tabpanel">
 
-                                    <h4 class="card-title mb-2">Search Cat</h4>
+                                    <label class="card-title mb-2">Search Cat<span class="required">*</span></label>
 
                                     <div class="hstack gap-3">
                                         <select class="form-control me-auto" placeholder="Search by : Name, Id"
@@ -620,7 +620,7 @@
                                                     name="caretaker_id">
                                                 <input class="form-control" type="hidden" id="catId"
                                                     name="catId">
-                                                <label for="country" class="col-form-label">Procedure</label>
+                                                <label for="country" class="col-form-label">Procedure<span class="required">*</span></label>
                                                 <select class="form-select form-control select2" id="procedure"
                                                     name="procedure" style="width:100%;">
                                                     <option value="">Select Procedure</option>
@@ -641,7 +641,7 @@
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label for="country" class="col-form-label">Vet</label>
+                                                <label for="country" class="col-form-label">Vet<span class="required">*</span></label>
                                                 <input type="hidden" name="edit_slot" id="edit_slot" value="">
                                                 <input type="hidden" name="edit_date" id="edit_date" value="">
                                                 <input type="hidden" name="edit_vet_id" id="edit_vet_id"
@@ -653,7 +653,7 @@
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label for="address" class="col-form-label">Select Date</label>
+                                                <label for="address" class="col-form-label">Select Date<span class="required">*</span></label>
                                                 <div class="input-group" id="datepicker2">
                                                     <input type="text" class="form-control date-picker"
                                                         placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
@@ -665,7 +665,7 @@
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label for="address" class="col-form-label">Select Time</label>
+                                                <label for="address" class="col-form-label">Select Time<span class="required">*</span></label>
                                                 <div class="input-group">
                                                     <select class="form-select form-control select2" id="appointment_time"
                                                         name="appointment_time" style="width:100%;">

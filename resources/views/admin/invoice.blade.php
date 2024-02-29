@@ -194,15 +194,15 @@
                                     <div class="col-md-6">
                                         <input class="form-control" type="hidden"  id="invoice_id" name="invoice_id" value="{{$invoice[0]->id}}"  >
                                         <input class="form-control" type="hidden"  id="total" name="total" value="{{$invoice[0]->total}}">
-                                        <label class="col-form-label">Price</label>
+                                        <label class="col-form-label">Price<span class="required">*</span></label>
                                         <input class="form-control" type="text"  id="price" name="price" value="{{$invoice[0]->price}}"  placeholder="Price">
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="col-form-label">Net</label>
+                                        <label class="col-form-label">Net<span class="required">*</span></label>
                                         <input class="form-control" type="text"  id="net" name="net" value="{{$invoice[0]->net}}" placeholder="Net">
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="col-form-label">VAT</label>
+                                        <label class="col-form-label">VAT<span class="required">*</span></label>
                                         <input class="form-control" type="text"  id="vat" name="vat" value="{{$invoice[0]->vat}}" placeholder="VAT">
                                     </div>
                                     <div class="col-md-6">

@@ -59,14 +59,14 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th>No</th>
-                                            <th>From Date</th>
-                                            <th>To Date</th>
-                                            <th>Room Number</th>
+                                            <th class="text-center">From Date</th>
+                                            <th class="text-center">To Date</th>
+                                            <th class="text-center">Room Number</th>
                                             <th>Caretaker Name</th>
                                             <!-- <th>Caretaker ID</th> -->
                                             <th>Cat Name</th>
                                             <!-- <th>Cat ID</th> -->
-                                            <th>Created At</th>
+                                            <th class="text-center">Created At</th>
                                             <th class="text-center w-10">Payment Confirmation</th>
                                             <th class="text-center w-10">Action</th>
                                         </tr>
@@ -77,14 +77,14 @@
                                             @foreach ($bookings as $key =>$app)
                                                 <tr id="appid_{{ $app->id }}">
                                                     <td>{{ $key + 1 + ($bookings->currentPage() - 1) * $bookings->perPage() }}</td>
-                                                    <td>{{ $app->start_date }} </td>
-                                                    <td>{{ $app->end_date }} </td>
-                                                    <td>{{ $app->room_no }} </td>
+                                                    <td class="text-center">{{ $app->start_date }} </td>
+                                                    <td class="text-center">{{ $app->end_date }} </td>
+                                                    <td class="text-center">{{ $app->room_no }} </td>
                                                     <td>{{ $app->caretaker_name }} </td>
                                                     <!-- <td>{{ $app->customer_id }} </td> -->
                                                     <td>{{ $app->cat_name }} </td>
                                                     <!-- <td>{{ $app->cat_id }} </td> -->
-                                                    <td>{{ date('Y-m-d', strtotime($app->created_at)) }} </td>
+                                                    <td class="text-center">{{ date('Y-m-d', strtotime($app->created_at)) }} </td>
                                                     <td class="text-center" id="payment_{{ $app->id }}">
                                                         @if ($app->payment_confirmation == 1)
                                                             <a class="payment_confirmed payment_confirm"
@@ -198,7 +198,7 @@
                             <!-- Tab panes -->
                             <div class="tab-content py-3 text-muted">
                                 <div class="tab-pane active" id="navtabs-care-taker" role="tabpanel">
-                                    <h4 class="card-title mb-2">Search Caretaker</h4>
+                                    <label class="card-title mb-2">Search Caretaker<span class="required">*</span></label>
 
                                     <div class="hstack gap-3">
                                         <select class="form-control me-auto"
@@ -328,7 +328,7 @@
                                 </div>
                                 <div class="tab-pane" id="navtabs-cat-details" role="tabpanel">
 
-                                    <h4 class="card-title mb-2">Search Cat</h4>
+                                    <label class="card-title mb-2">Search Cat<span class="required">*</span></label>
 
                                     <div class="hstack gap-3">
                                         <select class="form-control me-auto" placeholder="Search by : Name, Id"
@@ -348,7 +348,7 @@
                                     <form id="appointment" method="post">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <label for="address" class="col-form-label">From Date</label>
+                                                <label for="address" class="col-form-label">From Date<span class="required">*</span></label>
                                                 <div class="input-group" id="datepicker2">
                                                     <input type="text" class="form-control date-picker "
                                                         placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
@@ -359,7 +359,7 @@
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label for="address" class="col-form-label">To Date</label>
+                                                <label for="address" class="col-form-label">To Date<span class="required">*</span></label>
                                                 <div class="input-group" id="datepicker2">
                                                     <input type="text" class="form-control date-picker "
                                                         placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
@@ -384,7 +384,7 @@
                                                 <input type="hidden" name="edit_room_id" id="edit_room_id"
                                                     value="">
 
-                                                <label for="country" class="col-form-label">Rooms</label>
+                                                <label for="country" class="col-form-label">Rooms<span class="required">*</span></label>
                                                 <select class="form-select form-control select2" id="rooms"
                                                     name="rooms" style="width:100%;">
                                                     <option value="">Select Room</option>

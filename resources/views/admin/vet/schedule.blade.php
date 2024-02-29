@@ -19,8 +19,8 @@
                 <div class="d-flex justify-content-between">
                     <div class="search_warpper w-100" id="vetDropdownParent">
                         <div class="hstack gap-2 w-100">
-                            <label class="w-40">Vet Name</label>
-                            <label class="w-30">From Time - To Time</label>
+                            <label class="w-41">Vet Name</label>
+                            <label class="w-30"> Time</label>
                                 
                         </div>
 
@@ -41,7 +41,7 @@
                                 @endif
                             </select>
                             
-                            <input type="text" class="form-control w-30" name="daterange" id="daterange" value="" autocomplete="off">
+                            <input type="text" class="form-control w-30" name="daterange" id="daterange" value="" autocomplete="off" placeholder="00:00 - 00:00">
                             <input type="hidden" class="" name="from_time" id="from_time" value="">
                             <input type="hidden" class="" name="to_time" id="to_time" value="">
 

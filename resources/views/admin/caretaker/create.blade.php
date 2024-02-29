@@ -37,7 +37,7 @@
                                     {{ session()->get('status') }}
                                 </div>
                             @endif
-                            <form name="frm" id="createCaretaker" action="{{ route('caretaker.store') }}" enctype="multipart/form-data" method="POST">
+                            <form name="frm" id="createCaretaker" action="{{ route('caretaker.store') }}" enctype="multipart/form-data" method="POST" autocomplete="off">
                                 @csrf
                                 <div class="row mb-3">
                                     <div class="col-6">
@@ -57,12 +57,12 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <label for="example-text-input" class="col-form-label">Customer ID<span class="error">*</span></label>
+                                        <label for="example-text-input" class="col-form-label">Customer ID<span class="required">*</span></label>
                                         <input class="form-control" name="customer_id" readonly type="text" value="{{ $careId }}"  placeholder="Enter Customer ID" id="example-text-input">
                                       
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="Name" class="col-form-label">Name<span class="error">*</span></label>
+                                        <label for="Name" class="col-form-label">Name<span class="required">*</span></label>
                                         <input class="form-control" name="name" type="text" placeholder="Enter Name" value="{{ old('name') }}" id="Name">
                                         @error('name')
                                             <div class="alert alert-danger">{{ $message }}</div>
@@ -70,32 +70,32 @@
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label for="address" class="col-form-label">Address</label>
+                                        <label for="address" class="col-form-label">Address<span class="required">*</span></label>
                                         <textarea  name="address" class="form-control" placeholder="Enter address" rows="2">{{ old('address') }}</textarea>
                                        
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label for="email" class="col-form-label">Email ID<span class="error">*</span></label>
+                                        <label for="email" class="col-form-label">Email ID<span class="required">*</span></label>
                                         <input class="form-control" name="email" type="text"
                                             placeholder="Enter Email ID" id="Email" value="{{ old('email') }}">
                                        
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="phone" class="col-form-label">Phone Number</label>
+                                        <label for="phone" class="col-form-label">Phone Number<span class="required">*</span></label>
                                         <input class="form-control" name="phone_number" type="text"
                                             placeholder="Enter Phone Number" id="phone"
                                             value="{{ old('phone_number') }}">
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="whatsapp" class="col-form-label">Whatsapp Number</label>
+                                        <label for="whatsapp" class="col-form-label">Whatsapp Number<span class="required">*</span></label>
                                         <input class="form-control" name="whatsapp_number" type="text"
                                             placeholder="Enter Whatsapp Number" id="whatsapp"
                                             value="{{ old('whatsapp_number') }}">
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label for="country" class="col-form-label">Home Country</label>
+                                        <label for="country" class="col-form-label">Home Country<span class="required">*</span></label>
                                         <select class="form-select form-control select2" name="home_country" id="home_country">
                                             <option value="" selected disabled>Select</option>
                                             @foreach ($countries as $item)
@@ -104,35 +104,35 @@
                                         </select>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="country" class="col-form-label">State</label>
+                                        <label for="country" class="col-form-label">State<span class="required">*</span></label>
                                         <select class="form-select form-control select2" name="emirate"  id="state">
                                            
                                         </select>
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label class="col-form-label">Work Place</label>
+                                        <label class="col-form-label">Work Place<span class="required">*</span></label>
                                         <input class="form-control" name="work_place" type="text"
                                             placeholder="Enter Work Place" value="{{ old('work_place') }}">
                                        
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label class="col-form-label">Work Address</label>
+                                        <label class="col-form-label">Work Address<span class="required">*</span></label>
                                         <input class="form-control" name="work_address" type="text"
                                             placeholder="Enter Work Address" value="{{ old('work_address') }}">
                                       
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label class="col-form-label">Position</label>
+                                        <label class="col-form-label">Position<span class="required">*</span></label>
                                         <input class="form-control" name="position" type="text"
                                             placeholder="Enter Position" value="{{ old('position') }}">
                                      
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label for="work-number" class="col-form-label">Work Contact Number</label>
+                                        <label for="work-number" class="col-form-label">Work Contact Number<span class="required">*</span></label>
                                         <input class="form-control" name="work_contact_number" type="text"
                                             placeholder="Enter Work Contact Number" id="work-number"
                                             value="{{ old('work_contact_number') }}">
@@ -140,7 +140,7 @@
                                     </div>
 
                                     <div class="col-md-4 passport_input align-items-center" id="myRadioGroup">
-                                        <label for="emirates-id" class="col-form-label d-block">Passport No</label>
+                                        <label for="emirates-id" class="col-form-label d-block">Passport No<span class="required">*</span></label>
                                         <div class="d-flex align-items-center">
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="PassportYes" name="is_passport_no"
@@ -163,7 +163,7 @@
 
 
                                     <div class="col-md-4 passport_input align-items-center" id="input3">
-                                        <label for="emirates-id" class="col-form-label d-block">Emirates ID</label>
+                                        <label for="emirates-id" class="col-form-label d-block">Emirates ID<span class="required">*</span></label>
                                         <div class="d-flex align-items-center">
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="EmiratesYes" name="is_emirates_id"
@@ -184,7 +184,7 @@
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label for="country" class="col-form-label">Visa Status</label>
+                                        <label for="country" class="col-form-label">Visa Status<span class="required">*</span></label>
                                         <select  class="form-select form-control" name="visa_status">
                                             <option value="" >Select</option>
                                             <option value="Residence Visa"
