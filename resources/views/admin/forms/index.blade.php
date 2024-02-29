@@ -31,7 +31,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-centered table-nowrap mb-0">
+                            <table class="table table-centered table-nowrap mb-0" style="border-bottom: 0px !important;">
                                 <thead class="table-light">
                                     <tr>
                                         <th class="text-center">No</th>

@@ -107,7 +107,7 @@ class FormsController extends Controller
                 $query->whereDate('for.created_at', '=', $from_date);
             }
         }
-        $custom_forms = $query->orderBy('custom_forms.id','DESC')->paginate(5);
+        $custom_forms = $query->orderBy('custom_forms.id','DESC')->paginate(10);
 
         return view('admin.forms.custom_index')->with(['caretakers' => $caretakers, 'forms' => $forms, 'custom_forms' => $custom_forms]);
     }

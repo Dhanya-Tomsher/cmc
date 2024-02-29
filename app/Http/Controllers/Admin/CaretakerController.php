@@ -35,7 +35,7 @@ class CaretakerController extends Controller
                         ->orWhere('whatsapp_number', 'LIKE', '%'.$search . '%');
             });                    
         }
-        $caretaker = $query->orderBy('id','DESC')->paginate(5);
+        $caretaker = $query->orderBy('id','DESC')->paginate(10);
 
         return view('admin.caretaker.index')->with([
             'caretaker' => $caretaker,'search'=>$search

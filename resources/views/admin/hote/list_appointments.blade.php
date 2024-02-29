@@ -966,7 +966,11 @@
                             'success'
                         );
                         $("#createAppointmentModal").modal('hide');
-                        window.location.reload();
+                        
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 2000);
+
                     }
                 });
             }

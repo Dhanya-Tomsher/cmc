@@ -839,8 +839,13 @@
                 success: function(response) {
                     var result = JSON.parse(response);
 
-                    $('#appointment_date').datepicker('setDate', result.appointment[0].date_appointment)
-                        .datepicker('fill');
+                    // $('#appointment_date').datepicker('setDate', result.appointment[0].date_appointment).datepicker('fill');
+                    $('#appointment_date').off('change');
+                    $('#appointment_date').datepicker('setDate', result.appointment[0].date_appointment);
+                    $('#appointment_date').on('change', function(event) {
+                        var selectedDate = $(this).val();
+                        appointmentDateChange(selectedDate);
+                    });
                     $("#caretaker_tab").addClass('active');
                     $("#cat_tab,#appointment_tab").removeClass('active');
                     $('#navtabs-care-taker').css('display', 'block');
@@ -873,9 +878,6 @@
                         vets_html += '<option value="' + value.id + '" >' + value.name + '</option>';
                     });
 
-                    $('#vet_id').html(vets_html);
-                    $("#vet_id").val(result.appointment[0].vet_id).trigger('change');
-
                     $("#procedure").val(result.appointment[0].procedure_id).trigger('change');
 
                     $('#remarks').html(result.appointment[0].reason);
@@ -889,6 +891,11 @@
 
                     getSlots(result.appointment[0].date_appointment, result.appointment[0].vet_id, result
                         .appointment[0].time_appointment);
+
+                    $('#vet_id').html(vets_html).trigger('change');
+                   
+                    $("#vet_id").val(result.appointment[0].vet_id).trigger('change');
+                
                     $('#createAppointmentModal').modal('show');
                 }
             });
@@ -1135,8 +1142,8 @@
             }
         });
 
-        $("#appointment_date").on("change", function() {
-            var date = $(this).val();
+        function appointmentDateChange(date){
+        
             $.ajax({
                 url: "{{ route('get-vets-ondate') }}",
                 type: "POST",
@@ -1150,7 +1157,7 @@
                     $.each(returnedData, function(index, value) {
                         html += '<option value="' + value.id + '">' + value.name + '</option>';
                     });
-
+                   
                     $('#vet_id').html(html).trigger('change');
                 }
             });
@@ -1166,10 +1173,19 @@
             } else {
                 getSlots(date, vetId);
             }
+        }
 
+        // $("#appointment_date").on("change", function() {
+            
+        //     $(this).val()
+        // });
+        $('#appointment_date').on('change', function(event) {
+            var selectedDate = $(this).val();
+            appointmentDateChange(selectedDate);
         });
-
+        
         $("#vet_id").on("change", function() {
+            
             var vetId = $(this).val();
             var date = $('#appointment_date').val();
             var editSlot = $('#edit_slot').val();
@@ -1256,7 +1272,10 @@
                             'success'
                         );
                         $("#createAppointmentModal").modal('hide');
-                        getAppointments();
+                        
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 2000);
 
                     }
                 });

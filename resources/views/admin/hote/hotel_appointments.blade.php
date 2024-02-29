@@ -354,7 +354,7 @@
         initialView: 'dayGridMonth',
         selectable: true,
         // height: 850,
-        aspectRatio: 1.75,
+        aspectRatio: 1.5,
         showNonCurrentDates : false,
         events: "{{ route('get-hotel-schedules')}}",
         eventContent: function( info ) {
