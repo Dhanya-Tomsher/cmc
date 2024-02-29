@@ -118,7 +118,12 @@
                     <span>Procedures </span>
                 </a>
             </li>
-
+            <li class="{{ Helper::areActiveRoutes(['service.index','service.create','service.view','service.edit']) }}">
+                <a href="{{ route('service.index') }}" class=" waves-effect">
+                    <i class="uil-file-medical"></i>
+                    <span>Services </span>
+                </a>
+            </li>
             
             <li class="{{ Helper::areActiveRoutes(['forms.index','form.create','form.view','form.edit','custom-forms','custom-form.create','custom-form.view','custom-form.edit']) }}">
                 <a href="#" class="has-arrow waves-effect">
