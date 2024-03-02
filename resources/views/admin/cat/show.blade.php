@@ -18,7 +18,7 @@
 
                 </div>
                 <div class="d-flex align-items-center justify-content-between mb-3">
-                    <a href="{{ route('cat.index') }}" class="btn btn_back waves-effect waves-light mt-3"> <i
+                    <a href="{{ Session::has('last_url') ? Session::get('last_url') : route('cat.index') }}" class="btn btn_back waves-effect waves-light mt-3"> <i
                             class="uil-angle-left-b"></i> Back</a>
                     <div class="btn_group">
                         <!-- <a href="hospital_appointments.html" class="btn btn_back waves-effect waves-light me-2"> Create
@@ -82,7 +82,7 @@
 
                                     <div class="col-md-6">
                                         <label for="emirates-id" class="col-form-label d-block">Blood Type</label>
-                                        <div class="d-flex align-items-center">
+                                        <div class=" align-items-center">
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="BloodA" disabled {{ $cat[0]->blood_type == "a" ? 'checked' : '' }} value="a" name="blood_type" class="form-check-input">
                                                 <label class="form-check-label mt-1" for="BloodA">A</label>
@@ -110,7 +110,7 @@
 
                                     <div class="col-md-6 input4" >
                                         <label for="emirates-id" class="col-form-label d-block">Virus</label>
-                                        <div class="d-flex align-items-center">
+                                        <div class=" align-items-center">
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="virusYes" value="1" name="virusstatus" disabled {{ $cat[0]->virus == "1" ? 'checked' : '' }} class="form-check-input">
                                                 <label class="form-check-label mt-1" for="virusYes">Yes</label>
@@ -128,7 +128,7 @@
 
                                     <div class="col-md-6">
                                         <label for="emirates-id" class="col-form-label d-block">Gender</label>
-                                        <div class="d-flex h-50 align-items-center border-bottom-1">
+                                        <div class=" h-50 align-items-center border-bottom-1">
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="GenderMale" disabled {{ $cat[0]->gender == "Male" ? 'checked' : '' }}  value="Male" name="gender" class="form-check-input" value="hide" >
                                                 <label class="form-check-label mt-1" for="GenderMale">Male</label>
@@ -142,7 +142,7 @@
 
                                     <div class="col-md-6 input4" >
                                         <label for="emirates-id" class="col-form-label d-block">Neutered</label>
-                                        <div class="d-flex align-items-center">
+                                        <div class=" align-items-center">
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="NeuteredYes" disabled value="1" {{ $cat[0]->neutered == "1" ? 'checked' : '' }}  name="neutered" class="form-check-input">
                                                 <label class="form-check-label mt-1" for="NeuteredYes">Yes</label>
@@ -156,7 +156,7 @@
 
                                     <div class="col-md-6 input4" >
                                         <label for="emirates-id" class="col-form-label d-block">Neutered with Us</label>
-                                        <div class="d-flex align-items-center">
+                                        <div class=" align-items-center">
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="NeuteredWithYes" disabled value="1" {{ $cat[0]->neutered_with_us == "1" ? 'checked' : '' }}  name="neutered_with_us" class="form-check-input">
                                                 <label class="form-check-label mt-1" for="NeuteredWithYes">Yes</label>
@@ -170,7 +170,7 @@
 
                                     <div class="col-md-6 input4 {{ $cat[0]->gender == "Male" ?  "hide" : '' }}"  id="spayed-div">
                                         <label for="emirates-id" class="col-form-label d-block">Spayed</label>
-                                        <div class="d-flex align-items-center">
+                                        <div class=" align-items-center">
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="SpayedYes" disabled value="1" {{ $cat[0]->spayed == "1" ? 'checked' : '' }} name="spayed" class="form-check-input">
                                                 <label class="form-check-label mt-1" for="SpayedYes">Yes</label>
@@ -184,7 +184,7 @@
 
                                     <div class="col-md-6 input4 {{ $cat[0]->gender == "Female" ?  "hide" : '' }}"  id="castrated-div">
                                         <label for="emirates-id" class="col-form-label d-block">Castrated</label>
-                                        <div class="d-flex align-items-center">
+                                        <div class="align-items-center">
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="CastratedYes" disabled value="1" {{ $cat[0]->castrated == "1" ? 'checked' : '' }}  name="castrated" class="form-check-input">
                                                 <label class="form-check-label mt-1" for="CastratedYes">Yes</label>
@@ -198,7 +198,7 @@
 
                                     <div class="col-md-6 input4 {{ $cat[0]->gender == "Male" ?  "hide" : '' }}"   id="pregnant-div">
                                         <label for="emirates-id" class="col-form-label d-block">Pregnant /  Not</label>
-                                        <div class="d-flex align-items-center">
+                                        <div class=" align-items-center">
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="PregnantYes" disabled {{ $cat[0]->pregnant == "1" ? 'checked' : '' }} value="1" name="pregnantstatus" class="form-check-input">
                                                 <label class="form-check-label mt-1" for="PregnantYes">Yes</label>
@@ -226,7 +226,7 @@
 
                                     <div class="col-md-6 input4" id="behaviour-div">
                                             <label for="emirates-id" class="col-form-label d-block">Behaviour</label>
-                                            <div class="d-flex align-items-center">
+                                            <div class=" align-items-center">
                                                 <div class="custom-radio form-check form-check-inline">
                                                     <input type="radio" id="behaviourGreen" value="1" disabled {{ $cat[0]->behaviour == "1" ? 'checked' : '' }}  name="behaviour" class="form-check-input" >
                                                     <label class="form-check-label mt-1" for="behaviourGreen">Green</label>
@@ -260,7 +260,7 @@
 
                                     <div class="col-md-6 align-self-end">
                                         <label for="emirates-id" class="col-form-label d-block">Dead / Alive</label>
-                                        <div class="d-flex align-items-center">
+                                        <div class=" align-items-center">
                                             <div class="custom-radio form-check form-check-inline">
                                                 <input type="radio" id="Alive" disabled value="1" {{ $cat[0]->dead_alive == "1" ? 'checked' : '' }} name="dead_alive" class="form-check-input" checked>
                                                 <label class="form-check-label mt-1" for="Alive">Alive</label>

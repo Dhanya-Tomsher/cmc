@@ -46,7 +46,7 @@
 
             </li>
 
-            <li>
+            <li class="{{ Helper::areActiveRoutes(['manage-hospital-appointments','get-hospital-invoice']) }}">
                 <a href="{{ route('manage-hospital-appointments') }}" class=" waves-effect">
                     <i class="uil-hospital"></i>
                     <span>Hospital Appointments </span>
@@ -61,7 +61,7 @@
                 </a>
             </li>
 
-            <li>
+            <li class="{{ Helper::areActiveRoutes(['manage-hotel-bookings','get-hotel-invoice']) }}">
                 <a href="{{ route('manage-hotel-bookings') }}" class=" waves-effect">
                     <i class="uil-building"></i>
                     <span>Hotel Bookings </span>
@@ -69,7 +69,7 @@
 
             </li>
 
-            <li>
+            <li class="{{ Helper::areActiveRoutes(['invoice.index','invoice.view','invoice.edit','invoice.create']) }}">
                 <a href="{{ route('invoice.index') }}" class=" waves-effect">
                     <i class="uil-invoice"></i>
                     <span>Custom Invoices </span>
@@ -77,14 +77,14 @@
             </li>
 
             @if (Auth::user()->user_type == 'admin')
-                <li>
+                <li class="{{ Helper::areActiveRoutes(['vet.index','vet.view','vet.edit','vet.create']) }}">
                     <a href="{{ route('vet.index') }}" class=" waves-effect">
                         <i class="uil-user"></i>
                         <span>Manage Vets </span>
                     </a>
                 </li>
 
-                <li>
+                <li class="{{ Helper::areActiveRoutes(['vet.schedule']) }}">
                     <a href="{{ route('vet.schedule') }}" class=" waves-effect">
                         <i class="uil-calendar-alt"></i>
                         <span>Vets Work Schedule </span>
@@ -92,45 +92,50 @@
                 </li>
             @endif
             
-            <li>
+            <li class="{{ Helper::areActiveRoutes(['caretaker.index','caretaker.view','caretaker.edit','caretaker.create','caretaker.blacklisted']) }}">
                 <a href="{{ route('caretaker.index') }}" class=" waves-effect">
                     <i class="uil-users-alt"></i>
                     <span>Caretakers </span>
                 </a>
             </li>
 
-            <li>
-                <a href="{{ route('cat.index') }}" class=" waves-effect">
+            <li class="{{ Helper::areActiveRoutes(['cat.index','cat.create','cat.view','cat.edit']) }}">
+                <a href="{{ route('cat.index') }}" class="waves-effect">
                     <i class="uil-github-alt"></i>
                     <span>Cats </span>
                 </a>
             </li>
             
-            <li>
+            <li class="{{ Helper::areActiveRoutes(['hrooms.index','hrooms.create','hrooms.view','hrooms.edit']) }}">
                 <a href="{{ route('hrooms.index') }}" class=" waves-effect">
                     <i class="uil-building"></i>
                     <span>Rooms </span>
                 </a>
             </li>
-            <li>
+            <li class="{{ Helper::areActiveRoutes(['procedure.index','procedure.create','procedure.view','procedure.edit']) }}">
                 <a href="{{ route('procedure.index') }}" class=" waves-effect">
                     <i class="uil-medical-square"></i>
                     <span>Procedures </span>
                 </a>
             </li>
-
+            <li class="{{ Helper::areActiveRoutes(['service.index','service.create','service.view','service.edit']) }}">
+                <a href="{{ route('service.index') }}" class=" waves-effect">
+                    <i class="uil-file-medical"></i>
+                    <span>Services </span>
+                </a>
+            </li>
             
-            <li>
+            <li class="{{ Helper::areActiveRoutes(['forms.index','form.create','form.view','form.edit','custom-forms','custom-form.create','custom-form.view','custom-form.edit']) }}">
                 <a href="#" class="has-arrow waves-effect">
                     <i class="uil-file"></i> <span>Forms</span>
                 </a>
                 <ul class="sub-menu" aria-expanded="false">
-                    <li><a href="{{ route('forms.index') }}">Create Forms</a></li>
-                    <li><a href="{{ route('custom-forms') }}">Customer Forms </a></li>
+                    <li class="{{ Helper::areActiveRoutes(['forms.index','form.create','form.view','form.edit']) }}"><a href="{{ route('forms.index') }}">Create Forms</a></li>
+                    <li class="{{ Helper::areActiveRoutes(['custom-forms','custom-form.create','custom-form.view','custom-form.edit']) }}"><a href="{{ route('custom-forms') }}">Customer Forms </a></li>
                 </ul>
             </li>
             @if (Auth::user()->user_type == 'admin')
-                <li>
+                <li class="{{ Helper::areActiveRoutes(['users.index','user.create','user.view','user.edit']) }}">
                     <a href="{{ route('users') }}" class=" waves-effect">
                         <i class="uil-user"></i>
                         <span>User Management </span>

@@ -19,11 +19,11 @@
 
                 <div class="d-flex justify-content-between mb-3">
                     <div class="search_warpper w-50">
-                        <form>
+                        <form action="">
                             <div class="hstack gap-2">
-                                <input class="form-control me-auto border-0" type="text" id='search' placeholder="Search here">
-                                <button type="button" class="btn btn_back waves-effect waves-light w-xl" onclick=" getCats()">Search</button>
-                                <button type="button" class="btn btn_back waves-effect waves-light w-md" id="searchReset">Reset</button>
+                                <input class="form-control me-auto border-0" type="text" id='search' placeholder="Search here" name="search" value="{{ $search }}">
+                                <button type="submit" class="btn btn_back waves-effect waves-light w-xl" >Search</button>
+                                <a href="{{ route('cat.index') }}" class="btn btn_back waves-effect waves-light w-md" id="searchReset">Reset</a>
                             </div>
                         </form>
                     </div>
@@ -52,23 +52,68 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-centered table-nowrap mb-0" id="catsTable">
+                            <table class="table table-centered table-nowrap mb-0" id="catsTables">
                                 <thead class="table-light">
                                     <tr>
                                         <th>No</th>
                                         <th>Cat Name</th>
-                                        <th>Cat Image</th>
-                                        <th>Cat ID</th>
+                                        <th class="text-center">Cat Image</th>
+                                        <th class="text-center">Cat ID</th>
                                         <th>Caretaker</th>
-                                        <th>Gender</th>
+                                        <th class="text-center">Gender</th>
                                         <!-- <th>Status</th> -->
-                                        <th>Action</th>
+                                        <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody id="catDetails">
-                                  
+                                    @if(isset($cats[0]))
+                                        @foreach ($cats as $key => $cate)
+                                        
+                                            <tr>
+                                                <td>{{ $key + 1 + ($cats->currentPage() - 1) * $cats->perPage() }} </td>
+                                                <td>{{ $cate->cat_name }} </td>
+                                                <td class="text-center">
+                                                    @if($cate->image_url == NULL)
+                                                        <a href="{{ route('cat.view', $cate) }}"><img class="rounded-circle avatar-md" alt="200x200" src="{{ asset('assets/images/cat_plc.jpg') }} " data-holder-rendered="true"> </a>
+                                                    @else
+                                                        <a href="{{ route('cat.view', $cate) }}"><img class="rounded-circle avatar-md" alt="200x200" src="{{ asset($cate->image_url) }} " data-holder-rendered="true"> </a>
+                                                    @endif
+                                                    
+                                                </td>
+                                                <td class="text-center">{{ $cate->cat_id }} </td>
+                                                <td>{{ $cate->caretaker_name }} </td>
+                                                <td class="text-center">{{ $cate->gender }} </td>
+                                                <!-- <td>
+                                                    @if($cate->status == 'published')
+                                                        <div class="badge bg-soft-success font-size-12">{{ $cate->status }}</div>
+                                                    @else
+                                                        <div class="badge bg-soft-danger font-size-12">{{ $cate->status }}</div>
+                                                    @endif
+                                                </td> -->
+                                                <td class="text-center">
+                                                    <a href="{{ route('cat.view', $cate) }}" class="px-3 btn btn-app"><i  class="uil uil-eye font-size-18 text-primary"></i>View</a>
+                                                    <a href="{{ route('cat.edit', $cate) }}" class="px-3 btn btn-app"><i class="uil uil-pen green font-size-18"></i>Edit</a>
+                                                    <!-- <a href="#" class="px-3 text-danger"><i class="uil uil-trash-alt font-size-18"></i></a> -->
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="7" class="text-center">
+                                                <div class="atbd-empty__image">
+            
+                                                    <img src="{{ asset('assets/images/1.svg')}}" alt="Admin Empty">
+            
+                                                </div>
+                                                No data found.
+                                            </td>
+                                        </tr>
+                                    @endif
                                 </tbody>
                             </table>
+                            <div class="pagination mt-3">
+                                {{ $cats->appends(request()->input())->links('pagination::bootstrap-5') }}
+                            </div>
                         </div>
                         <!-- end table-responsive -->
                     </div>
@@ -81,13 +126,13 @@
 </div>
 @endsection
 @push('header')
-<link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}" />
+
 <link rel="stylesheet" href="{{ asset('assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" />
 @endpush
 
 @push('scripts')
 <script src="{{ asset('assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
-<script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
      $.ajaxSetup({
@@ -95,7 +140,7 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    getCats(); 
+    // getCats(); 
 
     function getCats(){
         var search = $('#search').val();

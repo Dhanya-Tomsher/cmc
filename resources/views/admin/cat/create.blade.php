@@ -39,7 +39,7 @@
                             <h6>Cat Details</h6>
 
                         </div>
-                        <form name="frm"  id="createCat" action="{{ route('cat.store') }}" enctype="multipart/form-data" method="POST">
+                        <form name="frm"  id="createCat" action="{{ route('cat.store') }}" enctype="multipart/form-data" method="POST" autocomplete="off">
                             @csrf
                             <div class="card">
                                 <div class="card-body py-4">

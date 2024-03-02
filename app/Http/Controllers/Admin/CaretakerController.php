@@ -21,9 +21,24 @@ class CaretakerController extends Controller
 {
     public function index(Request $request)
     {
-        $caretaker  = Caretaker::orderBy('name','ASC')->get();
+        $request->session()->put('last_url', url()->full());
+
+        $search = $request->has('name') ? $request->name : '';
+
+        $query  = Caretaker::select('id','name', 'customer_id', 'email', 'phone_number', 'whatsapp_number', 'status')->where('is_blacklist',0);
+        if($search){  
+            $query->Where(function ($query) use ($search) {
+                $query->orWhere('name', 'LIKE', '%'.$search . '%')
+                        ->orWhere('customer_id', 'LIKE', '%'.$search . '%')
+                        ->orWhere('email', 'LIKE', '%'.$search . '%')
+                        ->orWhere('phone_number', 'LIKE', '%'.$search . '%')
+                        ->orWhere('whatsapp_number', 'LIKE', '%'.$search . '%');
+            });                    
+        }
+        $caretaker = $query->orderBy('id','DESC')->paginate(10);
+
         return view('admin.caretaker.index')->with([
-            'caretaker' => $caretaker,
+            'caretaker' => $caretaker,'search'=>$search
         ]);
     }
     public function getCaretakerBlackListing(){

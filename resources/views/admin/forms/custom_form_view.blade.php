@@ -24,7 +24,7 @@
                 
                 <div class="d-flex justify-content-between mb-3">
                     <div class="search_warpper w-60">
-                        <a onclick="window.location=document.referrer;" href="javascript:void" class="btn btn_back waves-effect waves-light"> <i class="uil-angle-left-b"></i> Back</a>
+                        <a href="{{ Session::has('last_url') ? Session::get('last_url') : route('custom-forms') }}" class="btn btn_back waves-effect waves-light"> <i class="uil-angle-left-b"></i> Back</a>
                     </div>
                     @if($form[0]['signed_status'] == 0)
                         <div class="btn_group">
@@ -116,7 +116,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <input class="form-control" type="hidden"  id="form_id" name="form_id" value="{{$form[0]['id']}}"  >
-                                <label class="col-form-label">Select Tablet</label>
+                                <label class="col-form-label">Select Tablet<span class="required">*</span></label>
                                 <select class="form-control" name="tab" id="tab">
                                     <option value=""> Select a Tablet </option>
                                     <option value="tablet_1"> Tablet 1</option>

@@ -17,7 +17,7 @@
 
                 </div>
                 <div class="d-flex align-items-center justify-content-between mb-3">
-                    <a onclick="window.location=document.referrer;" href="javascript:void" class="btn btn_back waves-effect waves-light mt-3"> <i
+                    <a href="{{ Session::has('last_url') ? Session::get('last_url') : route('cat.index') }}" href="javascript:void" class="btn btn_back waves-effect waves-light mt-3"> <i
                             class="uil-angle-left-b"></i> Back</a>
                     <div class="btn_group">
                         <!-- <a href="hospital_appointments.html" class="btn btn_back waves-effect waves-light me-2"> Create
@@ -41,7 +41,7 @@
                         @if($cat[0])
                         <div class="card">
                             <div class="card-body py-4">
-                                <form name="cat_update" id="updateCat" action="{{ route('cat.update', $cat[0]->id) }}" enctype="multipart/form-data" method="POST">
+                                <form name="cat_update" id="updateCat" action="{{ route('cat.update', $cat[0]->id) }}" enctype="multipart/form-data" method="POST" autocomplete="off">
                                     @csrf
                                     <div class="row mb-3">
                                         <div class="col-6">

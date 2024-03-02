@@ -51,16 +51,16 @@
                                     {{ session()->get('status') }}
                                 </div>
                             @endif
-                            <table class="table table-centered table-nowrap mb-0" id="roomTable">
+                            <table class="table table-centered table-nowrap mb-0" id="roomTable" style="border-bottom: 0px !important;">
                                 <thead class="table-light">
                                     <tr>
                                         <th>No</th>
                                         <th>Room Number</th>
                                         <!-- <th>Type</th> -->
                                         <th>Branch</th>
-                                        <th>Amount</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
+                                        <th class="text-center">Amount</th>
+                                        <th class="text-center">Status</th>
+                                        <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody id="roomDetails">
@@ -101,10 +101,10 @@
                 search:search
             },
             success: function( response ) {
-                $('#roomTable').DataTable().clear();
-                $('#roomTable').DataTable().destroy();
+                // $('#roomTable').DataTable().clear();
+                // $('#roomTable').DataTable().destroy();
                 $('#roomDetails').html(response);
-                $('#roomTable').DataTable();  
+                // $('#roomTable').DataTable();  
             }
         });
     }

@@ -37,15 +37,15 @@
         <thead>
             <tr>
                 <th class="fit"></th>
-                @if ($vets)
+                {{-- @if ($vets)
                     @foreach ($vets as $vet)
                         <th class="fit vet-name">{{ $vet->name }}</th>
                     @endforeach
-                @endif
+                @endif --}}
             </tr>
         </thead>
         <tbody>
-            @if ($timeslots)
+            {{-- @if ($timeslots)
                 @foreach ($timeslots as $slot)
                     <tr>
                         <th class="fit">{{ $slot }}</th>
@@ -67,17 +67,17 @@
                         @endforeach
                     </tr>
                 @endforeach
-            @endif
+            @endif --}}
         </tbody>
     </table> -->
     <!-- <div class="header d-flex justify-content-sm-around ">
         <input type="hidden" id="select-result"/>
         <div>Time</div>
-        @if ($vets)
+        {{-- @if ($vets)
             @foreach ($vets as $vet)
                 <div class="vet-name">{{ $vet->name }}</div>
             @endforeach
-        @endif
+        @endif --}}
     </div> -->
     <div class="table-con d-flex custom-schedule">
         <div class="time-col">
@@ -108,7 +108,15 @@
                                 </div>
                             @endif
                         @else
-                            <div class="fit app-disabled"></div>
+                            @if (isset($vetBooks[$vet->id]) && in_array($slot, $vetBooks[$vet->id]))
+                                <div class="fit appointment-red app-disabled">
+                                    <span><b>Caretaker : </b>{{ $details[$slot]['caretaker'] }} </span> 
+                                    <br>
+                                    <span><b>Cat :</b> {{ $details[$slot]['cat'] }}</span>
+                                </div>
+                            @else
+                                <div class="fit app-disabled"></div>
+                            @endif
                         @endif
                     @endforeach
                 </div>

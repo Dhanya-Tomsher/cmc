@@ -1,4 +1,4 @@
-@extends('admin.layouts.app', ['body_class' => '', 'title' => 'Procedures'])
+@extends('admin.layouts.app', ['body_class' => '', 'title' => 'Services'])
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
@@ -7,12 +7,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
-                        <h4 class="mb-0">Procedures</h4>
+                        <h4 class="mb-0">Services</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Procedures</li>
+                                <li class="breadcrumb-item active">Services</li>
                             </ol>
                         </div>
 
@@ -27,7 +27,7 @@
 
                                     <button type="submit"
                                         class="btn btn_back waves-effect waves-light w-xl">Search</button>
-                                    <a href="{{ route('procedure.index') }}"
+                                    <a href="{{ route('service.index') }}"
                                         class="btn btn_back waves-effect waves-light w-md" id="searchReset">Reset</a>
                                 </div>
                             </form>
@@ -35,8 +35,8 @@
 
                         <div class="btn_group">
                             <div class="input-daterange input-group">
-                                <a href="#" class="btn btn-primary" onclick="createProcedure();">Create New
-                                    Procedure</a>
+                                <a href="#" class="btn btn-primary" onclick="createService();">Create New
+                                    Service</a>
                             </div>
                         </div>
                     </div>
@@ -56,21 +56,21 @@
                                         {{ session()->get('status') }}
                                     </div>
                                 @endif
-                                <table class="table table-centered table-nowrap mb-0" id="procedureTable">
+                                <table class="table table-centered table-nowrap mb-0" id="serviceTable">
                                     <thead class="table-light">
                                         <tr>
                                             <th class="text-center">No</th>
-                                            <th>Procedure</th>
+                                            <th>Service</th>
                                             <th class="text-center">Price</th>
                                             <th class="text-center">Status</th>
                                             <th class="text-center">Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="procedureDetails">
-                                        @if (isset($procedure[0]))
-                                            @foreach ($procedure as $key=>$pro)
+                                    <tbody id="serviceDetails">
+                                        @if (isset($service[0]))
+                                            @foreach ($service as $key=>$pro)
                                                 <tr id="proid_{{ $pro->id }}">
-                                                    <td class="text-center">{{ $key + 1 + ($procedure->currentPage() - 1) * $procedure->perPage() }} </td>
+                                                    <td class="text-center">{{ $key + 1 + ($service->currentPage() - 1) * $service->perPage() }} </td>
                                                     <td>{{ $pro->name }} </td>
                                                     <td class="text-center">{{ $pro->price }} </td>
                                                     <td class="text-center">
@@ -94,9 +94,7 @@
                                             <tr>
                                                 <td colspan="5" class="text-center">
                                                     <div class="atbd-empty__image">
-                
                                                         <img src="{{ asset('assets/images/1.svg')}}" alt="Admin Empty">
-                
                                                     </div>
                                                     No data found.
                                                 </td>
@@ -106,7 +104,7 @@
                                     </tbody>
                                 </table>
                                 <div class="pagination mt-3">
-                                    {{ $procedure->appends(request()->input())->links('pagination::bootstrap-5') }}
+                                    {{ $service->appends(request()->input())->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
                             <!-- end table-responsive -->
@@ -117,25 +115,24 @@
             <!-- end row -->
 
             <!-- Add New Event MODAL -->
-            <div class="modal fade bs-example-modal-md" id="createProcedure" tabindex="-1">
+            <div class="modal fade bs-example-modal-md" id="createService" tabindex="-1">
                 <div class="modal-dialog modal-md modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="myExtraLargeModalLabel">Create New Procedure </h5>
+                            <h5 class="modal-title" id="myExtraLargeModalLabel">Create New Service </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form name="frm" action="{{ route('hrooms.store') }}" id="createForm"
-                                enctype="multipart/form-data" method="POST">
+                            <form name="frm" action="{{ route('hrooms.store') }}" id="createForm" enctype="multipart/form-data" method="POST" autocomplete="off">
 
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <label for="Name" class="col-form-label">Procedure<span
+                                        <label for="Name" class="col-form-label">Service<span
                                                 class="required">*</span></label>
-                                        <input class="form-control" name="procedure" value="" type="text"
-                                            placeholder="Enter Procedure" id="procedure">
+                                        <input class="form-control" name="service" value="" type="text"
+                                            placeholder="Enter Service" id="service">
                                         <input type="hidden" name="pro_id" id="pro_id" value=''>
                                     </div>
 
@@ -157,7 +154,7 @@
                                     <div class="col-md-12 align-self-end mt-3 text-center">
                                         <div class="">
                                             <input class="form-control" name="action_type" type="hidden" id="action_type">
-                                            <button name="Submit" type="submit" id="saveProcedure"
+                                            <button name="Submit" type="submit" id="saveService"
                                                 class="btn btn-primary waves-effect waves-light w-xl me-2">Save</button>
                                         </div>
                                     </div>
@@ -185,55 +182,36 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        // getProcedures(); 
-
-        function getProcedures() {
-            var search = $('#search').val();
-            $.ajax({
-                url: "{{ route('procedure.list') }}",
-                type: "POST",
-                data: {
-                    search: search
-                },
-                success: function(response) {
-                    $('#procedureTable').DataTable().clear();
-                    $('#procedureTable').DataTable().destroy();
-                    $('#procedureDetails').html(response);
-                    $('#procedureTable').DataTable();
-                }
-            });
-        }
-
-        function createProcedure() {
+       
+        function createService() {
             $('#createForm')[0].reset();
             $('.error').html('');
-            $('#procedure').removeClass('error');
+            $('#service').removeClass('error');
             $('#price').removeClass('error');
             $('#pro_id').val('');
             $('#action_type').val('create');
-            $('#createProcedure').modal('show');
+            $('#createService').modal('show');
         }
         // $("#searchReset").on("click", function (e) { 
         //     $('#search').val('');
-        //     getProcedures(); 
+        //     getServices(); 
         // });
 
         $("#createForm").validate({
             rules: {
-                procedure: "required",
+                service: "required",
                 price: "required"
             },
             messages: {
-                procedure: "Please enter a procedure",
+                service: "Please enter a service",
                 price: "Please enter price"
             },
             submitHandler: function(e) {
-
                 var data = new FormData($('#createForm')[0]);
                 var action = $('#action_type').val();
-
+                
                 $.ajax({
-                    url: "{{ route('procedure.store') }}",
+                    url: "{{ route('service.store') }}",
                     type: "POST",
                     data: data,
                     processData: false,
@@ -244,11 +222,11 @@
                             response,
                             'success'
                         );
-                        $("#createProcedure").modal('hide');
+                        $("#createService").modal('hide');
                         $('#createForm')[0].reset();
                         setTimeout(function() {
                             if(action == 'create'){
-                                window.location.href="{{ route('procedure.index') }}";
+                                window.location.href="{{ route('service.index') }}";
                             }else{
                                 window.location.reload();
                             }
@@ -258,68 +236,20 @@
             }
         });
 
-        function editProdcedure(procedure) {
+        function editProdcedure(service) {
             $('#createForm')[0].reset();
             $('.error').html('');
-            $('#procedure').removeClass('error');
+            $('#service').removeClass('error');
             $('#price').removeClass('error');
 
-            $('#pro_id').val(procedure.id);
-            $('#procedure').val(procedure.name);
-            $('#price').val(procedure.price);
-            $('#pstatus').val(procedure.status);
+            $('#pro_id').val(service.id);
+            $('#service').val(service.name);
+            $('#price').val(service.price);
+            $('#pstatus').val(service.status);
             $('#action_type').val('edit');
-            $('#createProcedure').modal('show');
+            $('#createService').modal('show');
         }
 
-        function deleteProdcedure(procedure) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Do you want to delete this procedure?",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes!'
-            }).then(function(result) {
-                if (result.isConfirmed) {
-                    var data = []
-
-                    $.ajax({
-                        url: "{{ route('procedure.delete') }}",
-                        type: "POST",
-                        data: {
-                            procedure: procedure
-                        },
-                        success: function(response) {
-                            var result = JSON.parse(response);
-                            if (result.status == 1) {
-                                $('#proid_' + procedure).css('background', '#f9a8a8');
-                                $('#proid_' + procedure).fadeOut(900, function() {
-                                    $(this).remove();
-                                });
-                                Swal.fire(
-                                    'Deleted successfully',
-                                    '',
-                                    'success'
-                                );
-                            } else {
-                                Swal.fire(
-                                    '',
-                                    result.msg,
-                                    'error'
-                                );
-                            }
-
-                            setTimeout(function() {
-                                window.location.reload();
-                            }, 3000);
-
-                        }
-                    });
-                }
-
-            })
-        }
+      
     </script>
 @endpush

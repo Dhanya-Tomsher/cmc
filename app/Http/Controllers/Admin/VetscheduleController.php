@@ -10,6 +10,7 @@ use DB;
 use DateTime;
 use DateInterval;
 use DatePeriod;
+use Helper;
 
 class VetScheduleController extends Controller
 {
@@ -73,11 +74,11 @@ public function index(Request $request)
             $i=0;
             foreach($schedules as $data){
                 $date = $data->date;
-                $result[$i]['title'] = '';
-                $result[$i]['start'] = $date;
-                $result[$i]['end'] = $date;
-                $result[$i]['display'] = 'background';
-				$result[$i]['className'] = 'scheduled';
+                $result[$i]['title'] 		= ($data->available_from != NULL && $data->available_to != NULL) ? date('g:i A', strtotime($data->available_from)) .' - '. date('g:i A', strtotime($data->available_to)) : '';
+                $result[$i]['start'] 		= $date;
+                $result[$i]['end'] 			= $date;
+                $result[$i]['display'] 		= 'background';
+				$result[$i]['className'] 	= 'scheduled';
                 $i++;
             }
         }
@@ -89,38 +90,63 @@ public function index(Request $request)
 		$vet_id = $request->get('vet_id');
 		$addDates = $request->get('addDates');
 		$removeDates = $request->get('removeDates');
+		$from_time = $request->from_time;
+		$to_time = $request->to_time;
+		$daterange = $request->daterange;
 
+		
 		$add = explode(',',$addDates);
 		$remove = explode(',',$removeDates);
 		
 		$datesRemove = $datesNotRemoved = [];
-		if(!empty($add[0])){
-			foreach($add as $add_date){
-				$schedule = Vetschedule::firstOrCreate(
-					['vet_id' => $vet_id,'date' =>  "$add_date",'status' => 'published']
-				);
-			}
+		
+		if(!empty($add[0]) && $daterange == NULL){
+			return json_encode(array('status' => 'error','msg' => 'Please select time!'));
 		}
 
-		if(!empty($remove)){
-			foreach($remove as $rem){
-				$bookedCount = HospitalAppointments::where('vet_id',$vet_id)->where('date_appointment',"$rem")->count();
-				if($bookedCount == 0){
-					$datesRemove[] = $rem;
-				}else{
-					$datesNotRemoved [] = $rem;
+		if($add[0] != NULL || $remove[0] != NULL){
+			if(!empty($add[0])){
+				foreach($add as $add_date){
+					$check = Vetschedule::where('vet_id', $vet_id)->where('date',$add_date)->first();
+					if($check){
+						$check->available_from 	= $from_time;
+						$check->available_to 	= $to_time;
+						$check->save();
+					}else{
+						$newAdd 				= new Vetschedule;
+						$newAdd->vet_id 		= $vet_id;
+						$newAdd->date 			= $add_date;
+						$newAdd->available_from	= $from_time;
+						$newAdd->available_to 	= $to_time;
+						$newAdd->status 		= 'published';
+						$newAdd->save();
+					}
 				}
 			}
-			Vetschedule::where('vet_id',$vet_id)->whereIn('date',$datesRemove)->delete();
-		}
-		if(!empty($datesNotRemoved)){
-			$count = count($datesNotRemoved);
-			$dateWord = ($count == 1) ? 'date' : 'dates';
-			$status = 'warning';
-			$responseMsg = 'Booking already created. Unable to delete schedule for the '.$dateWord.' '.implode(', ',$datesNotRemoved);
+
+			if(!empty($remove[0])){
+				foreach($remove as $rem){
+					$datesRemove[] = $rem;
+					// $bookedCount = HospitalAppointments::where('vet_id',$vet_id)->where('date_appointment',"$rem")->count();
+					// if($bookedCount == 0){
+					// 	$datesRemove[] = $rem;
+					// }else{
+					// 	$datesNotRemoved [] = $rem;
+					// }
+				}
+				Vetschedule::where('vet_id',$vet_id)->whereIn('date',$datesRemove)->delete();
+			}
+			if(!empty($datesNotRemoved)){
+				$count 		= count($datesNotRemoved);
+				$dateWord 	= ($count == 1) ? 'date' : 'dates';
+				$status 	= 'warning';
+				$responseMsg = 'Booking already created. Unable to delete schedule for the '.$dateWord.' '.implode(', ',$datesNotRemoved);
+			}else{
+				$status 		= 'success';
+				$responseMsg 	= 'Updated Successfully';
+			}
 		}else{
-			$status = 'success';
-			$responseMsg = 'Updated Successfully';
+			return json_encode(array('status' => 'error','msg' => 'Please select date!'));
 		}
 		return json_encode(array('status' => $status,'msg' => $responseMsg));
 	}
@@ -152,6 +178,40 @@ public function index(Request $request)
     }
 
 	public function getSlotAvailabiltyColor($date,$vet_ids,$vet_names){
+		$vetIds 	= explode(',',$vet_ids);
+		$vetNames 	= explode(',',$vet_names);
+		// $shifts = VetShifts::getVetShiftsByDate($vetIds,$date);
+		$count 		= 0;
+		$shifts 	= [];
+		$slots 		= Vetschedule::whereIn('vet_id', $vetIds)
+								->where('date', $date)
+								->select('vet_id','available_from','available_to')
+								->get()->toArray();
+
+		if($slots){
+			foreach($slots as $sl){
+				$shifts[$sl['vet_id']] = Helper::getTimeSlotHrMIn('30', $sl['available_from'], $sl['available_to']);
+			}
+		}
+
+		$vets = [];
+		if($vetIds){
+			foreach($vetIds as $key=>$id){
+				$vetSlots 		= isset($shifts[$id]) ? $shifts[$id] : [];
+				$bookedCount 	= $this->checkSlotBooked($id,$date,$vetSlots);
+				$slotCount 		= isset($shifts[$id]) ? count($shifts[$id]) : 0;
+				if($bookedCount != $slotCount){
+					$count++;
+					$vets[] = '<span class="not-booked">'.$vetNames[$key].'</span>';
+				}else{
+					$vets[] = '<span class="booked-red">'.$vetNames[$key].'</span>';
+				}
+			}
+		}
+		return json_encode(array('count' => $count, 'vetNames' => $vets));
+	}
+
+	public function getSlotAvailabiltyColorOld($date,$vet_ids,$vet_names){
 		$vetIds = explode(',',$vet_ids);
 		$vetNames = explode(',',$vet_names);
 		$shifts = VetShifts::getVetShiftsByDate($vetIds,$date);
@@ -170,9 +230,10 @@ public function index(Request $request)
 		}
 		return json_encode(array('count' => $count, 'vetNames' => $vets));
 	}
-	public function checkSlotBooked($id,$date){
+	public function checkSlotBooked($id,$date,$vetSlots){
 		$count = HospitalAppointments::select('id')
 										->whereDate('date_appointment',$date)
+										->whereIn('time_appointment', $vetSlots)
 										->where('vet_id',$id)
 										->count();
 		return $count;

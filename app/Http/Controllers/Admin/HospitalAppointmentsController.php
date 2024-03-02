@@ -266,7 +266,18 @@ class HospitalAppointmentsController extends Controller
     public function getSelectedSlots(Request $request){
         $date = $request->date;
         $vet_id = $request->vet_id;
-        $allSlots  = VetShifts::getVetDateShiftsByVet($date, $vet_id);
+        $allSlots  = [];
+
+        $slots = Vetschedule::where('vet_id', $vet_id)->where('date', $date)
+								->select('available_from','available_to')
+								->get()->toArray();
+
+		if($slots){
+			foreach($slots as $sl){
+				$allSlots = Helper::getTimeSlotHrMIn('30', $sl['available_from'], $sl['available_to']);
+			}
+        }
+
         $bookedSlots = HospitalAppointments::select('time_appointment')
                                     ->whereDate('date_appointment', $date)
                                     ->where('vet_id',$vet_id)
@@ -297,7 +308,14 @@ class HospitalAppointmentsController extends Controller
     public function ajaxGetDayAppointments(Request $request){
         $date = $request->date; 
         $vets = Vetschedule::getVetsByDatesScheduled($date);
-        $vetSlots = VetShifts::getVetDateShifts($date);
+        // $vetSlots = VetShifts::getVetDateShifts($date);
+        $vetSlots = [];
+        if($vets){
+			foreach($vets as $sl){
+				$vetSlots[$sl['id']] = Helper::getTimeSlotHrMIn('30', $sl['available_from'], $sl['available_to']);
+			}
+		}
+
         $timeslots = Helper::getTimeSlotHrMIn(30,env('SLOT_FROM_TIME'),env('SLOT_TO_TIME'));
         $vetBookings = HospitalAppointments::leftJoin('vets','vets.id', '=', 'hospital_appointments.vet_id')
                                         ->leftJoin('caretakers','hospital_appointments.caretaker_id','=','caretakers.id')
@@ -312,11 +330,17 @@ class HospitalAppointmentsController extends Controller
                 $details[$booking->time_appointment]['cat'] = $booking->cat_name;
             }
         }
+
+        // print_r($vetBooks);
+        // die;
         
         $viewData = view('admin.hospital.day_appointment', compact('vets','timeslots','vetBooks','date','vetSlots','details'))->render();
         return $viewData;
     }
-    public function manageHospitalAppointments(){
+    public function manageHospitalAppointments(Request $request){
+        // print_r($request->all());die;
+        $request->session()->put('last_url', url()->full());
+        
         $vets = Vet::select("id","name")
                     ->where('status', 'published')
                     ->orderBy('name','ASC')
@@ -329,10 +353,46 @@ class HospitalAppointmentsController extends Controller
 
         $timeslots = Helper::getTimeSlotHrMIn(30,env('SLOT_FROM_TIME'),env('SLOT_TO_TIME'));
 
+        $search = $request->has('search') ? $request->search : '';
+        $from_date = $request->has('from_date') ? $request->from_date : '';
+        $to_date = $request->has('to_date') ?  $request->to_date : '';
+        
+        $query  = HospitalAppointments::leftJoin('vets','vets.id', '=', 'hospital_appointments.vet_id')
+                                ->leftJoin('caretakers','hospital_appointments.caretaker_id','=','caretakers.id')
+                                ->leftJoin('cats','hospital_appointments.cat_id','=','cats.id')
+                                ->leftJoin('procedures','hospital_appointments.procedure_id','=','procedures.id');
+        if($search){  
+            $query->where(function ($query) use ($search) {
+                $query->orWhere('procedures.name', 'LIKE', '%' . $search . '%')
+                        ->orWhere('vets.name', 'LIKE', $search . '%')
+                        ->orWhere('hospital_appointments.time_appointment', 'LIKE', $search . '%')
+                        ->orWhere('cats.cat_id', 'LIKE', $search . '%')
+                        ->orWhere('caretakers.customer_id', 'LIKE', $search . '%')
+                        ->orWhere('caretakers.name', 'LIKE', $search . '%')
+                        ->orWhere('cats.name', 'LIKE', $search . '%');
+            });                    
+        }
+        if($from_date != '' || $to_date != ''){
+            if($from_date != '' && $to_date != ''){
+                $query->whereDate('hospital_appointments.date_appointment', '>=', $from_date)
+                ->whereDate('hospital_appointments.date_appointment',   '<=', $to_date);
+            }elseif($from_date == '' && $to_date != ''){
+                $query->whereDate('hospital_appointments.date_appointment', '=', $to_date);
+            }elseif($from_date != '' && $to_date == ''){
+                $query->whereDate('hospital_appointments.date_appointment', '=', $from_date);
+            }
+        }
+        $hosp = $query->orderBy('hospital_appointments.id','DESC')
+        ->select(['hospital_appointments.payment_confirmation','vets.is_deleted as vet_deleted','hospital_appointments.created_at','procedures.name as procedure_name','hospital_appointments.id','hospital_appointments.date_appointment','hospital_appointments.time_appointment','vets.name','cats.cat_id','caretakers.customer_id','caretakers.name as caretaker_name','cats.name as cat_name'])->paginate(10);;
+
         return view('admin.hospital.list_appointments')-> with([
             'vets' => $vets,
             'timeslots' => $timeslots,
-            'procedures' => $procedures
+            'procedures' => $procedures,
+            'hosp' => $hosp,
+            'search' => $search,
+            'from_date' => $from_date,
+            'to_date' => $to_date
         ]);
     }
 
@@ -489,9 +549,14 @@ class HospitalAppointmentsController extends Controller
         $date = $request->date;
         $vet_id = $request->vet_id;
         $result = [];
-        $checkAssigned = Vetschedule::where('vet_id',$vet_id)->whereDate('date', $date)->count();
-        if($checkAssigned > 0){
-            $allSlots  = VetShifts::getVetDateShiftsByVet($date, $vet_id);
+        $checkAssigned = Vetschedule::where('vet_id',$vet_id)->whereDate('date', $date)
+                        ->where('status', 'published')
+                        ->select('available_from','available_to')
+                        ->first()?->toArray();
+       
+        if($checkAssigned){
+            $allSlots  = Helper::getTimeSlotHrMIn('30', $checkAssigned['available_from'], $checkAssigned['available_to']);
+           
             $bookedSlots = HospitalAppointments::select('time_appointment')
                                         ->whereDate('date_appointment', $date)
                                         ->where('vet_id',$vet_id)

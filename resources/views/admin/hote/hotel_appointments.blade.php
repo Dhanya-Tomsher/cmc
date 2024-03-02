@@ -78,7 +78,7 @@
                                 <!-- Tab panes -->
                                 <div class="tab-content py-3 text-muted">
                                     <div class="tab-pane active" id="navtabs-care-taker" role="tabpanel">
-                                        <h4 class="card-title mb-2">Search Caretaker</h4>
+                                        <label class="card-title mb-2">Search Caretaker<span class="required">*</span></label>
                                        
                                         <div class="hstack gap-3">
                                             <select class="form-control me-auto" placeholder="Search by : Reg No, Name, Mobile Number, ED"
@@ -188,7 +188,7 @@
                                     </div>
                                     <div class="tab-pane" id="navtabs-cat-details" role="tabpanel">
 
-                                        <h4 class="card-title mb-2">Search Cat</h4>
+                                        <label class="card-title mb-2">Search Cat<span class="required">*</span></label>
                                        
                                         <div class="hstack gap-3">
                                             <select class="form-control me-auto" placeholder="Search by : Name, Id"
@@ -206,7 +206,7 @@
                                         <form id="appointment" method="post" >
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <label for="address" class="col-form-label">From Date</label>
+                                                    <label for="address" class="col-form-label">From Date<span class="required">*</span></label>
                                                     <div class="input-group" id="datepicker2">
                                                         <input type="text" class="form-control date-picker "  placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
                                                             data-date-container="#datepicker2" data-provide="datepicker" data-date-autoclose="true"
@@ -216,7 +216,7 @@
                                                 </div>
 
                                                 <div class="col-md-4">
-                                                    <label for="address" class="col-form-label">To Date</label>
+                                                    <label for="address" class="col-form-label">To Date<span class="required">*</span></label>
                                                     <div class="input-group" id="datepicker2">
                                                         <input type="text" class="form-control date-picker "  placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
                                                             data-date-container="#datepicker2" data-provide="datepicker" data-date-autoclose="true"
@@ -227,7 +227,7 @@
                                                 <div class="col-md-4">
                                                     <input class="form-control" type="hidden"  id="caretaker_id" name="caretaker_id">
                                                     <input class="form-control" type="hidden"  id="catId" name="catId">
-                                                    <label for="country" class="col-form-label">Rooms</label>
+                                                    <label for="country" class="col-form-label">Rooms<span class="required">*</span></label>
                                                     <select class="form-select form-control select2" id="rooms" name="rooms" style="width:100%;">
                                                         <option value="">Select Room</option>
                                                        
@@ -354,7 +354,7 @@
         initialView: 'dayGridMonth',
         selectable: true,
         // height: 850,
-        aspectRatio: 1.75,
+        aspectRatio: 1.5,
         showNonCurrentDates : false,
         events: "{{ route('get-hotel-schedules')}}",
         eventContent: function( info ) {

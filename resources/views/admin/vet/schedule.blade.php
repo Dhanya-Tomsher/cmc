@@ -16,12 +16,23 @@
                     </div>
 
                 </div>
+                <div class="d-flex justify-content-between">
+                    <div class="search_warpper w-100" id="vetDropdownParent">
+                        <div class="hstack gap-2 w-100">
+                            <label class="w-41">Vet Name</label>
+                            <label class="w-30"> Time</label>
+                                
+                        </div>
 
+                    </div>    
+                </div>
                 <div class="d-flex justify-content-between mb-3">
 
-                    <div class="search_warpper w-30" id="vetDropdownParent">
-                        <div class="hstack gap-2">
-                            <select class="form-select form-control select2 "  id="vet_id" name="vet_id">
+                    
+                    <div class="search_warpper w-100" id="vetDropdownParent">
+                        <div class="hstack gap-2 w-100">
+                          
+                            <select class="form-select form-control select2 w-40"  id="vet_id" name="vet_id">
                                 <!-- <option value="">Select a Vet</option> -->
                                 @if($vets)
                                     @foreach($vets as $vet)
@@ -29,18 +40,18 @@
                                     @endforeach
                                 @endif
                             </select>
-                            <!-- <button type="button" class="btn btn_back waves-effect waves-light px-4">Select</button> -->
+                            
+                            <input type="text" class="form-control w-30" name="daterange" id="daterange" value="" autocomplete="off" placeholder="00:00 - 00:00">
+                            <input type="hidden" class="" name="from_time" id="from_time" value="">
+                            <input type="hidden" class="" name="to_time" id="to_time" value="">
+
+                            <button class="btn btn_back waves-effect waves-light w-md w-20" id="scheduleVet">Update Schedule</button>
                         </div>
                         <input type="hidden" class="form-control" id="selectedDatesForAdd" value=""/>
                         <input type="hidden"  class="form-control" id="selectedDatesForRemove" value=""/>
                     </div>
 
-                    <div class="btn_group">
-
-                        <!-- <a href="#" class="btn btn_back waves-effect waves-light w-sm me-2">Export</a>
-                        <a href="#" class="btn btn_back waves-effect waves-light w-sm me-2">Print</a> -->
-                        <button class="btn btn_back waves-effect waves-light w-md" id="scheduleVet">Update Schedule</button>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -69,10 +80,27 @@
 @push('header')
 <link rel="stylesheet" href="{{ asset('assets/css/fullcalendar/main.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/libs/select2/css/select2.min.css') }}" />
+
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+{{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css" integrity="sha512-MQXduO8IQnJVq1qmySpN87QQkiR1bZHtorbJBD0tzy7/0U9+YIC93QWHeGTEoojMVHWWNkoCp8V6OzVSYrX0oQ==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
+
 <style>
-   
+   .input-group{
+    width: 40% !important;
+   }
     .year_colum{
         font-weight : 700;
+    }
+    .fc-event-title {
+        color: black !important;
+        text-align: center; /* Center align the event title */
+        font-weight: bold; 
+        font-size: 13px !important;
+    }
+
+    .scheduled {
+        top: 25% !important;
     }
 </style>
 @endpush
@@ -81,6 +109,10 @@
 <script src="{{ asset('assets/libs/select2/js/select2.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script src="{{ asset('assets/js/fullcalendar/main.js') }}"></script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
 <script>
     $('#vet_id').select2({
         placeholder: 'Select Vet',
@@ -94,7 +126,38 @@
     let selectedDatesForRemove = [];
     let calendar; 
     $(document).ready(function() {
-      
+
+        $('#from_time').val('08:00');
+        $('#to_time').val('21:00');
+
+        $('input[name="daterange"]').daterangepicker({
+            opens: 'left',
+            timePicker: true,
+            timePicker24Hour: false,
+            timePickerIncrement: 30,
+            timePickerSeconds: false,
+            minDate: moment().startOf('day').hour(8).minute(0).second(0), // Set minimum date to today at 08:00 AM
+            maxDate: moment().endOf('day').hour(21).minute(0).second(0),
+            timePickerDefaultValue: null,
+            cancelButtonClasses: 'clear-time',
+            locale: {
+                format: 'hh:mm A'
+            },
+        }, function(start, end, label) {
+        
+            $('#from_time').val(start.format('HH:mm'));
+            $('#to_time').val(end.format('HH:mm'));
+           
+        }).on('show.daterangepicker', function (ev, picker) {
+                    picker.container.find(".calendar-table").hide();
+        });
+        $('#daterange').val('');
+
+        $(document).on('click', '.clear-time', function() {
+            $('#daterange').val(''); // Clear the time input
+        });
+
+
         loadCalendar();
         function loadCalendar(){
            
@@ -105,8 +168,12 @@
             calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 events: url,
-                // aspectRatio: 1.75,
-                
+                aspectRatio: 1.5,
+                eventContent: function(arg) {
+                    return {
+                        html: '<div class="fc-event-title">' + arg.event.title + '</div>'
+                    }
+                },
                 customButtons: {
                     customYear: {
                         text: 'Year',
@@ -191,10 +258,25 @@
         }
 
         $("#scheduleVet").on("click", function (e) { 
-            var vetId          = $('#vet_id').val();
+            var vetId           = $('#vet_id').val();
             var addDates        = $('#selectedDatesForAdd').val();
             var removeDates     = $('#selectedDatesForRemove').val();
-            if(vetId != ''){
+            var from_time       = $('#from_time').val();
+            var to_time         = $('#to_time').val();
+            var daterange       = $('#daterange').val();
+
+            var msg = '';
+            var flag = true;
+            if(vetId == ''){
+                msg = 'Please select a Vet!';
+                flag = false;
+            }
+            // else if(daterange == ''){
+            //     msg = 'Please select time!';
+            //     flag = false;
+            // }
+
+            if(flag){
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -206,7 +288,10 @@
                     data:  { 
                         vet_id: vetId, 
                         addDates: addDates, 
-                        removeDates: removeDates
+                        removeDates: removeDates,
+                        from_time: from_time,
+                        to_time : to_time,
+                        daterange : daterange
                     },
                     success: function( response ) {
                         var returnedData = JSON.parse(response);
@@ -215,16 +300,18 @@
                             returnedData.msg,
                             returnedData.status
                         );
-                        $('#selectedDatesForAdd').val('');
-                        $('#selectedDatesForRemove').val('');
-                        selectedDatesForAdd = [];
-                        selectedDatesForRemove = [];
-                        calendar.refetchEvents()
+                        if(returnedData.status != 'error'){
+                            $('#selectedDatesForAdd').val('');
+                            $('#selectedDatesForRemove').val('');
+                            selectedDatesForAdd = [];
+                            selectedDatesForRemove = [];
+                        }
+                        calendar.refetchEvents();
                     }
                 });
             }else{
                 Swal.fire(   '',
-                            'Please select a Vet!',
+                            msg,
                             'warning'
                         );
             }

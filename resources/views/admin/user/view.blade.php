@@ -40,7 +40,7 @@
                             </div>
                         
                             <div class="table-responsive cat_details_table ">
-                                <table class="table table-centered table-nowrap mb-0" id="catsTable">
+                                <table class="table table-centered table-nowrap mb-0" id="catsTable" style="border-bottom:0px !important;">
                                     <thead class="table-light">
                                         <tr>
                                             <th class="w-5">No</th>
@@ -95,7 +95,7 @@
     </div>
 @endsection
 @push('header')
-<link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}" />
+
 <style>
 
 
@@ -103,7 +103,7 @@
 @endpush
 
 @push('scripts')
-<script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 // $('#catsTable').DataTable();  

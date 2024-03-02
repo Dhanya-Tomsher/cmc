@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\HospitalAppointmentsController;
 use App\Http\Controllers\Admin\HotelAppointmentsController;
 use App\Http\Controllers\Admin\HotelroomsController;
 use App\Http\Controllers\Admin\ProcedureController;
+use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\FormsController;
 
 //Route::prefix('admin')->group(function () {
@@ -217,5 +218,10 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
         Route::post('states', [DashboardController::class, 'getStates'])->name('get-states');
 
         Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+
+        Route::get('service', [ServiceController::class, 'index'])->name('service.index');
+        Route::post('service/store', [ServiceController::class, 'store'])->name('service.store');
+        // Route::post('service/delete', [ServiceController::class, 'delete'])->name('service.delete');
+        Route::post('service.list', [ServiceController::class, 'getServiceList'])->name('service.list');
     });   
 });

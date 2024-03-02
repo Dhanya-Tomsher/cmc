@@ -60,6 +60,8 @@
 
                             <a class="nav-link mb-2 journalMenus {{ isset($counts['laser']) ? 'data_active' : 'data_none' }}" id="laser" onclick="getJournalData('laser','{{ $cat->id }}', '{{ $transfer_date }}')" role="button">Laser</a>
 
+                            <a class="nav-link mb-2 journalMenus {{ isset($counts['therapy']) ? 'data_active' : 'data_none' }}" id="therapy" onclick="getJournalData('therapy','{{ $cat->id }}', '{{ $transfer_date }}')" role="button">Therapy</a>
+
                             <a class="nav-link mb-2 journalMenus {{ isset($counts['medicine']) ? 'data_active' : 'data_none' }}" id="medicine" onclick="getJournalData('medicine','{{ $cat->id }}', '{{ $transfer_date }}')" role="button">Medicine</a>
 
                             <a class="nav-link mb-2 journalMenus {{ isset($counts['medical_treatment']) ? 'data_active' : 'data_none' }}" id="medical_treatment" onclick="getJournalData('medical_treatment','{{ $cat->id }}', '{{ $transfer_date }}')" role="button">Medical Treatment</a>

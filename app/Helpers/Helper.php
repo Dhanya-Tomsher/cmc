@@ -126,12 +126,12 @@ class Helper
     }
 
     //highlights the selected navigation on admin panel
-    public static function areActiveRoutes(array $routes, $output = "active")
-    {
-        foreach ($routes as $route) {
-            if (Route::currentRouteName() == $route) return $output;
-        }
-    }
+    // public static function areActiveRoutes(array $routes, $output = "active")
+    // {
+    //     foreach ($routes as $route) {
+    //         if (Route::currentRouteName() == $route) return $output;
+    //     }
+    // }
 
     public static function getStatesOptions($country_id){
         $states = States::select("name","id")->where("country_id",$country_id)->orderBy('name')->get();
@@ -146,5 +146,10 @@ class Helper
     public static function getStates($country_id){
         $states = States::select("name","id")->where("country_id",$country_id)->orderBy('name')->get();
         return $states;
+    }
+
+    public static function areActiveRoutes(array $routes, $output = "mm-active")
+    {
+        return in_array(Route::currentRouteName(), $routes) ? $output : '';
     }
 }

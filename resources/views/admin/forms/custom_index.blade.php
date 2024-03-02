@@ -46,9 +46,52 @@
                                     </tr>
                                 </thead>
                                 <tbody id="customFormListing">
-                                  
+                                    @if (isset($custom_forms[0]))
+                                        @foreach ($custom_forms as $key=>$cform)
+                                        <tr id="appid_{{$cform->id}}">
+                                            <td> {{ $key + 1 + ($custom_forms->currentPage() - 1) * $custom_forms->perPage() }} </td>
+                                            <td> {{ $cform->caretaker_name }} </td>
+                                            <td> {{ $cform->cat_name }} </td>
+                                            <td> {{ $cform->form_title }} </td>
+                                            <td class="text-center">
+                                                @if($cform->signed_status == 1)
+                                                    <div class="badge bg-soft-success font-size-12">Signed</div>
+                                                @else
+                                                    <div class="badge bg-soft-danger font-size-12">Pending</div>
+                                                @endif
+                                            </td>
+                                            <!-- <td>
+                                                @if($cform->status == 1)
+                                                    <div class="badge bg-soft-success font-size-12">Active</div>
+                                                @else
+                                                    <div class="badge bg-soft-danger font-size-12">Inactive</div>
+                                                @endif
+                                            </td> -->
+                                            <td> {{ $cform->created_at->format('Y-m-d') }} </td>
+                                            <td class="text-center">
+                                                <a href="{{ route('custom-form.view',$cform->id) }}" class="px-2 btn btn-app"  title="View form data"><i class="uil uil-eye font-size-18 text-primary"></i>View</a>
+                                                <a href="#" class="px-2 btn btn-app" onclick="deleteCustomForm('{{$cform->id}}')" title="Delete form"><i class="uil uil-trash required font-size-18"></i>Delete</a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="7" class="text-center">
+                                                <div class="atbd-empty__image">
+            
+                                                    <img src="{{ asset('assets/images/1.svg')}}" alt="Admin Empty">
+            
+                                                </div>
+                                                No data found.
+                                            </td>
+                                        </tr>
+                                    @endif
+                                   
                                 </tbody>
                             </table>
+                            <div class="pagination mt-3">
+                                {{ $custom_forms->appends(request()->input())->links('pagination::bootstrap-5') }}
+                            </div>
                         </div>
                         <!-- end table-responsive -->
                     </div>
@@ -67,10 +110,10 @@
                             </button>
                         </div>
                         <div class="modal-body" id="form_generate">
-                            <form id="form_generateForm" method="post" >
+                            <form id="form_generateForm" method="post" autocomplete="off">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <label class="col-form-label">Caretaker</label>
+                                        <label class="col-form-label">Caretaker<span class="required">*</span></label>
                                         <select class="form-control me-auto select2" class="form-control" id="caretaker_id" name="caretaker_id" style="width:100% !important;">
                                             <option value="" selected>Select Caretaker</option>
                                             @foreach($caretakers as $care)
@@ -79,13 +122,13 @@
                                         </select>
                                     </div>
                                     <div class="col-md-12">
-                                        <label class="col-form-label">Cat</label>
+                                        <label class="col-form-label">Cat<span class="required">*</span></label>
                                         <select class="form-control me-auto select2" class="form-control" id="cat_id" name="cat_id" style="width:100% !important;">
                                             <option value="" selected>Select Cat</option>
                                         </select>
                                     </div>
                                     <div class="col-md-12">
-                                        <label class="col-form-label">Form Type</label>
+                                        <label class="col-form-label">Form Type<span class="required">*</span></label>
                                         <select class="form-control me-auto select2" class="form-control" id="form_id" name="form_id" style="width:100% !important;" >
                                             <option value="" selected>Select Form Type</option>
                                             @foreach($forms as $form)
@@ -110,14 +153,12 @@
 @endsection
 @push('header')
 <link rel="stylesheet" href="{{ asset('assets/libs/select2/css/select2.min.css') }}" />
-<link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" />
 @endpush
 
 @push('scripts')
 <script src="{{ asset('assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 
-<script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/libs/select2/js/select2.min.js') }}"></script>
 <script src="{{ asset('assets/js/jquery.validate.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -127,7 +168,7 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    getCustomForms();
+    // getCustomForms();
 
     $('#caretaker_id').select2({
         dropdownParent: $('#generateNew'),
@@ -193,6 +234,10 @@
                             '',
                             'success'
                         );
+                        setTimeout(function() {
+                                window.location.reload();
+                            }, 3000);
+
                     }
                 });
             } 
@@ -261,7 +306,10 @@
                     $("#caretaker_id").val('').trigger('change') ;
                     $("#cat_id").val('').trigger('change') ;
                     $("#form_id").val('').trigger('change') ;
-                    getCustomForms();
+                    setTimeout(function() {
+                        window.location.href= "{{ route('custom-forms')}}";
+                    }, 3000);
+
                 }
             });
         }

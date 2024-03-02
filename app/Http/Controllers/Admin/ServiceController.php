@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Procedures; 
+use App\Models\Services; 
 use App\Models\HospitalAppointments; 
 use DB;
 
-class ProcedureController extends Controller
+class ServiceController extends Controller
 {
     public function index(Request $request)
     {
@@ -16,35 +16,35 @@ class ProcedureController extends Controller
 
         $search = $request->has('name') ? $request->name : '';
 
-        $query  = Procedures::select('id', 'name', 'price', 'status');
+        $query  = Services::select('id', 'name', 'price', 'status');
         if($search){  
             $query->Where(function ($query) use ($search) {
                 $query->orWhere('name', 'LIKE', '%'.$search . '%')
                         ->orWhere('price', 'LIKE', '%'.$search . '%');
             });                    
         }
-        $procedure = $query->orderBy('id','DESC')->paginate(10);
+        $service = $query->orderBy('id','DESC')->paginate(10);
 
-        return view('admin.procedure.index')->with([
-            'procedure' => $procedure,'search'=>$search
+        return view('admin.service.index')->with([
+            'service' => $service,'search'=>$search
         ]);
     }
     public function create()
     {
-        return view('admin.procedure.create');
+        return view('admin.service.create');
     }
     public function search()
     {
-        return view('admin.procedure.create');
+        return view('admin.service.create');
     }
     public function delete(Request $request)
     {
-        $checkBooking = HospitalAppointments::where('procedure_id',$request->procedure)->count();
+        $checkBooking = HospitalAppointments::where('service_id',$request->service)->count();
         if($checkBooking == 0){
-            Procedures::where('id',$request->procedure)->delete();
+            Services::where('id',$request->service)->delete();
             $result = array('status'=>1,'msg'=>'Deleted successfully.');
         }else{
-            $result = array('status'=>0,'msg'=>'Deletion is not possible. There are hospital appointments for this procedure.');
+            $result = array('status'=>0,'msg'=>'Deletion is not possible. There are hospital appointments for this service.');
         }
         return json_encode($result);
     }
@@ -52,35 +52,35 @@ class ProcedureController extends Controller
     public function store(Request $request)
     {
         if($request->pro_id != ''){
-            $procedure = Procedures::find($request->pro_id);
-            $procedure->name = $request->procedure;
-            $procedure->price = $request->price ? $request->price : 0;
-            $procedure->status = $request->pstatus;
-            $procedure->save();
+            $service = Services::find($request->pro_id);
+            $service->name = $request->service;
+            $service->price = $request->price ? $request->price : 0;
+            $service->status = $request->pstatus;
+            $service->save();
 
-            $msg = "Procedure details updated successfully.";
+            $msg = "Service details updated successfully.";
         }else{
-            $procedure = Procedures::create([
-                'name' => $request->procedure,
+            $service = Services::create([
+                'name' => $request->service,
                 'price' => $request->price ? $request->price : 0,
                 'status' => $request->pstatus
             ]);
-            $msg = "Procedure added successfully.";
+            $msg = "Service added successfully.";
         }
         return $msg;
     }
 
-    public function getProcedureList(Request $request){
+    public function getServiceList(Request $request){
         $search = $request->search;
-        $query  = Procedures::select('id', 'name', 'price', 'status');
+        $query  = Services::select('id', 'name', 'price', 'status');
         if($search){  
             $query->Where(function ($query) use ($search) {
                 $query->orWhere('name', 'LIKE', '%'.$search . '%')
                         ->orWhere('price', 'LIKE', '%'.$search . '%');
             });                    
         }
-        $procedure = $query->orderBy('id','DESC')->get();
-        $viewData = view('admin.procedure.ajax_list', compact('procedure'))->render();
+        $service = $query->orderBy('id','DESC')->get();
+        $viewData = view('admin.service.ajax_list', compact('service'))->render();
 
         return $viewData;
     }
