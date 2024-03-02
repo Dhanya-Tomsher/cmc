@@ -113,8 +113,8 @@ class DynamicInvoiceController extends Controller
 
     public function delete(Request $request)
     {
-        CustomInvoices::where('id',$request->id)->delete();
-        CustomInvoiceDetails::where('custom_invoice_id',$request->id)->delete();
+        DynamicInvoices::where('id',$request->id)->delete();
+        DynamicInvoiceDetails::where('dynamic_invoice_id',$request->id)->delete();
        
     } 
     public function edit(Request $request)
