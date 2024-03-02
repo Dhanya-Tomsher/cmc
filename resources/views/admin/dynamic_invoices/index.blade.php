@@ -66,7 +66,7 @@
                                             
                                                 <td class="text-center">{{ $key + 1 + ($invoice->currentPage() - 1) * $invoice->perPage() }} </td>
                                                 <td>{{ $invoicee->cat_name }} </td>
-                                                <td>{{ $invoicee->vet?->name }} </td>
+                                                <td>{{ $invoicee->vet->name }} </td>
                                                 <td>{{ $invoicee->invoice_note }} </td>
                                                 <td class="text-center">{{ $invoicee->net }} </td>
                                                 <td class="text-center">{{ $invoicee->vat }} </td>

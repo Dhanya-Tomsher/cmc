@@ -53,14 +53,14 @@
                                     <select class="form-control" name="vet_name"  id="vet_name">
                                         <option value="">Select a vet </option>
                                         @foreach($vets as $vet)
-                                            <option value="{{ $vet->id }}" @if($invoice?->vet_id == $vet->id) selected @endif> {{ $vet->name }} </option>
+                                            <option value="{{ $vet->id }}" @if($invoice->vet_id == $vet->id) selected @endif> {{ $vet->name }} </option>
                                         @endforeach
                                     </select>   
                                 </div>
 
                                 <div class="col-md-10 offset-md-1">
                                     <label for="Name" class="col-form-label"><b>Cat Name</b> <span class="required">*</span></label>
-                                    <input class="form-control" name="cat_name" value="{{ old('cat_name', $invoice?->cat_name) }}" type="text" placeholder="Enter cat name" id="cat_name">
+                                    <input class="form-control" name="cat_name" value="{{ old('cat_name', $invoice->cat_name) }}" type="text" placeholder="Enter cat name" id="cat_name">
                                 </div>
 
                                 <div class="col-md-10 offset-md-1">
@@ -132,17 +132,17 @@
 
                                 <div class="col-md-10 offset-md-1">
                                     <label for="Name" class="col-form-label"><b>Net</b> <span class="required">*</span></label>
-                                    <input class="form-control" name="total_net" value="{{ $invoice?->net }}" type="text" placeholder="Enter total net" id="total_net" readonly>
+                                    <input class="form-control" name="total_net" value="{{ $invoice->net }}" type="text" placeholder="Enter total net" id="total_net" readonly>
                                 </div>
 
                                 <div class="col-md-10 offset-md-1">
                                     <label for="Name" class="col-form-label"><b>VAT (5%)</b> <span class="required">*</span></label>
-                                    <input class="form-control" name="total_vat" value="{{ $invoice?->vat }}" type="text" placeholder="Enter total vat" id="total_vat" readonly>
+                                    <input class="form-control" name="total_vat" value="{{ $invoice->vat }}" type="text" placeholder="Enter total vat" id="total_vat" readonly>
                                 </div>
 
                                 <div class="col-md-10 offset-md-1">
                                     <label for="Name" class="col-form-label"><b>Grand Total</b> <span class="required">*</span></label>
-                                    <input class="form-control" name="grand_total" value="{{ $invoice?->total }}" type="text" placeholder="Enter grand total" id="grand_total" readonly>
+                                    <input class="form-control" name="grand_total" value="{{ $invoice->total }}" type="text" placeholder="Enter grand total" id="grand_total" readonly>
                                     @error('grand_total')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
@@ -150,7 +150,7 @@
 
                                 <div class="col-md-10 offset-md-1">
                                     <label for="Name" class="col-form-label"><b>Invoice Note</b> </label>
-                                    <textarea class="form-control" rows="5"  name="invoice_note" id="invoice_note">{{ $invoice?->invoice_note }}</textarea>
+                                    <textarea class="form-control" rows="5"  name="invoice_note" id="invoice_note">{{ $invoice->invoice_note }}</textarea>
                                 </div>
 
                                 

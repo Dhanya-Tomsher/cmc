@@ -88,7 +88,7 @@
                                                 <tr>
                                                     <th scope="row">{{ $loop->iteration }}</th>
                                                     <td>
-                                                        <h5 class="font-size-15 mb-1">{{$invDet->service?->name}}</h5>
+                                                        <h5 class="font-size-15 mb-1">{{$invDet->service->name}}</h5>
                                                     </td>
                                                     <td class="text-center">{{$invDet->quantity}}</td>
                                                     <td class="text-center">{{$invDet->unit_price}}</td>
