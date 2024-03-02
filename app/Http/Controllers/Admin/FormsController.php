@@ -83,7 +83,7 @@ class FormsController extends Controller
         $caretaker_id = NULL;
         if($cat_id != ''){
             $cat = CatCaretakers::where('cat_id',$cat_id)->where('transfer_status',0)->first();
-            $caretaker_id = $cat?->caretaker_id;
+            $caretaker_id = $cat->caretaker_id;
         }
 
         $caretakers = Caretaker::where('status','published')->where('is_blacklist',0)->orderBy('name','ASC')->get();
