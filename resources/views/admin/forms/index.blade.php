@@ -87,6 +87,7 @@
         }
     });
 
+   
     function deleteForm(id){
         var el = this;
         

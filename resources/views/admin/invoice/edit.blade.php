@@ -248,7 +248,7 @@
 
     $(document).on('click', '.remove', function(){
         var button_id = $(this).attr("data-id");
-        count--;
+        // count--;
         $('.tr_'+button_id).remove();
         updateTotalFields();
     });

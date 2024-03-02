@@ -69,11 +69,21 @@
 
             </li>
 
-            <li class="{{ Helper::areActiveRoutes(['invoice.index','invoice.view','invoice.edit','invoice.create']) }}">
+            {{-- <li class="{{ Helper::areActiveRoutes(['invoice.index','invoice.view','invoice.edit','invoice.create']) }}">
                 <a href="{{ route('invoice.index') }}" class=" waves-effect">
                     <i class="uil-invoice"></i>
                     <span>Custom Invoices </span>
                 </a>
+            </li> --}}
+
+            <li class="{{ Helper::areActiveRoutes(['invoice.index','invoice.view','invoice.edit','invoice.create','dynamic-invoice.index','dynamic-invoice.view','dynamic-invoice.edit','dynamic-invoice.create']) }}">
+                <a href="#" class="has-arrow waves-effect">
+                    <i class="uil-invoice"></i> <span>Invoices</span>
+                </a>
+                <ul class="sub-menu" aria-expanded="false">
+                    <li class="{{ Helper::areActiveRoutes(['invoice.index','invoice.view','invoice.edit','invoice.create']) }}"><a href="{{ route('invoice.index') }}">Custom Invoices</a></li>
+                    <li class="{{ Helper::areActiveRoutes(['dynamic-invoice.index','dynamic-invoice.view','dynamic-invoice.edit','dynamic-invoice.create']) }}"><a href="{{ route('dynamic-invoice.index') }}">Dynamic Invoices</a></li>
+                </ul>
             </li>
 
             @if (Auth::user()->user_type == 'admin')

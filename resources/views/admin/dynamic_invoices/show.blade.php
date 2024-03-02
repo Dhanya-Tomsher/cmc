@@ -1,4 +1,4 @@
-@extends('admin.layouts.app', ['body_class' => '', 'title' => 'Invoice Detail'])
+@extends('admin.layouts.app', ['body_class' => '', 'title' => 'Dynamic Invoice Detail'])
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
@@ -7,11 +7,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
-                        <h4 class="mb-0">Invoice Detail</h4>
+                        <h4 class="mb-0">Dynamic Invoice Detail</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('dynamic-invoice.index') }}">Dynamic Invoices</a></li>
                                 <li class="breadcrumb-item active">Invoice Detail</li>
                             </ol>
                         </div>
@@ -42,7 +43,7 @@
                             <div class="row">
                                 <div class="col-sm-5" style="margin: auto;">
                                     <div class="text-muted">
-                                        <h5 class="font-size-16 mb-1">Cat Name: {{$invoice[0]->cat_name}}</h5>
+                                        <h5 class="font-size-16 mb-1">Cat Name: {{$invoice->cat_name}}</h5>
                                         <p></p>
                                         
                                     </div>
@@ -54,11 +55,11 @@
                                     <div class="text-muted float-end">
                                         <div>
                                             <h5 class="font-size-16 mb-1">Invoice No:</h5>
-                                            <p>#CINV{{$invoice[0]->id}}</p>
+                                            <p>#DINV{{$invoice->id}}</p>
                                         </div>
                                         <div class="mt-4">
                                             <h5 class="font-size-16 mb-1">Invoice Date:</h5>
-                                            <p>{{$invoice[0]->invoice_date}} </p>
+                                            <p>{{$invoice->invoice_date}} </p>
                                         </div>
                                     </div>
                                 </div>
@@ -70,67 +71,49 @@
 
                                 <div class="table-responsive">
                                     <table class="table table-centered mb-0">
-                                    <thead>
+                                        <thead>
                                             <tr>
                                                 <th style="width: 70px;">No.</th>
-                                                <th class="w-30 " style="word-wrap:break-word;">Service</th>
+                                                <th class="w-50 " style="word-wrap:break-word;">Service</th>
                                                 <th class="text-center">Quantity</th>
                                                 <th class="text-center">Price</th>
-                                                <th class="text-center">Net</th>
                                                 <!-- <th class="text-center">VAT</th>
                                                 <th class="text-center">Net+Vat</th> -->
-                                                <th class="text-center"  style="width: 200px;">Service Charge</th>
                                                 <th class="text-end totalAmount" style="width: 150px;">Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @php $subTotal = 0; @endphp
-                                            @foreach($invoice[0]->custom_invoice_details as $invDet)
-                                            <tr>
-                                                <th scope="row">{{ $loop->iteration }}</th>
-                                                <td>
-                                                    <h5 class="font-size-15 mb-1">{{$invDet->procedure}}</h5>
-                                                </td>
-                                                <td class="text-center">{{$invDet->quantity}}</td>
-                                                <td class="text-center">{{$invDet->unit_price}}</td>
-                                                <td class="text-center">{{$invDet->net}}</td>
-                                                <!-- <td class="text-center">{{$invDet->vat}}</td>
-                                                <td class="text-center">{{$invDet->net_vat}}</td> -->
-                                                <td class="text-center">{{$invDet->service_charge}}</td>
-
-                                                <td class="text-end">{{$invDet->net + $invDet->service_charge}}</td>
-                                            </tr>
-                                            @php  $subTotal = $subTotal + ($invDet->net + $invDet->service_charge); @endphp
+                                            @foreach($invoice->dynamic_invoice_details as $invDet)
+                                                <tr>
+                                                    <th scope="row">{{ $loop->iteration }}</th>
+                                                    <td>
+                                                        <h5 class="font-size-15 mb-1">{{$invDet->service?->name}}</h5>
+                                                    </td>
+                                                    <td class="text-center">{{$invDet->quantity}}</td>
+                                                    <td class="text-center">{{$invDet->unit_price}}</td>
+                                                    <td class="text-end totalAmount" style="width: 150px;">{{$invDet->total}}</td>
+                                                </tr>
+                                                @php  
+                                                    $subTotal = $subTotal + ($invDet->total); 
+                                                @endphp
 
                                             @endforeach
                                             <tr>
-                                                <th scope="row" colspan="6" class="text-end padding-invoice">Sub Total :</th>
+                                                <th scope="row" colspan="4" class="text-end padding-invoice">Sub Total :</th>
                                                 <td class="text-end padding-invoice">{{ $subTotal }}</td>
                                             </tr>
+                                           
                                             <tr>
-                                                <th scope="row" colspan="6" class="border-0 text-end padding-invoice">
-                                                    Net :</th>
-                                                <td class="border-0 text-end padding-invoice">{{$invoice[0]->net}}</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row" colspan="6" class="border-0 text-end padding-invoice">
+                                                <th scope="row" colspan="4" class="border-0 text-end padding-invoice">
                                                     VAT :</th>
-                                                <td class="border-0 text-end padding-invoice">{{$invoice[0]->vat}}</td>
+                                                <td class="border-0 text-end padding-invoice">{{$invoice->vat}}</td>
                                             </tr>
+                                        
                                             <tr>
-                                                <th scope="row" colspan="6" class="border-0 text-end padding-invoice">
-                                                    Service Amount :</th>
-                                                <td class="border-0 text-end padding-invoice">{{$invoice[0]->service_charge}}</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row" colspan="6" class="border-0 text-end padding-invoice">
-                                                    Net +VAT+Service Amount :</th>
-                                                <td class="border-0 text-end padding-invoice">{{$invoice[0]->total}}</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row" colspan="6" class="border-0 text-end padding-invoice">Total :</th>
+                                                <th scope="row" colspan="4" class="border-0 text-end padding-invoice">Total :</th>
                                                 <td class="border-0 text-end total padding-invoice">
-                                                    <h4 class="m-0" id="currency" ><span style="font-size:15px;margin-top:2px;">AED </span>{{$invoice[0]->total}}</h4>
+                                                    <h4 class="m-0" id="currency" ><span style="font-size:16px;margin-top:2px;">AED </span>{{$invoice->total}}</h4>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -141,7 +124,7 @@
                                         <a href="#" onclick="printElement(`print-area`)" class="btn btn-success waves-effect waves-light me-1"><i class="fa fa-print"></i></a>
                                     </div>
                                     <div class="float-end">
-                                        <a href="{{ route('generate-custom-pdf',['id' => $invoice[0]->id])}}" target="_blank" class="btn btn-danger waves-effect waves-light me-1">Generate Pdf <i class="fa fa-file-pdf"></i></a>
+                                        <a href="{{ route('generate-dynamic-pdf',['id' => $invoice->id])}}" target="_blank" class="btn btn-danger waves-effect waves-light me-1">Generate Pdf <i class="fa fa-file-pdf"></i></a>
                                     </div>
                                 </div>
                             </div>

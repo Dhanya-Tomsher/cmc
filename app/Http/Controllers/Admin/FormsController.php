@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Forms;
 use App\Models\CustomForms;  
 use App\Models\Caretaker;  
+use App\Models\CatCaretakers;  
 use App\Models\HospitalAppointments; 
 use App\Models\Tabs;
 use DB;
@@ -17,6 +18,7 @@ class FormsController extends Controller
 {
     public function index(Request $request)
     {
+        
         $forms = Forms::orderBy('id', 'DESC')->get();
         return view('admin.forms.index')->with(['forms' => $forms]);
     }
@@ -74,9 +76,16 @@ class FormsController extends Controller
         return view('admin.forms.view', compact('form'));
     }
 
-    public function customFormsList(Request $request)
+    public function customFormsList(Request $request,$cat_id = NULL)
     {
         $request->session()->put('last_url', url()->full());
+
+        $caretaker_id = NULL;
+        if($cat_id != ''){
+            $cat = CatCaretakers::where('cat_id',$cat_id)->where('transfer_status',0)->first();
+            $caretaker_id = $cat?->caretaker_id;
+        }
+
         $caretakers = Caretaker::where('status','published')->where('is_blacklist',0)->orderBy('name','ASC')->get();
         $forms = Forms::where('status',1)->orderBy('form_title', 'ASC')->get();
 
@@ -109,7 +118,7 @@ class FormsController extends Controller
         }
         $custom_forms = $query->orderBy('custom_forms.id','DESC')->paginate(10);
 
-        return view('admin.forms.custom_index')->with(['caretakers' => $caretakers, 'forms' => $forms, 'custom_forms' => $custom_forms]);
+        return view('admin.forms.custom_index')->with(['caretakers' => $caretakers, 'forms' => $forms, 'custom_forms' => $custom_forms,'cat_id' =>$cat_id, 'caretaker_id' => $caretaker_id]);
     }
 
     public function generateCustomForm(Request $request)

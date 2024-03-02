@@ -168,6 +168,19 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+    let catId = {{$cat_id ?? 0}};
+    var caretaker_id = {{$caretaker_id ?? 0}};
+
+    window.onload = function() {
+    
+        if(caretaker_id != 0){
+            generateForm();
+            $('#caretaker_id').val(caretaker_id).trigger('change');
+            
+        }
+    }
+
+
     // getCustomForms();
 
     $('#caretaker_id').select2({
@@ -265,6 +278,10 @@
 
                 $('#cat_id').html(cats_html);
                 $("#cat_id").trigger('change');
+                console.log(catId);
+                if(catId != 0){
+                    $('#cat_id').val(catId).trigger('change');
+                }
             }
         });
     });
