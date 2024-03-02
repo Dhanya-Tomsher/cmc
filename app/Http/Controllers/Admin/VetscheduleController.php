@@ -93,7 +93,6 @@ public function index(Request $request)
 		$from_time = $request->from_time;
 		$to_time = $request->to_time;
 		$daterange = $request->daterange;
-
 		
 		$add = explode(',',$addDates);
 		$remove = explode(',',$removeDates);
@@ -102,6 +101,10 @@ public function index(Request $request)
 		
 		if(!empty($add[0]) && $daterange == NULL){
 			return json_encode(array('status' => 'error','msg' => 'Please select time!'));
+		}
+
+		if($from_time == $to_time){
+			return json_encode(array('status' => 'error','msg' => 'Please select different From Time and To Time!'));
 		}
 
 		if($add[0] != NULL || $remove[0] != NULL){
