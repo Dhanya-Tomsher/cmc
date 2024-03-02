@@ -48,7 +48,7 @@
                             @csrf
                             <div class="row">
                                 <div class="col-md-10 offset-md-1">
-                                    <input type="text" name="invoice_id" id="invoice_id" value="{{ (isset($invoice->id) ? $invoice->id : '') }}">
+                                    <input type="hidden" name="invoice_id" id="invoice_id" value="{{ (isset($invoice->id) ? $invoice->id : '') }}">
                                     <label for="Name" class="col-form-label"><b>Vet Name</b> <span class="required">*</span></label>
                                     <select class="form-control" name="vet_name"  id="vet_name">
                                         <option value="">Select a vet </option>
