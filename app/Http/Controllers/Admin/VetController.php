@@ -14,6 +14,7 @@ use App\Models\VetShifts;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use DateTime;
+use Validator;
 use Helper;
 use DB;
 
@@ -36,7 +37,7 @@ class VetController extends Controller
                         ->orWhere('phone_number', 'LIKE', '%'.$search . '%');
             });                    
         }
-        $vet  = $query->orderBy('id','DESC')->paginate(10);
+        $vet  = $query->orderBy('id','DESC')->paginate(4);
         return view('admin.vet.index')->with([
             'vet' => $vet,
             'search' => $search
@@ -67,6 +68,25 @@ class VetController extends Controller
     }
     public function update(UpdateVetRequest $request, Vet $vet)
     {
+        
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email|unique:vets,email,'.$vet->id,
+            'phone_number' => 'required',
+            'image' => 'nullable|file|mimes:jpg,jpeg,png,gif,bmp,tiff,webp|max:1000',
+        ],[
+            'image.max' => 'The file size should be less than 1MB',
+            'name.required' => 'Please enter a name',
+            'phone_number.required' => 'Please enter phone number',
+            'email.required' => 'Please enter an email',
+            'email.email' => 'Please enter an valid email',
+            'email.unique' => 'Sorry, this email is already in use, please use another email',
+        ]);
+ 
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
         if ($request->hasFile('image')) {
             $uploadedFile = $request->file('image');
             $filename =   time() . $uploadedFile->getClientOriginalName();
@@ -87,14 +107,14 @@ class VetController extends Controller
             $vet->save();
         }
 
-        if($vet->slot_from != trim($request->shift_from) && ($vet->shift_to != trim($request->shift_to))){
-            $dataShifts = ['vet_id' => $vet->id,
-                        'shift_from' => trim($request->shift_from),
-                        'shift_to'   => trim($request->shift_to)
-                    ];
+        // if($vet->slot_from != trim($request->shift_from) && ($vet->shift_to != trim($request->shift_to))){
+        //     $dataShifts = ['vet_id' => $vet->id,
+        //                 'shift_from' => trim($request->shift_from),
+        //                 'shift_to'   => trim($request->shift_to)
+        //             ];
 
-            $this->manageVetShifts($dataShifts);
-        }
+        //     $this->manageVetShifts($dataShifts);
+        // }
         $vet->update($request->all());
 
         return back()->with('status', 'Vet Details Upated!');
@@ -162,7 +182,7 @@ class VetController extends Controller
 
     public function store(StoreVetRequest $request)
     {
-        $image_name = '';
+        $image_name = NULL;
 
         if ($request->hasFile('image')) {
             $uploadedFile = $request->file('image');
@@ -199,8 +219,8 @@ class VetController extends Controller
         ]);
         $vet_id = $vet->id;
 
-        $timeslots = Helper::generateVetTimeSlot(30,$request->shift_from,$request->shift_to,$vet_id);
-        VetShifts::insert($timeslots);
+        // $timeslots = Helper::generateVetTimeSlot(30,$request->shift_from,$request->shift_to,$vet_id);
+        // VetShifts::insert($timeslots);
         return redirect()->route('vet.index')->with('status', 'vet created!');
     }
     public function getVetList(Request $request){

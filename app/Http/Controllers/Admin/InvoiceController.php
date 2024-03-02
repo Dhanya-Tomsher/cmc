@@ -35,7 +35,7 @@ class InvoiceController extends Controller
         ]);
     }
    
-    public function create()
+    public function create($cat_name = NULL)
     {
         $invoice = json_encode(array());
         $vets = Vet::select("id","name")
@@ -45,7 +45,8 @@ class InvoiceController extends Controller
                     ->get();
         return view('admin.invoice.create')->with([
             'invoice' => $invoice,
-            'vets' => $vets
+            'vets' => $vets,
+            'cat_name' => $cat_name
         ]);
     }
 

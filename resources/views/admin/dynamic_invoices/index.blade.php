@@ -1,4 +1,4 @@
-@extends('admin.layouts.app', ['body_class' => '', 'title' => 'Custom Invoices'])
+@extends('admin.layouts.app', ['body_class' => '', 'title' => 'Dynamic Invoices'])
 @section('content') 
     <div class="page-content">
         <div class="container-fluid">
@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
-                        <h4 class="mb-0">Custom Invoices</h4>
+                        <h4 class="mb-0">Dynamic Invoices</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
@@ -23,14 +23,14 @@
                                 <div class="hstack gap-2">
                                     <input class="form-control me-auto border-0" name="name"  value="{{$search}}" type="text" placeholder="Search here">
                                     <button type="submit" class="btn btn_back waves-effect waves-light w-xl">Search</button>
-                                    <a href="{{ route('invoice.index') }}" class="btn btn_back waves-effect waves-light w-md" id="searchReset">Reset</a>
+                                    <a href="{{ route('dynamic-invoice.index') }}" class="btn btn_back waves-effect waves-light w-md" id="searchReset">Reset</a>
                                 </div>
                             </form>
                         </div>
 
                         <div class="btn_group">
                             <div class="input-daterange input-group">
-                                <a href="{{route('invoice.create')}}" class="btn btn-primary">Create New Invoice</a>
+                                <a href="{{route('dynamic-invoice.create')}}" class="btn btn-primary">Create New Invoice</a>
                             </div>
                         </div>
                     </div>
@@ -45,16 +45,15 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="table-responsive cat_details_table ">
-                                <table class="table table-centered  mb-0" id="invoiceTable">
+                                <table class="table table-centered table-nowrap mb-0" id="invoiceTable">
                                     <thead class="table-light">
                                         <tr>
                                             <th class="text-center">No</th>
                                             <th>Cat Name</th>
                                             <th>Vet Name</th>
-                                            <th class=" w-20">Invoice Note</th>
+                                            <th>Invoice Note</th>
                                             <th class="text-center">Net</th>
                                             <th class="text-center">VAT</th>
-                                            <th class="text-center">Service Charge</th>
                                             <th class="text-center">Total</th>
                                             <th class="text-center">Invoice Date</th>
                                             <th class="text-center">Action</th>
@@ -67,16 +66,15 @@
                                             
                                                 <td class="text-center">{{ $key + 1 + ($invoice->currentPage() - 1) * $invoice->perPage() }} </td>
                                                 <td>{{ $invoicee->cat_name }} </td>
-                                                <td>{{ $invoicee->vet_name }} </td>
+                                                <td>{{ $invoicee->vet?->name }} </td>
                                                 <td>{{ $invoicee->invoice_note }} </td>
                                                 <td class="text-center">{{ $invoicee->net }} </td>
                                                 <td class="text-center">{{ $invoicee->vat }} </td>
-                                                <td class="text-center">{{ $invoicee->service_charge }} </td>
                                                 <td class="text-center">{{ $invoicee->total }} </td>
                                                 <td class="text-center">{{ $invoicee->invoice_date }} </td>
                                                 <td class="text-center">
-                                                    <a href="{{ route('invoice.view', $invoicee->id) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-eye"></i>View</a>
-                                                    <a href="{{ route('invoice.edit', $invoicee->id) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-pen"></i>Edit</a>
+                                                    <a href="{{ route('dynamic-invoice.view', $invoicee->id) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-eye"></i>View</a>
+                                                    <a href="{{ route('dynamic-invoice.edit', $invoicee->id) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-pen"></i>Edit</a>
                                                     <a href="#" onclick="deleteInvoice('{{$invoicee->id}}')" data-bs-toggle="tooltip" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-trash"></i>Delete</a>
                                                 </td>
 
@@ -146,7 +144,7 @@
             if (result.isConfirmed) {
                 var data = [];
                 $.ajax({
-                    url: "{{ route('invoice.delete')}}",
+                    url: "{{ route('dynamic-invoice.delete')}}",
                     type: "POST",
                     data: { id:id },
                     success: function( response ) {

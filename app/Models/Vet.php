@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\URL;
 
 class Vet extends Model
 {
@@ -14,7 +15,7 @@ class Vet extends Model
 
     public function getImage()
     {
-        return Storage::url(Str::replace('/storage/', '', $this->image_url));
+        return $this->image_url ? URL::to($this->image_url) : asset('assets/images/user_img.png');
     }
 
     public static function getActiveVets(){

@@ -56,11 +56,11 @@
                                         {{ session()->get('status') }}
                                     </div>
                                 @endif
-                                <table class="table table-centered table-nowrap mb-0" id="serviceTable">
+                                <table class="table table-centered mb-0" id="serviceTable">
                                     <thead class="table-light">
                                         <tr>
                                             <th class="text-center">No</th>
-                                            <th>Service</th>
+                                            <th class="w-40">Service</th>
                                             <th class="text-center">Price</th>
                                             <th class="text-center">Status</th>
                                             <th class="text-center">Action</th>

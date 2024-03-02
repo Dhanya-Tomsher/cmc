@@ -546,6 +546,9 @@ table td.highlighted {
 .w-10{
   width: 10% !important;
 }
+.w-20{
+  width: 20% !important;
+}
 .h-800{
   max-height: 800px !important;
 }

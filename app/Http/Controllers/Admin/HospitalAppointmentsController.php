@@ -552,9 +552,10 @@ class HospitalAppointmentsController extends Controller
         $checkAssigned = Vetschedule::where('vet_id',$vet_id)->whereDate('date', $date)
                         ->where('status', 'published')
                         ->select('available_from','available_to')
-                        ->first()?->toArray();
-       
+                        ->first();
+                      
         if($checkAssigned){
+            $checkAssigned = $checkAssigned->toArray();
             $allSlots  = Helper::getTimeSlotHrMIn('30', $checkAssigned['available_from'], $checkAssigned['available_to']);
            
             $bookedSlots = HospitalAppointments::select('time_appointment')

@@ -94,6 +94,17 @@
                                                     <a href="{{ route('cat.view', $cate) }}" class="px-3 btn btn-app"><i  class="uil uil-eye font-size-18 text-primary"></i>View</a>
                                                     <a href="{{ route('cat.edit', $cate) }}" class="px-3 btn btn-app"><i class="uil uil-pen green font-size-18"></i>Edit</a>
                                                     <!-- <a href="#" class="px-3 text-danger"><i class="uil uil-trash-alt font-size-18"></i></a> -->
+
+                                                    <a href="{{ route('custom-forms', $cate->id) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" data-bs-title="Forms" class="px-1 btn btn-app"><i class="uil uil-file-alt"></i>Forms</a>
+
+                                                   
+                                                    <div class="tooltipp">
+                                                        <a href="#" class="px-1 btn btn-app"><i class="uil uil-invoice"></i>Invoice</a>
+                                                        <div class="tooltiptext">
+                                                            <a href="{{route('invoice.create', $cate->cat_name)}}" class="btn btnn" >Custom</a>
+                                                            <a href="{{route('dynamic-invoice.create', $cate->cat_name)}}" class="btn btnn" >Dynamic</a>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -128,6 +139,49 @@
 @push('header')
 
 <link rel="stylesheet" href="{{ asset('assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" />
+<style>
+/* Tooltip container */
+.tooltipp {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    /* Tooltip text */
+    .tooltipp .tooltiptext {
+        visibility: hidden;
+        width: auto;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        top: -50%;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    /* Show the tooltip text when hovering over the tooltip container */
+    .tooltipp:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    /* Style the buttons */
+    .tooltipp .btnn {
+        background-color: #faf39f;
+        color: black;
+        padding: 5px 10px;
+        border: none;
+        cursor: pointer;
+        border-radius: 3px;
+        margin: 2px;
+    }
+</style>
 @endpush
 
 @push('scripts')
