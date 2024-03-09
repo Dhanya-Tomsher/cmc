@@ -73,9 +73,9 @@
                                                 <td class="text-center">{{ $invoicee->total }} </td>
                                                 <td class="text-center">{{ $invoicee->invoice_date }} </td>
                                                 <td class="text-center">
-                                                    <a href="{{ route('dynamic-invoice.view', $invoicee->id) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-eye"></i>View</a>
-                                                    <a href="{{ route('dynamic-invoice.edit', $invoicee->id) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-pen"></i>Edit</a>
-                                                    <a href="#" onclick="deleteInvoice('{{$invoicee->id}}')" data-bs-toggle="tooltip" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-trash"></i>Delete</a>
+                                                    <a href="{{ route('dynamic-invoice.view', $invoicee->id) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-eye font-size-18 text-primary"></i>View</a>
+                                                    <a href="{{ route('dynamic-invoice.edit', $invoicee->id) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-pen green font-size-18"></i>Edit</a>
+                                                    <a href="#" onclick="deleteInvoice('{{$invoicee->id}}')" data-bs-toggle="tooltip" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-trash required font-size-18"></i>Delete</a>
                                                 </td>
 
                                             </tr>
@@ -111,9 +111,10 @@
     </div>
 @endsection
 @push('header')
-
 <style>
-
+    .table>:not(thead)>*>* {
+        padding: 0rem 0.75rem !important;
+    }
 </style>
 @endpush
 

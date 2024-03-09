@@ -447,6 +447,9 @@
             margin-bottom: 0;
             margin-top: 1.25rem;
         }
+        .table>:not(thead)>*>* {
+            padding: 0.5rem 0.75rem !important;
+        }
     </style>
 @endpush
 

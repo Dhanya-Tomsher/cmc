@@ -122,18 +122,25 @@
                     <span>Rooms </span>
                 </a>
             </li>
+
+            <li class="{{ Helper::areActiveRoutes(['service.index','service.create','service.view','service.edit']) }}">
+                <a href="#" class="has-arrow waves-effect">
+                    <i class="uil-file-medical"></i> <span>Price Lists</span>
+                </a>
+                <ul class="sub-menu" aria-expanded="false">
+                    <li class="{{ Helper::areActiveRoutes(['service.index','service.create','service.view','service.edit']) }}"><a href="{{ route('service.index') }}">Price List Categories</a></li>
+                    <li class="{{ Helper::areActiveRoutes(['service.index','service.create','service.view','service.edit']) }}"><a href="{{ route('service.index') }}">Services/Products</a></li>
+                </ul>
+            </li>
+
+
             <li class="{{ Helper::areActiveRoutes(['procedure.index','procedure.create','procedure.view','procedure.edit']) }}">
                 <a href="{{ route('procedure.index') }}" class=" waves-effect">
                     <i class="uil-medical-square"></i>
                     <span>Procedures </span>
                 </a>
             </li>
-            <li class="{{ Helper::areActiveRoutes(['service.index','service.create','service.view','service.edit']) }}">
-                <a href="{{ route('service.index') }}" class=" waves-effect">
-                    <i class="uil-file-medical"></i>
-                    <span>Services </span>
-                </a>
-            </li>
+            
             
             <li class="{{ Helper::areActiveRoutes(['forms.index','form.create','form.view','form.edit','custom-forms','custom-form.create','custom-form.view','custom-form.edit']) }}">
                 <a href="#" class="has-arrow waves-effect">

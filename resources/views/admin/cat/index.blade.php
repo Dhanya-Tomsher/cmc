@@ -91,15 +91,16 @@
                                                     @endif
                                                 </td> -->
                                                 <td class="text-center">
-                                                    <a href="{{ route('cat.view', $cate) }}" class="px-3 btn btn-app"><i  class="uil uil-eye font-size-18 text-primary"></i>View</a>
-                                                    <a href="{{ route('cat.edit', $cate) }}" class="px-3 btn btn-app"><i class="uil uil-pen green font-size-18"></i>Edit</a>
+                                                    <a href="{{ route('cat.view', $cate) }}" class="px-1 btn btn-app"><i  class="uil uil-eye font-size-18 text-primary"></i>View</a>
+
+                                                    <a href="{{ route('cat.edit', $cate) }}" class="px-1 btn btn-app"><i class="uil uil-pen green font-size-18"></i>Edit</a>
                                                     <!-- <a href="#" class="px-3 text-danger"><i class="uil uil-trash-alt font-size-18"></i></a> -->
 
-                                                    <a href="{{ route('custom-forms', $cate->id) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" data-bs-title="Forms" class="px-1 btn btn-app"><i class="uil uil-file-alt"></i>Forms</a>
+                                                    <a href="{{ route('custom-forms', $cate->id) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" data-bs-title="Forms" class="px-1 btn btn-app"><i class="uil uil-file-alt font-size-18 text-pink" ></i>Forms</a>
 
                                                    
                                                     <div class="tooltipp">
-                                                        <a href="#" class="px-1 btn btn-app"><i class="uil uil-invoice"></i>Invoice</a>
+                                                        <a href="#" class="px-1 btn btn-app"><i class="uil uil-invoice font-size-18 text-purple"></i>Invoice</a>
                                                         <div class="tooltiptext">
                                                             <a href="{{route('invoice.create', $cate->cat_name)}}" class="btn btnn" >Custom</a>
                                                             <a href="{{route('dynamic-invoice.create', $cate->cat_name)}}" class="btn btnn" >Dynamic</a>

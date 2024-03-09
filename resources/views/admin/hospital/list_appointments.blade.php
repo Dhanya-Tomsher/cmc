@@ -711,6 +711,11 @@
     <link rel="stylesheet" href="{{ asset('assets/libs/select2/css/select2.min.css') }}" />
 
     <link rel="stylesheet" href="{{ asset('assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" />
+    <style>
+        .table>:not(thead)>*>* {
+            padding: 0.5rem 0.75rem !important;
+        }
+    </style>
 @endpush
 
 @push('scripts')

@@ -1,4 +1,4 @@
-@extends('admin.layouts.app', ['body_class' => '', 'title' => 'Services'])
+@extends('admin.layouts.app', ['body_class' => '', 'title' => 'Services/Products'])
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
@@ -7,12 +7,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
-                        <h4 class="mb-0">Services</h4>
+                        <h4 class="mb-0">Services/Products</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Services</li>
+                                <li class="breadcrumb-item active">Services/Products</li>
                             </ol>
                         </div>
 
@@ -36,7 +36,7 @@
                         <div class="btn_group">
                             <div class="input-daterange input-group">
                                 <a href="#" class="btn btn-primary" onclick="createService();">Create New
-                                    Service</a>
+                                    Service/Product</a>
                             </div>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th class="text-center">No</th>
-                                            <th class="w-40">Service</th>
+                                            <th class="w-40">Service/Product</th>
                                             <th class="text-center">Price</th>
                                             <th class="text-center">Status</th>
                                             <th class="text-center">Action</th>
@@ -119,7 +119,7 @@
                 <div class="modal-dialog modal-md modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="myExtraLargeModalLabel">Create New Service </h5>
+                            <h5 class="modal-title" id="myExtraLargeModalLabel">Create New Service/Product </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                             </button>
                         </div>
@@ -129,10 +129,10 @@
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <label for="Name" class="col-form-label">Service<span
+                                        <label for="Name" class="col-form-label">Service/Product<span
                                                 class="required">*</span></label>
                                         <input class="form-control" name="service" value="" type="text"
-                                            placeholder="Enter Service" id="service">
+                                            placeholder="Enter Service/Product" id="service">
                                         <input type="hidden" name="pro_id" id="pro_id" value=''>
                                     </div>
 
@@ -171,7 +171,11 @@
     </div>
 @endsection
 @push('header')
-  
+    <style>
+        .table>:not(thead)>*>* {
+            padding: 0rem 0.75rem !important;
+        }
+    </style>
 @endpush
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
