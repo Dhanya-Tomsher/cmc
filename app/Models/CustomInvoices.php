@@ -27,4 +27,8 @@ class CustomInvoices extends Model
         return $this->hasMany(CustomInvoiceDetails::class,'custom_invoice_id');
     }
     
+    public function vet()
+    {
+        return $this->belongsTo(Vet::class, 'vet_id','id');
+    }
 }

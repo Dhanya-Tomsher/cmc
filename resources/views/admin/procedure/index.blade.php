@@ -174,7 +174,11 @@
     </div>
 @endsection
 @push('header')
-  
+<style>
+    .table>:not(thead)>*>* {
+        padding: 0rem 0.75rem !important;
+    }
+</style>
 @endpush
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -75,7 +75,11 @@
 </div>
 @endsection
 @push('header')
-
+<style>
+    .table>:not(thead)>*>* {
+        padding: 0rem 0.75rem !important;
+    }
+</style>
 @endpush
 
 @push('scripts')

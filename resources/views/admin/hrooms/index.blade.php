@@ -80,6 +80,11 @@
 @endsection
 @push('header')
 <link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}" />
+<style>
+    .table>:not(thead)>*>* {
+        padding: 0rem 0.75rem !important;
+    }
+</style>
 @endpush
 @push('scripts')
 <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>

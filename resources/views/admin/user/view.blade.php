@@ -76,9 +76,9 @@
                                                     {!! $status !!}
                                                 </td>
                                                 <td class="text-center">
-                                                    <a href="{{ route('user.edit', $user) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-pen"></i>Edit</a>
+                                                    <a href="{{ route('user.edit', $user) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-pen green font-size-18"></i>Edit</a>
                                                     @if(Auth::user()->id != $user->id)
-                                                        <a href="#" onclick="deleteUser('{{$user->id}}')" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Profile" class="px-1 btn btn-app"><i class="uil uil-trash"></i>Delete</a>
+                                                        <a href="#" onclick="deleteUser('{{$user->id}}')" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Profile" class="px-1 btn btn-app"><i class="uil uil-trash required font-size-18"></i>Delete</a>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -97,8 +97,9 @@
 @push('header')
 
 <style>
-
-
+    .table>:not(thead)>*>* {
+        padding: 0rem 0.75rem !important;
+    }
 </style>
 @endpush
 

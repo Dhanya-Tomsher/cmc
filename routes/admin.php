@@ -147,7 +147,9 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
         Route::post('vet.list', [VetController::class, 'getVetList'])->name('vet.list');
         Route::post('vet/delete', [VetController::class, 'delete'])->name('vet.delete');
         Route::post('ajax-getyear-schedules',[VetscheduleController::class,'ajaxGetYearSchedules'])->name('ajax-getyear-schedules');
-    
+        Route::post('save-vet-schedule-time',[VetscheduleController::class,'saveVetScheduleTime'])->name('save-vet-schedule-time');
+        Route::get('get-vet-schedule-time',[VetscheduleController::class,'getVetScheduleTime'])->name('get-vet-schedule-time');
+
         Route::get('hospital-appointments',[HospitalAppointmentsController::class,'getAppointments'])->name('hospital-appointments');
         Route::get('caretaker-search',[HospitalAppointmentsController::class,'searchCaretaker'])->name('ajax-autocomplete-caretaker-search');
         Route::post('caretaker-details',[HospitalAppointmentsController::class,'getCaretakerDetails'])->name('get-caretaker');
@@ -225,6 +227,9 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
         // Route::post('service/delete', [ServiceController::class, 'delete'])->name('service.delete');
         Route::post('service.list', [ServiceController::class, 'getServiceList'])->name('service.list');
 
+        Route::get('pricelist-categories', [ServiceController::class, 'categoryList'])->name('pricelist-categories.index');
+        Route::post('pricelist-categories/store', [ServiceController::class, 'categoryStore'])->name('pricelist-categories.store');
+
         Route::get('dynamic-invoice', [DynamicInvoiceController::class, 'index'])->name('dynamic-invoice.index');
         Route::get('dynamic-invoice/create/{cat_name?}', [DynamicInvoiceController::class, 'create'])->name('dynamic-invoice.create');
         Route::get('dynamic-invoice/view/{id}', [DynamicInvoiceController::class, 'view'])->name('dynamic-invoice.view');
@@ -234,5 +239,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
         Route::post('dynamic-invoice/update', [DynamicInvoiceController::class, 'update'])->name('dynamic-invoice.update');
         Route::get('/dynamic-invoice-generatepdf/{id}', [DynamicInvoiceController::class, 'generateDynamicInvoicePDF'])->name('generate-dynamic-pdf');
         Route::post('dynamic-invoice/delete', [DynamicInvoiceController::class, 'delete'])->name('dynamic-invoice.delete');
+
+        Route::get('get-service-list',[DynamicInvoiceController::class,'getServiceList'])->name('get-service-list');
     });   
 });

@@ -37,7 +37,7 @@ class VetController extends Controller
                         ->orWhere('phone_number', 'LIKE', '%'.$search . '%');
             });                    
         }
-        $vet  = $query->orderBy('id','DESC')->paginate(4);
+        $vet  = $query->orderBy('id','DESC')->paginate(10);
         return view('admin.vet.index')->with([
             'vet' => $vet,
             'search' => $search

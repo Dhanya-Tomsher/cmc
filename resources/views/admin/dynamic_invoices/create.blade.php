@@ -47,10 +47,10 @@
 
                             @csrf
                             <div class="row">
-                                <div class="col-md-10 offset-md-1">
+                                <div class="col-md-12">
                                     <input type="hidden" name="invoice_id" id="invoice_id" value="{{ (isset($invoice->id) ? $invoice->id : '') }}">
                                     <label for="Name" class="col-form-label"><b>Vet Name</b> <span class="required">*</span></label>
-                                    <select class="form-control" name="vet_name"  id="vet_name">
+                                    <select class="form-control select2" name="vet_name"  id="vet_name">
                                         <option value="">Select a vet </option>
                                         @foreach($vets as $vet)
                                             <option value="{{ $vet->id }}" > {{ $vet->name }} </option>
@@ -58,31 +58,35 @@
                                     </select>   
                                 </div>
 
-                                <div class="col-md-10 offset-md-1">
+                                <div class="col-md-12">
                                     <label for="Name" class="col-form-label"><b>Cat Name</b> <span class="required">*</span></label>
                                     <input class="form-control" name="cat_name" value="{{ old('cat_name', $cat_name) }}" type="text" placeholder="Enter cat name" id="cat_name">
                                 </div>
 
-                                <div class="col-md-10 offset-md-1">
+                                <div class="col-md-12">
                                     <label class="col-form-label col-md-2 col-sm-2 label-align"><b>Contents</b></label>
                                     <div class="col-md-12 col-sm-12" style="border: 1px solid #ced4da;    border-bottom: none;">
                                         <table class="table " >
                                             <thead>
                                                 <tr>
                                                     <td style="display:flex;margin: 0% 0% -2%;">
-                                                        <div class="col-md-4 col-sm-6">
+                                                        <div class="col-md-3 col-sm-4">
+                                                            <label for="Name" class="col-form-label"><b>Price List Category</b> <span class="required">*</span></label>
+                                                        </div>
+
+                                                        <div class="col-md-3 col-sm-4">
                                                             <label for="Name" class="col-form-label"><b>Service</b> <span class="required">*</span></label>
                                                         </div>
                                                         
-                                                        <div class="col-md-2 col-sm-2 ml-1">
+                                                        <div class="col-md-1 col-sm-3 ml-1">
                                                             <label for="Name" class="col-form-label"><b>Unit Price</b> <span class="required">*</span></label>
                                                         </div>
 
-                                                        <div class="col-md-2 col-sm-2 ml-1">
+                                                        <div class="col-md-2 col-sm-3">
                                                             <label for="Name" class="col-form-label"><b>Quantity</b> <span class="required">*</span></label>
                                                         </div>
                                 
-                                                        <div class="col-md-2 col-sm-2 ml-1">
+                                                        <div class="col-md-2 col-sm-3">
                                                             <label for="Name" class="col-form-label"><b>Total</b> <span class="required">*</span></label>
                                                         </div>
                                                     </td>
@@ -96,17 +100,17 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-10 offset-md-1">
+                                <div class="col-md-12">
                                     <label for="Name" class="col-form-label"><b>Net</b> <span class="required">*</span></label>
                                     <input class="form-control" name="total_net" value="" type="text" placeholder="Enter total net" id="total_net" readonly>
                                 </div>
 
-                                <div class="col-md-10 offset-md-1">
+                                <div class="col-md-12">
                                     <label for="Name" class="col-form-label"><b>VAT (5%)</b> <span class="required">*</span></label>
                                     <input class="form-control" name="total_vat" value="" type="text" placeholder="Enter total vat" id="total_vat" readonly>
                                 </div>
 
-                                <div class="col-md-10 offset-md-1">
+                                <div class="col-md-12">
                                     <label for="Name" class="col-form-label"><b>Grand Total</b> <span class="required">*</span></label>
                                     <input class="form-control" name="grand_total" value="" type="text" placeholder="Enter grand total" id="grand_total" readonly>
                                     @error('grand_total')
@@ -114,13 +118,13 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-md-10 offset-md-1">
+                                <div class="col-md-12">
                                     <label for="Name" class="col-form-label"><b>Invoice Note</b> </label>
                                     <textarea class="form-control" rows="5"  name="invoice_note" id="invoice_note"></textarea>
                                 </div>
 
                                 
-                                <div class="col-md-10 offset-md-1 mt-4">
+                                <div class="col-md-12 mt-4">
                                     <div class="">
                                         <button name="Submit" type="Submit"  class="btn btn-primary waves-effect waves-light w-xl me-2">Save</button>
                                     </div>
@@ -155,13 +159,20 @@
 <script src="{{ asset('assets/js/jquery.validate.min.js') }}"></script>
 <script type="text/javascript">
 
-    var options = [];
-    options.push('<option value="">Select Service</option>');   
-    @foreach ($services as $serv)
-        options.push('<option value="{{ $serv['id'] }}" data-price="{{$serv['price']}}">{{ $serv['name'] }}</option>');      
+    $('.select2').select2({
+        placeholder: 'Select',
+        // dropdownParent: $('#createAppointmentModal'),
+        width: 'resolve', // need to override the changed default
+        allowClear: false,
+    });
+
+    var category_options = [];
+    category_options.push('<option value="">Select Pricelist Category</option>');   
+    @foreach ($categories as $categ)
+        category_options.push('<option value="{{ $categ['id'] }}" >{{ $categ['name'] }}</option>');      
     @endforeach
 
-    var services = options.join('');
+    var categoryDrop = category_options.join('');
 
     var count = 1;
     dynamic_field(count);
@@ -169,47 +180,84 @@
     function dynamic_field(number)
     {
         html = `<tr class="tr_`+number+`">
-                    <td style="display:flex;">
-                        <div class="col-md-4 col-sm-6">
-                            <select class="form-select form-control select2 service_field" data-id="`+number+`" name="service[]" id="service_`+number+`">
-                                `+services+`
-                            </select>
-                        </div>
+                    <td>
+                        <div class="row">
+                            <div class="col-md-3 col-sm-4">
+                                <select class="form-select form-control select2 category_field" data-id="`+number+`" name="category[]" id="category_`+number+`">
+                                    `+categoryDrop+`
+                                </select>
+                            </div>
+                        
+                            <div class="col-md-3 col-sm-4">
+                                <select class="form-select form-control select2 service_field" data-id="`+number+`" name="service[]" id="service_`+number+`">
+                                   
+                                </select>
+                            </div>
 
-                        <div class="col-md-2 col-sm-2 ml-1">
-                            <input class="form-control price_field" name="price[]" value="0" type="text" data-id="`+number+`" id="price_`+number+`" readonly>
-                        </div>
+                            <div class="col-md-1 col-sm-3">
+                                <input class="form-control price_field" name="price[]" value="0" type="text" data-id="`+number+`" id="price_`+number+`" readonly>
+                            </div>
 
-                        <div class="col-md-2 col-sm-2 ml-1">
-                            <input class="form-control quantity_field" name="quantity[]" value="" type="text" placeholder="Enter Quantity" data-id="`+number+`" id="quantity_`+number+`">
-                        </div>
+                            <div class="col-md-2 col-sm-3">
+                                <input class="form-control quantity_field" name="quantity[]" value="" type="text" placeholder="Enter Quantity" data-id="`+number+`" id="quantity_`+number+`">
+                            </div>
 
-                        <div class="col-md-2 col-sm-2 ml-1">
-                            <input class="form-control total_field" name="total[]" value="0" type="text" data-id="`+number+`" id="total_`+number+`" readonly>
-                        </div>
+                            <div class="col-md-2 col-sm-3">
+                                <input class="form-control total_field" name="total[]" value="0" type="text" data-id="`+number+`" id="total_`+number+`" readonly>
+                            </div>
                      `;
             
             if(number > 1)
             {
-                html += '<div class="col-md-2 col-sm-2 ml-1 div-center"> <button type="button" name="remove" data-id="'+number+'" data-id="'+number+'"  id="" class="btn btn-danger remove">Remove</button> </div></td> </tr> <hr>`;';
+                html += '<div class="col-md-1 col-sm-2 div-center"> <button type="button" name="remove" data-id="'+number+'" data-id="'+number+'"  id="" class="btn btn-danger remove">Remove</button> </div></div></td> </tr> <hr>`;';
                 $('#qn_table').append(html);
             }
             else
             {   
-                html += '<div class="col-md-2 col-sm-2 ml-1 div-center"> <button type="button" name="add" id="add" class="btn btn-success">Add</button> </div></td></tr> <hr>';
+                html += '<div class="col-md-1 col-sm-2 div-center"> <button type="button" name="add" id="add" class="btn btn-success">Add</button> </div></div></td></tr> <hr>';
                 $('#qn_table').html(html);
             }
         $('.select2').select2({
             placeholder: 'Select',
             // dropdownParent: $('#createAppointmentModal'),
             width: 'resolve', // need to override the changed default
-            allowClear: true,
+            allowClear: false,
         });
     }
+
+    $(document).on('select2:open', () => {
+        document.querySelector('.select2-search__field').focus();
+    });
+
+    $(document).on('change', '.category_field', function() {
+        var catfield_id = $(this).data('id');
+        var categId = $(this).val();
+        
+        getServicesList(categId, catfield_id);
+    });
 
     $(document).on('change', '.service_field', function() {
         serviceData(this);
     });
+
+    function getServicesList(categId, catfield_id){
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: "{{ route('get-service-list')}}",
+            type: "GET",
+            data:  { 
+                categ_id: categId
+            },
+            success: function( response ) {
+                console.log('#service_'+catfield_id);
+                $('#service_'+catfield_id).html(response).trigger('change');
+            }
+        });
+    }
     
     function serviceData(selectElement) {
         var field_id = $(selectElement).data('id');
@@ -282,6 +330,7 @@
         rules: {
             'vet_name': 'required',
             'cat_name': 'required',
+            'category[]': 'required',
             'service[]': 'required',
             'quantity[]': 'required',
             'price[]': 'required',

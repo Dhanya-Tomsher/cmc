@@ -45,7 +45,8 @@
                             <input type="hidden" class="" name="from_time" id="from_time" value="">
                             <input type="hidden" class="" name="to_time" id="to_time" value="">
 
-                            <button class="btn btn_back waves-effect waves-light w-md w-20" id="scheduleVet">Update Schedule</button>
+                            <button class="btn btn_back waves-effect waves-light w-md " id="scheduleVet">Update Schedule</button>
+                            <button class="btn btn_back waves-effect waves-light w-md" id="saveVetSchedule">Save Time</button>
                         </div>
                         <input type="hidden" class="form-control" id="selectedDatesForAdd" value=""/>
                         <input type="hidden"  class="form-control" id="selectedDatesForRemove" value=""/>
@@ -157,6 +158,7 @@
             $('#daterange').val(''); // Clear the time input
         });
 
+        getVetScheduleTime(vet_id);
 
         loadCalendar();
         function loadCalendar(){
@@ -267,7 +269,7 @@
 
             var msg = '';
             var flag = true;
-            if(vetId == ''){
+            if(vetId == '' || vetId == null || vetId == 'null'){
                 msg = 'Please select a Vet!';
                 flag = false;
             }
@@ -318,19 +320,103 @@
            
         });
 
+        $("#saveVetSchedule").on("click", function (e) { 
+        
+            var vetId           = $('#vet_id').val();
+            var from_time       = $('#from_time').val();
+            var to_time         = $('#to_time').val();
+            var daterange       = $('#daterange').val();
+
+            var msg = '';
+            var flag = true;
+            if(vetId == '' || vetId == null || vetId == 'null'){
+                msg = 'Please select a Vet!';
+                flag = false;
+            }else if(daterange == ''){
+                msg = 'Please select time!';
+                flag = false;
+            }
+
+            if(flag){
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: "{{ route('save-vet-schedule-time')}}",
+                    type: "POST",
+                    data:  { 
+                        vet_id: vetId, 
+                        from_time: from_time,
+                        to_time : to_time,
+                        daterange : daterange
+                    },
+                    success: function( response ) {
+                        var returnedData = JSON.parse(response);
+                        Swal.fire(
+                            '',
+                            returnedData.msg,
+                            returnedData.status
+                        );
+                    }
+                });
+            }else{
+                Swal.fire('',  msg, 'warning');
+            }
+           
+        });
+
         $("#vet_id").on("change", function () { 
             $('#selectedDatesForAdd').val('');
             $('#selectedDatesForRemove').val('');
             selectedDatesForAdd = [];
             selectedDatesForRemove = [];
             vet_id = $(this).val();
+
+            getVetScheduleTime(vet_id);
+        
             $('#vet_schedule_calendar').css('display','block'); 
             $('#year_appointment').html('');
             calendar.destroy();
             loadCalendar();
         });
+
+        function getVetScheduleTime(vet_id){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "{{ route('get-vet-schedule-time')}}",
+                type: "GET",
+                data:  { 
+                    vet_id: vet_id
+                },
+                success: function( response ) {
+                    var returnedData = JSON.parse(response);
+                    console.log(returnedData);
+
+                    if(returnedData.from != '00:00' || returnedData.to !='00:00'){
+                        resetDateRangePicker(returnedData.from, returnedData.to);
+                    }else{
+                        $('#daterange').val('');
+                    }
+                    
+                    $('#from_time').val(returnedData.from);
+                    $('#to_time').val(returnedData.to);
+                }
+            });
+        }
         
-        
+        function resetDateRangePicker(startTime, endTime) {
+            var formattedStartTime  = moment(startTime, 'hh:mm A').format('hh:mm A');
+            var formattedEndTime    = moment(endTime, 'hh:mm A').format('hh:mm A');
+
+            $('#daterange').data('daterangepicker').setStartDate(formattedStartTime);
+            $('#daterange').data('daterangepicker').setEndDate(formattedEndTime);
+        }
        
     });
     

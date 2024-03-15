@@ -19,19 +19,35 @@ class InvoiceController extends Controller
         $request->session()->put('last_url', url()->full());
 
         $search = $request->has('name') ? $request->name : '';
+        $from_date  = $request->has('from_date') ? $request->from_date : '';
+        $to_date    = $request->has('to_date') ? $request->to_date : '';
 
-        $query  = CustomInvoices::orderBy('id','DESC');
+        $query  = CustomInvoices::with(['vet'])->orderBy('id','DESC');
            
         if($search){  
             $query->Where(function ($query) use ($search) {
-                $query->orWhere('vet_name', 'LIKE', '%'.$search . '%')
-                        ->orWhere('cat_name', 'LIKE', '%'.$search . '%')
-                        ->orWhere('invoice_note', 'LIKE', '%'.$search . '%');
+                $query->orWhere('cat_name', 'LIKE', '%'.$search . '%')
+                        ->orWhere('invoice_note', 'LIKE', '%'.$search . '%')
+                        ->orWhereHas('vet', function ($query) use($search) {
+                            $query->where('name', 'like', '%'.$search . '%');
+                        });
             });                    
         }
+
+        if($from_date != '' || $to_date != ''){
+            if($from_date != '' && $to_date != ''){
+                $query->whereDate('invoice_date', '>=', $from_date)
+                ->whereDate('invoice_date',   '<=', $to_date);
+            }elseif($from_date == '' && $to_date != ''){
+                $query->whereDate('invoice_date', '=', $to_date);
+            }elseif($from_date != '' && $to_date == ''){
+                $query->whereDate('invoice_date', '=', $from_date);
+            }
+        }
+
         $invoice  = $query->paginate(10);
         return view('admin.invoice.index')->with([
-            'invoice' => $invoice,'search'=>$search
+            'invoice' => $invoice,'search'=>$search, 'to_date' => $to_date, 'from_date' => $from_date
         ]);
     }
    

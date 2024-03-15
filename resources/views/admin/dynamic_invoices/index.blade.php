@@ -18,10 +18,21 @@
                     </div>
 
                     <div class="d-flex justify-content-between mb-3">
-                        <div class="search_warpper w-50">
+                        <div class="search_warpper w-80">
                             <form action="" autocomplete="off">
                                 <div class="hstack gap-2">
                                     <input class="form-control me-auto border-0" name="name"  value="{{$search}}" type="text" placeholder="Search here">
+
+                                    <div class="input-daterange input-group" id="datepicker6" data-date-format="yyyy-mm-dd" data-date-autoclose="true" data-provide="datepicker" data-date-container="#datepicker6">
+                                        
+                                        <input type="text" class="form-control text-start" placeholder="From"
+                                            name="from_date" id="from_date" value="{{ $from_date }}">
+
+                                        <input type="text" class="form-control text-start" placeholder="To"
+                                            name="to_date" id="to_date" value="{{ $to_date }}">
+                                     
+                                    </div>
+
                                     <button type="submit" class="btn btn_back waves-effect waves-light w-xl">Search</button>
                                     <a href="{{ route('dynamic-invoice.index') }}" class="btn btn_back waves-effect waves-light w-md" id="searchReset">Reset</a>
                                 </div>
@@ -73,9 +84,9 @@
                                                 <td class="text-center">{{ $invoicee->total }} </td>
                                                 <td class="text-center">{{ $invoicee->invoice_date }} </td>
                                                 <td class="text-center">
-                                                    <a href="{{ route('dynamic-invoice.view', $invoicee->id) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-eye"></i>View</a>
-                                                    <a href="{{ route('dynamic-invoice.edit', $invoicee->id) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-pen"></i>Edit</a>
-                                                    <a href="#" onclick="deleteInvoice('{{$invoicee->id}}')" data-bs-toggle="tooltip" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-trash"></i>Delete</a>
+                                                    <a href="{{ route('dynamic-invoice.view', $invoicee->id) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-eye font-size-18 text-primary"></i>View</a>
+                                                    <a href="{{ route('dynamic-invoice.edit', $invoicee->id) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-pen green font-size-18"></i>Edit</a>
+                                                    <a href="#" onclick="deleteInvoice('{{$invoicee->id}}')" data-bs-toggle="tooltip" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-trash required font-size-18"></i>Delete</a>
                                                 </td>
 
                                             </tr>
@@ -111,14 +122,16 @@
     </div>
 @endsection
 @push('header')
-
+<link rel="stylesheet" href="{{ asset('assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" />
 <style>
-
+    .table>:not(thead)>*>* {
+        padding: 0rem 0.75rem !important;
+    }
 </style>
 @endpush
 
 @push('scripts')
-
+<script src="{{ asset('assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script >
 

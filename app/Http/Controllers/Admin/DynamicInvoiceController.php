@@ -7,6 +7,7 @@ use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
 use Illuminate\Http\Request;
 use App\Models\Invoices; 
+use App\Models\PricelistCategories;
 use App\Models\DynamicInvoices; 
 use App\Models\DynamicInvoiceDetails; 
 use App\Models\Services; 
@@ -19,19 +20,36 @@ class DynamicInvoiceController extends Controller
     {
         $request->session()->put('last_url', url()->full());
 
-        $search = $request->has('name') ? $request->name : '';
-
-        $query  = DynamicInvoices::orderBy('id','DESC');
+        $search     = $request->has('name') ? $request->name : '';
+        $from_date  = $request->has('from_date') ? $request->from_date : '';
+        $to_date    = $request->has('to_date') ? $request->to_date : '';
+        
+        $query      = DynamicInvoices::with(['vet'])->orderBy('id','DESC');
            
         if($search){  
             $query->Where(function ($query) use ($search) {
                 $query->orWhere('cat_name', 'LIKE', '%'.$search . '%')
-                    ->orWhere('invoice_note', 'LIKE', '%'.$search . '%');
+                    ->orWhere('invoice_note', 'LIKE', '%'.$search . '%')
+                    ->orWhereHas('vet', function ($query) use($search) {
+                        $query->where('name', 'like', '%'.$search . '%');
+                    });
             });                    
         }
+
+        if($from_date != '' || $to_date != ''){
+            if($from_date != '' && $to_date != ''){
+                $query->whereDate('invoice_date', '>=', $from_date)
+                ->whereDate('invoice_date',   '<=', $to_date);
+            }elseif($from_date == '' && $to_date != ''){
+                $query->whereDate('invoice_date', '=', $to_date);
+            }elseif($from_date != '' && $to_date == ''){
+                $query->whereDate('invoice_date', '=', $from_date);
+            }
+        }
+
         $invoice  = $query->paginate(10);
         return view('admin.dynamic_invoices.index')->with([
-            'invoice' => $invoice,'search'=>$search
+            'invoice' => $invoice,'search'=>$search, 'to_date' => $to_date, 'from_date' => $from_date
         ]);
     }
    
@@ -44,13 +62,13 @@ class DynamicInvoiceController extends Controller
                     ->where('is_deleted',0)
                     ->orderBy('name','ASC')
                     ->get();
-        $services = Services::where('status',1)->orderBy('name','ASC')->get()->toArray();
+        $categories = PricelistCategories::where('is_active',1)->orderBy('name', 'ASC')->get();
        
         return view('admin.dynamic_invoices.create')->with([
             'invoice' => $invoice,
             'vets' => $vets,
-            'services' => $services,
-            'cat_name' => $cat_name
+            'cat_name' => $cat_name,
+            'categories' => $categories
         ]);
     }
 
@@ -71,6 +89,7 @@ class DynamicInvoiceController extends Controller
         $invoice->save();
 
         $service = $request->service;
+        $category = $request->category;
         $quantity = $request->quantity;
         $price = $request->price;
         $total = $request->total;
@@ -82,6 +101,7 @@ class DynamicInvoiceController extends Controller
             if($service[$i] != ''){
                 $dataHis = array(
                     'dynamic_invoice_id' => $invoice->id,
+                    'category_id' => $category[$i],
                     'service_id' => $service[$i],
                     'quantity'  => $quantity[$i],
                     'unit_price' => $price[$i],
@@ -128,12 +148,14 @@ class DynamicInvoiceController extends Controller
         $invoice = DynamicInvoices::with(['dynamic_invoice_details'])->where('id',$request->id)->first();
        
         $services = Services::where('status',1)->orderBy('name','ASC')->get()->toArray();
+        $categories = PricelistCategories::where('is_active',1)->orderBy('name', 'ASC')->get();
       
         return view('admin.dynamic_invoices.edit')->with([
             'invoice' => $invoice,
             'vets' => $vets,
             'detailsCount' => count($invoice->dynamic_invoice_details),
-            'services' => $services
+            'services' => $services,
+            'categories' => $categories
         ]);
     }
   
@@ -150,5 +172,20 @@ class DynamicInvoiceController extends Controller
         $file_name = date('d-m-Y').'_'.rand(1,10).'_Invoice.pdf';
         $pdf = PDF::loadView('admin.dynamic_invoices.invoice_pdf', $invoice);
         return $pdf->stream($file_name,array('Attachment'=>0));
+    }
+
+    public function getServiceList(Request $request)
+    {
+        $html = '<option value="" data-price="0"> Select Service </option>';
+            
+        $categ_id = $request->categ_id;
+        $services = services::select("id","name","category_id","price")
+                        ->where('status', 1)
+                        ->where('category_id', $categ_id)->orderBy('name','ASC')
+                        ->get();
+        foreach($services as $serv){
+            $html .= '<option value="'.$serv['id'] .'" data-price="'.$serv['price'].'">'.$serv['name'].'</option>';
+        }
+        return $html;
     }
 }
