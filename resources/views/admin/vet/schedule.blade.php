@@ -138,7 +138,7 @@
             timePickerIncrement: 30,
             timePickerSeconds: false,
             minDate: moment().startOf('day').hour(8).minute(0).second(0), // Set minimum date to today at 08:00 AM
-            maxDate: moment().endOf('day').hour(21).minute(0).second(0),
+            maxDate: moment().endOf('day').hour(22).minute(0).second(0),
             timePickerDefaultValue: null,
             cancelButtonClasses: 'clear-time',
             locale: {
