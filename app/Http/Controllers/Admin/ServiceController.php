@@ -74,7 +74,7 @@ class ServiceController extends Controller
             $service->status        = $request->pstatus;
             $service->save();
 
-            $msg = "Service details updated successfully.";
+            $msg = "Service/Product details updated successfully.";
         }else{
             $service = Services::create([
                 'name' => $request->service,
@@ -82,7 +82,7 @@ class ServiceController extends Controller
                 'price' => $request->price ? $request->price : 0,
                 'status' => $request->pstatus
             ]);
-            $msg = "Service added successfully.";
+            $msg = "Service/Product added successfully.";
         }
         return $msg;
     }
