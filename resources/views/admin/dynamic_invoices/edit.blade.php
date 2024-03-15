@@ -94,6 +94,10 @@
                                             </thead>
                                             <tbody id="qn_table">
                                                 @foreach( $invoice->dynamic_invoice_details as $key => $inv)
+
+                                                    @php
+                                                        $services = Helper::getCategoryServicesList($inv->category_id);
+                                                    @endphp
                                                     <tr class="tr_{{$key}}">
                                                         <td >
                                                             <div class="row">

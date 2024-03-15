@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use App\Models\CatCaretakers; 
 use App\Models\States; 
+use App\Models\Services;
 use DateTime;
 use DatePeriod;
 use DateInterval;
@@ -152,4 +153,14 @@ class Helper
     {
         return in_array(Route::currentRouteName(), $routes) ? $output : '';
     }
+
+    public static function getCategoryServicesList($categ_id){
+
+        $services = Services::select("id","name","category_id","price")
+                        ->where('status', 1)
+                        ->where('category_id', $categ_id)->orderBy('name','ASC')
+                        ->get();
+        return $services;
+    }
+    
 }
