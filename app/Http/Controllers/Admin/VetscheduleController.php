@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Vetschedule;
 use App\Models\VetShifts;
+use App\Models\Vet;
 use App\Models\HospitalAppointments;
 use DB;
 use DateTime;
@@ -62,6 +63,7 @@ public function index(Request $request)
     		}
     	}
     }
+	
 	public function getVetSchedules(Request $request, $vet_id =NULL){
         $result = [];
 		$params['start'] = date('Y-m-d',strtotime($request->get('start')));
@@ -85,6 +87,26 @@ public function index(Request $request)
 		
         return response()->json($result);
     }
+
+	public function saveVetScheduleTime(Request $request){
+		$vet_id = $request->get('vet_id');
+		$from_time = $request->from_time;
+		$to_time = $request->to_time;
+		$daterange = $request->daterange;
+
+		if($from_time == $to_time){
+			return json_encode(array('status' => 'error','msg' => 'Please select different From Time and To Time!'));
+		}
+
+		$vet = Vet::find($vet_id);
+		if($vet){
+			$vet->last_schedule_from = $from_time;
+			$vet->last_schedule_to = $to_time;
+			$vet->save();
+		}
+
+		return json_encode(array('status' => 'success','msg' => 'Vet time saved successfully'));
+	}
 
 	public function saveVetSchedule(Request $request){
 		$vet_id = $request->get('vet_id');
@@ -179,6 +201,19 @@ public function index(Request $request)
 	
         return response()->json($result);
     }
+
+	public function getVetScheduleTime(Request $request){
+		$vetId = $request->vet_id;
+		$vet = Vet::find($vetId);
+		if(!empty($vet)){
+			$time['from'] 		= date('H:i', strtotime($vet->last_schedule_from));
+			$time['to'] 		= date('H:i', strtotime($vet->last_schedule_to));
+		}else{
+			$time['from'] 		= '';
+			$time['to'] 		= '';
+		}
+		return json_encode($time);
+	}
 
 	public function getSlotAvailabiltyColor($date,$vet_ids,$vet_names){
 		$vetIds 	= explode(',',$vet_ids);

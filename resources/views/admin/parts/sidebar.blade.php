@@ -128,7 +128,7 @@
                     <i class="uil-file-medical"></i> <span>Price Lists</span>
                 </a>
                 <ul class="sub-menu" aria-expanded="false">
-                    <li class="{{ Helper::areActiveRoutes(['service.index','service.create','service.view','service.edit']) }}"><a href="{{ route('service.index') }}">Price List Categories</a></li>
+                    <li class="{{ Helper::areActiveRoutes(['pricelist-categories.index','service.create','service.view','service.edit']) }}"><a href="{{ route('pricelist-categories.index') }}">Price List Categories</a></li>
                     <li class="{{ Helper::areActiveRoutes(['service.index','service.create','service.view','service.edit']) }}"><a href="{{ route('service.index') }}">Services/Products</a></li>
                 </ul>
             </li>

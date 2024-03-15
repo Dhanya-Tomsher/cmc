@@ -1,4 +1,4 @@
-@extends('admin.layouts.app', ['body_class' => '', 'title' => 'Services/Products'])
+@extends('admin.layouts.app', ['body_class' => '', 'title' => 'Price List Categories'])
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
@@ -7,32 +7,23 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
-                        <h4 class="mb-0">Services/Products</h4>
+                        <h4 class="mb-0">Price List Categories</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Services/Products</li>
+                                <li class="breadcrumb-item active">Price List Categories</li>
                             </ol>
                         </div>
 
                     </div>
 
                     <div class="d-flex justify-content-between mb-3">
-                        <div class="search_warpper w-75">
+                        <div class="search_warpper w-70">
                             <form action="" autocomplete="off">
                                 <div class="hstack gap-2">
                                     <input class="form-control me-auto border-0" type="text" id='search'
-                                        value="{{ $search }}" name="name" placeholder="Search with name">
-
-                                    <select class="form-control form-select" name="category_filter" value="" id="category_filter">
-                                        <option value="">Filter with category </option>
-                                        @if ($categories)
-                                            @foreach ($categories as $cat)
-                                                <option {{ ($category == $cat->id) ? 'selected' : '' }} value="{{ $cat->id }}">{{ $cat->name }}</option>
-                                            @endforeach
-                                        @endif
-                                    </select>
+                                        value="{{ $search }}" name="name" placeholder="Search here">
 
                                     <select class="form-control form-select" name="status_filter" value="" id="status_filter">
                                         <option value="">Filter with status </option>
@@ -41,8 +32,8 @@
                                     </select>
 
                                     <button type="submit"
-                                        class="btn btn_back waves-effect waves-light w-md">Search</button>
-                                    <a href="{{ route('service.index') }}"
+                                        class="btn btn_back waves-effect waves-light w-xl">Search</button>
+                                    <a href="{{ route('pricelist-categories.index') }}"
                                         class="btn btn_back waves-effect waves-light w-md" id="searchReset">Reset</a>
                                 </div>
                             </form>
@@ -50,8 +41,8 @@
 
                         <div class="btn_group">
                             <div class="input-daterange input-group">
-                                <a href="#" class="btn btn-primary" onclick="createService();">Create New
-                                    Service/Product</a>
+                                <a href="#" class="btn btn-primary" onclick="createCategory();">Create New
+                                    Category</a>
                             </div>
                         </div>
                     </div>
@@ -75,23 +66,20 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th class="text-center">No</th>
-                                            <th class="w-30">Service/Product</th>
-                                            <th class="w-30">Price List Category</th>
-                                            <th class="text-center">Price</th>
+                                            <th class="w-40">Category Name</th>
                                             <th class="text-center">Status</th>
                                             <th class="text-center">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="serviceDetails">
-                                        @if (isset($service[0]))
-                                            @foreach ($service as $key=>$pro)
-                                                <tr id="proid_{{ $pro->id }}">
-                                                    <td class="text-center">{{ $key + 1 + ($service->currentPage() - 1) * $service->perPage() }} </td>
-                                                    <td>{{ $pro->name }} </td>
-                                                    <td>{{ $pro->category?->name }} </td>
-                                                    <td class="text-center">{{ $pro->price }} </td>
+                                        @if (isset($category[0]))
+                                            @foreach ($category as $key=>$cat)
+                                                <tr id="proid_{{ $cat->id }}">
+                                                    <td class="text-center">{{ $key + 1 + ($category->currentPage() - 1) * $category->perPage() }} </td>
+                                                    <td>{{ $cat->name }} </td>
+                                                   
                                                     <td class="text-center">
-                                                        @if ($pro->status == 1)
+                                                        @if ($cat->is_active == 1)
                                                             <div class="badge bg-soft-success font-size-12">Enabled</div>
                                                         @else
                                                             <div class="badge bg-soft-danger font-size-12">Disabled</div>
@@ -99,9 +87,9 @@
                                                     </td>
                                                     <td class="text-center">
                                                         <a href="#" class="px-2 btn btn-app"
-                                                            onclick="editProdcedure({{ $pro }});"><i
+                                                            onclick="editCategory({{ $cat }});"><i
                                                                 class="uil uil-pen green font-size-18 text-primary"></i>Edit</a>
-                                                        {{-- <a href="#" onclick="deleteProdcedure('{{ $pro->id }}');"
+                                                        {{-- <a href="#" onclick="deleteProdcedure('{{ $cat->id }}');"
                                                             class="px-2 btn btn-app"><i
                                                                 class="uil uil-trash required font-size-18"></i>Delete</a> --}}
                                                     </td>
@@ -117,11 +105,10 @@
                                                 </td>
                                             </tr>
                                         @endif
-
                                     </tbody>
                                 </table>
                                 <div class="pagination mt-3">
-                                    {{ $service->appends(request()->input())->links('pagination::bootstrap-5') }}
+                                    {{ $category->appends(request()->input())->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
                             <!-- end table-responsive -->
@@ -132,45 +119,25 @@
             <!-- end row -->
 
             <!-- Add New Event MODAL -->
-            <div class="modal fade bs-example-modal-md" id="createService" tabindex="-1">
+            <div class="modal fade bs-example-modal-md" id="createCategory" tabindex="-1">
                 <div class="modal-dialog modal-md modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="myExtraLargeModalLabel">Create New Service/Product </h5>
+                            <h5 class="modal-title" id="myExtraLargeModalLabel">Create New Category </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form name="frm" action="{{ route('hrooms.store') }}" id="createForm" enctype="multipart/form-data" method="POST" autocomplete="off">
+                            <form name="frm" action="{{ route('pricelist-categories.store') }}" id="createForm" enctype="multipart/form-data" method="POST" autocomplete="off">
 
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <label for="Name" class="col-form-label">Price List Category<span
+                                        <label for="Name" class="col-form-label">Category<span
                                                 class="required">*</span></label>
-                                        <select class="form-control form-select" name="category" value="" id="category">
-                                            <option value="">Select a category </option>
-                                            @if ($categories)
-                                                @foreach ($categories as $categ)
-                                                    <option value="{{ $categ->id }}">{{ $categ->name }}</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <label for="Name" class="col-form-label">Service/Product<span
-                                                class="required">*</span></label>
-                                        <input class="form-control" name="service" value="" type="text"
-                                            placeholder="Enter Service/Product" id="service">
-                                        <input type="hidden" name="pro_id" id="pro_id" value=''>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <label for="email" class="col-form-label">Price<span
-                                            class="required">*</span></label>
-                                        <input class="form-control" name="price" type="text" value=""
-                                            placeholder="Enter Price" id="price">
+                                        <input class="form-control" name="category" value="" type="text"
+                                            placeholder="Enter Category Name" id="category">
+                                        <input type="hidden" name="cat_id" id="cat_id" value=''>
                                     </div>
 
                                     <div class="col-md-12">
@@ -217,16 +184,15 @@
             }
         });
        
-        function createService() {
+        function createCategory() {
             $('#createForm')[0].reset();
             $('.error').html('');
-            $('#myExtraLargeModalLabel').html('Create New Service/Product');
-            $('#service').removeClass('error');
+            $('#myExtraLargeModalLabel').html('Create New Category');
+            $('#category').removeClass('error');
             $('#price').removeClass('error');
-            $('#pro_id').val('');
-            $('#category').val('');
+            $('#cat_id').val('');
             $('#action_type').val('create');
-            $('#createService').modal('show');
+            $('#createCategory').modal('show');
         }
         // $("#searchReset").on("click", function (e) { 
         //     $('#search').val('');
@@ -235,21 +201,19 @@
 
         $("#createForm").validate({
             rules: {
-                category: "required" ,
-                service: "required",
+                category: "required",
                 price: "required"
             },
-            // messages: {
-            //     category: "Please  select a Category.",
-            //     service: "This  field is required.",
-            //     price: "Please enter price"
-            // },
+            messages: {
+                category: "Please enter a category",
+                price: "Please enter price"
+            },
             submitHandler: function(e) {
                 var data = new FormData($('#createForm')[0]);
                 var action = $('#action_type').val();
                 
                 $.ajax({
-                    url: "{{ route('service.store') }}",
+                    url: "{{ route('pricelist-categories.store') }}",
                     type: "POST",
                     data: data,
                     processData: false,
@@ -260,11 +224,11 @@
                             response,
                             'success'
                         );
-                        $("#createService").modal('hide');
+                        $("#createCategory").modal('hide');
                         $('#createForm')[0].reset();
                         setTimeout(function() {
                             if(action == 'create'){
-                                window.location.href="{{ route('service.index') }}";
+                                window.location.href="{{ route('pricelist-categories.index') }}";
                             }else{
                                 window.location.reload();
                             }
@@ -274,19 +238,18 @@
             }
         });
 
-        function editProdcedure(service) {
+        function editCategory(category) {
             $('#createForm')[0].reset();
             $('.error').html('');
-            $('#service').removeClass('error');
+            $('#category').removeClass('error');
             $('#price').removeClass('error');
-            $('#myExtraLargeModalLabel').html('Edit Service/Product Details');
-            $('#pro_id').val(service.id);
-            $('#service').val(service.name);
-            $('#price').val(service.price);
-            $('#pstatus').val(service.status);
+            $('#myExtraLargeModalLabel').html('Edit Category Details');
+
+            $('#cat_id').val(category.id);
+            $('#category').val(category.name);
+            $('#pstatus').val(category.is_active);
             $('#action_type').val('edit');
-            $('#category').val(service.category_id);
-            $('#createService').modal('show');
+            $('#createCategory').modal('show');
         }
 
       
