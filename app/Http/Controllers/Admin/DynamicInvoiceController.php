@@ -179,7 +179,7 @@ class DynamicInvoiceController extends Controller
         $html = '<option value="" data-price="0"> Select Service </option>';
             
         $categ_id = $request->categ_id;
-        $services = services::select("id","name","category_id","price")
+        $services = Services::select("id","name","category_id","price")
                         ->where('status', 1)
                         ->where('category_id', $categ_id)->orderBy('name','ASC')
                         ->get();
