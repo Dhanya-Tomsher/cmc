@@ -91,7 +91,7 @@
                                     <table class="table table-centered mb-0">
                                         <thead>
                                             <tr>
-                                                <th style="width: 70px;">No.</th>
+                                                <th style="width: 70px;">Sl No.</th>
                                                 @if($type == 'hospital')
                                                     <th class="text-left" style="width:70px;" >Ptld</th>
                                                     <th class="text-left" style="width: 450px;word-wrap:break-word;" >Service</th>

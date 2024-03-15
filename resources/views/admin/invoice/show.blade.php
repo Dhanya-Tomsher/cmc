@@ -72,14 +72,14 @@
                                     <table class="table table-centered mb-0">
                                     <thead>
                                             <tr>
-                                                <th style="width: 70px;">No.</th>
+                                                <th style="width: 100px;">Sl No.</th>
                                                 <th class="w-30 " style="word-wrap:break-word;">Service</th>
                                                 <th class="text-center">Quantity</th>
                                                 <th class="text-center">Price</th>
                                                 <th class="text-center">Net</th>
                                                 <!-- <th class="text-center">VAT</th>
                                                 <th class="text-center">Net+Vat</th> -->
-                                                <th class="text-center"  style="width: 200px;">Service Charge</th>
+                                                <th class="text-center"  style="width: 210px;">Service Charge</th>
                                                 <th class="text-end totalAmount" style="width: 150px;">Total</th>
                                             </tr>
                                         </thead>

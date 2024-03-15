@@ -73,8 +73,8 @@
                                     <table class="table table-centered mb-0">
                                         <thead>
                                             <tr>
-                                                <th style="width: 70px;">No.</th>
-                                                <th class="w-50 " style="word-wrap:break-word;">Service</th>
+                                                <th style="width: 70px;">Sl No.</th>
+                                                <th class="w-50 " style="word-wrap:break-word;">Service/Product</th>
                                                 <th class="text-center">Quantity</th>
                                                 <th class="text-center">Price</th>
                                                 <!-- <th class="text-center">VAT</th>
