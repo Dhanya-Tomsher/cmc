@@ -75,7 +75,7 @@
                                                         </div>
 
                                                         <div class="col-md-3 col-sm-4">
-                                                            <label for="Name" class="col-form-label"><b>Service</b> <span class="required">*</span></label>
+                                                            <label for="Name" class="col-form-label"><b>Service/Product</b> <span class="required">*</span></label>
                                                         </div>
                                                         
                                                         <div class="col-md-1 col-sm-3 ml-1">
