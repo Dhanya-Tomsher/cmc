@@ -248,8 +248,8 @@
                                             <thead>
                                                 <tr class="tr-border">
                                                     <!-- <th class="text-left" style="width:30px;">No.</th> -->
-                                                    <th class="text-left"  >No.</th>
-                                                    <th class="text-left" style="width:400px;" >Service</th>
+                                                    <th class="text-left"  >Sl No.</th>
+                                                    <th class="text-left" style="width:400px;" >Service/Product</th>
                                                     <th class="text-center" >Quantity</th>
                                                     <th class="text-center" >Price</th>
                                                     <th class="text-end"  >Total</th>
