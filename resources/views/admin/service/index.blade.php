@@ -88,7 +88,7 @@
                                                 <tr id="proid_{{ $pro->id }}">
                                                     <td class="text-center">{{ $key + 1 + ($service->currentPage() - 1) * $service->perPage() }} </td>
                                                     <td>{{ $pro->name }} </td>
-                                                    <td>{{ $pro->category?->name }} </td>
+                                                    <td>{{ ($pro->category) ? $pro->category->name : '' }} </td>
                                                     <td class="text-center">{{ $pro->price }} </td>
                                                     <td class="text-center">
                                                         @if ($pro->status == 1)
