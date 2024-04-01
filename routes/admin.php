@@ -241,5 +241,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
         Route::post('dynamic-invoice/delete', [DynamicInvoiceController::class, 'delete'])->name('dynamic-invoice.delete');
 
         Route::get('get-service-list',[DynamicInvoiceController::class,'getServiceList'])->name('get-service-list');
+
+        Route::get('services/{id}', [ServiceController::class, 'categoryServices'])->name('services');
     });   
 });
