@@ -11,6 +11,33 @@ use DB;
 
 class ServiceController extends Controller
 {
+
+    public function categoryServices(Request $request, $id){
+        $request->session()->put('slast_url', url()->full());
+
+        $search     = $request->has('name') ? $request->name : '';
+        $status     = $request->has('status_filter') ? $request->status_filter : '';
+
+        $query      = Services::with(['category'])->where('category_id', $id)->select('id', 'category_id','name', 'price', 'status');
+
+        if($search){  
+            $query->Where(function ($query) use ($search) {
+                $query->orWhere('name', 'LIKE', '%'.$search . '%')
+                        ->orWhere('price', 'LIKE', '%'.$search . '%');
+            });                    
+        }
+        if($status){
+            $query->where('status', ($status == 2) ? 0 : 1);
+        }
+
+        $service = $query->orderBy('id','DESC')->paginate(15);
+    
+        $categories = PricelistCategories::find($id);
+
+        return view('admin.service.category_index')->with([
+            'service' => $service,'search'=>$search, 'category' => $categories?->name, 'category_id' => $id, 'status' => $status
+        ]);
+    }
     public function index(Request $request)
     {
         $request->session()->put('last_url', url()->full());
@@ -36,7 +63,7 @@ class ServiceController extends Controller
             $query->where('status', ($status == 2) ? 0 : 1);
         }
 
-        $service = $query->orderBy('id','DESC')->paginate(10);
+        $service = $query->orderBy('id','DESC')->paginate(15);
     
         $categories = PricelistCategories::where('is_active',1)->orderBy('name', 'ASC')->get();
         return view('admin.service.index')->with([
@@ -103,7 +130,7 @@ class ServiceController extends Controller
     }
 
     public function categoryList(Request $request){
-        $request->session()->put('last_url', url()->full());
+        $request->session()->put('price_cat_last_url', url()->full());
 
         $search = $request->has('name') ? $request->name : '';
         $status     = $request->has('status_filter') ? $request->status_filter : '';
@@ -120,7 +147,7 @@ class ServiceController extends Controller
             $query->where('is_active', ($status == 2) ? 0 : 1);
         }
 
-        $category = $query->orderBy('name','ASC')->paginate(10);
+        $category = $query->orderBy('name','ASC')->paginate(15);
 
         return view('admin.pricelist_categories.index')->with([
             'category' => $category,'search'=>$search, 'status' => $status
