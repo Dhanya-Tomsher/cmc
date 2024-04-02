@@ -79,7 +79,7 @@
                                                         </div>
                                                         <div class="col-md-2 col-sm-2 ml-1">
                                                             <label for="Name" class="col-form-label"><b>Quantity</b> <span class="required">*</span></label>
-                                                            <input class="form-control quantity_field" name="quantity[]" value="{{ old('quantity', $inv['quantity']) }}" type="text" placeholder="Enter Quantity" data-id="{{ $i }}" id="quantity_{{ $i }}">
+                                                            <input class="form-control quantity_field" name="quantity[]" value="{{ old('quantity', $inv['quantity']) }}" type="number" step="1" min="0" placeholder="Enter Quantity" data-id="{{ $i }}" id="quantity_{{ $i }}">
                                                         </div>
                                                         <div class="col-md-2 col-sm-2 ml-1">
                                                             <label for="Name" class="col-form-label"><b>Unit Price</b> <span class="required">*</span></label>
@@ -207,7 +207,7 @@
                         </div>
                         <div class="col-md-2 col-sm-2 ml-1">
                             <label for="Name" class="col-form-label"><b>Quantity</b> <span class="required">*</span></label>
-                            <input class="form-control quantity_field" name="quantity[]" value="{{ old('quantity') }}" type="text" placeholder="Enter Quantity" data-id="`+number+`" id="quantity_`+number+`">
+                            <input class="form-control quantity_field" name="quantity[]" value="{{ old('quantity') }}" type="number" step="1" min="0" placeholder="Enter Quantity" data-id="`+number+`" id="quantity_`+number+`">
                         </div>
                         <div class="col-md-2 col-sm-2 ml-1">
                             <label for="Name" class="col-form-label"><b>Unit Price</b> <span class="required">*</span></label>

@@ -199,7 +199,7 @@
                             </div>
 
                             <div class="col-md-2 col-sm-3">
-                                <input class="form-control quantity_field" name="quantity[]" value="" type="text" placeholder="Enter Quantity" data-id="`+number+`" id="quantity_`+number+`">
+                                <input class="form-control quantity_field" name="quantity[]" step="1" min="0" value="" type="number" placeholder="Enter Quantity" data-id="`+number+`" id="quantity_`+number+`">
                             </div>
 
                             <div class="col-md-2 col-sm-3">

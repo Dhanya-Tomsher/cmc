@@ -123,7 +123,7 @@
                                                                 </div>
                                         
                                                                 <div class="col-md-2 col-sm-3">
-                                                                    <input class="form-control quantity_field" name="quantity[]" value="{{$inv->quantity}}" type="text" placeholder="Enter Quantity" data-id="{{$key}}" id="quantity_{{$key}}">
+                                                                    <input class="form-control quantity_field" name="quantity[]" value="{{$inv->quantity}}" type="number" step="1" min="0" placeholder="Enter Quantity" data-id="{{$key}}" id="quantity_{{$key}}">
                                                                 </div>
                                         
                                                                 <div class="col-md-2 col-sm-3">
