@@ -35,7 +35,7 @@ class ServiceController extends Controller
         $categories = PricelistCategories::find($id);
 
         return view('admin.service.category_index')->with([
-            'service' => $service,'search'=>$search, 'category' => $categories?->name, 'category_id' => $id, 'status' => $status
+            'service' => $service,'search'=>$search, 'category' => $categories->name, 'category_id' => $id, 'status' => $status
         ]);
     }
     public function index(Request $request)
