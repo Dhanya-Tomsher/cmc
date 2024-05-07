@@ -157,8 +157,10 @@ class CaretakerController extends Controller
         Caretaker::where('id',$request->careId)->update($data);
         return back()->with('status', 'Caretaker Details Upated!');
     }
+    
     public function store(StoreCaretakerRequest $request)
     {
+        
         $image_name = '';
 
         if ($request->hasFile('image')) {
@@ -173,34 +175,39 @@ class CaretakerController extends Controller
             $image_name = Storage::url($name);
         }
         $caretaker = Caretaker::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'customer_id' => $request->customer_id,
-            'address' => $request->address,
-            'phone_number' => $request->phone_number,
-            'whatsapp_number' => $request->whatsapp_number,
-            'home_country' => $request->home_country,
-            'state_id' => $request->emirate,
-            'work_place' => $request->work_place,
-            'work_address' => $request->work_address,
-            'position' => $request->position,
-            'work_contact_number' => $request->work_contact_number,
-            'is_passport_no' => $request->is_passport_no  == 'hide' ? 0 : 1,
-            'passport_number' => $request->passport_number,
-            'is_emirates_id' => $request->is_emirates_id == 'hide' ? 0 : 1,
-            'emirates_id_number' => $request->emirates_id_number,
-            'visa_status' => $request->visa_status,
+            'name'                      => $request->name,
+            'email'                     => $request->email,
+            'customer_id'               => $request->customer_id,
+            'address'                   => $request->address,
+            'phone_number'              => $request->phone_number,
+            'whatsapp_number'           => $request->whatsapp_number,
+            'home_country'              => $request->home_country,
+            'state_id'                  => $request->emirate,
+            'work_place'                => $request->work_place,
+            'work_address'              => $request->work_address,
+            'position'                  => $request->position,
+            'work_contact_number'       => $request->work_contact_number,
+            'is_passport_no'            => $request->is_passport_no  == 'hide' ? 0 : 1,
+            'passport_number'           => $request->passport_number,
+            'is_emirates_id'            => $request->is_emirates_id == 'hide' ? 0 : 1,
+            'emirates_id_number'        => $request->emirates_id_number,
+            'visa_status'               => $request->visa_status,
             'number_of_registered_cats' => 0,
-            'comments' => $request->comments,
-            'status' => 'published',
-            'image_url' => $image_name,
-            'is_blacklist' => ($request->is_blacklist) ? $request->is_blacklist : 0,
-            'blacklist_reason' => $request->blacklist_reason
+            'comments'                  => $request->comments,
+            'status'                    => 'published',
+            'image_url'                 => $image_name,
+            'is_blacklist'              => ($request->is_blacklist) ? $request->is_blacklist : 0,
+            'blacklist_reason'          => $request->blacklist_reason
         ]);
 
-        $caretaker->customer_id = 'CMC' . str_pad($caretaker->id, 4, 0, STR_PAD_LEFT);
+        $caretaker->customer_id         = 'CMC' . str_pad($caretaker->id, 4, 0, STR_PAD_LEFT);
 
-        return redirect()->route('caretaker.index')->with('status', 'Caretaker created!');
+        if($request->submit == 'save_create'){
+            return redirect()->route('cat.create', ['care' => $caretaker->id]);
+        }else{
+            return redirect()->route('caretaker.index')->with('status', 'Caretaker created!');
+        }
+        
     }
 
     public function getCaretakerList(Request $request){
