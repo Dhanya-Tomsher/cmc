@@ -141,9 +141,9 @@
                                         </select>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="country" class="col-form-label">State<span
-                                            class="required">*</span></label>
+                                        <label for="country" class="col-form-label">State</label>
                                         <select class="form-select form-control select2" name="emirate" id="state">
+                                            <option value="">Select</option>
                                             @foreach ($states as $st)
                                                 <option {{ $caretaker->state_id == $st->id ? 'selected' : '' }}
                                                     value="{{ $st->id }}">{{ $st->name }}</option>
@@ -377,7 +377,7 @@
                     digits: true
                 },
                 home_country: "required",
-                emirate: "required",
+                // emirate: "required",
                 work_place: "required",
                 work_address: "required",
                 position: "required",
@@ -408,7 +408,7 @@
                     digits: "Please enter a valid number"
                 },
                 home_country: "Home country is required",
-                emirate: "State is required",
+                // emirate: "State is required",
                 work_place: "Work place is required",
                 work_address: "Work address is required",
                 position: "Position is required",
