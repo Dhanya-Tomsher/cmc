@@ -79,7 +79,9 @@
                                         <label for="email" class="col-form-label">Email ID<span class="required">*</span></label>
                                         <input class="form-control" name="email" type="text"
                                             placeholder="Enter Email ID" id="Email" value="{{ old('email') }}">
-                                       
+                                        @error('email')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="col-md-4">
                                         <label for="phone" class="col-form-label">Phone Number<span class="required">*</span></label>
@@ -198,8 +200,10 @@
 
                                     <div class="col-md-4 align-self-end mt-3">
                                         <div class="">
-                                            <button name="Submit" type="Submit"
-                                                class="btn btn-primary waves-effect waves-light w-xl me-2">Save</button>
+                                            <button name="submit" type="submit"
+                                                class="btn btn-primary waves-effect waves-light w-xl me-2" value="save">Save</button>
+                                            <button name="submit" type="submit"
+                                                class="btn btn-primary waves-effect waves-light w-xl me-2" value="save_create">Save & Create Cat</button>
                                         </div>
                                     </div>
                                 </div>

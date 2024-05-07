@@ -69,7 +69,7 @@
                                             <select class="form-select form-control" name="caretaker_id"  id="caretaker_id">
                                                 <option value="" >Select Caretaker</option>
                                                 @foreach ($caretakers as $ct)
-                                                    <option {{ old('caretaker_id') == $ct->id ? 'selected' : '' }} value="{{ $ct->id }}">{{ $ct->name }}</option>
+                                                    <option {{ old('caretaker_id', $care_id) == $ct->id ? 'selected' : '' }} value="{{ $ct->id }}">{{ $ct->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -326,6 +326,9 @@
 <script src="{{ asset('assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('assets/js/additional-methods.min.js') }}"></script>
 <script>
+     
+
+    
 
     $.ajaxSetup({
         headers: {
@@ -375,7 +378,18 @@
         width: 'resolve', // need to override the changed default
         allowClear: true,
     });
-   
+
+    var care_id = '{{ $care_id }}';
+
+    if(care_id != '') {
+        // $("#caretaker_id").select2({readonly:'readonly'});
+        $('#caretaker_id').siblings('.select2-container').find('.select2-selection').css({
+            'background-color': '#f5f5f5',
+            'cursor': 'not-allowed',
+            'pointer-events': 'none'
+        });
+    }
+    
     $("#createCat").validate({
         rules: {
             name: "required",
@@ -439,6 +453,11 @@
                         'Cat details added successfully!',
                         'success'
                     );
+
+                    setTimeout(function() {
+                        window.location.href= "{{ route('cat.index')}}";
+                    }, 3000);
+
                     var catid = ($('#cat_id').val()).replace('C','');
                     $("#createCat")[0].reset();
                     $('#pregnant-div,#spayed-div').css('display','none');
