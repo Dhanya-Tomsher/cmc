@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Forms;
 use App\Models\CustomForms;  
 use App\Models\Caretaker;  
+use App\Models\CatCaretakers;  
 use App\Models\HospitalAppointments; 
 use App\Models\Tabs;
 use DB;
@@ -17,6 +18,7 @@ class FormsController extends Controller
 {
     public function index(Request $request)
     {
+        
         $forms = Forms::orderBy('id', 'DESC')->get();
         return view('admin.forms.index')->with(['forms' => $forms]);
     }
@@ -74,12 +76,49 @@ class FormsController extends Controller
         return view('admin.forms.view', compact('form'));
     }
 
-    public function customFormsList(Request $request)
+    public function customFormsList(Request $request,$cat_id = NULL)
     {
+        $request->session()->put('last_url', url()->full());
+
+        $caretaker_id = NULL;
+        if($cat_id != ''){
+            $cat = CatCaretakers::where('cat_id',$cat_id)->where('transfer_status',0)->first();
+            $caretaker_id = $cat->caretaker_id;
+        }
+
         $caretakers = Caretaker::where('status','published')->where('is_blacklist',0)->orderBy('name','ASC')->get();
         $forms = Forms::where('status',1)->orderBy('form_title', 'ASC')->get();
 
-        return view('admin.forms.custom_index')->with(['caretakers' => $caretakers, 'forms' => $forms]);
+        $search = $request->has('search') ? $request->search : '';
+        $from_date = $request->has('from_date') ? $request->from_date : '';
+        $to_date = $request->has('to_date') ?  $request->to_date : '';
+
+        $query  = CustomForms::select('custom_forms.*','care.name as caretaker_name','cats.name as cat_name','for.form_title')
+                            ->leftJoin('caretakers as care','custom_forms.caretaker_id','=','care.id')
+                            ->leftJoin('cats','custom_forms.cat_id','=','cats.id')
+                            ->leftJoin('forms as for','custom_forms.form_id','=','for.id');
+        if($search){  
+            $query->where(function ($query) use ($search) {
+                $query->orWhere('for.form_title', 'LIKE','%' . $search . '%')
+                        ->orWhere('cats.cat_id', 'LIKE', '%' .$search . '%')
+                        ->orWhere('care.customer_id', 'LIKE', '%' .$search . '%')
+                        ->orWhere('care.name', 'LIKE', '%' .$search . '%')
+                        ->orWhere('cats.name', 'LIKE', '%' .$search . '%');
+            });                    
+        }
+        if($from_date != '' || $to_date != ''){
+            if($from_date != '' && $to_date != ''){
+                $query->whereDate('for.created_at', '>=', $from_date)
+                ->whereDate('for.created_at',   '<=', $to_date);
+            }elseif($from_date == '' && $to_date != ''){
+                $query->whereDate('for.created_at', '=', $to_date);
+            }elseif($from_date != '' && $to_date == ''){
+                $query->whereDate('for.created_at', '=', $from_date);
+            }
+        }
+        $custom_forms = $query->orderBy('custom_forms.id','DESC')->paginate(10);
+
+        return view('admin.forms.custom_index')->with(['caretakers' => $caretakers, 'forms' => $forms, 'custom_forms' => $custom_forms,'cat_id' =>$cat_id, 'caretaker_id' => $caretaker_id]);
     }
 
     public function generateCustomForm(Request $request)

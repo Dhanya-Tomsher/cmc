@@ -26,18 +26,36 @@ class CatController extends Controller
 {
     public function index(Request $request)
     {
-        $cat  = Cat::orderBy('name','ASC')->get();
+        $request->session()->put('last_url', url()->full());
+
+        $search = $request->has('search') ? $request->search : '';
+        // DB::enableQueryLog();
+        $query  = Cat::leftJoin('cat_caretakers','cat_caretakers.cat_id', '=', 'cats.id')
+                        ->leftJoin('caretakers','cat_caretakers.caretaker_id','=','caretakers.id')
+                        ->where('cat_caretakers.transfer_status', 0);
+        if($search){  
+            $query->Where(function ($query) use ($search) {
+                $query->orWhere('cats.gender', 'LIKE', $search . '%')
+                        ->orWhere('cats.cat_id', 'LIKE', $search . '%')
+                        ->orWhere('caretakers.customer_id', 'LIKE', $search . '%')
+                        ->orWhere('caretakers.name', 'LIKE', $search . '%')
+                        ->orWhere('cats.name', 'LIKE', $search . '%');
+            });                    
+        }
+        $cats = $query->orderBy('cats.id','DESC')
+                    ->select(['cats.created_at','cats.id','cats.status','cats.gender','cats.cat_id','caretakers.customer_id','caretakers.name as caretaker_name','cats.name as cat_name','cats.image_url'])->paginate(10);
         return view('admin.cat.index')->with([
-            'cat' => $cat,
+            'cats' => $cats, 'search' => $search
         ]);
     }
-    public function create()
+    public function create(Request $request)
     {
+        $care_id = $request->has('care') ? $request->care : '';
         $maxId = Cat::max('id');
         $catId = 'C'.($maxId + 1);
         $countries = Country::orderByRaw('name="United Arab Emirates" DESC')->orderBy('name','ASC')->get();
         $caretakers = Caretaker::where('is_blacklist',0)->orderBy('name','ASC')->get();
-        return view('admin.cat.create', compact('countries','caretakers','catId'));
+        return view('admin.cat.create', compact('countries','caretakers','catId','care_id'));
     }
     public function search()
     {
@@ -149,35 +167,35 @@ class CatController extends Controller
         }   
        
         $cat = Cat::create([
-            'name' => $request->name,
-            'cat_id' => $request->cat_id,
-            'date_birth' => $request->date_birth,
-            'gender' => $request->gender,
-            'pregnant'=>$request->pregnantstatus,
-            'blood_type' => $request->blood_type,
-            'castrated' => $request->castrated,
-            'spayed'=>$request->spayed,
-            'neutered' => $request->neutered,
-            'neutered_with_us' => $request->neutered_with_us,
-            'fur_color' => $request->fur_color,
-            'eye_color' => $request->eye_color,
-            'place_of_origin' => $request->place_of_origin,
-            'state_id' => $request->emirate,
-            'origin' => $request->origin,
-            'microchip_number' => $request->microchip_number,
-            'dead_alive' => $request->dead_alive,
-            'caretaker_id' => $request->caretaker_id,            
-            'comments' => $request->comments,
-            'image_url' => $imageUrl,
-            'virus' => (isset($request->virusstatus)) ? $request->virusstatus : 2,
-            'behaviour' => $request->behaviour,
-            'status' => (isset($request->status)) ? $request->status : 'published',
+            'name'              => $request->name,
+            'cat_id'            => $request->cat_id,
+            'date_birth'        => $request->date_birth,
+            'gender'            => $request->gender,
+            'pregnant'          =>$request->pregnantstatus,
+            'blood_type'        => $request->blood_type,
+            'castrated'         => $request->castrated,
+            'spayed'            =>$request->spayed,
+            'neutered'          => $request->neutered,
+            'neutered_with_us'  => $request->neutered_with_us,
+            'fur_color'         => $request->fur_color,
+            'eye_color'         => $request->eye_color,
+            'place_of_origin'   => $request->place_of_origin,
+            'state_id'          => $request->emirate,
+            'origin'            => $request->origin,
+            'microchip_number'  => $request->microchip_number,
+            'dead_alive'        => $request->dead_alive,
+            'caretaker_id'      => $request->caretaker_id,            
+            'comments'          => $request->comments,
+            'image_url'         => $imageUrl,
+            'virus'             => (isset($request->virusstatus)) ? $request->virusstatus : 2,
+            'behaviour'         => $request->behaviour,
+            'status'            => (isset($request->status)) ? $request->status : 'published',
         ]);
 
         $caretaker = CatCaretakers::create([
-            'cat_id' => $cat->id,
-            'caretaker_id' => $request->caretaker_id,
-            'transfer_status' => 0,
+            'cat_id'            => $cat->id,
+            'caretaker_id'      => $request->caretaker_id,
+            'transfer_status'   => 0,
         ]);
         Caretaker::find($request->caretaker_id)->increment('number_of_registered_cats');
         return redirect()->route('cat.index')->with('status', 'cat created!');
@@ -419,6 +437,11 @@ class CatController extends Controller
                 break;
             case 'laser':
                 $title = 'Laser';
+                $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date, $transfer_date);
+                $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title','transfer_date'))->render();
+                break;
+            case 'therapy':
+                $title = 'Therapy';
                 $data = $this->getJournalDetails($type,$cat_id, $keyword,$from_date,$to_date, $transfer_date);
                 $viewData = view('admin.journal.common_details',compact('data','cat_id','type','title','transfer_date'))->render();
                 break;

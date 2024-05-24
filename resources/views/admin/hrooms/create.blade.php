@@ -37,12 +37,12 @@
                                 {{ session()->get('status') }}
                             </div>
                         @endif
-                        <form name="frm" action="{{ route('hrooms.store') }}" enctype="multipart/form-data"  method="POST">
+                        <form name="frm" action="{{ route('hrooms.store') }}" enctype="multipart/form-data"  method="POST" autocomplete="off">
 
                             @csrf
                             <div class="row">
                                 <div class="col-md-4">
-                                    <label for="Name" class="col-form-label">Room Number</label>
+                                    <label for="Name" class="col-form-label">Room Number<span class="required">*</span></label>
                                     <input class="form-control" name="room_number" value="{{ old('room_number') }}" type="text" placeholder="Enter Room Number" id="room_number">
                                     @error('room_number')
                                         <div class="alert alert-danger">{{ $message }}</div>
@@ -67,7 +67,7 @@
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label for="phone" class="col-form-label">Amount</label>
+                                    <label for="phone" class="col-form-label">Amount<span class="required">*</span></label>
                                     <input class="form-control" name="amount"  value="{{ old('amount') }}" type="text" placeholder="Enter Amount" id="amount">
                                     @error('amount')
                                         <div class="alert alert-danger">{{ $message }}</div>

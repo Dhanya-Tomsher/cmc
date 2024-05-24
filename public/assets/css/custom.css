@@ -459,6 +459,25 @@ background: white !important;
 .ml-1{
   margin-left: 1%;
 }
+.ml-10px{
+  margin-left: 10px !important;
+}
+
+.active>.page-link, .page-link.active{
+    z-index: 3;
+    color: #0a0808 !important;
+    background-color: #faf39f !important;
+    border-color: #faf39f !important;
+}
+.pagination{
+  --bs-pagination-border-color: #d6d6d6 !important;
+  --bs-pagination-bg: #fffef6;
+  float: right;
+}
+
+.table{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3) !important;
+}
 .div-center{
   margin: auto;
   text-align: center;
@@ -510,14 +529,34 @@ table td.highlighted {
 .w-100{
   width: 100% !important;
 }
+
+.w-125{
+  width: 125% !important;
+}
+
+.w-135{
+  width: 135% !important;
+}
+.w-130{
+  width: 130% !important;
+}
+.w-140{
+  width: 140% !important;
+}
 .w-10{
   width: 10% !important;
+}
+.w-20{
+  width: 20% !important;
 }
 .h-800{
   max-height: 800px !important;
 }
 .w-40{
   width: 40% !important;
+}
+.w-41{
+  width: 41% !important;
 }
 .payment_confirmed{
     color: green !important;

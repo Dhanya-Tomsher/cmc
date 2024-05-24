@@ -87,7 +87,7 @@
 
                                 <div class="col-md-8 offset-md-2">
                                     <label for="Name" class="col-form-label"><b>Phone Number</b> </label>
-                                    <input class="form-control" name="phone_number" value="{{ old('phone_number',(isset($user->phone_number) ? $user->phone_number : '')) }}" type="text" placeholder="Enter user phone_number" id="phone_number">
+                                    <input class="form-control" name="phone_number" value="{{ old('phone_number',(isset($user->phone_number) ? $user->phone_number : '')) }}" type="text" placeholder="Enter user phone number" id="phone_number">
                                 </div>
                                 @if(isset($user->is_active))
                                     <div class="col-md-8 offset-md-2">

@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use App\Models\CatCaretakers; 
 use App\Models\States; 
+use App\Models\Services;
 use DateTime;
 use DatePeriod;
 use DateInterval;
@@ -126,12 +127,12 @@ class Helper
     }
 
     //highlights the selected navigation on admin panel
-    public static function areActiveRoutes(array $routes, $output = "active")
-    {
-        foreach ($routes as $route) {
-            if (Route::currentRouteName() == $route) return $output;
-        }
-    }
+    // public static function areActiveRoutes(array $routes, $output = "active")
+    // {
+    //     foreach ($routes as $route) {
+    //         if (Route::currentRouteName() == $route) return $output;
+    //     }
+    // }
 
     public static function getStatesOptions($country_id){
         $states = States::select("name","id")->where("country_id",$country_id)->orderBy('name')->get();
@@ -147,4 +148,19 @@ class Helper
         $states = States::select("name","id")->where("country_id",$country_id)->orderBy('name')->get();
         return $states;
     }
+
+    public static function areActiveRoutes(array $routes, $output = "mm-active")
+    {
+        return in_array(Route::currentRouteName(), $routes) ? $output : '';
+    }
+
+    public static function getCategoryServicesList($categ_id){
+
+        $services = Services::select("id","name","category_id","price")
+                        ->where('status', 1)
+                        ->where('category_id', $categ_id)->orderBy('name','ASC')
+                        ->get();
+        return $services;
+    }
+    
 }

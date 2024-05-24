@@ -16,13 +16,42 @@ class InvoiceController extends Controller
 {
     public function index(Request $request)
     {
-        $invoice  = CustomInvoices::orderBy('id','DESC')->get();
+        $request->session()->put('last_url', url()->full());
+
+        $search = $request->has('name') ? $request->name : '';
+        $from_date  = $request->has('from_date') ? $request->from_date : '';
+        $to_date    = $request->has('to_date') ? $request->to_date : '';
+
+        $query  = CustomInvoices::with(['vet'])->orderBy('id','DESC');
+           
+        if($search){  
+            $query->Where(function ($query) use ($search) {
+                $query->orWhere('cat_name', 'LIKE', '%'.$search . '%')
+                        ->orWhere('invoice_note', 'LIKE', '%'.$search . '%')
+                        ->orWhereHas('vet', function ($query) use($search) {
+                            $query->where('name', 'like', '%'.$search . '%');
+                        });
+            });                    
+        }
+
+        if($from_date != '' || $to_date != ''){
+            if($from_date != '' && $to_date != ''){
+                $query->whereDate('invoice_date', '>=', $from_date)
+                ->whereDate('invoice_date',   '<=', $to_date);
+            }elseif($from_date == '' && $to_date != ''){
+                $query->whereDate('invoice_date', '=', $to_date);
+            }elseif($from_date != '' && $to_date == ''){
+                $query->whereDate('invoice_date', '=', $from_date);
+            }
+        }
+
+        $invoice  = $query->paginate(10);
         return view('admin.invoice.index')->with([
-            'invoice' => $invoice,
+            'invoice' => $invoice,'search'=>$search, 'to_date' => $to_date, 'from_date' => $from_date
         ]);
     }
    
-    public function create()
+    public function create($cat_name = NULL)
     {
         $invoice = json_encode(array());
         $vets = Vet::select("id","name")
@@ -32,7 +61,8 @@ class InvoiceController extends Controller
                     ->get();
         return view('admin.invoice.create')->with([
             'invoice' => $invoice,
-            'vets' => $vets
+            'vets' => $vets,
+            'cat_name' => $cat_name
         ]);
     }
 

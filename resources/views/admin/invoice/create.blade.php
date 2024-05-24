@@ -31,6 +31,7 @@
                 </div>
             </div>
         </div>
+        
         <!-- end page title -->
 
         <div class="row">
@@ -62,7 +63,7 @@
 
                                 <div class="col-md-8 offset-md-2">
                                     <label for="Name" class="col-form-label"><b>Cat Name</b> <span class="required">*</span></label>
-                                    <input class="form-control" name="cat_name" value="{{ old('cat_name',(isset($invoice->cat_name) ? $invoice->cat_name : '')) }}" type="text" placeholder="Enter cat name" id="cat_name">
+                                    <input class="form-control" name="cat_name" value="{{ old('cat_name',(isset($cat_name) ? $cat_name : '')) }}" type="text" placeholder="Enter cat name" id="cat_name">
                                     @error('cat_name')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
@@ -163,7 +164,7 @@
                         </div>
                         <div class="col-md-2 col-sm-2 ml-1">
                             <label for="Name" class="col-form-label"><b>Quantity</b> <span class="required">*</span></label>
-                            <input class="form-control quantity_field" name="quantity[]" value="{{ old('quantity') }}" type="text" placeholder="Enter Quantity" data-id="`+number+`" id="quantity_`+number+`">
+                            <input class="form-control quantity_field" name="quantity[]" value="{{ old('quantity') }}" type="number" step="1" min="0" placeholder="Enter Quantity" data-id="`+number+`" id="quantity_`+number+`">
                         </div>
                         <div class="col-md-2 col-sm-2 ml-1">
                             <label for="Name" class="col-form-label"><b>Unit Price</b> <span class="required">*</span></label>
@@ -212,7 +213,7 @@
 
     $(document).on('click', '.remove', function(){
         var button_id = $(this).attr("data-id");
-        count--;
+        // count--;
         $('.tr_'+button_id).remove();
         updateTotalFields();
     });

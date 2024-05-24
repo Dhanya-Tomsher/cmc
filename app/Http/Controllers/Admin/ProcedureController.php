@@ -12,7 +12,22 @@ class ProcedureController extends Controller
 {
     public function index(Request $request)
     {
-        return view('admin.procedure.index');
+        $request->session()->put('last_url', url()->full());
+
+        $search = $request->has('name') ? $request->name : '';
+
+        $query  = Procedures::select('id', 'name', 'price', 'status');
+        if($search){  
+            $query->Where(function ($query) use ($search) {
+                $query->orWhere('name', 'LIKE', '%'.$search . '%')
+                        ->orWhere('price', 'LIKE', '%'.$search . '%');
+            });                    
+        }
+        $procedure = $query->orderBy('id','DESC')->paginate(10);
+
+        return view('admin.procedure.index')->with([
+            'procedure' => $procedure,'search'=>$search
+        ]);
     }
     public function create()
     {

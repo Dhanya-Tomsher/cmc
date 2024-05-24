@@ -40,7 +40,7 @@
                             </div>
                         
                             <div class="table-responsive cat_details_table ">
-                                <table class="table table-centered table-nowrap mb-0" id="catsTable">
+                                <table class="table table-centered table-nowrap mb-0" id="catsTable" style="border-bottom:0px !important;">
                                     <thead class="table-light">
                                         <tr>
                                             <th class="w-5">No</th>
@@ -76,9 +76,9 @@
                                                     {!! $status !!}
                                                 </td>
                                                 <td class="text-center">
-                                                    <a href="{{ route('user.edit', $user) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-pen"></i>Edit</a>
+                                                    <a href="{{ route('user.edit', $user) }}" data-bs-toggle="tooltip" data-bs-target=".bs-example-modal-lg" data-bs-placement="top" class="px-1 btn btn-app"><i class="uil uil-pen green font-size-18"></i>Edit</a>
                                                     @if(Auth::user()->id != $user->id)
-                                                        <a href="#" onclick="deleteUser('{{$user->id}}')" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Profile" class="px-1 btn btn-app"><i class="uil uil-trash"></i>Delete</a>
+                                                        <a href="#" onclick="deleteUser('{{$user->id}}')" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Profile" class="px-1 btn btn-app"><i class="uil uil-trash required font-size-18"></i>Delete</a>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -95,15 +95,16 @@
     </div>
 @endsection
 @push('header')
-<link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}" />
+
 <style>
-
-
+    .table>:not(thead)>*>* {
+        padding: 0rem 0.75rem !important;
+    }
 </style>
 @endpush
 
 @push('scripts')
-<script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 // $('#catsTable').DataTable();  

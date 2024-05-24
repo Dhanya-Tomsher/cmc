@@ -39,7 +39,7 @@
                             <h6>Cat Details</h6>
 
                         </div>
-                        <form name="frm"  id="createCat" action="{{ route('cat.store') }}" enctype="multipart/form-data" method="POST">
+                        <form name="frm"  id="createCat" action="{{ route('cat.store') }}" enctype="multipart/form-data" method="POST" autocomplete="off">
                             @csrf
                             <div class="card">
                                 <div class="card-body py-4">
@@ -60,7 +60,7 @@
 
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <label class="col-form-label" for="imageUpload"> Upload Profile Image<span class="required">*</span> </label>
+                                            <label class="col-form-label" for="imageUpload"> Upload Profile Image </label>
                                             <input type="file" class="form-control" id="imageUpload" name="image_url" accept="image/*">
                                         </div>
                                             
@@ -69,7 +69,7 @@
                                             <select class="form-select form-control" name="caretaker_id"  id="caretaker_id">
                                                 <option value="" >Select Caretaker</option>
                                                 @foreach ($caretakers as $ct)
-                                                    <option {{ old('caretaker_id') == $ct->id ? 'selected' : '' }} value="{{ $ct->id }}">{{ $ct->name }}</option>
+                                                    <option {{ old('caretaker_id', $care_id) == $ct->id ? 'selected' : '' }} value="{{ $ct->id }}">{{ $ct->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -265,7 +265,7 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="country" class="col-form-label">State<span class="required">*</span></label>
+                                            <label for="country" class="col-form-label">State</label>
                                             <select class="form-select form-control select2" name="emirate" id="state">
                                                 
                                             </select>
@@ -274,7 +274,7 @@
                                        
 
                                         <div class="col-md-6">
-                                            <label for="phone" class="col-form-label">Microchip Number<span class="required">*</span></label>
+                                            <label for="phone" class="col-form-label">Microchip Number</label>
                                             <input class="form-control" name="microchip_number" type="text" placeholder="Enter Microchip Number" id="microchip_number">
                                         </div>
 
@@ -326,6 +326,9 @@
 <script src="{{ asset('assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('assets/js/additional-methods.min.js') }}"></script>
 <script>
+     
+
+    
 
     $.ajaxSetup({
         headers: {
@@ -375,7 +378,18 @@
         width: 'resolve', // need to override the changed default
         allowClear: true,
     });
-   
+
+    var care_id = '{{ $care_id }}';
+
+    if(care_id != '') {
+        // $("#caretaker_id").select2({readonly:'readonly'});
+        $('#caretaker_id').siblings('.select2-container').find('.select2-selection').css({
+            'background-color': '#f5f5f5',
+            'cursor': 'not-allowed',
+            'pointer-events': 'none'
+        });
+    }
+    
     $("#createCat").validate({
         rules: {
             name: "required",
@@ -384,13 +398,13 @@
             fur_color: "required",
             eye_color: "required",
             place_of_origin: "required",
-            emirate: "required",
+            // emirate: "required",
             origin: "required",
-            microchip_number: "required",
-            image_url: {
-                required: true,
-                extension: "jpg|jpeg|png|ico|bmp"
-            },
+            // microchip_number: "required",
+            // image_url: {
+            //     required: true,
+            //     extension: "jpg|jpeg|png|ico|bmp"
+            // },
             cat_id:{
                     required: true,
                     remote: {
@@ -410,13 +424,13 @@
             fur_color: "Fur/color is required",
             eye_color: "Eye color is required",
             place_of_origin: "Place of origin is required",
-            emirate: "State is required",
+            // emirate: "State is required",
             origin: "Origin / History is required",
-            microchip_number: "Microchip number is required",
-            image_url: {
-                required:"Please select an Image file",
-                extension:"Please upload file in these format only (jpg, jpeg, png, ico, bmp)."
-            },
+            // microchip_number: "Microchip number is required",
+            // image_url: {
+            //     required:"Please select an Image file",
+            //     extension:"Please upload file in these format only (jpg, jpeg, png, ico, bmp)."
+            // },
         },
         errorPlacement: function (error, element) {
             if(element.hasClass('select2')) {
@@ -439,6 +453,11 @@
                         'Cat details added successfully!',
                         'success'
                     );
+
+                    setTimeout(function() {
+                        window.location.href= "{{ route('cat.index')}}";
+                    }, 3000);
+
                     var catid = ($('#cat_id').val()).replace('C','');
                     $("#createCat")[0].reset();
                     $('#pregnant-div,#spayed-div').css('display','none');

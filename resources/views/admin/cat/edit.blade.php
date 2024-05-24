@@ -17,7 +17,7 @@
 
                 </div>
                 <div class="d-flex align-items-center justify-content-between mb-3">
-                    <a onclick="window.location=document.referrer;" href="javascript:void" class="btn btn_back waves-effect waves-light mt-3"> <i
+                    <a href="{{ Session::has('last_url') ? Session::get('last_url') : route('cat.index') }}" href="javascript:void" class="btn btn_back waves-effect waves-light mt-3"> <i
                             class="uil-angle-left-b"></i> Back</a>
                     <div class="btn_group">
                         <!-- <a href="hospital_appointments.html" class="btn btn_back waves-effect waves-light me-2"> Create
@@ -41,7 +41,7 @@
                         @if($cat[0])
                         <div class="card">
                             <div class="card-body py-4">
-                                <form name="cat_update" id="updateCat" action="{{ route('cat.update', $cat[0]->id) }}" enctype="multipart/form-data" method="POST">
+                                <form name="cat_update" id="updateCat" action="{{ route('cat.update', $cat[0]->id) }}" enctype="multipart/form-data" method="POST" autocomplete="off">
                                     @csrf
                                     <div class="row mb-3">
                                         <div class="col-6">
@@ -266,10 +266,11 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="country" class="col-form-label">State<span class="required">*</span></label>
+                                            <label for="country" class="col-form-label">State</label>
                                             <select class="form-select form-control select2" name="emirate"  id="state">
+                                                <option value="">Select</option>
                                                 @foreach ($states as $st)
-                                                    <option {{ $cat[0]->state_id == $st->id ? 'selected' : '' }}
+                                                    <option {{ ($cat[0]->state_id != '' && ($cat[0]->state_id == $st->id)) ? 'selected' : '' }}
                                                         value="{{ $st->id }}">{{ $st->name }}</option>
                                                 @endforeach
                                             </select>
@@ -278,7 +279,7 @@
                                         
 
                                         <div class="col-md-6">
-                                            <label for="microchip_number" class="col-form-label">Microchip Number<span class="required">*</span></label>
+                                            <label for="microchip_number" class="col-form-label">Microchip Number</label>
                                             <input class="form-control"  value="{{ $cat[0]->microchip_number }}" name="microchip_number" type="text" placeholder="Enter Microchip Number" id="microchip_number">
                                         </div>
 
@@ -400,13 +401,13 @@
             fur_color: "required",
             eye_color: "required",
             place_of_origin: "required",
-            emirate: "required",
+            // emirate: "required",
             origin: "required",
-            microchip_number: "required",
-            image_url: {
-                required: true,
-                extension: "jpg|jpeg|png|ico|bmp"
-            },
+            // microchip_number: "required",
+            // image_url: {
+            //     required: true,
+            //     extension: "jpg|jpeg|png|ico|bmp"
+            // },
             cat_id:{
                     required: true,
                     checkExists : true
@@ -423,13 +424,13 @@
             fur_color: "Fur/color is required",
             eye_color: "Eye color is required",
             place_of_origin: "Place of origin is required",
-            emirate: "State is required",
+            // emirate: "State is required",
             origin: "Origin / History is required",
-            microchip_number: "Microchip number is required",
-            image_url: {
-                required:"Please select an Image file",
-                extension:"Please upload file in these format only (jpg, jpeg, png, ico, bmp)."
-            },
+            // microchip_number: "Microchip number is required",
+            // image_url: {
+            //     required:"Please select an Image file",
+            //     extension:"Please upload file in these format only (jpg, jpeg, png, ico, bmp)."
+            // },
         },
         errorPlacement: function (error, element) {
             if(element.hasClass('select2')) {

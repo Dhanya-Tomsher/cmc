@@ -16,12 +16,12 @@
                             </ol>
                         </div>
                     </div>
-                  
+                    
                     <div class="d-flex align-items-center justify-content-between mb-3">
                         @if($invoice[0]->booking_type == 'hospital_appointment')
-                            <a href="{{ route('manage-hospital-appointments') }}" class="btn btn_back waves-effect waves-light">  <i class="uil-angle-left-b"></i> Back</a>
+                            <a href="{{ Session::has('last_url') ? Session::get('last_url') : route('manage-hospital-appointments') }}" class="btn btn_back waves-effect waves-light">  <i class="uil-angle-left-b"></i> Back</a>
                         @else
-                            <a href="{{ route('manage-hotel-bookings') }}" class="btn btn_back waves-effect waves-light">  <i class="uil-angle-left-b"></i> Back</a>
+                            <a href="{{ Session::has('last_url') ? Session::get('last_url') : route('manage-hotel-bookings') }}" class="btn btn_back waves-effect waves-light">  <i class="uil-angle-left-b"></i> Back</a>
                         @endif
                        
                         <div class="btn_group">
@@ -91,7 +91,7 @@
                                     <table class="table table-centered mb-0">
                                         <thead>
                                             <tr>
-                                                <th style="width: 70px;">No.</th>
+                                                <th style="width: 70px;">Sl No.</th>
                                                 @if($type == 'hospital')
                                                     <th class="text-left" style="width:70px;" >Ptld</th>
                                                     <th class="text-left" style="width: 450px;word-wrap:break-word;" >Service</th>
@@ -194,15 +194,15 @@
                                     <div class="col-md-6">
                                         <input class="form-control" type="hidden"  id="invoice_id" name="invoice_id" value="{{$invoice[0]->id}}"  >
                                         <input class="form-control" type="hidden"  id="total" name="total" value="{{$invoice[0]->total}}">
-                                        <label class="col-form-label">Price</label>
+                                        <label class="col-form-label">Price<span class="required">*</span></label>
                                         <input class="form-control" type="text"  id="price" name="price" value="{{$invoice[0]->price}}"  placeholder="Price">
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="col-form-label">Net</label>
+                                        <label class="col-form-label">Net<span class="required">*</span></label>
                                         <input class="form-control" type="text"  id="net" name="net" value="{{$invoice[0]->net}}" placeholder="Net">
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="col-form-label">VAT</label>
+                                        <label class="col-form-label">VAT<span class="required">*</span></label>
                                         <input class="form-control" type="text"  id="vat" name="vat" value="{{$invoice[0]->vat}}" placeholder="VAT">
                                     </div>
                                     <div class="col-md-6">
